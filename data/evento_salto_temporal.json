@@ -1,0 +1,94 @@
+[
+  {
+    "id": "evento_salto_temporal",
+    "tipo_evento": "transicao_era",
+    "ano_origem": 1999,
+    "ano_destino": 2026,
+    "gatilho": "conclusao_dia_6_bug_milenio",
+    "contexto_ia": "Transição de era. A equipe sobrevive ao Bug do Milênio, mas é transportada para 2026. A cena apresenta o choque cultural, a quebra da quarta parede, a descoberta do smartphone, a falência das locadoras e a obsolescência do VHS. A cena culmina em uma reunião na Sala de Guerra, onde o Gerente deve escolher a rota de sobrevivência.",
+    "cenas_narrativas": [
+      {
+        "id_cena": "1_o_despertar",
+        "narracao": "Eram 23h59 do dia 31 de dezembro de 1999. Vagner segurava uma taça de cidra barata, Maurício abraçava uma fita VHS de Matrix por proteção, e Leila olhava para o relógio da parede. Vocês fecharam a porta de aço e esperaram os computadores explodirem com o Bug do Milênio. Houve um piscar de luzes. Um estalo no ar. Vocês abrem os olhos. O sol está rachando lá fora. A rua de paralelepípedos virou asfalto liso. Há uma ciclovia na porta."
+      },
+      {
+        "id_cena": "2_o_visitante",
+        "narracao": "A porta de vidro se abre (sozinha, com um sensor de movimento que não existia ontem). Entra um jovem vestindo uma calça cargo larga demais, um fone sem fio pendurado nas orelhas, e segurando um retângulo de vidro brilhante apontado para o próprio rosto.",
+        "dialogos": [
+          {
+            "agente": "ID_Leila",
+            "fala": "(Ajeitando o colete da locadora, confusa) 'Bom dia, moço. Posso ajudar? Procura lançamento ou catálogo?'"
+          },
+          {
+            "agente": "ID_Jovem_GenZ",
+            "fala": "(Sem olhar pra ela, falando para o retângulo de vidro) 'Mano, olha que aesthetics. Achei uma locadora retrô perdida no bairro! O nível de detalhe dos caras é absurdo, até o cheiro de mofo é vintage. Parabéns pela decoração da época, tia, tá muito hype.'"
+          },
+          {
+            "agente": "ID_Leila",
+            "fala": "'Retrô? Tia? Olha o respeito, moleque, a gente inaugurou essa loja faz três anos!'"
+          },
+          {
+            "agente": "ID_Mauricio",
+            "fala": "(Esmagando o botão do computador conectado ao Wi-Fi) 'Moço... que dia é hoje?'"
+          },
+          {
+            "agente": "ID_Jovem_GenZ",
+            "fala": "'Doze de maio de dois mil e vinte e seis, ué. Ih, o cara tá no personagem total! (O celular apita). Opa, galera, meu Uzer chegou ali na esquina. Vou postar esse vídeo no meu Zinta agora, vai hitar muito! É nois!!!'"
+          }
+        ]
+      },
+      {
+        "id_cena": "3_choque_realidade",
+        "dialogos": [
+          {
+            "agente": "ID_Vagner",
+            "fala": "(Com as mãos tremendo) 'O Vitória... o meu Vitória foi rebaixado quatro vezes! Quatro vezes! A gasolina custa seis reais! Que inferno é esse?!'"
+          },
+          {
+            "agente": "ID_Mauricio",
+            "fala": "(Olhando para as mãos) 'Nós viajamos no tempo? Como? A física quântica... os buracos de minhoca... nós fomos engolidos por uma fenda temporal causada pelos disquetes do Vagner?!'"
+          },
+          {
+            "agente": "ID_Gerente",
+            "fala": "'Mas por que exatamente dia 11 de maio de 2026? Se a gente viajou no tempo, não devia ser uma data redonda? Um primeiro de janeiro?'"
+          },
+          {
+            "agente": "ID_Leila",
+            "fala": "(Dando uma piscadinha para a tela do jogador) 'Sei lá, gerente. Pergunta pros roteiristas.'"
+          }
+        ]
+      },
+      {
+        "id_cena": "4_sala_de_guerra",
+        "narracao": "Com a porta de aço abaixada até a metade, a equipe se amontoa na sala dos fundos. O cheiro de café requentado de 1999 se mistura com a luz fria do laptop conectado ao roteador. Após três horas de buscas frenéticas, o choque virou compreensão: Streaming. Mídia em nuvem. A falência da Blockbuster. Ninguém tem aparelhos físicos.",
+        "fala_agente": "Vagner empurra a cadeira para trás, tira os óculos e esfrega o rosto, a voz embargada: 'Nós somos vendedores de gelo num mundo que inventou a geladeira. O nosso estoque de 5.000 fitas de plástico não vale um centavo. O que a gente faz, gerente? Declara falência num mundo onde a gente nem existe no sistema tributário, ou tenta lutar?'"
+      }
+    ],
+    "sub_opcoes": [
+      {
+        "id_sub": "Rota_Tracao",
+        "foco": "O Discurso do Hype (Foco em Leila e Volume)",
+        "argumento_gerente": "A gente luta. O mundo quer nostalgia? Nós somos a nostalgia pura. Leila, você vai assumir essas redes sociais. Vamos usar esse nosso estoque como cenário, vender a estética e fazer todo adolescente dessa cidade pagar caro para tirar foto aqui dentro.",
+        "impacto": "Muda a era para 2026. Ganho imediato massivo de Tração, mas aumento de Stress Operacional. (Abre a Rota A)."
+      },
+      {
+        "id_sub": "Rota_Acervo",
+        "foco": "O Discurso do Museu (Foco em Maurício e Curadoria)",
+        "argumento_gerente": "A gente luta. Nós não somos mais uma locadora de filmes em fita. Nós somos um Museu de Arte Cinematográfica de Alta Renda. Maurício, separe as fitas originais. Nós vamos vender para colecionadores ricos que querem um pedaço do passado na parede.",
+        "impacto": "Muda a era para 2026. Ganho imediato massivo de Acervo, mas risco iminente de colapso de Caixa. (Abre a Rota B)."
+      },
+      {
+        "id_sub": "Rota_Operacional",
+        "foco": "O Discurso da Guerrilha (Foco em Vagner e Sobrevivência Burocrática)",
+        "argumento_gerente": "A gente luta, Vagner, do nosso jeito. Nós não existimos para a Receita Federal de 2026? Ótimo, operamos no invisível. Vamos regularizar o mínimo, vender o que der nas sombras da internet e evitar a prefeitura a qualquer custo.",
+        "impacto": "Muda a era para 2026. Redução inicial de Stress Burocrático, mas perda de Tração e alcance público. (Abre a Rota C)."
+      },
+      {
+        "id_sub": "Rota_Caixa",
+        "foco": "O Discurso Capitalista Cínico (Foco em Dinheiro a qualquer custo)",
+        "argumento_gerente": "Nós vamos capitalizar o desespero. Empacotem qualquer lixo e vendam como 'Caixas Misteriosas'. Façam dancinha. Vendam os letreiros. A gente faz caixa rápido antes que o dono do imóvel perceba que nós caímos de paraquedas aqui.",
+        "impacto": "Muda a era para 2026. Bônus gigantesco de Caixa inicial (+R$ 5.000), mas penalidade severa em Acervo e Stress. (Abre a Rota D)."
+      }
+    ]
+  }
+]

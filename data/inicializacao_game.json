@@ -1,0 +1,48 @@
+[
+  {
+    "id": "intro_game",
+    "tipo_evento": "apresentacao_tutorial",
+    "titulo": "📼 LOCADORA RETRÔ: GERENTE DE DUAS ERAS 📼",
+    "cenas_iniciais": [
+      {
+        "ordem": 1,
+        "texto": "O cheiro de carpete limpo, o brilho do letreiro em neon piscando na rua escura e o barulho reconfortante de uma fita sendo rebobinada. Bem-vindo ao auge do entretenimento de bairro. Bem-vindo à sua Locadora."
+      },
+      {
+        "ordem": 2,
+        "texto": "Você é o Gerente. O cérebro da operação. Seu trabalho parece simples: alugar filmes, cobrar multas por atraso e garantir que a porta de aço continue abrindo no dia seguinte. Mas uma locadora não é feita apenas de plástico e fita magnética. Ela é feita de pessoas. E para sobreviver ao fim do milênio (e a coisas muito piores que estão por vir), você terá que gerenciar o ego, os medos e as exigências da sua equipe. Se você falhar com eles, as engrenagens param. E se a engrenagem parar, a falência é o seu destino."
+      }
+    ],
+    "equipe": [
+      {
+        "id_agente": "ID_Mauricio",
+        "nome": "🎬 Maurício (O Guardião do Acervo)",
+        "fala_marcante": "\"Tira esse salgadinho de perto do meu Kubrick!\"",
+        "funcao": "Curador e organizador da loja. Ele sabe a diferença entre o corte do diretor e a versão de cinema de qualquer filme obscuro da Europa.",
+        "mecanica": "Representa a sua barra de [Integridade do Acervo]. Ele atrai clientes fiéis e de alto padrão. Se você sacrificar o respeito aos filmes por dinheiro rápido, ele vai surtar, levar os clássicos embora e sua locadora virará um camelô sem alma."
+      },
+      {
+        "id_agente": "ID_Leila",
+        "nome": "💥 Leila (O Motor da Tração)",
+        "fala_marcante": "\"Chefe, e se a gente botar uma caixa de som na calçada e dar pipoca de graça?\"",
+        "funcao": "Atendente de balcão e gênio do marketing de guerrilha. Leila é a simpatia da loja e a única que entende como atrair movimento.",
+        "mecanica": "Representa a sua barra de [Tração e Hype]. Mantém o fluxo de clientes rodando. Se ignorar as ideias dela para cortar gastos, a loja cai no esquecimento, o silêncio reina, e ela procura outro emprego."
+      },
+      {
+        "id_agente": "ID_Vagner",
+        "nome": "💼 Vagner (O Escudo Burocrático)",
+        "fala_marcante": "\"Cadê a nota fiscal disso? Se a prefeitura bater aqui, eu não vou preso sozinho!\"",
+        "funcao": "O caixa, torcedor fanático do Vitória e gerente financeiro informal. Conta as moedas, paga a luz e tenta manter a loja operando fora do radar.",
+        "mecanica": "Representa a sua barra de [Stress Operacional]. A busca por lucro fácil e esquemas ilegais causam problemas. Se você esticar demais a corda da burocracia, ele terá um colapso nervoso, a fiscalização fecha o negócio e o dinheiro não valerá nada."
+      }
+    ],
+    "objetivo_final": "⚖️ O SEU OBJETIVO: Toda escolha tem um preço. Agradar o Maurício afasta os adolescentes da Leila. Dar poder para a Leila gasta o dinheiro que o Vagner escondeu para os impostos. Administre os recursos. Equilibre o Caixa. E tente não falir... pelo menos não antes de descobrir o que o futuro reserva.",
+    "estado_inicial": {
+      "ano_inicial": 1999,
+      "caixa": 1000.00,
+      "tracao": 0,
+      "acervo": 0,
+      "stress": 0
+    }
+  }
+]

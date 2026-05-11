@@ -1,0 +1,168 @@
+[
+  {
+    "id": "ultimato_leila_tracao",
+    "ano": 2026,
+    "agente_foco": "ID_Leila",
+    "contexto_ia": "A barra de Tração e Escalabilidade atingiu 5 pontos negativos. A locadora está perigosamente silenciosa. O telefone não toca. A calçada está vazia. O modelo de negócios secou porque a loja parou de se comunicar com o mundo lá fora. Leila está apática, guardando suas coisas na mochila, prestes a aceitar uma proposta em uma agência de marketing.",
+    "rotas_principais": [
+      {
+        "id_rota": "Crise_Tracao",
+        "nome": "O Ultimato de Leila (Gargalo de Volume e Hype)",
+        "fala_agente": "Chefe, o hype retro acabou. O algoritmo do Zinta mudou a tendência pra 'Futurismo Minimalista' e a gente sumiu do mapa. Eu tô há semanas falando pra gente fazer collabs, inovar, e vocês só focam em varrer o chão e contar moeda. Uma agência de Marketing Digital me chamou no LinkedIn pra ser estrategista júnior. Eu preciso ir pra onde o mundo tá indo.",
+        "sub_opcoes": [
+          {
+            "id_sub": "A",
+            "foco": "O Apelo Emocional / Foco no Passado",
+            "argumento_gerente": "Leila, você não pode fazer isso. Nós somos uma família! Eu te contratei quando você não sabia nem ligar o rebobinador. A concorrência não tem o nosso calor humano, eles vão te tratar como um número. Fica pela nossa história.",
+            "resolucao_agente": "(Leila dá um sorriso triste e balança a cabeça) \"Chefe, calor humano não paga a minha faculdade. E nostalgia não paga o aluguel de vocês. Desculpa. O Maurício fica com os filmes, o Vagner fica com o caixa, mas a visão de futuro de vocês morreu.\"",
+            "impacto": "GAME OVER (A loja entra em ostracismo. Falência por esquecimento em 3 semanas. Fim de jogo.)"
+          },
+          {
+            "id_sub": "B",
+            "foco": "A Promessa Corporativa / Foco no Dinheiro Futuro",
+            "argumento_gerente": "Leila, não toma decisão de cabeça quente. Eu sei que as coisas estão paradas, mas eu vou sentar com o Vagner amanhã. Eu prometo que no trimestre que vem a gente compra computadores novos / contrata um videomaker profissional. E eu vejo um aumento pra você. Só me dá um tempo.",
+            "resolucao_agente": "(Leila suspira e ajeita a mochila) \"Chefe, 'trimestre que vem' é a mentira mais velha do comércio. Vocês nunca vão aprovar orçamento pra marketing se o Vagner achar que é gasto. Eu não posso mais esperar a coragem de vocês.\"",
+            "impacto": "GAME OVER (A loja perde a única funcionária que entende o público. O movimento cai a zero. Fim de jogo.)"
+          },
+          {
+            "id_sub": "C",
+            "foco": "O Cheque em Branco / Autonomia Radical",
+            "argumento_gerente": "Você tem razão. Eu e o Maurício somos dinossauros dirigindo em direção ao meteoro. Se você for embora, a gente apaga a luz. Tira a mochila das costas. A partir de agora, você é a Diretora de Novos Negócios. Você tem 20% do orçamento do nosso caixa livre de impostos na sua mão pra gastar em marketing, evento, o que quiser. Não precisa pedir a minha aprovação nem a do Vagner.",
+            "resolucao_agente": "(Leila paralisa. Ela solta a alça da mochila, os olhos brilhando com o desafio) \"20% do caixa? Sem a assinatura do Vagner?... Beleza. Eu fico. Mas se prepara, chefe. Nós vamos virar essa loja de cabeça pra baixo a partir de amanhã. O Vagner que tome um calmante.\"",
+            "impacto": "VITÓRIA. Barra de Tração/Hype é RESETADA (Volta a zero pontos negativos). Penalidade: -20% de todo o Caixa Atual (Leila torra o dinheiro em campanhas de marketing/infraestrutura no dia seguinte)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ultimato_mauricio_acervo",
+    "ano": 2026,
+    "agente_foco": "ID_Mauricio",
+    "contexto_ia": "A barra de Integridade do Acervo atingiu 5 pontos negativos. A busca desenfreada por lucro e fluxo de pessoas transformou a locadora em um ambiente caótico. Maurício está no chão, empacotando suas fitas de diretores europeus e japoneses para ir embora.",
+    "rotas_principais": [
+      {
+        "id_rota": "Crise_Acervo",
+        "nome": "O Ultimato de Maurício (Gargalo de Integridade do Acervo)",
+        "fala_agente": "Você vendeu a nossa alma. Transformou a história do cinema num cenário de plástico pra adolescentes fazerem dancinha na internet. Eles não sabem quem é Kubrick, eles só querem a estética da caixa. É um circo de horrores. O meu nome não vai ficar associado a esse massacre cultural. Vou salvar o que sobrou da minha coleção e ir embora.",
+        "sub_opcoes": [
+          {
+            "id_sub": "A",
+            "foco": "A Lógica Comercial / O Argumento Financeiro",
+            "argumento_gerente": "Maurício, seja prático e olha pro caixa! Aquele adolescente que derrubou a fita deixou R$ 150 na loja. A arte custa dinheiro! Com o lucro dessa semana a gente entra na internet e compra cinco cópias novas desse filme em estado perfeito. É só plástico e fita magnética!",
+            "resolucao_agente": "(Maurício ri, um riso frio e decepcionado. Ele levanta com a caixa) \"Não se 'compra outra' primeira edição, seu ignorante. Filmes não são sabonetes pra você repor no estoque. Vocês não vendem cultura, vendem plástico por quilo. Passar bem.\"",
+            "impacto": "GAME OVER (Maurício vai embora. O acervo de qualidade é levado por ele ou se deteriora. Os clientes cinéfilos e colecionadores denunciam a loja. Falência por perda de qualidade)."
+          },
+          {
+            "id_sub": "B",
+            "foco": "A Ameaça Corporativa / O Argumento de Autoridade",
+            "argumento_gerente": "Solta essa caixa agora, Maurício. Você foi contratado para organizar o acervo, não para ser o dono dele. Essas fitas são patrimônio da empresa, eu paguei por elas. Se você passar por aquela porta com esse material, eu chamo a polícia e te processo por roubo.",
+            "resolucao_agente": "(Maurício solta a caixa no chão de forma abrupta e tira o crachá, jogando no seu peito) \"Fica com as suas fitas, chefe. Mas eu duvido que o Vagner ou a Leila saibam a diferença entre o rolo 1 e o rolo 2 de um filme do Kurosawa. Sem mim, isso aqui é só um amontoado de lixo magnético. Boa sorte.\"",
+            "impacto": "GAME OVER (A loja fica com as fitas, mas perde a mente que as organiza. Ninguém sabe recomendar filmes. Reclamações disparam, clientes exigentes abandonam o local. Fim de jogo)."
+          },
+          {
+            "id_sub": "C",
+            "foco": "O \"Santuário VIP\" / Concessão de Território",
+            "argumento_gerente": "Eu errei, Maurício. Eu deixei o desespero financeiro engolir o nosso propósito. Solta a caixa. Nós vamos esvaziar a sala dos fundos hoje. Vai virar o 'Santuário'. Você leva todos os clássicos pra lá, tranca a porta e fica com a chave. A partir de agora, você dita as regras: só entra lá quem passar pela sua entrevista, usando luva branca se você quiser. Eu blindo a sua arte do resto da loja.",
+            "resolucao_agente": "(Maurício para o movimento com o estilete. Ele olha para o espaço dos fundos, imaginando a porta trancada. O ego dele é afagado.) \"Um Santuário... Apenas para iniciados e verdadeiros apreciadores da arte. Muito bem, gerente. Eu fico. Mas se eu ver uma criança com salgadinho perto do meu balcão, eu mesmo chamo a polícia.\"",
+            "impacto": "VITÓRIA. Barra de Integridade do Acervo é RESETADA (Volta a zero pontos negativos). Penalidade: -15% de Espaço Físico/Faturamento Geral (A sala dos fundos deixa de dar lucro rápido, pois Maurício trava a entrada de 90% dos clientes casuais)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ultimato_vagner_operacional",
+    "ano": 2026,
+    "agente_foco": "ID_Vagner",
+    "contexto_ia": "A barra de Stress e Burocracia bate o limite. Operações ilegais, risco de fiscalização, carregar peso demais ou falta de estrutura de trabalho levaram Vagner ao limite físico e mental. Ele respira em um saco de papel no escritório, cercado por multas.",
+    "rotas_principais": [
+      {
+        "id_rota": "Crise_Operacional",
+        "nome": "O Ultimato de Vagner (Gargalo Operacional e Burocrático)",
+        "fala_agente": "Eu não durmo há três semanas, gerente! Meu coração tá batendo num ritmo que não é saudável. A gente tá operando um CNPJ zumbi num mundo que rastreia até o nosso pensamento! Eu não vou ser preso ou ter um infarto por causa de fita cassete. Eu tô fora. Vou vender coco na praia, que pelo menos não exige alvará de bombeiro.",
+        "sub_opcoes": [
+          {
+            "id_sub": "Vitoria_Condicional",
+            "foco": "Reestruturação e Terceirização / Assumir o Risco",
+            "argumento_gerente": "Você precisa acalmá-lo, assumindo a responsabilidade pelos riscos operacionais e oferecendo uma reestruturação imediata (como terceirizar problemas contábeis ou fechar a loja por uns dias para regularizar a burocracia).",
+            "resolucao_agente": "Vagner aceita a proposta, tira o peso logístico/burocrático das próprias costas e se acalma.",
+            "impacto": "VITÓRIA. A loja se salva da interdição, mas sofre um alto custo financeiro imediato para pagar despachantes/terceirizados ou dias de loja fechada."
+          },
+          {
+            "id_sub": "Falha_Condicional",
+            "foco": "Minimização ou Pressão Excessiva",
+            "argumento_gerente": "Você ignora os avisos de risco, cobra mais esforço dele ou tenta minimizar o estresse burocrático sem oferecer ações concretas.",
+            "resolucao_agente": "Vagner atinge o limite do esgotamento e abandona o local para preservar a própria saúde.",
+            "impacto": "GAME OVER. Vagner infarta levemente ou vai embora de vez. Sem ele para segurar a burocracia maluca de 2026, a loja é interditada pela prefeitura no dia seguinte."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ultimato_advogado_caixa",
+    "ano": 2026,
+    "agente_foco": "ID_Advogado_Imobiliaria",
+    "contexto_ia": "O dinheiro acaba. O jogador gastou demais ou não gerou receita rápida. A energia elétrica é cortada abruptamente e um advogado engravatado entra na loja acompanhado de seguranças.",
+    "rotas_principais": [
+      {
+        "id_rota": "Crise_Caixa",
+        "nome": "O Colapso do Caixa (Gargalo Financeiro)",
+        "fala_agente": "A brincadeira temporal acabou. O aluguel está atrasado e o valor da área foi reajustado a mercado. Vocês têm uma hora para esvaziar o imóvel.",
+        "sub_opcoes": [
+          {
+            "id_sub": "Vitoria_Condicional",
+            "foco": "O 'Pitch' Desesperado / Parceria Predatória",
+            "argumento_gerente": "O jogador faz um discurso de venda brutalmente agressivo para o advogado, oferecendo uma participação generosa nos lucros da empresa ou um plano de pagamento absurdo em troca da manutenção do espaço.",
+            "resolucao_agente": "O advogado vê potencial de extração de riqueza na sua audácia e aceita as condições leoninas.",
+            "impacto": "VITÓRIA. A loja não é fechada, mas o jogador perde uma fatia massiva dos lucros futuros, tornando a gestão financeira extremamente punitiva a partir de agora."
+          },
+          {
+            "id_sub": "Falha_Condicional",
+            "foco": "Ameaça Jurídica ou Apelo Emocional",
+            "argumento_gerente": "O jogador tenta blefar com leis antigas de inquilinato ou implora por compaixão e mais prazo em nome das famílias dos funcionários.",
+            "resolucao_agente": "O advogado não demonstra empatia, valida a ordem de despejo digital de 2026 e aciona a remoção forçada.",
+            "impacto": "GAME OVER. Despejo imediato. A equipe se senta na calçada, olhando para a porta de aço sendo fechada para sempre. Fim da linha."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ultimato_advogado_despejo",
+    "ano": 2026,
+    "agente_foco": "ID_Advogado_Imobiliaria",
+    "contexto_ia": "O caixa bateu no zero absoluto. O aluguel e as contas de energia acumularam. A locadora está tecnicamente falida. As luzes apagam, os letreiros morrem, e um advogado entra na loja escura escoltado por dois seguranças para executar o despejo.",
+    "rotas_principais": [
+      {
+        "id_rota": "Crise_Caixa_Despejo",
+        "nome": "O Colapso do Caixa (A Crise de Despejo)",
+        "fala_agente": "(Olhando a loja com desprezo através de óculos de grife, segurando um tablet) \"A brincadeira temporal acabou. O contrato de aluguel está defasado e a imobiliária já vendeu o ponto para uma rede de farmácias gourmet. Vocês estão operando no vermelho e a ordem de despejo já foi deferida eletronicamente. Os seguranças vão escoltar vocês para fora. Deixem as chaves no balcão.\"",
+        "sub_opcoes": [
+          {
+            "id_sub": "A",
+            "foco": "O Pedido de Piedade / A Cartada Emocional",
+            "argumento_gerente": "Doutor, por favor, tenha um pouco de empatia! Essa locadora é a vida de quatro pessoas. É um negócio histórico, um marco na cultura do bairro! Me dê apenas mais dez dias. A gente faz uma liquidação, eu peço um empréstimo no banco... Não jogue a gente na rua assim!",
+            "resolucao_agente": "(O advogado sorri, com pena, e entrega uma caneta de metal para você) \"O mercado não tem coração, gerente. E banco nenhum dá empréstimo para CNPJ negativado. Foi uma bela história, mas acabou. Assine.\"",
+            "impacto": "GAME OVER (A equipe desaba em prantos. A loja é esvaziada e as fitas são vendidas por quilo no ferro-velho. O negócio deixa de existir)."
+          },
+          {
+            "id_sub": "B",
+            "foco": "A Resistência / A Trincheira Hostil",
+            "argumento_gerente": "Você não pode entrar aqui e desligar a luz! Nós temos direitos! Nós estamos aqui há décadas! Se vocês quiserem tirar a gente daqui hoje, vão ter que chamar a polícia e arrastar a gente à força na frente de todo mundo no bairro! Eu vou ligar para a imprensa!",
+            "resolucao_agente": "(O advogado faz um sinal de cabeça para os seguranças) \"Direitos? Vocês não pagam o aluguel. Estão na ilegalidade. Tirem eles daqui agora. Podem usar a força se resistirem.\"",
+            "impacto": "GAME OVER (A equipe é humilhada publicamente e jogada na calçada. O vídeo do vexame viraliza. Fim trágico e violento da locadora)."
+          },
+          {
+            "id_sub": "C",
+            "foco": "O Blefe do Tubarão / Sociedade Forçada",
+            "argumento_gerente": "Guarde esse tablet, doutor. Eu não vou pagar os alugueis atrasados, porque eu tenho uma proposta melhor para o seu cliente. Olha em volta. O hype disso aqui está explodindo. Farmácia gourmet dá lucro de 5%, a economia da nostalgia dá 300%. Rasgue a ordem de despejo, perdoe a dívida e o dono do imóvel vira nosso sócio oculto. Eu dou 40% das cotas da locadora para ele agora mesmo.",
+            "resolucao_agente": "(O advogado paralisa. Ele olha as fitas, olha para o neon apagado, dá um sorriso de canto de boca e pega o celular) \"Audacioso... Meu cliente adora um negócio de alto risco com gente desesperada. Se vocês trabalharem de graça pra ele, ele aceita a sociedade. Mas a luz só volta amanhã.\"",
+            "impacto": "VITÓRIA PARCIAL. O Game Over é evitado. A locadora sobrevive, mas o pacto é brutal. Penalidade: Você perde permanentemente 40% de todo o lucro diário gerado até o fim do jogo, tornando a meta final muito mais difícil de ser batida."
+          }
+        ]
+      }
+    ]
+  }
+]
