@@ -8,50 +8,54 @@
     "discurso_gerente": "\"Vagner, levanta a cabeça. A Blockbuster faliu porque eles achavam que o negócio deles era alugar pedaço de plástico. Eles brigaram com a geladeira e perderam. Nós nunca fomos uma loja de plástico. Olhem lá pra fora. Aquela molecada com os celulares não sabe o que é rebobinar uma fita, não sabe o que é o cheiro dessa loja. Eles vivem num mundo onde tudo é digital, invisível e infinito. Sabe qual é a consequência disso? Eles estão desesperados por coisas reais. Coisas que eles possam tocar. Nós somos uma anomalia temporal, e isso é o nosso maior ativo. O streaming tem milhões de filmes na nuvem, mas não tem a Leila conhecendo o cliente pelo nome. Não tem a curadoria nerd do Maurício em carne e osso. Eles têm a conveniência; nós temos a nostalgia e a autenticidade. Nós vamos parar de vender aluguel de filme e vamos começar a vender a 'Experiência'. E eu vejo quatro caminhos para a gente monetizar esse nosso novo mundo agora mesmo.\"",
     "rotas_principais": [
       {
+        "nome":"Mudar o contexto de négocio",
         "id_opcao": "A",
         "foco": "Rota A: Negócio Imobiliário / Cenário Locável (O Foco no Hype)",
         "descricao": "O produto deixa de ser o filme e passa a ser o espaço. Transformamos a locadora intacta num estúdio fotográfico/cenário \"Y2K\" (Anos 2000) de aluguel por hora para influenciadores, produtoras e agências que estão babando pela nossa estética na internet.",
         "impacto_sistema": {
-          "tracao": "+40",
-          "stress": "+20",
-          "acervo": "-10",
-          "caixa": "+0",
+          "tracao": 40,
+          "stress": 20,
+          "acervo": -10,
+          "caixa": 0,
           "efeito_passivo": "Aumenta o ganho diário de Tração, mas Leila e Vagner ficam sobrecarregados com a agenda."
         }
       },
       {
+        "nome":"Mudar o contexto de négocio",
         "id_opcao": "B",
         "foco": "Rota B: O Varejo Nostálgico de Alto Ticket (Liquidação Premium)",
         "descricao": "Assumimos que o aluguel acabou, mas o colecionismo explodiu. Rotulamos nosso estoque como \"Artefatos Históricos Originais\". Vendemos as fitas, pôsteres e displays da loja por dez vezes o valor original para colecionadores e hipsters ricos.",
         "impacto_sistema": {
-          "caixa": "+500",
-          "acervo": "+30",
-          "tracao": "-20",
-          "stress": "+0",
+          "caixa": 500,
+          "acervo": 30,
+          "tracao": -20,
+          "stress": 0,
           "efeito_passivo": "Abre a mecânica de leilões e e-commerce. O Caixa enche rápido, mas o Acervo é consumido progressivamente."
         }
       },
       {
+        "nome":"Mudar o contexto de négocio",
         "id_opcao": "C",
         "foco": "Rota C: O Clube de Desconexão (A Experiência 'Tech Detox')",
         "descricao": "Vendemos o antídoto contra a ansiedade digital de 2026. Um pacote de aluguel premium onde entregamos na casa do cliente não apenas a fita, mas a TV de tubo de 29 polegadas e o videocassete para um fim de semana de total desconexão e imersão analógica.",
         "impacto_sistema": {
-          "acervo": "+40",
-          "stress": "+30",
-          "tracao": "+10",
-          "caixa": "-100",
+          "acervo": 40,
+          "stress": 30,
+          "tracao": 10,
+          "caixa": -100,
           "efeito_passivo": "Alto custo operacional (frete e manutenção de TVs velhas), mas atrai uma clientela fiel que defende a loja com unhas e dentes."
         }
       },
       {
+        "nome":"Mudar o contexto de négocio",
         "id_opcao": "D",
         "foco": "Rota D: O Pub Temático Nostálgico",
         "descricao": "Mudamos de setor. O balcão de atendimento vira um bar. Servimos drinks superfaturados inspirados em clássicos do cinema, enquanto os filmes rodam mudos nas TVs de tubo. A locadora vira o 'Speakeasy' (bar secreto) mais disputado e instagramável da cidade.",
         "impacto_sistema": {
-          "tracao": "+50",
-          "caixa": "+200",
-          "stress": "+50",
-          "acervo": "-30",
+          "tracao": 50,
+          "caixa": 200,
+          "stress": 50,
+          "acervo": -30,
           "efeito_passivo": "Lucro absurdo de Caixa e Tração, mas o Stress Operacional dispara. Maurício entra em depressão crônica."
         }
       }
@@ -60,6 +64,7 @@
   {
     "id": "evento_malu2000",
     "gatilho_rota": "A",
+    "ano": 2026,
     "titulo": "A Proposta Indecente de Malu2000",
     "contexto_ia": "A fama estética da locadora atrai uma mega influenciadora. Ela oferece 15 mil reais em dinheiro vivo para descaracterizar a loja (pintar de rosa e destruir fitas) para gravar um clipe. O gerente precisa escolher entre o dinheiro rápido, a preservação do status cult, ou uma gambiarra cenográfica.",
     "dialogos_iniciais": [
@@ -87,10 +92,10 @@
         "argumento_gerente": "Vagner, pega o dinheiro. Maurício, vai pro escritório. Se o produto é o cenário, o cliente faz o que quiser. A gente pinta o balcão. Amanhã, com os R$ 15 mil, a gente contrata um marceneiro e volta pra madeira original.",
         "treplica": "(Maurício sai indignado) 'Vou colocar tapa-olhos.' (Vagner abraça a maleta) 'A alma da empresa sempre foi o fluxo de caixa, Maurício!'",
         "impactos": {
-          "caixa": "+15000",
-          "acervo": "-40",
-          "stress": "+10",
-          "tracao": "+20"
+          "caixa": 15000,
+          "acervo": -40,
+          "stress": 10,
+          "tracao": 20
         }
       },
       {
@@ -99,10 +104,10 @@
         "argumento_gerente": "Pode fechar a maleta. Nós vendemos a cápsula do tempo intacta. Se virarmos um cenário rosa, viramos apenas mais um estúdio genérico. A autenticidade é o que nos torna caros. Ela pode gravar, mas sem tocar num único móvel.",
         "treplica": "(Leila fala com a influenciadora, que sai bufando) 'Chefe, os seguidores adultos dela estão elogiando a nossa atitude.' (Maurício sorri) 'A arte respira.'",
         "impactos": {
-          "caixa": "+0",
-          "acervo": "+40",
-          "tracao": "-20",
-          "stress": "-10"
+          "caixa": 0,
+          "acervo": 40,
+          "tracao": -20,
+          "stress": -10
         }
       },
       {
@@ -111,10 +116,10 @@
         "argumento_gerente": "Ninguém pinta nada. Leila, compra dez rolos de plástico adesivo rosa. A gente envelopa o balcão e tira amanhã. Maurício, esvazia 500 capinhas de fita ruins. Ela não vai derrubar fitas de verdade, vai derrubar plástico vazio. Entregamos a ilusão.",
         "treplica": "(Vagner puxa a maleta) 'Gerente, você é um gênio da malandragem. Leila, vai comprar o Contact. Maurício, esvazia as fitas do Rambo 3!'",
         "impactos": {
-          "caixa": "+15000",
-          "acervo": "+10",
-          "stress": "+30",
-          "tracao": "+10"
+          "caixa": 15000,
+          "acervo": 10,
+          "stress": 30,
+          "tracao": 10
         }
       }
     ]
@@ -122,6 +127,7 @@
   {
     "id": "evento_mercado_livre",
     "gatilho_rota": "B",
+    "ano": 2026,
     "titulo": "A Liquidação Premium",
     "contexto_ia": "Decididos a vender o acervo físico de luxo, a equipe discute qual será a logística de distribuição. Vagner surta com a ideia de ir aos Correios e Maurício teme que as fitas sejam maltratadas. O gerente decide o canal de vendas.",
     "dialogos_iniciais": [
@@ -145,10 +151,10 @@
         "argumento_gerente": "A Leila viu que os Correios buscam na porta. Nós vamos vender só para quem entende o valor. Coloca os clássicos num site de leilão global (eBay). Deixa os nerds do mundo brigarem em dólar. O resto, vai pro lixo.",
         "treplica": "(Maurício respira fundo) 'Se for pra um colecionador japonês, eu aceito.' (Vagner sorri) 'Ganhando em dólar? Eu ajudo a embalar.'",
         "impactos": {
-          "caixa": "+800",
-          "acervo": "-10",
-          "stress": "+30",
-          "tracao": "+0"
+          "caixa": 800,
+          "acervo": -10,
+          "stress": 30,
+          "tracao": 0
         }
       },
       {
@@ -157,10 +163,10 @@
         "argumento_gerente": "Vamos virar uma 'Galeria de Arte Y2K'. Maurício, você vai botar os melhores filmes numa moldura de acrílico com certificado de autenticidade. Vendemos a R$ 2.000 a peça para diretores na Faria Lima. Venda presencial, margem brutal.",
         "treplica": "(Maurício ajeita os óculos) 'Quadros de acrílico. Arte pura.' (Leila anota) 'Vou mandar mensagem no LinkedIn para os executivos.'",
         "impactos": {
-          "caixa": "+2000",
-          "acervo": "+20",
-          "stress": "-10",
-          "tracao": "-10"
+          "caixa": 2000,
+          "acervo": 20,
+          "stress": -10,
+          "tracao": -10
         }
       },
       {
@@ -169,10 +175,10 @@
         "argumento_gerente": "Vamos surfar no Zinta. Maurício, monte caixas surpresa. Uma fita boa, três ruins, um pacote de pipoca vencida e um pôster. A Leila vende como 'Caixa Misteriosa' por R$ 300 pra jovens gravarem unboxing. Desovamos o estoque ruim.",
         "treplica": "(Vagner bate palmas) 'Vender tralha escondida em caixa surpresa?! Gerente, você nasceu pra enganar o mercado!' (Leila ri) 'O engajamento vai ser absurdo.'",
         "impactos": {
-          "caixa": "+900",
-          "acervo": "-30",
-          "stress": "+10",
-          "tracao": "+40"
+          "caixa": 900,
+          "acervo": -30,
+          "stress": 10,
+          "tracao": 40
         }
       }
     ]
@@ -180,6 +186,7 @@
   {
     "id": "evento_detox_digital",
     "gatilho_rota": "C",
+    "ano": 2026,
     "titulo": "A Epidemia do Burnout",
     "contexto_ia": "Focados no detox digital, o plano é alugar TVs de tubo e fitas para o fim de semana. Mas a logística pesada e o risco ao hardware antigo geram pânico em Vagner e Maurício.",
     "dialogos_iniciais": [
@@ -203,10 +210,10 @@
         "argumento_gerente": "Nós cobramos R$ 1.500 pelo fim de semana. O Maurício vai na van do frete terceirizado, faz a instalação cerimonial dos cabos na sala do cliente e tranca os celulares da família num cofre. Vendemos a terapia completa.",
         "treplica": "(Maurício sorri) 'Instalar o sistema como um sacerdote da tecnologia antiga... Eu topo.' (Vagner faz contas) '1.500 paga o risco. Aprovado.'",
         "impactos": {
-          "caixa": "+1500",
-          "acervo": "-20",
-          "stress": "+40",
-          "tracao": "+10"
+          "caixa": 1500,
+          "acervo": -20,
+          "stress": 40,
+          "tracao": 10
         }
       },
       {
@@ -215,10 +222,10 @@
         "argumento_gerente": "A TV não sai da loja. Vamos montar quatro 'Cabines de Isolamento' escuras nos fundos. O cliente paga R$ 200, deixa o celular no armário e assiste aqui dentro, no escuro. Sem risco logístico.",
         "treplica": "(Vagner cruza os braços) 'Isso é inteligência! A TV fica imóvel, minhas costas agradecem.' (Maurício concorda) 'A locadora vira um santuário de paz.'",
         "impactos": {
-          "caixa": "+200",
-          "acervo": "+30",
-          "stress": "-20",
-          "tracao": "+10"
+          "caixa": 200,
+          "acervo": 30,
+          "stress": -20,
+          "tracao": 10
         }
       },
       {
@@ -227,10 +234,10 @@
         "argumento_gerente": "Oferecemos a 'Noite Retrô' para diretores de RH como benefício de saúde mental corporativa. A empresa paga R$ 3.000/mês, assina um seguro e manda o motorista retirar a TV aqui.",
         "treplica": "(Leila comemora) 'Isso é Growth Hacking! Um contrato fecha a meta do mês.' (Vagner bate na mesa) 'Contrato e seguro corporativo. Gerente, você é um gênio.'",
         "impactos": {
-          "caixa": "+3000",
-          "acervo": "+10",
-          "stress": "+10",
-          "tracao": "-10"
+          "caixa": 3000,
+          "acervo": 10,
+          "stress": 10,
+          "tracao": -10
         }
       }
     ]
@@ -238,6 +245,7 @@
   {
     "id": "evento_cine_pub",
     "gatilho_rota": "D",
+    "ano": 2026,
     "titulo": "A Crise da Infraestrutura",
     "contexto_ia": "A loja vai virar um Cine-Pub. O gerente precisa decidir qual será a 'pegada' do bar para equilibrar os custos da reforma, o volume do som e a fúria purista do curador do acervo.",
     "dialogos_iniciais": [
@@ -261,10 +269,10 @@
         "argumento_gerente": "Pub intimista, trilha sonora só no vinil. Vamos vender ingressos premium para debates com críticos de cinema. Custo de reforma baixo, lucramos na bilheteria de alto ticket.",
         "treplica": "(Maurício se emociona) 'Um oásis intelectual. Isso é a consagração.' (Vagner anota) 'Ticket alto, público que não quebra copos. Perfeito.'",
         "impactos": {
-          "caixa": "+500",
-          "acervo": "+40",
-          "stress": "-10",
-          "tracao": "+10"
+          "caixa": 500,
+          "acervo": 40,
+          "stress": -10,
+          "tracao": 10
         }
       },
       {
@@ -273,10 +281,10 @@
         "argumento_gerente": "O foco é na banda. Sexta acústica com filmes clássicos mudos nas TVs. A gente ganha na cerveja artesanal para muita gente. Vagner, a gente faz vaquinha na internet vendendo ingresso antes pra bancar a reforma.",
         "treplica": "(Vagner coça o queixo) 'Arriscado, mas recupera o caixa na primeira noite.' (Leila vibra) 'Vou lotar essa rua postando a programação!'",
         "impactos": {
-          "caixa": "+2000",
-          "acervo": "-30",
-          "stress": "+40",
-          "tracao": "+40"
+          "caixa": 2000,
+          "acervo": -30,
+          "stress": 40,
+          "tracao": 40
         }
       },
       {
@@ -285,10 +293,10 @@
         "argumento_gerente": "Alugamos o Cine-Pub de segunda a quinta como cenário para podcasters. Eles pagam a diária. Fim de semana, abrimos para o 'Clube de Membros' com ingressos fixos.",
         "treplica": "(Leila concorda) 'B2B garante o dinheiro fixo e faz propaganda de graça!' (Maurício pontua) 'E os tesouros ficam guardados para os verdadeiros assinantes.'",
         "impactos": {
-          "caixa": "+1200",
-          "acervo": "+10",
-          "stress": "+10",
-          "tracao": "+20"
+          "caixa": 1200,
+          "acervo": 10,
+          "stress": 10,
+          "tracao": 20
         }
       }
     ]
