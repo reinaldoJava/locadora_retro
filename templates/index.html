@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Motor 1999/2026 - O Jogo</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="game-container">
+    <img id="ui-bg" class="bg-layer" src="" alt="Fundo">
+
+    <div id="cenario-atores">
+        <div id="ator-vagner-container" class="actor-layer layout-esquerda layout-oculto">
+            <img id="ator-vagner" class="actor-img" src="/static/img/vagner.png" alt="Vagner">
+        </div>
+        <div id="ator-npc-container" class="actor-layer layout-direita layout-oculto">
+            <img id="ator-npc" class="actor-img" src="" alt="Interlocutor">
+        </div>
+    </div>
+
+    <div class="ui-layer">
+        <div class="vn-window">
+            <div class="vn-content" id="scroll-box">
+                <div class="dialog-text" id="ui-texto-dialogo"></div>
+                <div id="ui-opcoes" class="options-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="transition-overlay" id="fx-overlay"></div>
+</div>
+
+<script>
+    // ESTADO GLOBAL DA CENA
+    let cenaAtual = {
+        filaDialogos: [],
+        indiceFala: 0,
+        opcoes: [],
+        ano: null
+    };
+
+    // =========================================
+    // 1. PARSER: TRANSFORMA TEXTO BRUTO EM FILA
+    // =========================================
+    function processarTextoBruto(textoBruto) {
+        // Quebra por parágrafos duplos para separar as falas de cada um
+        const blocos = textoBruto.split(/\n\s*\n/);
+        let fila = [];
+
+        blocos.forEach(bloco => {
+            let limpo = bloco.trim();
+            if (!limpo) return;
+
+            // Regex para capturar NOME: Texto (mesmo com quebra de linha após os :)
+            const regex = /^([A-ZÀ-Úa-zà-ú\s]+):\s*([\s\S]*)/i;
+            const match = limpo.match(regex);
+
+            if (match) {
+                fila.push({
+                    personagem: match[1].trim().toUpperCase(),
+                    texto: match[2].trim()
+                });
+            } else {
+                fila.push({ personagem: "SISTEMA", texto: limpo });
+            }
+        });
+        return fila;
+    }
+
+    // =========================================
+    // 2. CARREGAR DADOS DO BACKEND
+    // =========================================
+    async function carregarDia() {
+        try {
+            const res = await fetch('/api/proximo-evento');
+            const data = await res.json();
+
+            if (data.fim) {
+                finalizarJogo("Fim do capítulo.");
+                return;
+            }
+
+            // Setup inicial da cena
+            const elementoFundo = document.getElementById("ui-bg");
+            if (data.ano) elementoFundo.src = `/static/img/bg_${data.ano}.png`;
+
+            cenaAtual.filaDialogos = processarTextoBruto(data.texto);
+            cenaAtual.indiceFala = 0;
+            cenaAtual.opcoes = data.opcoes || []; // Fallback para o normalizador se necessário
+
+            // Inicia o primeiro "frame" da conversa
+            proximoPasso();
+
+        } catch (e) { console.error("Erro na carga:", e); }
+    }
+
+    // =========================================
+    // 3. O MOTOR DE FOCO (A MÁGICA ACONTECE AQUI)
+    // =========================================
+    function proximoPasso() {
+        const containerOpcoes = document.getElementById("ui-opcoes");
+        const elementoTexto = document.getElementById("ui-texto-dialogo");
+        const scrollBox = document.getElementById("scroll-box");
+
+        // Limpa UI de opções para o botão de avançar
+        containerOpcoes.innerHTML = '';
+
+        if (cenaAtual.indiceFala < cenaAtual.filaDialogos.length) {
+            const fala = cenaAtual.filaDialogos[cenaAtual.indiceFala];
+            const nome = fala.personagem;
+
+            // Atualiza o texto (Aqui você decide: += para acumular ou = para um por vez)
+            // Para "Pergaminho", o ideal é acumular o texto anterior.
+            elementoTexto.innerHTML += `<p><strong>${nome}:</strong> ${fala.texto}</p><br>`;
+
+            // Auto-scroll para o final
+            scrollBox.scrollTop = scrollBox.scrollHeight;
+
+            // --- LÓGICA DE PERSONAGENS ---
+            const imgVagner = document.getElementById("ator-vagner");
+            const containerVagner = document.getElementById("ator-vagner-container");
+            const imgNPC = document.getElementById("ator-npc");
+            const containerNPC = document.getElementById("ator-npc-container");
+
+            // Sempre garante que o container do Vagner está visível
+            containerVagner.classList.remove("layout-oculto");
+
+            if (nome === "VAGNER") {
+                // Vagner Falando: Acende Vagner, Apaga NPC
+                imgVagner.className = "actor-img ator-foco";
+                if (!containerNPC.classList.contains("layout-oculto")) {
+                    imgNPC.className = "actor-img ator-inativo";
+                }
+            }
+            else if (nome !== "SISTEMA") {
+                // NPC Falando: Carrega imagem dinâmica, Acende NPC, Apaga Vagner
+                const nomeArquivo = nome.toLowerCase().replace(/\s/g, '_');
+                imgNPC.src = `/static/img/${nomeArquivo}.png`;
+
+                containerNPC.classList.remove("layout-oculto");
+                imgNPC.className = "actor-img ator-foco";
+                imgVagner.className = "actor-img ator-inativo";
+            }
+
+            // Cria o botão invisível ou um botão "Continuar..." no final do pergaminho
+            const btnNext = document.createElement('button');
+            btnNext.className = 'vn-btn';
+            btnNext.innerText = "Continuar...";
+            btnNext.onclick = () => {
+                cenaAtual.indiceFala++;
+                proximoPasso();
+            };
+            containerOpcoes.appendChild(btnNext);
+
+        } else {
+            // Fim do texto: Mostra as opções reais do JSON
+            renderizarOpcoesReais();
+        }
+    }
+
+    // =========================================
+    // 4. FINALIZAÇÃO E ESCOLHAS
+    // =========================================
+    function renderizarOpcoesReais() {
+        const containerOpcoes = document.getElementById("ui-opcoes");
+        containerOpcoes.innerHTML = '';
+
+        // Aqui usamos o seu JSON de opções (seja 1999 ou 2026)
+        // Se o backend manda opções dentro de 'cenaAtual.opcoes'
+        cenaAtual.opcoes.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'vn-btn';
+            btn.innerText = opt.nome || opt; // Suporta string ou objeto
+            btn.onclick = () => enviarEscolha(i);
+            containerOpcoes.appendChild(btn);
+        });
+    }
+
+    async function enviarEscolha(index) {
+        // Reset para a próxima cena
+        document.getElementById("ui-texto-dialogo").innerHTML = "";
+        document.getElementById("fx-overlay").classList.add("fx-fade-out");
+
+        const res = await fetch('/api/escolha', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ indice: index })
+        });
+
+        setTimeout(() => {
+            document.getElementById("fx-overlay").classList.remove("fx-fade-out");
+            carregarDia();
+        }, 500);
+    }
+
+    window.onload = carregarDia;
+</script>
+</body>
+</html>
