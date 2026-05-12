@@ -1,0 +1,154 @@
+/* =========================================
+   1. RESET E SETUP RESPONSIVO
+   ========================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body, html {
+    height: 100%;
+    width: 100%;
+    background-color: #1a1a1a; /* Cinza escuro das bordas laterais (Letterbox) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =========================================
+   2. O PALCO (TELA DO JOGO 16:9)
+   ========================================= */
+.game-container {
+    position: relative;
+    /* O Segredo da Responsividade Fixa */
+    aspect-ratio: 16 / 20;
+    width: 100%;
+    max-height: 100vh;
+    max-width: calc(100vh * (16 / 20)); /* Trava a largura para não quebrar o 16:9 */
+    background-color: #000;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9); /* Destaca o jogo do fundo do navegador */
+}
+
+.bg-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+/* =========================================
+   3. ATORES
+   ========================================= */
+#cenario-atores {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.actor-layer {
+    position: absolute;
+    bottom: 27%; /* Acima da caixa de diálogo */
+    width: 100%; height: 75%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.actor-img {
+    max-height: 68%;
+    width: auto;
+    object-fit: contain;
+    transition: all 0.4s ease;
+}
+
+.ator-foco { filter: brightness(1); transform: scale(1); }
+.ator-inativo { filter: brightness(0.4); transform: scale(0.95); }
+
+.layout-esquerda { justify-content: flex-start; margin-left: 8%; }
+.layout-direita { justify-content: flex-end; margin-right: 8%; }
+.layout-oculto { display: none; }
+
+/* =========================================
+   4. INTERFACE DE DIÁLOGO (NOVO ESTILO)
+   ========================================= */
+.ui-layer {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 35%; /* Ocupa os 35% inferiores da tela */
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.vn-window {
+    width: 100%;
+    height: 100%;
+    /* Fundo Azul Marinho Translúcido (Combina com o bg_1999) */
+    background-color: rgba(12, 22, 45, 0.90);
+    border-top: 4px solid #511101;
+    display: flex;
+    flex-direction: column;
+}
+
+/* O "Pergaminho" com Scrollbar */
+.vn-content {
+    padding: 20px 40px;
+    overflow-y: auto;
+    height: 100%;
+    color: #f1f1f1; /* Texto quase branco para contraste */
+}
+
+/* Estilização da Barra de Rolagem (Estilo Game) */
+.vn-content::-webkit-scrollbar { width: 10px; }
+.vn-content::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.5); }
+.vn-content::-webkit-scrollbar-thumb { background: #511101; border-radius: 5px; }
+
+.dialog-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    white-space: pre-wrap; /* Respeita as quebras de linha do Python (\n) */
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 20px;
+}
+
+.vn-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid #ffc000;
+    padding: 10px;
+    font-size: 0.9rem;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.vn-btn:hover {
+    background-color: #96cc00;
+    color: #000;
+    font-weight: bold;
+}
+
+/* =========================================
+   5. TRANSIÇÕES (MANTIDAS)
+   ========================================= */
+.transition-overlay {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #000;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.fx-fade-out { opacity: 1; }

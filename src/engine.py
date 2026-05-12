@@ -1,95 +1,137 @@
-# ==========================================
-# engine.py - O Gestor de Estado e Regras
-# ==========================================
+import json
+import os
+from pathlib import Path
 
 class Engine:
-    def __init__(self):
-        # Estado inicial das barras e caixa
+    def __init__(self, lista_cenarios=None):
+        # Se não passar nada, carrega a ordem cronológica padrão
+        if lista_cenarios is None:
+            lista_cenarios = ['eventos_1999.json', 'eventos_2026.json']
+
         self.estado = {
-            "caixa": 1000.0,
-            "tracao": 0,    # Escala agora é de -100 a +100
-            "acervo": 0,    # Escala agora é de -100 a +100
-            "stress": 0,    # Escala agora é de -100 a +100
-            "dia_atual": 1
+            "caixa": 1000, "stress": 0, "acervo": 100, "tracao": 50,
+            "indice_evento": 0,
+            "historico_rotas": [],
+            "rota_pendente_idx": None
         }
 
-        # Definições de limites reais para o Game Over
-        self.LIMITE_BARRA = 100
-        self.CAIXA_MINIMO = 0.0
+        self.arquivos_cenario = lista_cenarios
+        self.indice_arquivo_atual = 0
 
-    def renderizar_barra(self, valor, nome):
-        """
-        Cria uma representação visual para o terminal.
-        Como a escala agora é 100, dividimos por 10 para ter até 10 blocos na tela.
-        Isso não será usado na Interface Gráfica futura, mas ajuda no debug atual.
-        """
-        tamanho = 10 # 10 blocos para cada lado
-        prenchimento = "#"
-        vazio = " "
+        self._carregar_arquivo_atual()
 
-        # Normaliza o valor para a quantidade de blocos
-        blocos = int(valor / 10)
-        posicao = max(min(blocos, tamanho), -tamanho)
+    def _carregar_arquivo_atual(self):
+        """Metodo auxiliar para ler o arquivo da vez e garantir que é uma lista"""
+        arquivo_da_vez = self.arquivos_cenario[self.indice_arquivo_atual]
+        caminho = os.path.join(Path(__file__).resolve().parent.parent, "data", arquivo_da_vez)
 
-        if posicao > 0:
-            barra = f"[{vazio * tamanho}|{prenchimento * posicao}{vazio * (tamanho - posicao)}]"
-        elif posicao < 0:
-            posicao_abs = abs(posicao)
-            barra = f"[{vazio * (tamanho - posicao_abs)}{prenchimento * posicao_abs}|{vazio * tamanho}]"
-        else:
-            barra = f"[{vazio * tamanho}|{vazio * tamanho}]"
+        with open(caminho, 'r', encoding='utf-8') as f:
+            dados = json.load(f)
 
-        return f"{nome.capitalize():<10} {barra} ({valor:+})"
+        # Garante que iteramos sobre uma lista
+        self.eventos = list(dados.values()) if isinstance(dados, dict) else dados
 
-    def aplicar_impacto(self, impacto):
-        """
-        Soma os valores de impacto do JSON ao estado atual.
-        """
-        for chave, valor in impacto.items():
-            if chave in self.estado:
-                self.estado[chave] += valor
+    def obter_evento_atual(self):
+        while True:
+            # 1. Tenta achar o próximo evento válido dentro do arquivo atual
+            while self.estado["indice_evento"] < len(self.eventos):
+                evt = self.eventos[self.estado["indice_evento"]]
+                gatilho = evt.get("gatilho_rota")
+
+                # Se não tem gatilho, ou se o gatilho está no nosso histórico, é este!
+                if not gatilho or gatilho in self.estado["historico_rotas"]:
+                    return evt
+
+                self.estado["indice_evento"] += 1
+
+            # 2. Se o loop acima terminou, significa que acabaram os eventos DESTE arquivo.
+            # Vamos tentar carregar a próxima "Era" (ex: pular de 1999 para 2026)
+            self.indice_arquivo_atual += 1
+
+            if self.indice_arquivo_atual < len(self.arquivos_cenario):
+                self._carregar_arquivo_atual()
+                self.estado["indice_evento"] = 0 # Reseta o ponteiro de leitura da nova Era
+            else:
+                # Se não tem mais arquivos na lista, o jogo acabou de verdade.
+                return None
+
+    def formatar_para_frontend(self):
+        """Adapter Pattern: Normaliza qualquer schema de evento para o contrato do Front-end"""
+        evt = self.obter_evento_atual()
+        if not evt: return {"fim": True}
+
+        # CASO 1: Estamos na etapa 2 (Réplica/Sub-opção de 1999)
+        if self.estado.get("rota_pendente_idx") is not None:
+            rota = evt["rotas_principais"][self.estado["rota_pendente_idx"]]
+            texto = f"GERENTE:\n{rota.get('fala_gerente', '')}\n\nVAGNER:\n{rota.get('pushback_vagner', '')}"
+            opcoes = [sub.get("foco", "Opção") for sub in rota.get("sub_opcoes", [])]
+            return {"personagem": "Vagner", "texto": texto, "opcoes": opcoes, "estado": self.estado}
+
+        # CASO 2: Etapa 1 (Decisões normais ou 1º nível de 1999/2026)
+        texto_partes = []
+        if "contexto_ia" in evt: texto_partes.append(evt["contexto_ia"])
+        if "fala_narrativa" in evt: texto_partes.append(f"Narrador:\n{evt['fala_narrativa']}")
+        if "discurso_gerente" in evt: texto_partes.append(f"Gerente:\n{evt['discurso_gerente']}")
+
+        if "dialogos_iniciais" in evt:
+            for d in evt["dialogos_iniciais"]:
+                agente = d["agente"].replace("ID_", "")
+                texto_partes.append(f"{agente}:\n{d['fala']}")
+
+        texto_final = "\n\n".join(texto_partes)
+        personagem = evt.get("agente_foco", "Sistema").replace("ID_", "")
+
+        opcoes_txt = []
+        if "rotas_principais" in evt:
+            opcoes_txt = [r.get("nome", r.get("descricao", "Opção")) for r in evt["rotas_principais"]]
+        elif "opcoes" in evt:
+            opcoes_txt = [o.get("foco", o.get("argumento_gerente", "Opção")) for o in evt["opcoes"]]
+
+        return {"ano": evt.get("ano", 1999), "personagem": personagem, "texto": texto_final, "opcoes": opcoes_txt, "estado": self.estado}
+
+    def processar_escolha(self, indice_opcao):
+        evt = self.obter_evento_atual()
+        if not evt: return self.estado
+
+        # CASO 1: Processando a sub-opção pendente (1999)
+        if self.estado.get("rota_pendente_idx") is not None:
+            rota = evt["rotas_principais"][self.estado["rota_pendente_idx"]]
+            sub_opcao = rota["sub_opcoes"][indice_opcao]
+
+            self._aplicar_impacto_dinamico(sub_opcao)
+            self.estado["rota_pendente_idx"] = None
+            self.estado["indice_evento"] += 1
+            return self.estado
+
+        # CASO 2: Escolha Primária (1999 Nível 1 ou 2026)
+        escolha = None
+        if "rotas_principais" in evt:
+            escolha = evt["rotas_principais"][indice_opcao]
+            # Se for 1999 e tiver sub-opção, salva o ID, trava o estado e NÃO avança o evento
+            if "sub_opcoes" in escolha:
+                self.estado["historico_rotas"].append(escolha.get("id_rota", ""))
+                self.estado["rota_pendente_idx"] = indice_opcao
+                return self.estado
+
+        elif "opcoes" in evt:
+            escolha = evt["opcoes"][indice_opcao]
+
+        if escolha:
+            # Salva no histórico para ativar gatilhos de 2026
+            id_escolha = escolha.get("id_opcao", escolha.get("id_rota", ""))
+            if id_escolha: self.estado["historico_rotas"].append(id_escolha)
+            self._aplicar_impacto_dinamico(escolha)
+
+        # Avança para o próximo evento se não for em 2 etapas
+        self.estado["indice_evento"] += 1
+        return self.estado
+
+    def _aplicar_impacto_dinamico(self, dict_opcao):
+        """Busca o impacto não importa o nome da chave (impacto, impactos, impacto_sistema)"""
+        impactos = dict_opcao.get("impacto", dict_opcao.get("impactos", dict_opcao.get("impacto_sistema", {})))
+        for k, v in impactos.items():
+            if isinstance(v, (int, float)) and k in self.estado:
+                self.estado[k] = max(0, self.estado.get(k, 0) + v)
 
     def verificar_game_over(self):
-        """
-        Verifica se alguma barra estourou ou se o dinheiro acabou.
-        Retorna (True, "Mensagem") se o jogo acabou, ou (False, "") se continua.
-        """
-        # 1. Checar Falência
-        if self.estado["caixa"] < self.CAIXA_MINIMO:
-            return True, "🚨 FALÊNCIA! O caixa ficou negativo. Os agiotas e o banco lacraram a porta de aço."
-
-        # 2. Checar Tração (Leila)
-        if self.estado["tracao"] > self.LIMITE_BARRA:
-            return True, "🚨 CAOS URBANO! A loja viralizou tanto que a multidão quebrou a montra e a polícia fechou tudo."
-        if self.estado["tracao"] < -self.LIMITE_BARRA:
-            return True, "🚨 DESERTO! Ninguém mais entra na loja. A Leila demitiu-se para trabalhar na Blockbuster."
-
-        # 3. Checar Acervo (Maurício)
-        if self.estado["acervo"] > self.LIMITE_BARRA:
-            return True, "🚨 ELITISMO! O Maurício expulsou todos os clientes que não sabiam pronunciar 'Tarkovsky'. A loja faliu por falta de público."
-        if self.estado["acervo"] < -self.LIMITE_BARRA:
-            return True, "🚨 RUÍNA CULTURAL! O acervo virou lixo. O Maurício teve um colapso e ateou fogo às fitas de má qualidade."
-
-        # 4. Checar Stress (Vagner)
-        if self.estado["stress"] > self.LIMITE_BARRA:
-            return True, "🚨 COLAPSO NERVOSO! O Vagner teve um ataque cardíaco com as contas e a fiscalização fechou a loja por irregularidades."
-
-        return False, ""
-
-    def mostrar_status_completo(self):
-        """
-        Imprime o painel de controle para o jogador.
-        """
-        print("\n" + "—" * 45)
-        print(f"💰 CAIXA: R$ {self.estado['caixa']:.2f}")
-        print(self.renderizar_barra(self.estado["tracao"], "Tração"))
-        print(self.renderizar_barra(self.estado["acervo"], "Acervo"))
-        print(self.renderizar_barra(self.estado["stress"], "Stress"))
-        print("—" * 45)
-
-    def calcular_score_final(self):
-        """
-        Calcula a pontuação final baseada no sucesso da gestão.
-        """
-        score = (self.estado["caixa"] / 10) + (self.estado["tracao"] * 10) + (self.estado["acervo"] * 10) - (self.estado["stress"] * 20)
-        return max(0, score)
+        return self.estado["stress"] >= 100 or self.estado["caixa"] <= 0
