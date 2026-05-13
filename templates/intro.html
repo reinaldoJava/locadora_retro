@@ -3,116 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Motor 1999/2026 - Inicialização</title>
-    <style>
-        /* =========================================
-           1. SETUP BASE E RESPONSIVIDADE 16:9
-           ========================================= */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body, html {
-            height: 100%; width: 100%;
-            background-color: #1a1a1a;
-            display: flex; justify-content: center; align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-        }
-        .game-container {
-            position: relative;
-            /* O Segredo da Responsividade Fixa */
-            aspect-ratio: 16 / 20;
-            width: 100%;
-            max-height: 100vh;
-            max-width: calc(100vh * (16 / 20)); /* Trava a largura para não quebrar o 16:9 */
-            background-color: #000;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.9); /* Destaca o jogo do fundo do navegador */
-        }
-
-
-        /* Classes utilitárias de transição */
-        .oculto { display: none !important; }
-        .fade-in { animation: fadeIn 1s forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* =========================================
-           ATO 1: O TERMINAL
-           ========================================= */
-        #ato1-terminal {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('static/img/terminal_bg.gif') center/cover no-repeat;
-            z-index: 10;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-
-        .terminal-input-wrapper {
-            margin-top: 15%; /* Ajuste conforme o espaço vazio do seu GIF */
-            display: flex; align-items: center;
-        }
-
-        .terminal-prompt {
-            color: #00ff00; font-family: 'Courier New', Courier, monospace;
-            font-size: 2rem; margin-right: 10px; text-shadow: 0 0 5px #00ff00;
-        }
-
-        #nome-jogador {
-            background: transparent; border: none; outline: none;
-            color: #00ff00; font-family: 'Courier New', Courier, monospace;
-            font-size: 2rem; width: 300px; text-transform: uppercase;
-            text-shadow: 0 0 5px #00ff00;
-        }
-
-        /* =========================================
-           ATO 2: O VHS
-           ========================================= */
-        #ato2-vhs {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('static/img/terminal_bg.gif') center/cover no-repeat;
-            z-index: 20;
-        }
-
-        /* =========================================
-           ATO 3: A APRESENTAÇÃO DO ELENCO
-           ========================================= */
-        #ato3-elenco {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('../static/img/terminal_bg.png') center/cover no-repeat;
-            z-index: 30;
-            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
-        }
-
-        #elenco-imagem {
-            max-height: 55%;
-            object-fit: contain;
-            margin-bottom: -20px; /* Faz o personagem sobrepor a caixa levemente */
-            z-index: 2;
-        }
-
-        .ui-layer {
-            width: 100%; height: 45%;
-            background-color: rgba(12, 22, 45, 0.90);
-            border-top: 4px solid #ffcc00;
-            display: flex; flex-direction: column; padding: 30px;
-            z-index: 10;
-            color: #f1f1f1;
-            text-align: center;
-            box-shadow: 0 -10px 25px rgba(0,0,0,0.7);
-        }
-
-        .elenco-titulo {
-            font-size: 1.4rem; color: #ffcc00; margin-bottom: 14px; text-transform: uppercase;
-        }
-        .elenco-texto {
-            font-size: 1.1rem; line-height: 1.6; white-space: pre-wrap; margin-bottom: 20px;
-        }
-
-        .btn-avancar {
-            align-self: center; background-color: transparent; color: #ffcc00;
-            border: 2px solid #ffcc00; padding: 10px 30px; font-size: 1rem;
-            cursor: pointer; transition: 0.1s; text-transform: uppercase; border-radius: 4px;
-        }
-        .btn-avancar:hover { background-color: #ffcc00; color: #000; font-weight: bold; font-size: 1rem; }
-    </style>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
 
@@ -128,10 +20,10 @@
 
     <div id="ato3-elenco" class="oculto">
         <img id="elenco-imagem" src="" class="oculto">
-        <div class="ui-layer">
+        <div class="ui-layer-intro">
             <h2 id="elenco-titulo" class="elenco-titulo"></h2>
             <div id="elenco-texto" class="elenco-texto"></div>
-            <button class="btn-avancar" onclick="avancarApresentacao()">Continuar</button>
+            <button class="btn-avancar-intro" onclick="avancarApresentacao()">Continuar</button>
         </div>
     </div>
 </div>
