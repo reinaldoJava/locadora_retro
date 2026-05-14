@@ -8,6 +8,14 @@
 </head>
 <body>
 <video id="video-wormhole" class="layout-oculto" src="/static/video/shutdown.mp4" muted playsinline></video>
+<audio id="trilha-sonora" src="/static/audio/Game_1999.mp3" loop preload="auto"></audio>
+
+<div id="start-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #000; z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <p class="texto-sistema">SISTEMA CARREGADO<span class="loading-dots"></span></p>
+
+    <button id="btn-start-game" style="margin-top: 50px; padding: 10px 20px; font-size: 16px; cursor: pointer; background: #222; color: #00ff00; border: 1px solid #00ff00;">ESTABELECER CONEXÃO</button>
+</div>
+
 <div id="terminal-overlay" class="layout-oculto">
     <img src="/static/img/terminal_bg_shuwdown.gif" id="terminal-gif" alt="Terminal Closing">
 </div>

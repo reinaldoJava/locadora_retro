@@ -88,7 +88,7 @@ body, html {
     width: 100%;
     height: 100%;
     /* Fundo Azul Marinho Translúcido (Combina com o bg_1999) */
-    background-color: rgba(12, 22, 45, 0.90);
+    background-color: rgba(12, 22, 45, 0.98);
     border-top: 4px solid #511101;
     display: flex;
     flex-direction: column;
@@ -108,8 +108,8 @@ body, html {
 .vn-content::-webkit-scrollbar-thumb { background: #511101; border-radius: 5px; }
 
 .dialog-text {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 1.1rem;
+    line-height: 1.1;
     margin-bottom: 20px;
     white-space: pre-wrap; /* Respeita as quebras de linha do Python (\n) */
 }
@@ -313,4 +313,66 @@ body, html {
     opacity: 10;                /* Fade out */
     visibility: hidden;
     pointer-events: none;
+}
+#start-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* Fica acima de TUDO */
+}
+/* Cria a animação que troca o texto das reticências */
+@keyframes animarPontos {
+    0% { content: "."; }
+    25% { content: ".."; }
+    50% { content: "..."; }
+    75% { content: "...."; }
+    100% { content: "."; }
+}
+/* Configuração do texto base para ele ficar imóvel */
+.texto-sistema {
+    color: #00ff00;
+    font-family: monospace;
+    font-size: 24px; /* Ajuste para o tamanho que você definiu */
+    position: relative; /* Transforma o texto na "âncora" para os pontos */
+    display: inline-block; /* Garante que a largura calculada seja apenas a das letras */
+}
+
+/* Os pontos flutuam do lado de fora do texto, sem empurrar ele */
+.loading-dots {
+    position: absolute;
+    left: 100%; /* Joga os pontos exatamente após o último "O" de CARREGADO */
+}
+
+/* Configuração do texto base para ele ficar imóvel */
+.texto-sistema {
+    color: #00ff00;
+    font-family: monospace;
+    font-size: 24px; /* Ajuste para o tamanho que você definiu */
+    position: relative; /* Transforma o texto na "âncora" para os pontos */
+    display: inline-block; /* Garante que a largura calculada seja apenas a das letras */
+}
+
+/* Os pontos flutuam do lado de fora do texto, sem empurrar ele */
+.loading-dots {
+    position: absolute;
+    left: 100%; /* Joga os pontos exatamente após o último "O" de CARREGADO */
+}
+
+/* Animação dos pontos (mantida) */
+@keyframes animarPontos {
+    0% { content: "."; }
+    25% { content: ".."; }
+    50% { content: "..."; }
+    75% { content: "...."; }
+    100% { content: "."; }
+}
+
+.loading-dots::after {
+    content: "";
+    /* O "step-start" faz a troca ser "dura", dando um ar mais mecânico de terminal */
+    animation: animarPontos 1.5s infinite step-start;
 }
