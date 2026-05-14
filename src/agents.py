@@ -62,7 +62,7 @@ def gerar_fala(agente_id, contexto_dia, ano, nome_gerente):
                 {"role": "system", "content": prompt_sistema},
                 {"role": "user", "content": prompt_usuario}
             ],
-            temperature=0.1, # Aumentar um pouco ajuda a IA a ser mais "criativa"
+            temperature=0.2, # Aumentar um pouco ajuda a IA a ser mais "criativa"
             max_tokens=240,
             timeout=120.0
         )

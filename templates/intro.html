@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Motor 1999/2026 - Inicialização</title>
     <link rel="stylesheet" href="/static/css/style.css">
+
 </head>
 <body>
 
@@ -26,128 +27,8 @@
             <button class="btn-avancar-intro" onclick="avancarApresentacao()">Continuar</button>
         </div>
     </div>
+    <script src="/static/js/intro.js"></script>
+
 </div>
-
-<script>
-    // ESTADO DA INTRO
-    let nomeDigitado = "";
-    let slideAtual = 0;
-
-    // O ARRAY DE APRESENTAÇÃO (A Máquina de Estados do Ato 3)
-    const roteiroIntro = [
-        {
-            imagem: null,
-            titulo: "A LOCADORA",
-            texto: "Você é o Gerente. O cérebro da operação. Seu trabalho parece simples: alugar filmes, cobrar multas por atraso e garantir que a porta de aço continue abrindo no dia seguinte.\n\nMas uma locadora não é feita apenas de plástico e fita magnética. Ela é feita de pessoas. E para sobreviver ao fim do milênio, você terá que gerenciar o ego, os medos e as exigências da sua equipe. Se você falhar, as engrenagens param. E se a engrenagem parar, a falência é o seu destino."
-        },
-        {
-            imagem: "/static/img/mauricio.png",
-            titulo: "🎬 Maurício (O Guardião do Acervo)",
-            texto: "\"Tira esse salgadinho de perto do meu Kubrick!\"\n\nA Função: Curador e organizador da loja. Ele sabe a diferença entre o corte do diretor e a versão de cinema de qualquer filme obscuro.\nA Mecânica: Representa a barra de Integridade do Acervo. Se você sacrificar o respeito aos filmes por dinheiro rápido, ele surta e sua locadora virará um camelô sem alma."
-        },
-        {
-            imagem: "/static/img/leila.png",
-            titulo: "💥 Leila (O Motor da Tração)",
-            texto: "\"Chefe, e se a gente botar uma caixa de som na calçada e dar pipoca de graça?\"\n\nA Função: Atendente e gênio do marketing de guerrilha. É a ponte com os jovens e entende como atrair movimento.\nA Mecânica: Representa a barra de Tração e Hype. Se focar apenas em cortar gastos, a loja cai no esquecimento e ela procura um emprego onde o futuro esteja acontecendo."
-        },
-        {
-            imagem: "/static/img/vagner.png",
-            titulo: "💼 Vagner (O Escudo Burocrático)",
-            texto: "\"Cadê a nota fiscal disso? Se a prefeitura bater aqui, eu não vou preso sozinho!\"\n\nA Função: O caixa, dono, torcedor fanático do Vitória e gerente financeiro informal. É o cara que conta as moedas, paga a conta de luz, lida com alvarás vencidos e tenta manter a loja operando fora do radar da fiscalização."
-        },
-        {
-            imagem: "/static/img/gerente.png",
-            titulo: "O GERENTE",
-            texto: "" // Será preenchido dinamicamente com o nome no JS
-        }
-    ];
-
-    // =========================================
-    // GATILHO DO ATO 1: PRESSIONAR ENTER NO TERMINAL
-    // =========================================
-    let transicaoIniciada = false; // Flag para impedir múltiplos disparos
-
-    document.getElementById("nome-jogador").addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            // 1. OBRIGA o navegador a não fazer NADA nativamente (não recarregar, não enviar form)
-            event.preventDefault();
-
-            // 2. Se a transição já começou, ignora apertões extras no Enter
-            if (transicaoIniciada) return;
-
-            const inputVal = this.value.trim().toUpperCase();
-
-            if (inputVal.length > 0) {
-                transicaoIniciada = true; // Trava ativada
-                nomeDigitado = inputVal;
-
-                // 3. Desabilita o campo de texto para o jogador não digitar mais nada
-                this.disabled = true;
-
-                iniciarTransicaovhs();
-            }
-        }
-    });
-    // =========================================
-    // ATO 2: RODA O VHS E SINCRONIZA COM BACKEND
-    // =========================================
-    function iniciarTransicaovhs() {
-        document.getElementById("ato1-terminal").classList.add("oculto");
-        document.getElementById("ato2-vhs").classList.remove("oculto");
-
-        // Dispara o POST silencioso para o Python salvar a sessão
-        fetch('/api/iniciar-sessao', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nome: nomeDigitado })
-        }).catch(err => console.error("Erro ao salvar nome no backend:", err));
-
-        // Timer exato do seu GIF de VHS (5000ms = 5 segundos)
-        setTimeout(() => {
-            iniciarApresentacao();
-        }, 2500);
-    }
-
-    // =========================================
-    // ATO 3: RENDERIZA O CARROSSEL
-    // =========================================
-    function iniciarApresentacao() {
-        document.getElementById("ato2-vhs").classList.add("oculto");
-        const containerAto3 = document.getElementById("ato3-elenco");
-        containerAto3.classList.remove("oculto");
-        containerAto3.classList.add("fade-in");
-
-        // Configura o último slide (Gerente) dinamicamente com o nome do jogador
-        roteiroIntro[4].texto = `Bem-vindo à linha de frente, ${nomeDigitado}. O destino da locadora está em suas mãos. Que comece o expediente.`;
-
-        renderizarSlide();
-    }
-
-    function renderizarSlide() {
-        const slide = roteiroIntro[slideAtual];
-        const imgElenco = document.getElementById("elenco-imagem");
-
-        if (slide.imagem) {
-            imgElenco.src = slide.imagem;
-            imgElenco.classList.remove("oculto");
-        } else {
-            imgElenco.classList.add("oculto");
-        }
-
-        document.getElementById("elenco-titulo").innerText = slide.titulo;
-        document.getElementById("elenco-texto").innerText = slide.texto;
-    }
-
-    function avancarApresentacao() {
-        slideAtual++;
-        if (slideAtual < roteiroIntro.length) {
-            renderizarSlide();
-        } else {
-            // FIM DA INTRO: Redireciona para o jogo real
-            window.location.href = "/jogo";
-        }
-    }
-</script>
-
 </body>
 </html>

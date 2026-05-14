@@ -259,3 +259,58 @@ body, html {
     cursor: pointer; transition: 0.1s; text-transform: uppercase; border-radius: 4px;
 }
 .btn-avancar-intro:hover { background-color: #ffcc00; color: #000; font-weight: bold; font-size: 1rem; }
+
+/* ==========================================
+   EFEITOS CINEMÁTICOS E TRANSIÇÕES SUAVES
+   ========================================== */
+
+/* 1. O VÍDEO DO WORMHOLE */
+#video-wormhole {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: #000;
+    z-index: 10000;
+    object-fit: cover;
+
+    /* A MÁGICA: Define que qualquer mudança de opacidade levará 1 segundo */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1.5s ease-in-out, visibility 1.5s ease-in-out;
+}
+
+#video-wormhole.layout-oculto {
+    display: block !important; /* Impede o 'display: none' abrupto da classe original */
+    opacity: 10;                /* Fica 100% transparente (suavemente) */
+    visibility: hidden;        /* O navegador ignora a existência dele */
+    pointer-events: none;      /* Impede cliques fantasmas na tela */
+}
+
+/* 2. O GIF DO TERMINAL */
+#terminal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+
+    /* A MÁGICA PARA O GIF (Meio segundo de transição) */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1.19s ease-in-out, visibility 1.19s ease-in-out;
+}
+
+#terminal-gif {
+    width: 100%; height: 100%;
+    object-fit: cover;
+}
+
+#terminal-overlay.layout-oculto {
+    display: flex !important;  /* Mantém a estrutura flexível */
+    opacity: 10;                /* Fade out */
+    visibility: hidden;
+    pointer-events: none;
+}
