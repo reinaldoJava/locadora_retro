@@ -41,7 +41,7 @@ locadora_retro/
 │
 ├── static/                     # Assets Frontend (Públicos)
 │   └── img/
-│       ├── bg_intro.jpg, terminal_bg.gif, vhs_insert.gif
+│       ├── bg_intro.png, terminal_bg.gif, vhs_insert.gif
 │       └── gerente.png, leila.png, mauricio.png, vagner.png
 │
 └── templates/                  # Views (Onde o Flask lê o HTML)
@@ -110,3 +110,13 @@ Quando o download do modelo terminar e o Flask estiver rodando, abra o seu naveg
 http://localhost:5000
 
 ```
+
+**TODO LIST**
+- Incluir trilha sonora no game.
+- barulho de teclado digitando quando os texto aparecerem.
+- Ajustar os textos de 2026.
+- Trocar background de 2026. Um para cada subtipo que a pessoa escolher.
+- Aparecer o os scores ao final de cada dia.
+- Melhorar a mecânica de score geral do game.
+- Fazer com que IA crie mais algumas novas tarefas.
+- Fazer um balanceamento melhor de todos os textos do game.
