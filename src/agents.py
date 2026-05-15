@@ -15,7 +15,6 @@ INSTRUCAO_GERAL = (
     "- NÃO narre ações em terceira pessoa.\n"
     "- NÃO use asteriscos para simular ações (ex: *sorri*, *olha para o gerente*).\n"
     "- NÃO invente nomes de outros personagens. USE APENAS OS PERSONAGENS CRIADOS NO CONTEXTO.\n"
-    "- Fale diretamente com o gerente.\n\n"
     "- TODOS SÃO MUITO EDUCADOS E GENTIS.\n"
     "- IMPROVISAÇÕES CIRURGICAS NO TEXTOS E CONTEXTOS.\n"
     "- NÃO INVENTE NÚMEROS. APENAS TRABALHE COM OS EXISTENTES."
@@ -46,7 +45,6 @@ def gerar_fala(agente_id, contexto_dia, ano, nome_gerente):
     prompt_usuario = (
         f"[CENA - ANO {ano}]\n"
         f"Situação atual: {contexto_dia}\n\n"
-        f"AÇÃO: Dirija-se EXCLUSIVA E DIRETAMENTE ao gerente ({nome_gerente}). "
         f"Dê a sua visão sobre a situação atual baseado no seu cargo e personalidade. "
         f"Seja assertivo, não gagueje, e vá direto ao ponto. "
         f"A cena começa agora:"

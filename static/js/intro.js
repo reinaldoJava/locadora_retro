@@ -48,28 +48,42 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function iniciarTransicaovhs() {
+    const nomeDigitado = document.getElementById("input-nome")?.value || "GERENTE";
+
+    // 1. MUDANÇA VISUAL IMEDIATA
     document.getElementById("ato1-terminal").classList.add("oculto");
     document.getElementById("ato2-vhs").classList.remove("oculto");
 
-    // 1. Salva a sessão no Backend
-    fetch('/api/iniciar-sessao', {
+    console.log("Tentando resetar o servidor para 1999...");
+
+    // 2. ORDEM DE CHEGADA: Primeiro o Reset.
+    // Usamos o .then() para garantir que nada aconteça antes do reset terminar.
+    fetch('/api/reset', { // Certifique-se que essa rota faz o 'motor = Engine()' no Python
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({nome: nomeDigitado})
-    }).catch(err => console.error("Erro sessão:", err));
+    })
+        .then(response => {
+            if (!response.ok) throw new Error("Falha ao resetar");
+            console.log("Servidor resetado com sucesso!");
 
-    // 2. Baixa o JSON durante a transição
-    fetch('/api/intro-roteiro')
+            // 3. Só agora buscamos o roteiro da intro
+            return fetch('/api/intro-roteiro');
+        })
         .then(res => res.json())
         .then(data => {
             roteiroIntro = data;
-        }).catch(err => console.error("Erro JSON:", err));
 
-    setTimeout(() => {
-        iniciarApresentacao();
-    }, 2500);
+            // 4. Só agora iniciamos o cronômetro para a apresentação
+            setTimeout(() => {
+                iniciarApresentacao();
+            }, 2500);
+        })
+        .catch(err => {
+            console.error("Erro no fluxo de inicialização:", err);
+            // Opcional: Se der erro, avisar o usuário ou tentar de novo
+        });
 }
-
 function iniciarApresentacao() {
     // Trava de segurança: se o JSON não baixou a tempo, aborta e tenta de novo em 500ms
     if (roteiroIntro.length === 0) {
@@ -145,28 +159,31 @@ window.avancarApresentacao = function() {
     if (slideAtual < roteiroIntro.length) {
         renderizarSlide();
     } else {
-        // === TRANSIÇÃO WORMHOLE CIRÚRGICA ===
-        const videoWormhole = document.getElementById("video-wormhole-intro");
+        // === : ESMAECER A TELA E BAIXAR O SOM ===
 
-        if (videoWormhole) {
-            // Mostra o vídeo por cima de tudo
-            videoWormhole.classList.remove("oculto");
-            videoWormhole.style.display = "block";
+        // 1. Pega o corpo da página e aplica uma transição CSS via JS
+        document.body.style.transition = "opacity 2.0s ease-in-out";
+        document.body.style.opacity = "0";
 
-            // Dá o play
-            videoWormhole.play().catch(e => {
-                console.warn("Autoplay do vídeo bloqueado", e);
-                window.location.href = "/jogo"; // Fallback se der erro
-            });
-
-            // Quando o vídeo acabar, aí sim muda de página
-            videoWormhole.onended = () => {
-                window.location.href = "/jogo";
-            };
-        } else {
-            // Fallback caso você esqueça de colocar o HTML do vídeo
-            window.location.href = "/jogo";
+        // 2. Pega o áudio e faz um "Fade Out" suave
+        const trilha = document.getElementById('trilha-sonora-intro');
+        if (trilha) {
+            let volumeAtual = trilha.volume;
+            const fadeAudio = setInterval(() => {
+                if (volumeAtual > 0.1) {
+                    volumeAtual -= 0.1;
+                    trilha.volume = volumeAtual.toFixed(1); // Evita bugs de precisão decimal
+                } else {
+                    clearInterval(fadeAudio);
+                    trilha.pause();
+                }
+            }, 200); // Reduz o volume a cada 200ms
         }
+
+        // 3. Aguarda exatos 2 segundos e dispara a mudança de página
+        setTimeout(() => {
+            window.location.href = "/jogo";
+        }, 2000);
     }
 };
 // Função que sorteia e toca um dos 4 sons

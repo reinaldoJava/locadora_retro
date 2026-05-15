@@ -4,6 +4,7 @@ from pathlib import Path
 
 class Engine:
     def __init__(self, lista_cenarios=None):
+        self.reset_completo()
         # Se não passar nada, carrega a ordem cronológica padrão
         if lista_cenarios is None:
             lista_cenarios = ['eventos_1999.json', 'eventos_2026.json']
@@ -135,3 +136,10 @@ class Engine:
 
     def verificar_game_over(self):
         return self.estado["stress"] >= 100 or self.estado["caixa"] <= 0
+
+    def reset_completo(self):
+        # Coloque aqui TODAS as variáveis que controlam o progresso
+        self.dia_atual = 1
+        self.fluxo_atual = "inicio"
+        self.historico_escolhas = []
+        print(">>> MOTOR REINICIADO: Voltamos para o Dia 1")
