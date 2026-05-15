@@ -8,7 +8,7 @@
     "discurso_gerente": "\"Vagner, levanta a cabeça. A Blockbuster faliu porque eles achavam que o negócio deles era alugar pedaço de plástico. Eles brigaram com a geladeira e perderam. Nós nunca fomos uma loja de plástico. Olhem lá pra fora. Aquela molecada com os celulares não sabe o que é rebobinar uma fita, não sabe o que é o cheiro dessa loja. Eles vivem num mundo onde tudo é digital, invisível e infinito. Sabe qual é a consequência disso? Eles estão desesperados por coisas reais. Coisas que eles possam tocar. Nós somos uma anomalia temporal, e isso é o nosso maior ativo. O streaming tem milhões de filmes na nuvem, mas não tem a Leila conhecendo o cliente pelo nome. Não tem a curadoria nerd do Maurício em carne e osso. Eles têm a conveniência; nós temos a nostalgia e a autenticidade. Nós vamos parar de vender aluguel de filme e vamos começar a vender a 'Experiência'. E eu vejo quatro caminhos para a gente monetizar esse nosso novo mundo agora mesmo.\"",
     "rotas_principais": [
       {
-        "nome":"Mudar o contexto de négocio",
+        "nome":"Studio Anos 90 para filmes, comerciais Youtubers etc.",
         "id_opcao": "A",
         "foco": "Rota A: Negócio Imobiliário / Cenário Locável (O Foco no Hype)",
         "descricao": "O produto deixa de ser o filme e passa a ser o espaço. Transformamos a locadora intacta num estúdio fotográfico/cenário \"Y2K\" (Anos 2000) de aluguel por hora para influenciadores, produtoras e agências que estão babando pela nossa estética na internet.",
@@ -21,7 +21,7 @@
         }
       },
       {
-        "nome":"Mudar o contexto de négocio",
+        "nome":"Leiloar tudo para o público nostalgico.",
         "id_opcao": "B",
         "foco": "Rota B: O Varejo Nostálgico de Alto Ticket (Liquidação Premium)",
         "descricao": "Assumimos que o aluguel acabou, mas o colecionismo explodiu. Rotulamos nosso estoque como \"Artefatos Históricos Originais\". Vendemos as fitas, pôsteres e displays da loja por dez vezes o valor original para colecionadores e hipsters ricos.",
@@ -34,7 +34,7 @@
         }
       },
       {
-        "nome":"Mudar o contexto de négocio",
+        "nome":"Túnel do tempo. Conexão com público que deseja um experiência da época",
         "id_opcao": "C",
         "foco": "Rota C: O Clube de Desconexão (A Experiência 'Tech Detox')",
         "descricao": "Vendemos o antídoto contra a ansiedade digital de 2026. Um pacote de aluguel premium onde entregamos na casa do cliente não apenas a fita, mas a TV de tubo de 29 polegadas e o videocassete para um fim de semana de total desconexão e imersão analógica.",
@@ -47,7 +47,7 @@
         }
       },
       {
-        "nome":"Mudar o contexto de négocio",
+        "nome":"Bar Temático. Video Store Music",
         "id_opcao": "D",
         "foco": "Rota D: O Pub Temático Nostálgico",
         "descricao": "Mudamos de setor. O balcão de atendimento vira um bar. Servimos drinks superfaturados inspirados em clássicos do cinema, enquanto os filmes rodam mudos nas TVs de tubo. A locadora vira o 'Speakeasy' (bar secreto) mais disputado e instagramável da cidade.",
@@ -66,7 +66,7 @@
     "gatilho_rota": "A",
     "ano": 2026,
     "titulo": "A Proposta Indecente de Malu2000",
-    "contexto_ia": "A fama estética da locadora atrai uma mega influenciadora. Ela oferece 15 mil reais em dinheiro vivo para descaracterizar a loja (pintar de rosa e destruir fitas) para gravar um clipe. O gerente precisa escolher entre o dinheiro rápido, a preservação do status cult, ou uma gambiarra cenográfica.",
+    "contexto_ia": "A fama estética da locadora atrai uma mega influenciadora. Ela oferece 15 mil reais no pix para descaracterizar a loja (pintar de rosa e destruir fitas) para gravar um clipe. O gerente precisa escolher entre o dinheiro rápido, a preservação do status cult, ou uma gambiarra cenográfica.",
     "dialogos_iniciais": [
       {
         "agente": "ID_Leila",
@@ -74,7 +74,7 @@
       },
       {
         "agente": "ID_Influenciadora",
-        "fala": "São R$ 15.000 à vista, espécie. Vamos pintar esse balcão de madeira de rosa-choque, colocar fitas de LED e, pro grande final, a Malu vai derrubar 500 fitas VHS como se fossem dominó."
+        "fala": "São R$ 15.000 no pix. Vamos pintar esse balcão de madeira de rosa-choque, colocar fitas de LED e, pro grande final, a Malu vai derrubar 500 fitas VHS como se fossem dominó."
       },
       {
         "agente": "ID_Mauricio",
@@ -196,7 +196,7 @@
       },
       {
         "agente": "ID_Vagner",
-        "fala": "Você quer que eu faça carreto de uma TV de Tubo de 45 quilos?! Eu vou travar a coluna! E se derrubarem? A Sony parou de fabricar videocassete há 10 anos!"
+        "fala": "Você quer que eu faça carreto de uma TV de Tubo de 45 quilos?! Eu vou travar a coluna! E se derrubarem? A Sony parou de fabricar videocassete há 20 anos!"
       },
       {
         "agente": "ID_Mauricio",

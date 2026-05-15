@@ -108,9 +108,9 @@ body, html {
 .vn-content::-webkit-scrollbar-thumb { background: #511101; border-radius: 5px; }
 
 .dialog-text {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     line-height: 1.1;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     white-space: pre-wrap; /* Respeita as quebras de linha do Python (\n) */
 }
 
@@ -250,7 +250,7 @@ body, html {
     font-size: 1.4rem; color: #ffcc00; margin-bottom: 14px; text-transform: uppercase;
 }
 .elenco-texto {
-    font-size: 1.1rem; line-height: 1.6; white-space: pre-wrap; margin-bottom: 20px;
+    font-size: 1.6rem; line-height: 1.1; white-space: pre-wrap; margin-bottom: 20px;
 }
 
 .btn-avancar-intro {
@@ -375,4 +375,41 @@ body, html {
     content: "";
     /* O "step-start" faz a troca ser "dura", dando um ar mais mecânico de terminal */
     animation: animarPontos 1.5s infinite step-start;
+}
+#cena-fim-1999 {
+    /* Controle do JS */
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* Posicionamento: Centraliza exatamente no meio da tela */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+
+    /* A MÁGICA DO ASPECT RATIO BLINDADA */
+    height: 100vh;
+    width: auto;             /* O auto é o que permite o aspect-ratio funcionar */
+    max-width: 100vw;        /* Evita que estoure em telas muito finas */
+    aspect-ratio: 9 / 16;
+
+    /* O TRUQUE DE MESTRE: Cria uma sombra preta gigante que preenche as laterais da tela */
+    box-shadow: 0 0 0 100vmax #000;
+
+    /* Estética e Fundo */
+    background-color: #000;
+    background-size: cover;
+    background-position: center;
+    color: #00ff00;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+
+    /* Animação e Limites */
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
 }

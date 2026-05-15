@@ -112,8 +112,7 @@ http://localhost:5000
 ```
 
 **TODO LIST**
-- Incluir trilha sonora no game.
-- barulho de teclado digitando quando os texto aparecerem.
+- não está aparecendo a transição de 1999 para 2000 e 2026.
 - Ajustar os textos de 2026.
 - Trocar background de 2026. Um para cada subtipo que a pessoa escolher.
 - Aparecer o os scores ao final de cada dia.
