@@ -81,11 +81,13 @@ def proximo_evento():
     # 1. Pega o estado do motor
     dados_evento = motor.formatar_para_frontend()
 
-    # 2. Aplica as regras de negócio de UI (Flags)
-    dados_evento['play_gif_terminal'] = _gatilho_gif_terminal(dados_evento)
-    dados_evento['wormhole'] = _gatilho_wormhole(dados_evento)
-
-    # [!] DÚVIDA AQUI: Precisamos de uma flag como dados_evento['cena_4_personagens'] = _gatilho_final_1999(dados_evento)
+    # 2. Aplica as regras de negócio de UI (Flags) - Bloqueia re-disparos em sub-passos
+    if motor.estado.get("texto_treplica_pendente") or motor.estado.get("rota_pendente_idx") is not None:
+        dados_evento['play_gif_terminal'] = False
+        dados_evento['wormhole'] = False
+    else:
+        dados_evento['play_gif_terminal'] = _gatilho_gif_terminal(dados_evento)
+        dados_evento['wormhole'] = _gatilho_wormhole(dados_evento)
 
     # 3. Formata os dados finais
     dados_evento['texto'] = _processar_texto(dados_evento.get('texto', ''), nome_jogador)

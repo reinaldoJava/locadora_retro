@@ -20,20 +20,18 @@ async function carregarDia() {
 }
 // Substitua a sua função enviarEscolha no api.js por esta:
 async function enviarEscolha(index) {
+    document.getElementById("ui-opcoes").innerHTML = "";
     document.getElementById("ui-texto-dialogo").innerHTML = "";
     document.getElementById("fx-overlay").classList.add("fx-fade-out");
 
     await fetch('/api/escolha', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        // Confirme se o seu Python espera "indice" ou "escolha" aqui.
-        // Pelo seu código estava "indice".
         body: JSON.stringify({ indice: index })
     });
 
     setTimeout(() => {
         document.getElementById("fx-overlay").classList.remove("fx-fade-out");
-        // CIRÚRGICO: Chama o Maestro para orquestrar a próxima tela!
         iniciarFluxo();
     }, 500);
 }

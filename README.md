@@ -99,8 +99,7 @@ docker-compose up --build
 Abra uma **nova aba de terminal** e execute o comando abaixo para realizar o *pull* do modelo de linguagem:
 
 ```bash
-docker exec -it locadora_ollama ollama pull llama3.2:1b
-
+docker exec locadora_ollama ollama pull qwen2.5
 ```
 
 **3. Acessar o Jogo:**
