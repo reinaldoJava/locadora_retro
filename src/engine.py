@@ -33,7 +33,6 @@ class Engine:
         self.eventos = list(dados.values()) if isinstance(dados, dict) else dados
 
     def obter_evento_atual(self):
-        while True:
             # 1. Tenta achar o próximo evento válido dentro do arquivo atual
             while self.estado["indice_evento"] < len(self.eventos):
                 evt = self.eventos[self.estado["indice_evento"]]
@@ -52,14 +51,29 @@ class Engine:
             if self.indice_arquivo_atual < len(self.arquivos_cenario):
                 self._carregar_arquivo_atual()
                 self.estado["indice_evento"] = 0 # Reseta o ponteiro de leitura da nova Era
+                return self.obter_evento_atual()
             else:
                 # Se não tem mais arquivos na lista, o jogo acabou de verdade.
                 return None
 
     def formatar_para_frontend(self):
         """Adapter Pattern: Normaliza qualquer schema de evento para o contrato do Front-end"""
+        # CIRÚRGICO: Intercepta imediatamente se houver tréplica no buffer, sem tocar nos ponteiros de arquivo
+        if self.estado.get("texto_treplica_pendente"):
+            return {
+                "ano": 1999, # Força manter 1999 visualmente ativo
+                "personagem": "Vagner",
+                "texto": self.estado["texto_treplica_pendente"],
+                "opcoes": ["Continuar"],
+                "estado": self.estado
+            }
+
         evt = self.obter_evento_atual()
-        if not evt: return {"fim": True}
+        if not evt:
+            # SE o motor mudou para o arquivo índice 1 (2026) e o ponteiro está em 0, é a virada!
+            if self.indice_arquivo_atual == 1 and self.estado["indice_evento"] == 0:
+                return {"virada_1999": True}
+            return {"fim": True}
 
         # CASO 1: Estamos na etapa 2 (Réplica/Sub-opção de 1999)
         if self.estado.get("rota_pendente_idx") is not None:
@@ -91,24 +105,31 @@ class Engine:
         return {"ano": evt.get("ano", 1999), "personagem": personagem, "texto": texto_final, "opcoes": opcoes_txt, "estado": self.estado}
 
     def processar_escolha(self, indice_opcao):
+        # PASSO CRÍTICO: Se havia uma tréplica na tela, o "Continuar" apenas limpa o buffer
+        if self.estado.get("texto_treplica_pendente"):
+            self.estado["texto_treplica_pendente"] = None
+            self.estado["indice_evento"] += 1
+            return self.estado
+
         evt = self.obter_evento_atual()
         if not evt: return self.estado
 
-        # CASO 1: Processando a sub-opção pendente (1999)
+        # CASO 1: Processando a sub-opção (Réplica -> Tréplica)
         if self.estado.get("rota_pendente_idx") is not None:
             rota = evt["rotas_principais"][self.estado["rota_pendente_idx"]]
             sub_opcao = rota["sub_opcoes"][indice_opcao]
 
             self._aplicar_impacto_dinamico(sub_opcao)
+
+            # CIRÚRGICO: Aloca a tréplica no buffer e avança o ponteiro de eventos imediatamente
+            self.estado["texto_treplica_pendente"] = sub_opcao.get("resolucao_vagner", sub_opcao.get("argumento_gerente", ""))
             self.estado["rota_pendente_idx"] = None
-            self.estado["indice_evento"] += 1
             return self.estado
 
         # CASO 2: Escolha Primária (1999 Nível 1 ou 2026)
         escolha = None
         if "rotas_principais" in evt:
             escolha = evt["rotas_principais"][indice_opcao]
-            # Se for 1999 e tiver sub-opção, salva o ID, trava o estado e NÃO avança o evento
             if "sub_opcoes" in escolha:
                 self.estado["historico_rotas"].append(escolha.get("id_rota", ""))
                 self.estado["rota_pendente_idx"] = indice_opcao
@@ -118,14 +139,14 @@ class Engine:
             escolha = evt["opcoes"][indice_opcao]
 
         if escolha:
-            # Salva no histórico para ativar gatilhos de 2026
             id_escolha = escolha.get("id_opcao", escolha.get("id_rota", ""))
             if id_escolha: self.estado["historico_rotas"].append(id_escolha)
             self._aplicar_impacto_dinamico(escolha)
 
-        # Avança para o próximo evento se não for em 2 etapas
         self.estado["indice_evento"] += 1
         return self.estado
+
+
 
     def _aplicar_impacto_dinamico(self, dict_opcao):
         """Busca o impacto não importa o nome da chave (impacto, impactos, impacto_sistema)"""
@@ -138,8 +159,23 @@ class Engine:
         return self.estado["stress"] >= 100 or self.estado["caixa"] <= 0
 
     def reset_completo(self):
-        # Coloque aqui TODAS as variáveis que controlam o progresso
+        # Variáveis de fluxo globais
         self.dia_atual = 1
         self.fluxo_atual = "inicio"
         self.historico_escolhas = []
+
+        # Estado interno com controle, histórico E as métricas financeiras/sociais
+        self.estado = {
+            "indice_evento": 0,
+            "rota_pendente_idx": None,
+            "texto_treplica_pendente": None,
+            "historico_rotas": [],
+
+            # === MÉTRICAS DO JOGO ===
+            # (Substitua os números abaixo pelos valores iniciais REAIS do seu jogo)
+            "caixa": 100,       # Ex: Valor de dinheiro inicial no caixa
+            "tracao": 50,       # Ex: Popularidade/retenção inicial
+            "acervo": 50,       # Ex: Estado do catálogo de fitas
+            "stress": 0         # Ex: Stress começa zerado
+        }
         print(">>> MOTOR REINICIADO: Voltamos para o Dia 1")

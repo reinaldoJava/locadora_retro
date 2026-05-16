@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # 1. O Servidor da Inteligência Artificial
+  # 1. O Servidor da Inteligência Artificial (Ollama)
   ollama:
     image: ollama/ollama:latest
     container_name: locadora_ollama
@@ -10,6 +10,9 @@ services:
     volumes:
       - ollama_data:/root/.ollama
     restart: unless-stopped
+    environment:
+      # opcional: ajuste se necessário
+      - OLLAMA_HOST=0.0.0.0:11434
 
   # 2. O Instalador do Modelo (Roda uma vez e desliga)
   ollama-init:
@@ -20,8 +23,9 @@ services:
     environment:
       - OLLAMA_HOST=ollama:11434
     entrypoint: /bin/sh
-    # Espera 5 segundos para o servidor subir e então baixa o modelo phi3
-    command: -c "sleep 5 && echo 'Baixando modelo phi3...' && ollama pull phi3 && echo 'Modelo pronto!'"
+    # Espera o servidor subir e então baixa o modelo qwen2.5
+    command: -c "sleep 6 && echo 'Baixando modelo qwen2.5-instruct...' && ollama pull qwen2.5-instruct && echo 'Modelo qwen2.5-instruct pronto!'"
+    restart: "no"
 
 volumes:
   ollama_data:

@@ -15,6 +15,7 @@ INSTRUCAO_GERAL = (
     "- NÃO narre ações em terceira pessoa.\n"
     "- NÃO use asteriscos para simular ações (ex: *sorri*, *olha para o gerente*).\n"
     "- NÃO invente nomes de outros personagens. USE APENAS OS PERSONAGENS CRIADOS NO CONTEXTO.\n"
+    "- Fale diretamente com o gerente.\n\n"
     "- TODOS SÃO MUITO EDUCADOS E GENTIS.\n"
     "- IMPROVISAÇÕES CIRURGICAS NO TEXTOS E CONTEXTOS.\n"
     "- NÃO INVENTE NÚMEROS. APENAS TRABALHE COM OS EXISTENTES."
@@ -45,6 +46,7 @@ def gerar_fala(agente_id, contexto_dia, ano, nome_gerente):
     prompt_usuario = (
         f"[CENA - ANO {ano}]\n"
         f"Situação atual: {contexto_dia}\n\n"
+        f"AÇÃO: Dirija-se EXCLUSIVA E DIRETAMENTE ao gerente ({nome_gerente}). "
         f"Dê a sua visão sobre a situação atual baseado no seu cargo e personalidade. "
         f"Seja assertivo, não gagueje, e vá direto ao ponto. "
         f"A cena começa agora:"
@@ -55,12 +57,12 @@ def gerar_fala(agente_id, contexto_dia, ano, nome_gerente):
 
     try:
         resposta = client.chat.completions.create(
-            model="llama3.2:1b", # Recomendo fortemente este modelo para evitar recusas
+            model="qwen2.5-instruct", # Recomendo fortemente este modelo para evitar recusas
             messages=[
                 {"role": "system", "content": prompt_sistema},
                 {"role": "user", "content": prompt_usuario}
             ],
-            temperature=0.2, # Aumentar um pouco ajuda a IA a ser mais "criativa"
+            temperature=0.4, # Aumentar um pouco ajuda a IA a ser mais "criativa"
             max_tokens=240,
             timeout=120.0
         )
