@@ -1,24 +1,98 @@
-from flask import Flask, render_template, request, jsonify, session, redirect
-
+from flask import Flask, render_template, request, jsonify, session, redirect, make_response
+from src.narrative_director import DiretorNarrativo
 from src.engine import Engine
 import json
 import os
-
+import random
 
 app = Flask(__name__)
-motor = Engine()
-app = Flask(__name__)
+app.secret_key = 'chave_secreta_super_segura_1999' # Mantenha sua chave secreta!
 
-# IMPORTANTE: Para usar "session" no Flask, você OBRIGATORIAMENTE precisa de uma secret key.
-# Se isso não estiver aqui, o Flask dá erro interno ao tentar salvar o nome do jogador.
-app.secret_key = 'chave_secreta_super_segura_1999'
+# --- Funções Auxiliares para Gerenciamento de Estado na Sessão ---
+
+def _get_game_state_data_from_session():
+    """Retrieves game state data from session, or initializes if not present."""
+    print(">>> _get_game_state_data_from_session: Verificando sessão...")
+    if 'game_state_data' not in session:
+        print(">>> _get_game_state_data_from_session: 'game_state_data' NÃO encontrado na sessão. Resetando estado.")
+        _reset_game_state()
+    else:
+        print(">>> _get_game_state_data_from_session: 'game_state_data' encontrado na sessão.")
+    return session['game_state_data']
+
+def _save_game_state_data_to_session(data):
+    """Saves game state data to session."""
+    session['game_state_data'] = data
+    session.modified = True
+    print(">>> _save_game_state_data_to_session: Estado do jogo salvo na sessão.")
+
+def _load_diretor_from_data(data):
+    """Reconstructs DiretorNarrativo object from serializable data."""
+    print(">>> _load_diretor_from_data: Carregando diretor a partir dos dados.")
+    motor = Engine(reset_on_init=False) # <--- ALTERADO: Não reseta o motor ao carregar da sessão
+    motor.estado = data['motor_estado']
+    motor.indice_arquivo_atual = data['motor_indice_arquivo_atual']
+    # Recarrega os eventos para o motor, garantindo que o estado interno esteja consistente
+    motor._carregar_arquivo_atual()
+
+    diretor = DiretorNarrativo(motor)
+    diretor.passo_cinematico = data['diretor_passo_cinematico']
+    diretor.nome_jogador = data['diretor_nome_jogador']
+    diretor.roteiro_intro = data['diretor_roteiro_intro']
+    diretor.slide_atual = data['diretor_slide_atual']
+    diretor._initial_game_transition_step = data.get('diretor_initial_game_transition_step', 0) # Carregar o novo estado
+    print(f">>> _load_diretor_from_data: _initial_game_transition_step carregado: {diretor._initial_game_transition_step}")
+    diretor.passo_prologo_2026 = data.get('diretor_passo_prologo_2026', 0)
+    diretor.passo_encruzilhada_2026 = data.get('diretor_passo_encruzilhada_2026', 0)
+    diretor.rota_escolhida_id = data.get('diretor_rota_escolhida_id', None)
+    return diretor
+
+def _extract_data_from_diretor(diretor_instance):
+    """Extracts serializable data from DiretorNarrativo object."""
+    data = {
+        'motor_estado': diretor_instance.motor.estado,
+        'motor_indice_arquivo_atual': diretor_instance.motor.indice_arquivo_atual,
+        'diretor_passo_cinematico': diretor_instance.passo_cinematico,
+        'diretor_nome_jogador': diretor_instance.nome_jogador,
+        'diretor_roteiro_intro': diretor_instance.roteiro_intro,
+        'diretor_slide_atual': diretor_instance.slide_atual,
+        'diretor_initial_game_transition_step': diretor_instance._initial_game_transition_step, # Salvar o novo estado
+        'diretor_passo_prologo_2026': diretor_instance.passo_prologo_2026,
+        'diretor_passo_encruzilhada_2026': diretor_instance.passo_encruzilhada_2026,
+        'diretor_rota_escolhida_id': diretor_instance.rota_escolhida_id,
+    }
+    print(f">>> _extract_data_from_diretor: _initial_game_transition_step extraído: {diretor_instance._initial_game_transition_step}")
+    return data
+
+def _get_diretor():
+    """Gets the current DiretorNarrativo instance, loading from session."""
+    game_state_data = _get_game_state_data_from_session()
+    return _load_diretor_from_data(game_state_data)
+
+def _save_diretor(diretor_instance):
+    """Saves the current DiretorNarrativo instance's state to session."""
+    game_state_data = _extract_data_from_diretor(diretor_instance)
+    _save_game_state_data_to_session(game_state_data)
+
+def _reset_game_state():
+    """Resets the entire game state in the session."""
+    session.clear()
+    motor_inicial = Engine() # <--- Aqui o reset_on_init=True é o padrão
+    diretor_inicial = DiretorNarrativo(motor_inicial)
+
+    _save_diretor(diretor_inicial) # This will now save a dictionary
+    session['nome_jogador'] = "Gerente" # Default name, can be overwritten by intro
+    session['tema_visual'] = random.choice(['a', 'b', 'c'])  # Sorteia tema por partida
+    session.modified = True # Ensure session is marked as modified
+    print(">>> ESTADO DO JOGO RESETADO NA SESSÃO <<<")
 
 # ==========================================
 # ROTA 1: A PORTA DE ENTRADA (A INTRO)
 # ==========================================
 @app.route('/')
 def tela_inicial():
-    session.clear() # Limpa o nome antigo se o cara reiniciar o jogo
+    print(">>> Rota / (tela_inicial) acessada.")
+    _reset_game_state() # Garante um estado limpo ao iniciar a intro
     return render_template('intro.html')
 
 # ==========================================
@@ -26,120 +100,95 @@ def tela_inicial():
 # ==========================================
 @app.route('/jogo')
 def index_jogo():
-    # Se o cara chegou aqui e não tem nome na sessão,
-    # ou se queremos garantir que o jogo comece do zero:
-    if 'nome_jogador' not in session:
-        global motor
-        from src.engine import Engine
-        motor = Engine()
-        print(">>> [SEGURANÇA] Nome não encontrado, motor resetado para 1999.")
+    print(">>> Rota /jogo (index_jogo) acessada.")
+    # Carrega o estado do diretor da sessão para garantir que ele seja persistido
+    diretor = _get_diretor()
+    _save_diretor(diretor) # Salva o estado atualizado (mesmo que não alterado)
 
-    return render_template('index.html') # ou o nome do seu arquivo principal
+    # Garante tema sorteado; passa explicitamente para o template (não depende de session no Jinja2)
+    if 'tema_visual' not in session:
+        session['tema_visual'] = random.choice(['a', 'b', 'c'])
+        session.modified = True
+    tema = session['tema_visual']
+
+    response = make_response(render_template('index.html', tema_visual=tema))
+    return response
+
 
 # ==========================================
-# ROTA DA API: RECEBE E SALVA O NOME
+# NOVAS ROTAS DA INTRODUÇÃO (HTMX)
 # ==========================================
-@app.route('/api/iniciar-sessao', methods=['POST'])
-def iniciar_sessao():
-    dados = request.get_json()
-
-    # Pega o nome, se vier vazio, assume "GERENTE"
-    nome_jogador = dados.get('nome', '').strip()
+@app.route('/api/iniciar-intro', methods=['POST'])
+def iniciar_intro_api():
+    print(">>> Rota /api/iniciar-intro acessada.")
+    nome_jogador = request.form.get('nome', 'GERENTE').strip()
     if not nome_jogador:
         nome_jogador = 'GERENTE'
 
-    # Salva no "cofre" da sessão do Flask
-    session['nome_jogador'] = nome_jogador
+    diretor = _get_diretor()
+    response = diretor.iniciar_intro(nome_jogador)
+    _save_diretor(diretor)
+    return response
 
-    return jsonify({"status": "sucesso", "nome_salvo": nome_jogador}), 200
+@app.route('/api/avancar-intro-slide', methods=['POST'])
+def avancar_intro_slide_api():
+    print(">>> Rota /api/avancar-intro-slide acessada.")
+    diretor = _get_diretor()
+    response = diretor.avancar_intro_slide()
+    _save_diretor(diretor)
+    return response
 
+# NOVA ROTA: Notificação de animação concluída do frontend
+@app.route('/api/animacao-concluida', methods=['POST'])
+def animacao_concluida_api():
+    print(">>> Rota /api/animacao-concluida acessada.")
+    diretor = _get_diretor()
+    response = diretor.handle_animacao_concluida()
+    _save_diretor(diretor)
+    return response
 
-@app.route('/api/escolha', methods=['POST'])
-def registrar_escolha():
-    indice = request.json.get('indice')
-    novo_estado = motor.processar_escolha(indice)
+# NOVA ROTA: Inicia a transição do game principal (chamada pelo botão "ESTABELECER CONEXÃO")
+@app.route('/api/iniciar-game-transition', methods=['POST'])
+def iniciar_game_transition_api():
+    print(">>> Rota /api/iniciar-game-transition acessada.")
+    diretor = _get_diretor()
+    response = diretor.start_game_transition()
+    _save_diretor(diretor)
+    return response
 
-    return jsonify({
-        "game_over": motor.verificar_game_over(),
-        "estado": novo_estado
-    })
-
-
-@app.route('/api/intro-roteiro', methods=['GET'])
-def intro_roteiro():
-    caminho_arquivo = os.path.join(app.root_path, 'data', 'intro.json')
-    with open(caminho_arquivo, 'r', encoding='utf-8') as f:
-        dados_intro = json.load(f)
-    return jsonify(dados_intro), 200
+# NOVA ROTA: Inicia a sequência de animação do terminal e música do game 1999 (chamada pelo botão "iniciar sistema")
+@app.route('/api/transicao-para-game-1999', methods=['POST'])
+def iniciar_game_1999_sequence_api():
+    print(">>> Rota /api/transicao-para-game-1999 acessada.")
+    diretor = _get_diretor()
+    response = diretor.start_game_1999_sequence()
+    _save_diretor(diretor)
+    return response
 
 # ==========================================
-# ROTA PRINCIPAL
+# ROTAS PRINCIPAIS DO JOGO (HTMX)
 # ==========================================
-@app.route('/api/proximo-evento', methods=['GET'])
-def proximo_evento():
-    nome_jogador = session.get('nome_jogador', 'GERENTE')
-    # 1. Pega o estado do motor
-    dados_evento = motor.formatar_para_frontend()
+@app.route('/api/interagir', methods=['POST'])
+def interagir():
+    print(">>> Rota /api/interagir acessada.")
+    escolha = request.form.get("choice", type=int) # HTMX envia como form data
 
-    # 2. Aplica as regras de negócio de UI (Flags) - Bloqueia re-disparos em sub-passos
-    if motor.estado.get("texto_treplica_pendente") or motor.estado.get("rota_pendente_idx") is not None:
-        dados_evento['play_gif_terminal'] = False
-        dados_evento['wormhole'] = False
-    else:
-        dados_evento['play_gif_terminal'] = _gatilho_gif_terminal(dados_evento)
-        dados_evento['wormhole'] = _gatilho_wormhole(dados_evento)
-
-    # 3. Formata os dados finais
-    dados_evento['texto'] = _processar_texto(dados_evento.get('texto', ''), nome_jogador)
-    dados_evento['nome_usuario'] = nome_jogador.upper()
-
-    return jsonify(dados_evento), 200
-
+    diretor = _get_diretor()
+    response = diretor.proximo_passo(escolha)
+    _save_diretor(diretor)
+    return response
 
 @app.route('/api/reset', methods=['POST'])
 def reset_jogo():
-    # 1. Limpa os cookies (nome do jogador, etc)
-    session.clear()
+    print(">>> Rota /api/reset acessada.")
+    _reset_game_state() # Reseta o estado do jogo na sessão
 
-    # 2. Reseta o objeto motor que está na memória do servidor
-    motor.reset_completo()
-
-    return jsonify({"status": "sucesso"}), 200
-
-# ==========================================
-# FUNÇÕES AUXILIARES (HELPERS)
-# ==========================================
-def _processar_texto(texto_bruto, nome_jogador):
-    """Substitui o placeholder pelo nome do jogador no texto."""
-    if not texto_bruto:
-        return ""
-    return texto_bruto.replace("GERENTE:", f"{nome_jogador.upper()}:")
-
-def _gatilho_gif_terminal(dados_evento):
-    """Verifica e dispara o GIF do terminal apenas na primeira vez em 1999."""
-    ja_viu = session.get('ja_viu_gif_terminal', False)
-    ano_atual = str(dados_evento.get('ano', '1999'))
-
-    if ano_atual == "1999" and not ja_viu:
-        session['ja_viu_gif_terminal'] = True
-        session.modified = True
-        print(">>> GATILHO DO GIF ATIVADO! <<<", flush=True)
-        return True
-    return False
-
-def _gatilho_wormhole(dados_evento):
-    """Verifica e dispara a viagem no tempo apenas na primeira vez em 2026."""
-    ja_viajou = session.get('ja_viajou_no_tempo', False)
-    ano_atual = str(dados_evento.get('ano', '1999'))
-
-    if ano_atual == "2026" and not ja_viajou:
-        session['ja_viajou_no_tempo'] = True
-        session.modified = True
-        print(">>> GATILHO DO VÍDEO WORMHOLE/SHUTDOWN ATIVADO! <<<", flush=True)
-        return True
-    return False
-
-
+    # Após resetar, renderiza a tela inicial do jogo
+    diretor = _get_diretor()
+    dados_motor = diretor.motor.formatar_para_frontend()
+    response = make_response(diretor._renderizar_gameplay(dados_motor))
+    _save_diretor(diretor)
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)

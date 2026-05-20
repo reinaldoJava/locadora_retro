@@ -3,23 +3,36 @@ import os
 from pathlib import Path
 
 class Engine:
-    def __init__(self, lista_cenarios=None):
-        self.reset_completo()
-        # Se não passar nada, carrega a ordem cronológica padrão
-        if lista_cenarios is None:
-            lista_cenarios = ['eventos_1999.json', 'eventos_2026.json']
-
+    def __init__(self, lista_cenarios=None, reset_on_init=True):
+        # Inicializa variáveis para evitar AttributeError, especialmente se reset_on_init for False
+        self.dia_atual = 1
+        self.fluxo_atual = "inicio"
+        self.historico_escolhas = []
         self.estado = {
-            "caixa": 1000, "stress": 0, "acervo": 100, "tracao": 50,
             "indice_evento": 0,
+            "rota_pendente_idx": None,
+            "texto_treplica_pendente": None,
             "historico_rotas": [],
-            "rota_pendente_idx": None
+            "caixa": 100,
+            "tracao": 50,
+            "acervo": 50,
+            "stress": 0
         }
-
-        self.arquivos_cenario = lista_cenarios
+        self.eventos = [] # Inicializa como lista vazia
         self.indice_arquivo_atual = 0
 
-        self._carregar_arquivo_atual()
+        if reset_on_init:
+            self.reset_completo()
+            if lista_cenarios is None:
+                lista_cenarios = ['eventos_1999.json', 'eventos_2026.json']
+            self.arquivos_cenario = lista_cenarios
+            self._carregar_arquivo_atual() # Carrega eventos apenas se for um reset completo
+        else:
+            # Se não for resetar, apenas define a lista de cenários, mas não carrega eventos ainda
+            if lista_cenarios is None:
+                lista_cenarios = ['eventos_1999.json', 'eventos_2026.json']
+            self.arquivos_cenario = lista_cenarios
+            # O carregamento de eventos será feito externamente por _load_diretor_from_data
 
     def _carregar_arquivo_atual(self):
         """Metodo auxiliar para ler o arquivo da vez e garantir que é uma lista"""
@@ -45,16 +58,11 @@ class Engine:
                 self.estado["indice_evento"] += 1
 
             # 2. Se o loop acima terminou, significa que acabaram os eventos DESTE arquivo.
-            # Vamos tentar carregar a próxima "Era" (ex: pular de 1999 para 2026)
+            # CIRÚRGICO: Não carrega o próximo arquivo automaticamente.
+            # O DiretorNarrativo gerencia a cinemática de transição e carrega o arquivo manualmente (passo 12).
             self.indice_arquivo_atual += 1
-
-            if self.indice_arquivo_atual < len(self.arquivos_cenario):
-                self._carregar_arquivo_atual()
-                self.estado["indice_evento"] = 0 # Reseta o ponteiro de leitura da nova Era
-                return self.obter_evento_atual()
-            else:
-                # Se não tem mais arquivos na lista, o jogo acabou de verdade.
-                return None
+            self.estado["indice_evento"] = 0  # Reseta o ponteiro para que o check de virada funcione
+            return None
 
     def formatar_para_frontend(self):
         """Adapter Pattern: Normaliza qualquer schema de evento para o contrato do Front-end"""
@@ -62,8 +70,18 @@ class Engine:
         if self.estado.get("texto_treplica_pendente"):
             return {
                 "ano": 1999, # Força manter 1999 visualmente ativo
-                "personagem": "Vagner",
+                "personagem": self.estado.get("agente_atual", "Vagner"),  # Spotlight: usa o agente do evento
                 "texto": self.estado["texto_treplica_pendente"],
+                "opcoes": ["Continuar"],
+                "estado": self.estado
+            }
+
+        # TURNO DO GERENTE: exibe só a fala dele antes do pushback do NPC
+        if self.estado.get("texto_gerente_pendente"):
+            return {
+                "ano": 1999,
+                "personagem": "Gerente",
+                "texto": self.estado["texto_gerente_pendente"],
                 "opcoes": ["Continuar"],
                 "estado": self.estado
             }
@@ -75,12 +93,12 @@ class Engine:
                 return {"virada_1999": True}
             return {"fim": True}
 
-        # CASO 1: Estamos na etapa 2 (Réplica/Sub-opção de 1999)
+        # CASO 1: Turno do NPC — só o pushback + sub-opções (Gerente já foi exibido)
         if self.estado.get("rota_pendente_idx") is not None:
             rota = evt["rotas_principais"][self.estado["rota_pendente_idx"]]
-            texto = f"GERENTE:\n{rota.get('fala_gerente', '')}\n\nVAGNER:\n{rota.get('pushback_vagner', '')}"
+            texto = rota.get('pushback_vagner', '')
             opcoes = [sub.get("foco", "Opção") for sub in rota.get("sub_opcoes", [])]
-            return {"personagem": "Vagner", "texto": texto, "opcoes": opcoes, "estado": self.estado}
+            return {"personagem": self.estado.get("agente_atual", "Vagner"), "texto": texto, "opcoes": opcoes, "estado": self.estado}
 
         # CASO 2: Etapa 1 (Decisões normais ou 1º nível de 1999/2026)
         texto_partes = []
@@ -94,7 +112,16 @@ class Engine:
                 texto_partes.append(f"{agente}:\n{d['fala']}")
 
         texto_final = "\n\n".join(texto_partes)
-        personagem = evt.get("agente_foco", "Sistema").replace("ID_", "")
+
+        # Infere o personagem em foco: usa agente_foco explícito, senão deduz pelo conteúdo
+        if "agente_foco" in evt:
+            personagem = evt["agente_foco"].replace("ID_", "")
+        elif "discurso_gerente" in evt:
+            personagem = "Gerente"
+        elif "dialogos_iniciais" in evt and evt["dialogos_iniciais"]:
+            personagem = evt["dialogos_iniciais"][0]["agente"].replace("ID_", "")
+        else:
+            personagem = "Sistema"
 
         opcoes_txt = []
         if "rotas_principais" in evt:
@@ -109,6 +136,11 @@ class Engine:
         if self.estado.get("texto_treplica_pendente"):
             self.estado["texto_treplica_pendente"] = None
             self.estado["indice_evento"] += 1
+            return self.estado
+
+        # TURNO DO GERENTE: "Continuar" limpa o buffer e avança para o pushback do NPC
+        if self.estado.get("texto_gerente_pendente"):
+            self.estado["texto_gerente_pendente"] = None
             return self.estado
 
         evt = self.obter_evento_atual()
@@ -133,6 +165,12 @@ class Engine:
             if "sub_opcoes" in escolha:
                 self.estado["historico_rotas"].append(escolha.get("id_rota", ""))
                 self.estado["rota_pendente_idx"] = indice_opcao
+                # Spotlight: detecta quem realmente fala no pushback (pode diferir do agente_foco)
+                agente_foco_default = evt.get("agente_foco", "ID_Vagner").replace("ID_", "")
+                pushback = escolha.get("pushback_vagner", "")
+                self.estado["agente_atual"] = self._detectar_agente_pushback(pushback, agente_foco_default)
+                # Diálogo sequencial: salva a fala do Gerente para exibir primeiro
+                self.estado["texto_gerente_pendente"] = escolha.get("fala_gerente", "")
                 return self.estado
 
         elif "opcoes" in evt:
@@ -147,6 +185,21 @@ class Engine:
         return self.estado
 
 
+
+    def _detectar_agente_pushback(self, pushback_text, agente_foco_default):
+        """Detecta quem fala no pushback pelo prefixo 'Nome:' no início do texto.
+        Se não houver label explícito, retorna o agente_foco padrão do evento."""
+        nomes = {
+            "Vagner":   "Vagner",
+            "Leila":    "Leila",
+            "Mauricio": "Mauricio",
+            "Maurício": "Mauricio",  # variante com acento
+            "Gerente":  "Gerente",
+        }
+        for nome, agente in nomes.items():
+            if pushback_text.startswith(f"{nome}:"):
+                return agente
+        return agente_foco_default
 
     def _aplicar_impacto_dinamico(self, dict_opcao):
         """Busca o impacto não importa o nome da chave (impacto, impactos, impacto_sistema)"""
@@ -169,7 +222,9 @@ class Engine:
             "indice_evento": 0,
             "rota_pendente_idx": None,
             "texto_treplica_pendente": None,
+            "texto_gerente_pendente": None, # Buffer: fala do Gerente antes do pushback do NPC
             "historico_rotas": [],
+            "agente_atual": "Vagner",   # Spotlight: personagem em foco no momento
 
             # === MÉTRICAS DO JOGO ===
             # (Substitua os números abaixo pelos valores iniciais REAIS do seu jogo)

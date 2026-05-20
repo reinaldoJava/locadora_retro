@@ -5,66 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Motor 1999/2026 - O Jogo</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 <body>
-<script src="/static/js/api.js"></script>
-<script src="/static/js/audio.js"></script>
-<script src="/static/js/ui.js"></script>
-<script src="/static/js/transitions.js"></script>
-<script src="/static/js/game.js"></script>
+<script type="module" src="/static/js/motor_shell.js"></script>
 
-
-<audio id="trilha-sonora" src="/static/audio/Game_1999.mp3" loop preload="auto"></audio>
-<div id="container-shutdown" style="display: none; background-color: black; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; z-index: 9999; justify-content: center; align-items: center;">
-
-    <video id="video-shutdown" playsinline preload="auto" style="display: none; max-width: 100%; max-height: 100%;">
-        <source src="/static/video/wormhole.mp4" type="video/mp4">
-    </video>
-
-</div>
 <div id="start-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #000; z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <p class="texto-sistema">SISTEMA CARREGADO<span class="loading-dots"></span></p>
-
     <button id="btn-start-game" style="margin-top: 50px; padding: 10px 20px; font-size: 16px; cursor: pointer; background: #222; color: #00ff00; border: 1px solid #00ff00;">ESTABELECER CONEXÃO</button>
 </div>
 
-<div id="terminal-overlay" class="layout-oculto">
-    <img src="/static/img/terminal_bg_shuwdown.gif" id="terminal-gif" alt="Terminal Closing">
-</div>
-<div class="game-container" id="ui-jogo">
-    <img id="ui-bg" class="bg-layer" src="" alt="Fundo">
+<!-- Áudio fora do #ui-jogo para sobreviver aos swaps de innerHTML -->
+<audio id="trilha-sonora-1999" src="/static/audio/Game_1999.mp3" loop preload="auto"></audio>
+<audio id="trilha-sonora-2026" loop preload="none"></audio>
 
-    <div id="cenario-atores">
-        <div id="ator-vagner-container" class="actor-layer layout-esquerda layout-oculto">
-            <img id="ator-vagner" class="actor-img ator-foco" src="/static/img/vagner.png" alt="Vagner">
-        </div>
-        <div id="ator-npc-container" class="actor-layer layout-direita layout-oculto">
-            <img id="ator-npc" class="actor-img" src="" alt="Interlocutor">
-        </div>
-    </div>
-
-    <div class="ui-layer">
-        <div class="vn-window">
-            <div class="vn-content" id="scroll-box">
-                <div class="dialog-text" id="ui-texto-dialogo"></div>
-                <div id="ui-opcoes" class="options-container"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="transition-overlay" id="fx-overlay"></div>
-</div>
-<div id="cena-fim-1999" style="display: none; background-image: url('/static/img/bg_1999.png');">
-    <div id="texto-virada" style="font-family: monospace; font-size: 2.8rem; margin-bottom: 20px; line-height: 1.5; min-height: 80px;"></div>
-    <div id="numero-contagem" style="font-family: monospace; font-size: 10rem; font-weight: bold; text-shadow: 0 0 10px #00ff00; display: none;"></div>
-    <h1 id="texto-feliz-ano" style="font-family: monospace; font-size: 3rem; display: none; margin-bottom: 40px; text-shadow: 0 0 15px #00ff00;">FELIZ ANO 2000 PARA TODOS NÓS!</h1>
-
-    <div id="imagens-personagens" style="display: none; gap: 10px; flex-wrap: wrap;">
-        <img src="/static/img/gerente.png"  style="height: 220px;">
-        <img src="/static/img/mauricio.png" style="height: 220px;">
-        <img src="/static/img/leila.png" style="height: 220px;">
-        <img src="/static/img/vagner.png" style="height: 220px;">
-    </div>
+<div class="game-container tema-{{ tema_visual }}" id="ui-jogo">
+    {% if initial_gameplay_content %}
+    {{ initial_gameplay_content | safe }}
+    {% endif %}
 </div>
 </body>
 </html>

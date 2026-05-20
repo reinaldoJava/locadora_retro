@@ -24,7 +24,7 @@ services:
       - OLLAMA_HOST=ollama:11434
     entrypoint: /bin/sh
     # Espera o servidor subir e então baixa o modelo qwen2.5
-    command: -c "sleep 6 && echo 'Baixando modelo qwen2.5-instruct...' && ollama pull qwen2.5-instruct && echo 'Modelo qwen2.5-instruct pronto!'"
+    command: -c "sleep 6 && echo 'Baixando modelo qwen2.5...' && ollama pull qwen2.5 && echo 'Modelo qwen2.5 pronto!'"
     restart: "no"
 
 volumes:

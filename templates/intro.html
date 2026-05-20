@@ -5,31 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Motor 1999/2026 - Inicialização</title>
     <link rel="stylesheet" href="/static/css/style.css">
-
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 <body>
-<audio id="trilha-sonora-intro" src="/static/audio/Game_1999.mp3" preload="auto"></audio>
+<audio id="trilha-sonora-intro" src="/static/audio/Game_1999.mp3" preload="auto" muted></audio>
 <video id="video-wormhole-intro" src="/static/video/wormhole.mp4" class="oculto" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 999999;"></video>
-<div class="game-container">
+<div class="game-container" id="intro-container">
     <div id="ato1-terminal">
         <div class="terminal-input-wrapper">
             <span class="terminal-prompt">LOGIN:</span>
-            <input type="text" id="nome-jogador" autocomplete="off" autofocus maxlength="15">
+            <form hx-post="/api/iniciar-intro" hx-target="#intro-container" hx-swap="innerHTML">
+                <input type="text" id="nome-jogador" name="nome" autocomplete="off" autofocus maxlength="15">
+            </form>
         </div>
     </div>
-
     <div id="ato2-vhs" class="oculto"></div>
-
-    <div id="ato3-elenco" class="oculto">
-        <img id="elenco-imagem" src="" class="oculto">
-        <div class="ui-layer-intro">
-            <h2 id="elenco-titulo" class="elenco-titulo"></h2>
-            <div id="elenco-texto" class="elenco-texto"></div>
-            <button class="btn-avancar-intro" onclick="avancarApresentacao()">Continuar</button>
-        </div>
-    </div>
-    <script src="/static/js/intro.js"></script>
-
 </div>
+<script type="module" src="/static/js/motor_shell.js"></script>
 </body>
 </html>

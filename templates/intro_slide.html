@@ -1,0 +1,13 @@
+{% if imagem %}
+<img id="elenco-imagem" src="{{ imagem }}" class="{% if not imagem %}oculto{% endif %}">
+{% endif %}
+<div class="ui-layer-intro">
+    <h2 id="elenco-titulo" class="elenco-titulo">{{ titulo }}</h2>
+    <div id="elenco-texto" class="elenco-texto">{{ texto | safe }}</div>
+    <button class="btn-avancar-intro"
+            hx-post="/api/avancar-intro-slide"
+            hx-target="#intro-container"
+            hx-swap="innerHTML">
+        {% if not is_last_slide %}Continuar{% else %}Iniciar Jogo{% endif %}
+    </button>
+</div>
