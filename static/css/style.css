@@ -15,15 +15,15 @@ body, html {
 }
 
 /* =========================================
-   2. O PALCO (TELA DO JOGO 16:9)
+   2. O PALCO (TELA DO JOGO 9:16)
    ========================================= */
 .game-container {
     position: relative;
     /* O Segredo da Responsividade Fixa */
-    aspect-ratio: 16 / 20;
+    aspect-ratio: 9 / 16;
     width: 100%;
     max-height: 100vh;
-    max-width: calc(100vh * (16 / 20)); /* Trava a largura para não quebrar o 16:9 */
+    max-width: calc(100vh * (9 / 16)); /* Trava a largura para não quebrar o 16:9 */
     background-color: #000;
     overflow: hidden;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.9); /* Destaca o jogo do fundo do navegador */
@@ -32,6 +32,7 @@ body, html {
 .bg-layer {
     position: absolute;
     top: 0; left: 0;
+    aspect-ratio: 9 / 16;
     width: 100%; height: 100%;
     object-fit: cover;
     z-index: 1;
@@ -51,7 +52,7 @@ body, html {
 .actor-layer {
     position: absolute;
     bottom: 27%; /* Acima da caixa de diálogo */
-    width: 100%; height: 75%;
+    width: 100%; height: 65%;
     display: flex;
     align-items: flex-end;
 }
@@ -60,24 +61,89 @@ body, html {
     max-height: 68%;
     width: auto;
     object-fit: contain;
-    transition: all 0.4s ease;
 }
 
-.ator-foco { filter: brightness(1); transform: scale(1); }
-.ator-inativo { filter: brightness(0.4); transform: scale(0.95); }
+/* Animações de entrada — disparam ao entrar no DOM (pós HTMX swap) */
+@keyframes entrarFoco {
+    from { opacity: 0; filter: brightness(0.6); transform: scale(0.96); }
+    to   { opacity: 1; filter: brightness(1);   transform: scale(1);    }
+}
 
-.layout-esquerda { justify-content: flex-start; margin-left: 8%; }
-.layout-direita { justify-content: flex-end; margin-right: 8%; }
+@keyframes entrarInativo {
+    from { opacity: 0; filter: brightness(0);   transform: scale(0.92); }
+    to   { opacity: 1; filter: brightness(0.4); transform: scale(0.95); }
+}
+
+.ator-foco {
+    filter: brightness(1);
+    transform: scale(1);
+    animation: entrarFoco 0.5s ease forwards;
+}
+
+.ator-inativo {
+    filter: brightness(0.4);
+    transform: scale(0.95);
+    animation: entrarInativo 0.5s ease forwards;
+}
+
+.layout-esquerda { justify-content: flex-start; margin-left: 1%; }
+.layout-direita { justify-content: flex-end; margin-right: 2%; }
 .layout-oculto { display: none; }
 
 /* =========================================
-   4. INTERFACE DE DIÁLOGO (NOVO ESTILO)
+   4. TEMAS VISUAIS (sorteados por partida)
+   ========================================= */
+
+/* Tema A — Vintage Locadora (padrão / fallback) */
+.game-container {
+    --dialog-bg:      rgba(40, 15, 5, 0.97);
+    --dialog-border:  #c8692a;
+    --dialog-font:    'Georgia', serif;
+    --text-primary:   #f5d8b0;
+    --text-speaker:   #e8a060;
+    --text-narrator:  #c8a96e;
+    --scrollbar-thumb:#c8692a;
+    --btn-border:     #c8692a;
+    --btn-text:       #e8a060;
+    --btn-hover-bg:   rgba(200, 105, 42, 0.85);
+}
+
+/* Tema B — Noir Digital */
+.game-container.tema-b {
+    --dialog-bg:      rgba(2, 8, 25, 0.97);
+    --dialog-border:  #4a9de0;
+    --dialog-font:    'Courier New', monospace;
+    --text-primary:   #d0e8ff;
+    --text-speaker:   #5ab8ff;
+    --text-narrator:  #8ab8d8;
+    --scrollbar-thumb:#4a9de0;
+    --btn-border:     #4a9de0;
+    --btn-text:       #5ab8ff;
+    --btn-hover-bg:   rgba(74, 157, 224, 0.85);
+}
+
+/* Tema C — Terminal 1999 */
+.game-container.tema-c {
+    --dialog-bg:      rgba(5, 15, 5, 0.97);
+    --dialog-border:  #39b54a;
+    --dialog-font:    'Courier New', monospace;
+    --text-primary:   #a8f0b0;
+    --text-speaker:   #00ff00;
+    --text-narrator:  #70c870;
+    --scrollbar-thumb:#39b54a;
+    --btn-border:     #39b54a;
+    --btn-text:       #00ff00;
+    --btn-hover-bg:   rgba(57, 181, 74, 0.85);
+}
+
+/* =========================================
+   5. INTERFACE DE DIÁLOGO
    ========================================= */
 .ui-layer {
     position: absolute;
     bottom: 0; left: 0;
     width: 100%;
-    height: 35%; /* Ocupa os 35% inferiores da tela */
+    height: 35%;
     z-index: 10;
     display: flex;
     justify-content: center;
@@ -87,55 +153,88 @@ body, html {
 .vn-window {
     width: 100%;
     height: 100%;
-    /* Fundo Azul Marinho Translúcido (Combina com o bg_1999) */
-    background-color: rgba(12, 22, 45, 0.98);
-    border-top: 4px solid #511101;
+    background-color: var(--dialog-bg);
+    border-top: 3px solid var(--dialog-border);
     display: flex;
     flex-direction: column;
 }
 
-/* O "Pergaminho" com Scrollbar */
 .vn-content {
-    padding: 20px 40px;
+    padding: 14px 22px 10px;
     overflow-y: auto;
     height: 100%;
-    color: #f1f1f1; /* Texto quase branco para contraste */
+    font-family: var(--dialog-font);
+    color: var(--text-primary);
 }
 
-/* Estilização da Barra de Rolagem (Estilo Game) */
-.vn-content::-webkit-scrollbar { width: 10px; }
-.vn-content::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.5); }
-.vn-content::-webkit-scrollbar-thumb { background: #511101; border-radius: 5px; }
+.vn-content::-webkit-scrollbar { width: 6px; }
+.vn-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+.vn-content::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
 
+/* Nome do personagem (linha acima da fala) */
+.nome-personagem {
+    color: var(--text-speaker);
+    font-size: 0.82rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 12px 0 3px;
+}
+.nome-personagem:first-child { margin-top: 0; }
+
+/* Texto da fala */
+.fala-dialogo {
+    color: var(--text-primary);
+    font-family: var(--dialog-font);
+    font-size: 1.12rem;
+    line-height: 1.65;
+    margin-bottom: 4px;
+    white-space: pre-wrap;
+}
+
+/* Compatibilidade com classes antigas */
+.fala-vagner, .fala-npc { color: var(--text-primary); font-size: 1.0rem; line-height: 1.65; margin-bottom: 4px; }
+
+/* Narração (sem personagem em cena) */
+.texto-narrador {
+    color: var(--text-narrator);
+    font-style: italic;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    margin-bottom: 2px;
+}
+
+/* Caixa de texto geral */
 .dialog-text {
-    font-size: 1.3rem;
-    line-height: 1.1;
-    margin-bottom: 15px;
-    white-space: pre-wrap; /* Respeita as quebras de linha do Python (\n) */
+    margin-bottom: 10px;
 }
 
 .options-container {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding-bottom: 20px;
+    gap: 8px;
+    padding: 8px 0 14px;
 }
 
-.vn-btn {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border: 1px solid #ffc000;
-    padding: 10px;
-    font-size: 0.9rem;
+/* Botão de opção (era .vn-btn, agora .btn-opcao é o padrão) */
+.btn-opcao, .vn-btn {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--btn-border);
+    color: var(--btn-text);
+    font-family: var(--dialog-font);
+    font-size: 0.88rem;
+    padding: 9px 13px;
     text-align: left;
     cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    border-radius: 3px;
+    transition: background 0.15s, color 0.15s;
 }
 
-.vn-btn:hover {
-    background-color: #96cc00;
-    color: #000;
+.btn-opcao:hover, .vn-btn:hover {
+    background: var(--btn-hover-bg);
+    color: #fff;
     font-weight: bold;
 }
 
@@ -153,6 +252,59 @@ body, html {
 }
 .fx-fade-out { opacity: 1; }
 
+/* =========================================
+   6. CINEMÁTICA 1999 → 2026
+   ========================================= */
+#cena-fim-1999 {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;        /* acima do bg-layer (z-index 1), abaixo do ui-layer (z-index 10) */
+}
+
+#texto-virada {
+    font-family: var(--dialog-font, 'Courier New', monospace);
+    font-size: 1.3rem;
+    color: var(--text-primary, #f5d8b0);
+    line-height: 1.65;
+    min-height: 60px;
+    text-align: center;
+    margin-bottom: 24px;
+    padding: 18px 24px;
+    background: var(--dialog-bg, rgba(20, 10, 2, 0.95));
+    border-top: 2px solid var(--dialog-border, #c8692a);
+    width: 100%;
+}
+
+#numero-contagem {
+    font-family: var(--dialog-font, 'Courier New', monospace);
+    font-size: 9rem;
+    font-weight: bold;
+    color: var(--text-speaker, #e8a060);
+    text-shadow: 0 0 20px var(--dialog-border, #c8692a);
+}
+
+#texto-feliz-ano {
+    font-family: var(--dialog-font, 'Courier New', monospace);
+    font-size: 2.2rem;
+    color: var(--text-speaker, #e8a060);
+    text-shadow: 0 0 20px var(--dialog-border, #c8692a);
+    margin-bottom: 30px;
+    text-align: center;
+    padding: 0 20px;
+}
+
+#imagens-personagens {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#imagens-personagens img { height: 220px; }
+
 
 /* =========================================
            1. SETUP BASE E RESPONSIVIDADE 16:9
@@ -168,10 +320,10 @@ body, html {
 .game-container {
     position: relative;
     /* O Segredo da Responsividade Fixa */
-    aspect-ratio: 16 / 20;
+    aspect-ratio: 9 / 16;
     width: 100%;
     max-height: 100vh;
-    max-width: calc(100vh * (16 / 20)); /* Trava a largura para não quebrar o 16:9 */
+    max-width: calc(100vh * (9 / 16)); /* Trava a largura para não quebrar o 16:9 */
     background-color: #000;
     overflow: hidden;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.9); /* Destaca o jogo do fundo do navegador */
@@ -231,8 +383,9 @@ body, html {
 #elenco-imagem {
     max-height: 55%;
     object-fit: contain;
-    margin-bottom: -20px; /* Faz o personagem sobrepor a caixa levemente */
     z-index: 2;
+    display: flex;
+
 }
 
 .ui-layer-intro {
@@ -310,7 +463,7 @@ body, html {
 
 #terminal-overlay.layout-oculto {
     display: flex !important;  /* Mantém a estrutura flexível */
-    opacity: 10;                /* Fade out */
+    opacity: 0;                /* Fade out */
     visibility: hidden;
     pointer-events: none;
 }
@@ -412,4 +565,67 @@ body, html {
     overflow: hidden;
     opacity: 0;
     transition: opacity 2s ease-in-out;
+}
+.layout-oculto {
+    display: none;
+}
+#terminal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 9 / 16;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garante que fique acima de outros elementos */
+}
+.terminal-gif-full {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+/* Estilos básicos para o botão, se não houver um global */
+.btn-opcao-iniciar-sistema {
+    background-color: #008f00;
+    color: black;
+    border: 2px solid #00ff00;
+    padding: 10px 20px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-opcao-iniciar-sistema:hover {
+    background-color: black;
+    color: #008f00;
+}
+/* No seu arquivo static/css/style.css */
+
+.container-tabela {
+    position: absolute;
+    /* Ancoragem no canto superior direito do game-container */
+    top: 5px;
+    right: 5px;
+
+    /* Z-index 2000 garante que fique acima dos atores (2) e da UI (10) */
+    z-index: 2000;
+
+    /* Dimensionamento que respeita a área dos atores no centro */
+    width: 200px;
+    max-width: 18%; 
+
+    /* Estética Retro-Terminal */
+    background-color: rgba(0, 20, 0, 0.9);
+    border: 1px solid #00ff00;
+    color: #2e692e;
+    padding: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.80rem;
+    pointer-events: auto;
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
 }

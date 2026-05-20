@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const btnStart = document.getElementById('btn-start-game');
     const startOverlay = document.getElementById('start-overlay');
-    const trilha = document.getElementById('trilha-sonora');
+    const trilha = document.getElementById('trilha-sonora-1999');
 
     if (btnStart) {
         btnStart.addEventListener('click', async () => {

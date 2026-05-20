@@ -16,9 +16,9 @@ INSTRUCAO_GERAL = (
     "- NÃO use asteriscos para simular ações (ex: *sorri*, *olha para o gerente*).\n"
     "- NÃO invente nomes de outros personagens. USE APENAS OS PERSONAGENS CRIADOS NO CONTEXTO.\n"
     "- Fale diretamente com o gerente.\n\n"
-    "- TODOS SÃO MUITO EDUCADOS E GENTIS.\n"
-    "- IMPROVISAÇÕES CIRURGICAS NO TEXTOS E CONTEXTOS.\n"
-    "- NÃO INVENTE NÚMEROS. APENAS TRABALHE COM OS EXISTENTES."
+    "- TODOS SÃO EDUCADOS E GENTIS.\n"
+    "- IMPROVISAÇÕES CIRURGICAS NO TEXTOS SEM ALTERAR OS CONTEXTOS.\n"
+    "- NÃO INVENTE NÚMEROS. APENAS TRABALHE COM OS JÁ EXISTENTES."
 )
 
 PROMPTS = {
@@ -62,7 +62,7 @@ def gerar_fala(agente_id, contexto_dia, ano, nome_gerente):
                 {"role": "system", "content": prompt_sistema},
                 {"role": "user", "content": prompt_usuario}
             ],
-            temperature=0.4, # Aumentar um pouco ajuda a IA a ser mais "criativa"
+            temperature=0.5, # Aumentar um pouco ajuda a IA a ser mais "criativa"
             max_tokens=240,
             timeout=120.0
         )

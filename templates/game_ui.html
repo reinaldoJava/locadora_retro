@@ -1,0 +1,30 @@
+<img id="ui-bg" class="bg-layer" src="{{ bg_src }}" alt="Fundo">
+
+<div id="cenario-atores">
+    <div id="ator-vagner-container" class="actor-layer layout-esquerda {% if personagem_foco == 'Sistema' %}layout-oculto{% endif %}">
+        <img id="ator-vagner" class="actor-img {% if ator_esq_foco %}ator-foco{% else %}ator-inativo{% endif %}" src="{{ img_esq_src }}" alt="Ator Esquerda">
+    </div>
+    <div id="ator-npc-container" class="actor-layer layout-direita {% if not mostra_npc %}layout-oculto{% endif %}">
+        <img id="ator-npc" class="actor-img {% if npc_eh_foco %}ator-foco{% else %}ator-inativo{% endif %}" src="{{ img_npc_src }}" alt="Interlocutor">
+    </div>
+</div>
+
+<div class="ui-layer">
+    <div class="vn-window">
+        <div class="vn-content" id="scroll-box">
+            <div class="dialog-text" id="ui-texto-dialogo">{{ texto_dialogo | safe }}</div>
+            <div id="ui-opcoes" class="options-container">{{ opcoes_dialogo | safe }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="container-tabela">
+    <table>
+        <div class="nome-jogador">Caixa: <span id="status-caixa">{{ caixa }}</span></div>
+        <div class="nome-jogador">Stress: <span id="status-stress">{{ stress }}</span></div>
+        <div class="nome-jogador">Acervo: <span id="status-acervo">{{ acervo }}</span></div>
+        <div class="nome-jogador">Tração: <span id="status-tracao">{{ tracao }}</span></div>
+    </table>
+</div>
+
+<div class="transition-overlay" id="fx-overlay"></div>
