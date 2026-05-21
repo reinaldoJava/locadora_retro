@@ -95,7 +95,7 @@ body, html {
    ========================================= */
 
 /* Tema A — Vintage Locadora (padrão / fallback) */
-.game-container {
+.game-container.tema-a {
     --dialog-bg:      rgba(40, 15, 5, 0.97);
     --dialog-border:  #c8692a;
     --dialog-font:    'Georgia', serif;
@@ -258,10 +258,11 @@ body, html {
 #cena-fim-1999 {
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
+    /* display é controlado via inline style no template (flex / none) */
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 5;        /* acima do bg-layer (z-index 1), abaixo do ui-layer (z-index 10) */
+    z-index: 20;       /* acima de bg-layer (1), atores (2) e ui-layer (10) */
 }
 
 #texto-virada {
@@ -529,43 +530,7 @@ body, html {
     /* O "step-start" faz a troca ser "dura", dando um ar mais mecânico de terminal */
     animation: animarPontos 1.5s infinite step-start;
 }
-#cena-fim-1999 {
-    /* Controle do JS */
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    /* Posicionamento: Centraliza exatamente no meio da tela */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10000;
-
-    /* A MÁGICA DO ASPECT RATIO BLINDADA */
-    height: 100vh;
-    width: auto;             /* O auto é o que permite o aspect-ratio funcionar */
-    max-width: 100vw;        /* Evita que estoure em telas muito finas */
-    aspect-ratio: 9 / 16;
-
-    /* O TRUQUE DE MESTRE: Cria uma sombra preta gigante que preenche as laterais da tela */
-    box-shadow: 0 0 0 100vmax #000;
-
-    /* Estética e Fundo */
-    background-color: #000;
-    background-size: cover;
-    background-position: center;
-    color: #00ff00;
-    text-align: center;
-    padding: 20px;
-    box-sizing: border-box;
-
-    /* Animação e Limites */
-    overflow: hidden;
-    opacity: 0;
-    transition: opacity 2s ease-in-out;
-}
+/* #cena-fim-1999: definição completa está na seção 6 acima */
 .layout-oculto {
     display: none;
 }
@@ -618,14 +583,14 @@ body, html {
     width: 200px;
     max-width: 18%; 
 
-    /* Estética Retro-Terminal */
-    background-color: rgba(0, 20, 0, 0.9);
-    border: 1px solid #00ff00;
-    color: #2e692e;
+    /* Segue o tema visual sorteado por partida */
+    background: var(--dialog-bg, rgba(20, 10, 2, 0.95));
+    border: 1px solid var(--dialog-border, #c8692a);
+    color: var(--text-narrator, #c8a96e);
     padding: 6px;
-    font-family: 'Courier New', monospace;
+    font-family: var(--dialog-font, 'Courier New', monospace);
     font-size: 0.80rem;
     pointer-events: auto;
     border-radius: 4px;
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+    box-shadow: 0 0 15px var(--dialog-border, #c8692a);
 }

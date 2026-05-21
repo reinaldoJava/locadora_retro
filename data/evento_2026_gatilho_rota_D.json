@@ -1,0 +1,61 @@
+[
+  {
+    "id": "evento_cine_pub",
+    "gatilho_rota": "D",
+    "ano": 2026,
+    "titulo": "A Crise da Infraestrutura",
+    "contexto_ia": "A loja vai virar um Cine-Pub. O gerente precisa decidir qual será a 'pegada' do bar para equilibrar os custos da reforma, o volume do som e a fúria purista do curador do acervo.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Leila",
+        "fala": "Jovens pagam caro por experiências imersivas. Tem podcast de 3 horas só sobre filmes obscuros!"
+      },
+      {
+        "agente": "ID_Mauricio",
+        "fala": "Mas banda tocando?! Você quer colocar um baterista do lado do meu Tarkovsky? A vibração vai estourar o acervo! Como equilibra pub e cinema?"
+      },
+      {
+        "agente": "ID_Vagner",
+        "fala": "E reforma custa dinheiro! Alvará, banda... A gente acordou no futuro falido, como banca uma casa de shows?"
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "D1",
+        "foco": "Cine-Clube / Foco Intelectual",
+        "argumento_gerente": "Pub intimista, trilha sonora só no vinil. Vamos vender ingressos premium para debates com críticos de cinema. Custo de reforma baixo, lucramos na bilheteria de alto ticket.",
+        "treplica": "(Maurício se emociona) 'Um oásis intelectual. Isso é a consagração.' (Vagner anota) 'Ticket alto, público que não quebra copos. Perfeito.'",
+        "impactos": {
+          "caixa": 500,
+          "acervo": 40,
+          "stress": -10,
+          "tracao": 10
+        }
+      },
+      {
+        "id_opcao": "D2",
+        "foco": "Festa MTV Unplugged / Volume",
+        "argumento_gerente": "O foco é na banda. Sexta acústica com filmes clássicos mudos nas TVs. A gente ganha na cerveja artesanal para muita gente. Vagner, a gente faz vaquinha na internet vendendo ingresso antes pra bancar a reforma.",
+        "treplica": "(Vagner coça o queixo) 'Arriscado, mas recupera o caixa na primeira noite.' (Leila vibra) 'Vou lotar essa rua postando a programação!'",
+        "impactos": {
+          "caixa": 2000,
+          "acervo": -30,
+          "stress": 40,
+          "tracao": 40
+        }
+      },
+      {
+        "id_opcao": "D3",
+        "foco": "Hub de Criação / B2B Influenciadores",
+        "argumento_gerente": "Alugamos o Cine-Pub de segunda a quinta como cenário para podcasters. Eles pagam a diária. Fim de semana, abrimos para o 'Clube de Membros' com ingressos fixos.",
+        "treplica": "(Leila concorda) 'B2B garante o dinheiro fixo e faz propaganda de graça!' (Maurício pontua) 'E os tesouros ficam guardados para os verdadeiros assinantes.'",
+        "impactos": {
+          "caixa": 1200,
+          "acervo": 10,
+          "stress": 10,
+          "tracao": 20
+        }
+      }
+    ]
+  }
+]

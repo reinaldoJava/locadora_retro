@@ -1,0 +1,61 @@
+[
+  {
+    "id": "evento_mercado_livre",
+    "gatilho_rota": "B",
+    "ano": 2026,
+    "titulo": "A Liquidação Premium",
+    "contexto_ia": "Decididos a vender o acervo físico de luxo, a equipe discute qual será a logística de distribuição. Vagner surta com a ideia de ir aos Correios e Maurício teme que as fitas sejam maltratadas. O gerente decide o canal de vendas.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Leila",
+        "fala": "Achei um site chamado 'Mercado Livre'. Tem gente vendendo fita do Rei Leão lacrada por R$ 500! Chamam de 'Mídia Física Retrô'."
+      },
+      {
+        "agente": "ID_Mauricio",
+        "fala": "Vender? Para sempre?! Você quer entregar meu acervo nas mãos de um moleque rico que vai usar a fita do Godard como calço de porta?! É a morte do cinema!"
+      },
+      {
+        "agente": "ID_Vagner",
+        "fala": "Meu problema é outro. O cara paga R$ 800 na fita pela internet... e aí? A gente empacota 5.000 fitas e eu vou andando até os Correios com carrinho de feira todo dia? Vai ser um inferno!"
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "B1",
+        "foco": "E-commerce Leilão / Colecionador Global",
+        "argumento_gerente": "A Leila viu que os Correios buscam na porta. Nós vamos vender só para quem entende o valor. Coloca os clássicos num site de leilão global (eBay). Deixa os nerds do mundo brigarem em dólar. O resto, vai pro lixo.",
+        "treplica": "(Maurício respira fundo) 'Se for pra um colecionador japonês, eu aceito.' (Vagner sorri) 'Ganhando em dólar? Eu ajudo a embalar.'",
+        "impactos": {
+          "caixa": 800,
+          "acervo": -10,
+          "stress": 30,
+          "tracao": 0
+        }
+      },
+      {
+        "id_opcao": "B2",
+        "foco": "A Galeria de Arte / Foco B2B",
+        "argumento_gerente": "Vamos virar uma 'Galeria de Arte Y2K'. Maurício, você vai botar os melhores filmes numa moldura de acrílico com certificado de autenticidade. Vendemos a R$ 2.000 a peça para diretores na Faria Lima. Venda presencial, margem brutal.",
+        "treplica": "(Maurício ajeita os óculos) 'Quadros de acrílico. Arte pura.' (Leila anota) 'Vou mandar mensagem no LinkedIn para os executivos.'",
+        "impactos": {
+          "caixa": 2000,
+          "acervo": 20,
+          "stress": -10,
+          "tracao": -10
+        }
+      },
+      {
+        "id_opcao": "B3",
+        "foco": "A Mystery Box / Foco nos Influenciadores",
+        "argumento_gerente": "Vamos surfar no Zinta. Maurício, monte caixas surpresa. Uma fita boa, três ruins, um pacote de pipoca vencida e um pôster. A Leila vende como 'Caixa Misteriosa' por R$ 300 pra jovens gravarem unboxing. Desovamos o estoque ruim.",
+        "treplica": "(Vagner bate palmas) 'Vender tralha escondida em caixa surpresa?! Gerente, você nasceu pra enganar o mercado!' (Leila ri) 'O engajamento vai ser absurdo.'",
+        "impactos": {
+          "caixa": 900,
+          "acervo": -30,
+          "stress": 10,
+          "tracao": 40
+        }
+      }
+    ]
+  }
+]

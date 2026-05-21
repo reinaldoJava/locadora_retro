@@ -33,7 +33,7 @@
           },
           {
             "agente": "ID_Jovem_GenZ",
-            "fala": "'Doze de maio de dois mil e vinte e seis, ué. Ih, o cara tá no personagem total! (O celular apita). Opa, galera, meu Uzer chegou ali na esquina. Vou postar esse vídeo no meu Zinta agora, vai hitar muito! É nois!!!'"
+            "fala": "DATA_DE_HOJE, ué. Ih, o cara tá no personagem total! (O celular apita). Opa, galera, meu Uzer chegou ali na esquina. Vou postar esse vídeo no meu Zinta agora, vai hitar muito! É nois!!!'"
           }
         ]
       },
@@ -50,11 +50,11 @@
           },
           {
             "agente": "ID_Gerente",
-            "fala": "'Mas por que exatamente dia 11 de maio de 2026? Se a gente viajou no tempo, não devia ser uma data redonda? Um primeiro de janeiro?'"
+            "fala": "'Mas por que exatamente dia DATA_DE_HOJE? Se a gente viajou no tempo, não devia ser uma data redonda? Um primeiro de janeiro?'"
           },
           {
             "agente": "ID_Leila",
-            "fala": "(Dando uma piscadinha para a tela do jogador) 'Sei lá, gerente. Pergunta pros roteiristas.'"
+            "fala": "(Dando uma piscadinha para a tela do jogador) 'Sei lá, gerente. Pergunta pros ROTEIRISTAS!!!.'"
           }
         ]
       },

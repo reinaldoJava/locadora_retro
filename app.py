@@ -1,8 +1,7 @@
-from flask import Flask, render_template, request, jsonify, session, redirect, make_response
+from flask import Flask, render_template, request, session, make_response
 from src.narrative_director import DiretorNarrativo
 from src.engine import Engine
-import json
-import os
+
 import random
 
 app = Flask(__name__)
@@ -32,7 +31,10 @@ def _load_diretor_from_data(data):
     motor = Engine(reset_on_init=False) # <--- ALTERADO: Não reseta o motor ao carregar da sessão
     motor.estado = data['motor_estado']
     motor.indice_arquivo_atual = data['motor_indice_arquivo_atual']
-    # Recarrega os eventos para o motor, garantindo que o estado interno esteja consistente
+    # Se uma rota 2026 foi escolhida, aponta arquivos_cenario[1] para o arquivo correto
+    rota_id = data.get('diretor_rota_escolhida_id')
+    if rota_id:
+        motor.arquivos_cenario[1] = f"evento_2026_gatilho_rota_{rota_id}.json"
     motor._carregar_arquivo_atual()
 
     diretor = DiretorNarrativo(motor)
@@ -45,6 +47,8 @@ def _load_diretor_from_data(data):
     diretor.passo_prologo_2026 = data.get('diretor_passo_prologo_2026', 0)
     diretor.passo_encruzilhada_2026 = data.get('diretor_passo_encruzilhada_2026', 0)
     diretor.rota_escolhida_id = data.get('diretor_rota_escolhida_id', None)
+    diretor._passo_dialogo_evento = data.get('diretor_passo_dialogo_evento', 0)
+    diretor._ultimo_evento_dialogo_id = data.get('diretor_ultimo_evento_dialogo_id', "")
     return diretor
 
 def _extract_data_from_diretor(diretor_instance):
@@ -56,10 +60,12 @@ def _extract_data_from_diretor(diretor_instance):
         'diretor_nome_jogador': diretor_instance.nome_jogador,
         'diretor_roteiro_intro': diretor_instance.roteiro_intro,
         'diretor_slide_atual': diretor_instance.slide_atual,
-        'diretor_initial_game_transition_step': diretor_instance._initial_game_transition_step, # Salvar o novo estado
+        'diretor_initial_game_transition_step': diretor_instance._initial_game_transition_step,
         'diretor_passo_prologo_2026': diretor_instance.passo_prologo_2026,
         'diretor_passo_encruzilhada_2026': diretor_instance.passo_encruzilhada_2026,
         'diretor_rota_escolhida_id': diretor_instance.rota_escolhida_id,
+        'diretor_passo_dialogo_evento': diretor_instance._passo_dialogo_evento,
+        'diretor_ultimo_evento_dialogo_id': diretor_instance._ultimo_evento_dialogo_id,
     }
     print(f">>> _extract_data_from_diretor: _initial_game_transition_step extraído: {diretor_instance._initial_game_transition_step}")
     return data

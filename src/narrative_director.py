@@ -1,12 +1,13 @@
 # src/diretor.py
 import json
 import copy
-import logging
 
-from flask import render_template, make_response, request, redirect # Importar redirect
+from flask import render_template, make_response, request, redirect, session as flask_session
 import os
 from pathlib import Path
 from src.audio_config import AUDIO_SETTINGS # Importar as configurações de áudio
+from src.Maps import LAYOUT_RANDOM, ROTA_BG_2026, IMG_PERSONS
+
 
 class DiretorNarrativo:
     def __init__(self, engine_instance):
@@ -16,6 +17,9 @@ class DiretorNarrativo:
         self.nome_jogador = "Gerente"
         self.roteiro_intro = []
         self.slide_atual = 0
+        # Sequenciamento de dialogos_iniciais em eventos 2026
+        self._passo_dialogo_evento = 0
+        self._ultimo_evento_dialogo_id = ""
 
         caminho_arquivo = os.path.join(Path(__file__).resolve().parent.parent, "data", "intro.json")
         with open(caminho_arquivo, 'r', encoding='utf-8') as f:
@@ -45,8 +49,8 @@ class DiretorNarrativo:
         if escolha_usuario is not None:
             self.motor.processar_escolha(escolha_usuario)
 
-        # Novo: Orquestra a transição inicial do jogo antes de qualquer outra lógica
-        if hasattr(self, '_initial_game_transition_step') and self._initial_game_transition_step > 0: # Verifica se o atributo existe
+        # Orquestra a transição inicial do jogo antes de qualquer outra lógica
+        if hasattr(self, '_initial_game_transition_step') and self._initial_game_transition_step > 0:
             return self._orquestrar_initial_game_transition()
 
         dados_motor = self.motor.formatar_para_frontend()
@@ -59,73 +63,155 @@ class DiretorNarrativo:
 
         return self._renderizar_gameplay(dados_motor)
 
+    # ------------------------------------------------------------------
+    # HELPERS COMPARTILHADOS
+    # ------------------------------------------------------------------
+
+    def _calcular_bg_src(self, ano):
+        """Retorna o caminho do background correto para o ano/rota atual."""
+        if ano == 2026:
+            historico = self.motor.estado.get("historico_rotas", [])
+            rota = next((r for r in reversed(historico) if r in ROTA_BG_2026), None)
+            return f"/static/img/{ROTA_BG_2026.get(rota, 'bg_2026')}.png"
+        return f"/static/img/bg_{ano}.png"
+
+    def _spotlight_for_agente(self, agente_raw):
+        """Retorna dict com parâmetros de spotlight para um agente de diálogo."""
+        agente = agente_raw.replace("ID_", "")
+        if agente == "Vagner":
+            return dict(personagem_foco="Vagner",
+                        img_esq_src="/static/img/vagner.png", ator_esq_foco=True,
+                        mostra_npc=True, npc_eh_foco=False,
+                        img_npc_src="/static/img/gerente.png")
+        nome_img = IMG_PERSONS.get(agente, agente.lower())
+        return dict(personagem_foco=agente,
+                    img_esq_src="/static/img/vagner.png", ator_esq_foco=False,
+                    mostra_npc=True, npc_eh_foco=True,
+                    img_npc_src=f"/static/img/{nome_img}.png")
+
     def _renderizar_gameplay(self, dados):
         """Renderiza o HTML do gameplay padrão."""
-        # Detecta entrada no evento_encruzilhada_2026 e inicia sequência sequential
+        # Detecta entrada no evento_encruzilhada_2026 e inicia sequência sequencial
         if dados.get("ano") == 2026 and self.passo_encruzilhada_2026 == 0:
             evt_check = self.motor.obter_evento_atual()
             if evt_check and evt_check.get("id") == "evento_encruzilhada_2026":
                 self.passo_encruzilhada_2026 = 1
                 return self._orquestrar_encruzilhada_2026()
 
-        estado_barras = dados.get("estado", {})
-        texto_html = ""
         evt_atual = self.motor.obter_evento_atual()
 
-        if evt_atual and "dialogos_iniciais" in evt_atual:
-            for d in evt_atual["dialogos_iniciais"]:
-                agente = d["agente"].replace("ID_", "")
-                texto_html += (
-                    f"<p class='nome-personagem'>{agente}</p>"
-                    f"<p class='fala-dialogo'>{d['fala']}</p>"
-                )
-        else:
-            texto_html = f"<p class='fala-dialogo'>{dados['texto'].replace(chr(10), '<br>')}</p>"
+        # Eventos com múltiplos diálogos → exibe um por vez
+        # Guard: se o engine tem texto pendente (argumento/tréplica), deixa o fluxo padrão exibir
+        _tem_pendente = (self.motor.estado.get("texto_gerente_pendente") or
+                         self.motor.estado.get("texto_treplica_pendente"))
+        if evt_atual and "dialogos_iniciais" in evt_atual and not _tem_pendente:
+            return self._orquestrar_dialogo_evento(evt_atual, dados)
+
+        # Fluxo padrão (eventos 1999 com campo 'texto' único, ou texto pendente 2026)
+        estado_barras = dados.get("estado", {})
+        texto_html = f"<p class='fala-dialogo'>{dados['texto'].replace(chr(10), '<br>')}</p>"
 
         opcoes_html = ""
         for idx, opcao_txt in enumerate(dados["opcoes"]):
-            opcoes_html += f"<button class='btn-opcao' hx-post='/api/interagir' hx-vals='{{\"choice\": {idx}}}' hx-target='#ui-jogo' hx-swap='innerHTML'>{opcao_txt}</button>"
+            opcoes_html += (
+                f"<button class='btn-opcao' hx-post='/api/interagir' "
+                f"hx-vals='{{\"choice\": {idx}}}' "
+                f"hx-target='#ui-jogo' hx-swap='innerHTML'>{opcao_txt}</button>"
+            )
 
         personagem_foco = dados.get("personagem", "Sistema")
 
         # Spotlight — define quem aparece no slot direito e se está em foco
         if personagem_foco == "Sistema":
-            # Sem personagem definido: slot direito vazio
             mostra_npc = False
             npc_eh_foco = False
             img_npc_src = ""
         elif personagem_foco == "Vagner":
-            # Vagner fala: Gerente aparece à direita como ouvinte (apagado)
             mostra_npc = True
             npc_eh_foco = False
             img_npc_src = "/static/img/gerente.png"
         else:
-            # Outro NPC (Mauricio, Leila, Gerente…) está em destaque à direita
             mostra_npc = True
             npc_eh_foco = True
             img_npc_src = f"/static/img/{personagem_foco.lower()}.png"
 
-        # Determina o background correto: rota A/B/C/D define o cenário em 2026
-        _ROTA_BG_2026 = {"A": "bg_2026_y2k_set", "B": "bg_2026_artefatos",
-                          "C": "bg_2026_detox", "D": "bg_2026_pub"}
         ano = dados.get("ano", 1999)
-        if ano == 2026:
-            historico = self.motor.estado.get("historico_rotas", [])
-            rota = next((r for r in reversed(historico) if r in ["A", "B", "C", "D"]), None)
-            bg_src = f"/static/img/{_ROTA_BG_2026.get(rota, 'bg_2026')}.png"
-        else:
-            bg_src = f"/static/img/bg_{ano}.png"
-
         return render_template(
             "game_ui.html",
+            tema_escolhido="tema-" + flask_session.get('tema_visual', 'a'),
             ano=ano,
-            bg_src=bg_src,
+            bg_src=self._calcular_bg_src(ano),
             personagem_foco=personagem_foco,
             mostra_npc=mostra_npc,
             npc_eh_foco=npc_eh_foco,
             img_npc_src=img_npc_src,
             img_esq_src="/static/img/vagner.png",
             ator_esq_foco=(personagem_foco == "Vagner"),
+            texto_dialogo=texto_html,
+            opcoes_dialogo=opcoes_html,
+            caixa=estado_barras.get("caixa", 0),
+            stress=estado_barras.get("stress", 0),
+            acervo=estado_barras.get("acervo", 0),
+            tracao=estado_barras.get("tracao", 0)
+        )
+
+    def _orquestrar_dialogo_evento(self, evt, dados):
+        """Exibe os dialogos_iniciais de um evento UM POR VEZ.
+        Ao esgotar todos os diálogos, exibe as opções de escolha.
+        """
+        evt_id = evt.get("id", "")
+        dialogos = evt["dialogos_iniciais"]
+        estado_barras = dados.get("estado", {})
+        ano = dados.get("ano", 2026)
+        bg_src = self._calcular_bg_src(ano)
+
+        # Detecta troca de evento → reseta o contador de diálogo
+        if evt_id != self._ultimo_evento_dialogo_id:
+            self._ultimo_evento_dialogo_id = evt_id
+            self._passo_dialogo_evento = 0
+
+        btn_continuar = (
+            "<button class='btn-opcao' hx-post='/api/interagir' "
+            "hx-target='#ui-jogo' hx-swap='innerHTML'>Continuar</button>"
+        )
+
+        if self._passo_dialogo_evento < len(dialogos):
+            # --- Mostra o diálogo atual ---
+            d = dialogos[self._passo_dialogo_evento]
+            agente = d["agente"].replace("ID_", "")
+            texto_html = (
+                f"<p class='nome-personagem'>{agente}</p>"
+                f"<p class='fala-dialogo'>{d['fala']}</p>"
+            )
+            self._passo_dialogo_evento += 1
+            opcoes_html = btn_continuar
+            spotlight = self._spotlight_for_agente(d["agente"])
+        else:
+            # --- Todos os diálogos vistos: exibe as opções de escolha ---
+            texto_html = ""
+            opcoes_html = ""
+            for idx, opcao_txt in enumerate(dados["opcoes"]):
+                opcoes_html += (
+                    f"<button class='btn-opcao' hx-post='/api/interagir' "
+                    f"hx-vals='{{\"choice\": {idx}}}' "
+                    f"hx-target='#ui-jogo' hx-swap='innerHTML'>{opcao_txt}</button>"
+                )
+            # Spotlight neutro para a tela de decisão
+            spotlight = dict(personagem_foco="Sistema",
+                             img_esq_src="/static/img/vagner.png", ator_esq_foco=False,
+                             mostra_npc=False, npc_eh_foco=False, img_npc_src="")
+
+        return render_template(
+            "game_ui.html",
+            tema_escolhido="tema-" + flask_session.get('tema_visual', 'a'),
+            ano=ano,
+            bg_src=bg_src,
+            personagem_foco=spotlight["personagem_foco"],
+            mostra_npc=spotlight["mostra_npc"],
+            npc_eh_foco=spotlight["npc_eh_foco"],
+            img_npc_src=spotlight["img_npc_src"],
+            img_esq_src=spotlight["img_esq_src"],
+            ator_esq_foco=spotlight["ator_esq_foco"],
             texto_dialogo=texto_html,
             opcoes_dialogo=opcoes_html,
             caixa=estado_barras.get("caixa", 0),
@@ -145,36 +231,27 @@ class DiretorNarrativo:
         response_data = ""
 
         if self._initial_game_transition_step == 1:
-            # PASSO 1: Renderiza o placeholder para "SISTEMA CARREGADO" e espera o clique do usuário
             response_data = render_template("cinematic_transition_placeholder.html")
-
-            # Adiciona o comando typeText para "SISTEMA CARREGADO" sem sons de tecla
             ui_commands.append({
                 "action": "typeText",
                 "args": {
-                    "elementId": "system-message", # ID do elemento no cinematic_transition_placeholder.html
+                    "elementId": "system-message",
                     "fullText": "SISTEMA CARREGADO",
                     "speed": 60,
-                    "playTypingSounds": False, # Desativa os sons de tecla para este texto
-                    "postTypingCommand": { # NOVO: Comando para executar após a digitação
+                    "playTypingSounds": False,
+                    "postTypingCommand": {
                         "action": "showElementById",
                         "args": {"elementId": "btn-iniciar-sistema"}
                     }
                 }
             })
-            # O _initial_game_transition_step permanece em 1, esperando o clique do botão "iniciar sistema"
-            # Nenhuma animação ou música do game é iniciada aqui.
-        elif self._initial_game_transition_step == 2:
-            # PASSO 2: Animação do terminal e início da música do game
-            response_data = render_template("cinematic_transition_animation_placeholder.html") # Um placeholder para a animação
 
-            # Dispara a animação do terminal
+        elif self._initial_game_transition_step == 2:
+            response_data = render_template("cinematic_transition_animation_placeholder.html")
             ui_commands.append({
                 "action": "animacaoTerminal",
-                "args": {"tempo_ms": 3000, "auto_avancar": True} # auto_avancar para chamar handle_animacao_concluida
+                "args": {"tempo_ms": 3000, "auto_avancar": True}
             })
-
-            # Inicia a música de 1999
             game_music_1999_settings = AUDIO_SETTINGS["game_music_1999"]
             ui_commands.append({
                 "action": "playAudio",
@@ -186,14 +263,12 @@ class DiretorNarrativo:
                     "loop": game_music_1999_settings["loop"]
                 }
             })
-            # O _initial_game_transition_step permanece em 2, esperando a conclusão da animação
 
-        elif self._initial_game_transition_step == 3: # Agora o passo 3 é o que renderiza o gameplay
-            # Animação do terminal terminou, agora renderiza o gameplay real
-            self._initial_game_transition_step = 0 # Reseta o passo da transição
+        elif self._initial_game_transition_step == 3:
+            self._initial_game_transition_step = 0
             dados_motor = self.motor.formatar_para_frontend()
             response_data = self._renderizar_gameplay(dados_motor)
-        
+
         response = make_response(response_data)
         if ui_commands:
             response.headers["HX-Trigger"] = json.dumps({"ui_commands": ui_commands})
@@ -213,7 +288,6 @@ class DiretorNarrativo:
             self._initial_game_transition_step = 3
             return self.proximo_passo()
 
-        # CIRÚRGICO: Trata o fim da animação do terminal durante a cinemática de virada (passo 10 → 11)
         if animacao_nome == "terminal_shutdown" and self.passo_cinematico == 10:
             print("Backend: Animação do terminal concluída (virada). Avançando para o vídeo wormhole.")
             return self.proximo_passo()
@@ -226,7 +300,6 @@ class DiretorNarrativo:
         ui_commands = []
         extra_triggers = {}
 
-        # PASSO 1: Esconde o jogo, mostra a tela preta e limpa textos antigos
         if self.passo_cinematico == 1:
             extra_triggers["iniciar_fade_1999"] = {}
             response_data = render_template(
@@ -237,12 +310,8 @@ class DiretorNarrativo:
                 texto_feliz_ano_display="none",
                 imagens_personagens_display="none"
             )
-            ui_commands.append({
-                "action": "loopAutomatico",
-                "args": {"tempo_ms": 1500}
-            })
+            ui_commands.append({"action": "loopAutomatico", "args": {"tempo_ms": 1500}})
 
-        # PASSO 2: Mostra a mensagem inicial
         elif self.passo_cinematico == 2:
             response_data = render_template(
                 "cinematic_1999_to_2026.html",
@@ -252,12 +321,8 @@ class DiretorNarrativo:
                 texto_feliz_ano_display="none",
                 imagens_personagens_display="none"
             )
-            ui_commands.append({
-                "action": "loopAutomatico",
-                "args": {"tempo_ms": 2500}
-            })
+            ui_commands.append({"action": "loopAutomatico", "args": {"tempo_ms": 2500}})
 
-        # PASSO 3: Adiciona o texto explicativo da contagem (CIRÚRGICO: Variável corrigida)
         elif self.passo_cinematico == 3:
             texto_completo = "Parabéns, você chegou ao final de 1999.<br><br>Vai começar a contagem regressiva para as novas aventuras no ano 2000 que se iniciará em:"
             response_data = render_template(
@@ -268,12 +333,8 @@ class DiretorNarrativo:
                 texto_feliz_ano_display="none",
                 imagens_personagens_display="none"
             )
-            ui_commands.append({
-                "action": "loopAutomatico",
-                "args": {"tempo_ms": 3500}
-            })
+            ui_commands.append({"action": "loopAutomatico", "args": {"tempo_ms": 3500}})
 
-        # PASSO 4 a 8: Contagem Regressiva de 5 a 1 segundo a segundo
         elif 4 <= self.passo_cinematico <= 8:
             contador = 9 - self.passo_cinematico
             audio_src = AUDIO_SETTINGS["countdown_bip_normal"] if contador > 1 else AUDIO_SETTINGS["countdown_bip_final"]
@@ -286,20 +347,9 @@ class DiretorNarrativo:
                 texto_feliz_ano_display="none",
                 imagens_personagens_display="none"
             )
-            ui_commands.append({
-                "action": "playAudio",
-                "args": {
-                    "id": "som-contagem",
-                    "acao": "play_efeito",
-                    "src": audio_src
-                }
-            })
-            ui_commands.append({
-                "action": "loopAutomatico",
-                "args": {"tempo_ms": 1000}
-            })
+            ui_commands.append({"action": "playAudio", "args": {"id": "som-contagem", "acao": "play_efeito", "src": audio_src}})
+            ui_commands.append({"action": "loopAutomatico", "args": {"tempo_ms": 1000}})
 
-        # PASSO 9: FIM DA CONTAGEM - Feliz Ano Novo e Personagens
         elif self.passo_cinematico == 9:
             response_data = render_template(
                 "cinematic_1999_to_2026.html",
@@ -309,24 +359,16 @@ class DiretorNarrativo:
                 texto_feliz_ano_display="block",
                 imagens_personagens_display="flex"
             )
-            ui_commands.append({
-                "action": "loopAutomatico",
-                "args": {"tempo_ms": 4500}
-            })
+            ui_commands.append({"action": "loopAutomatico", "args": {"tempo_ms": 4500}})
 
-        # PASSO 10: Dispara o Efeito do Terminal
         elif self.passo_cinematico == 10:
             response_data = render_template(
                 "cinematic_1999_to_2026.html",
                 passo=10,
                 cena_fim_1999_display="none"
             )
-            ui_commands.append({
-                "action": "animacaoTerminal",
-                "args": {"tempo_ms": 3000, "auto_avancar": True}
-            })
+            ui_commands.append({"action": "animacaoTerminal", "args": {"tempo_ms": 3000, "auto_avancar": True}})
 
-        # PASSO 11: Execução do Vídeo Wormhole
         elif self.passo_cinematico == 11:
             response_data = render_template(
                 "cinematic_1999_to_2026.html",
@@ -335,23 +377,14 @@ class DiretorNarrativo:
                 container_shutdown_display="flex",
                 video_shutdown_display="block"
             )
-            ui_commands.append({
-                "action": "esperarVideo",
-                "args": {}
-            })
-            ui_commands.append({
-                "action": "playVideo",
-                "args": {"id": "video-shutdown", "acao": "play"}
-            })
+            ui_commands.append({"action": "esperarVideo", "args": {}})
+            ui_commands.append({"action": "playVideo", "args": {"id": "video-shutdown", "acao": "play"}})
 
-        # PASSO 12: FIM DA CINEMÁTICA - Inicia o Prólogo de 2026
         else:
             self.passo_cinematico = 0
             self.motor.indice_arquivo_atual = 1
             self.motor.estado["indice_evento"] = 0
             self.motor._carregar_arquivo_atual()
-
-            # Delega ao prólogo antes de entrar no gameplay normal
             self.passo_prologo_2026 = 0
             return self._orquestrar_prologo_2026()
 
@@ -373,7 +406,6 @@ class DiretorNarrativo:
         Passo 1: Narrador (fala_narrativa) + [Continuar]
         Passo 2: Gerente (discurso_gerente) + 4 opções de rota
         Passo 3+: processa a rota escolhida e entra no gameplay normal.
-        bg_2026.png é mantido durante todo o evento.
         """
         evt = self.motor.obter_evento_atual()
         est = self.motor.estado
@@ -385,6 +417,7 @@ class DiretorNarrativo:
                     npc=False, npc_foco=False, npc_img="", vagner_foco=False):
             return make_response(render_template(
                 "game_ui.html",
+                tema_escolhido="tema-" + flask_session.get('tema_visual', 'a'),
                 ano=2026, bg_src="/static/img/bg_2026.png",
                 personagem_foco=personagem,
                 mostra_npc=npc, npc_eh_foco=npc_foco, img_npc_src=npc_img,
@@ -415,10 +448,18 @@ class DiretorNarrativo:
                            personagem="Gerente", npc=True, npc_foco=True,
                            npc_img="/static/img/gerente.png")
 
-        # PASSO 3+ — rota escolhida: delega ao motor e entra no gameplay
+        # PASSO 3+ — rota escolhida: carrega arquivo especifico da rota
         else:
             self.passo_encruzilhada_2026 = 0
+            _ROTA_LETRA = {0: "A", 1: "B", 2: "C", 3: "D"}
+            letra = _ROTA_LETRA.get(escolha_usuario, "A")
+            self.rota_escolhida_id = letra
             self.motor.processar_escolha(escolha_usuario)
+            # Troca eventos_2026.json pelo arquivo especifico da rota
+            self.motor.arquivos_cenario[1] = f"evento_2026_gatilho_rota_{letra}.json"
+            self.motor.indice_arquivo_atual = 1
+            self.motor.estado["indice_evento"] = 0
+            self.motor._carregar_arquivo_atual()
             dados_novos = self.motor.formatar_para_frontend()
             return make_response(self._renderizar_gameplay(dados_novos))
 
@@ -430,22 +471,20 @@ class DiretorNarrativo:
                                vagner_visivel=False, vagner_foco=False,
                                npc_visivel=False, npc_foco=False, npc_img="",
                                img_esq_src=None, ator_esq_foco=None):
-        """Renderiza um slide do prólogo usando o template game_ui com ano=2026.
-        img_esq_src / ator_esq_foco permitem substituir Vagner no slot esquerdo.
-        """
+        """Renderiza um slide do prólogo usando o template game_ui com ano=2026."""
         if not vagner_visivel:
             personagem_foco = "Sistema"
         elif vagner_foco:
             personagem_foco = "Vagner"
         else:
-            personagem_foco = "Outro"  # visível mas inativo
+            personagem_foco = "Outro"
 
-        # Slot esquerdo: usa Vagner como padrão, mas aceita outro personagem
         _img_esq = img_esq_src if img_esq_src is not None else "/static/img/vagner.png"
         _ator_esq_foco = ator_esq_foco if ator_esq_foco is not None else vagner_foco
 
         return render_template(
             "game_ui.html",
+            tema_escolhido="tema-" + flask_session.get('tema_visual', 'a'),
             ano=2026,
             bg_src="/static/img/bg_2026.png",
             personagem_foco=personagem_foco,
@@ -462,25 +501,35 @@ class DiretorNarrativo:
             tracao=self.motor.estado.get("tracao", 0)
         )
 
+    @staticmethod
+    def _data_hoje_ptbr():
+        """Retorna a data atual no formato '20 de maio de 2026'."""
+        from datetime import date
+        _MESES = [
+            "", "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+            "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+        ]
+        hoje = date.today()
+        return f"{hoje.day} de {_MESES[hoje.month]} de {hoje.year}"
+
     def _formatar_dialogo(self, dialogo):
-        """Formata um dict de diálogo como HTML com nome acima da fala."""
+        """Formata um dict de diálogo como HTML com nome acima da fala.
+        Substitui o placeholder DATA_DE_HOJE pela data atual em português."""
         agente = dialogo["agente"].replace("ID_", "")
+        fala = dialogo["fala"].replace("DATA_DE_HOJE", self._data_hoje_ptbr())
         return (
             f"<p class='nome-personagem'>{agente}</p>"
-            f"<p class='fala-dialogo'>{dialogo['fala']}</p>"
+            f"<p class='fala-dialogo'>{fala}</p>"
         )
 
     def _orquestrar_prologo_2026(self, escolha_usuario=None):
         """
         Máquina de estados do prólogo de 2026 (evento_salto_temporal.json).
         Passos 1-13: slides narrativos com botão Avançar.
-        Passo 14:    escolha de rota (4 botões); aguarda escolha.
-        Passo 15:    argumento do Gerente para a rota escolhida.
-        Passo 16+:   entra no gameplay normal de 2026.
+        Passo 14+:   entra no gameplay normal de 2026.
         """
         evento = self._roteiro_salto_temporal[0]
         cenas = evento["cenas_narrativas"]
-        sub_opcoes = evento["sub_opcoes"]
         ui_commands = []
 
         btn_avancar = (
@@ -488,19 +537,13 @@ class DiretorNarrativo:
             "hx-target='#ui-jogo' hx-swap='innerHTML'>Avançar</button>"
         )
 
-        # ── Gerencia transição de estado ──────────────────────────────
-        # Avanço simples: passos 14+ entram direto no gameplay de 2026
         self.passo_prologo_2026 += 1
-
         print(f">>> Prólogo 2026: passo {self.passo_prologo_2026}")
-
-        # ── Renderização por passo ────────────────────────────────────
 
         # PASSO 1 ── Cena 1: narração (sem personagens)
         if self.passo_prologo_2026 == 1:
             texto = f"<p class='texto-narrador'><em>{cenas[0]['narracao']}</em></p>"
             response_data = self._render_prologo_slide(texto, btn_avancar)
-            # Inicia a trilha de 2026
             cfg = AUDIO_SETTINGS["game_music_2026"]
             ui_commands.append({"action": "playAudio", "args": {
                 "id": cfg["id"], "acao": "trocar_trilha",
@@ -620,7 +663,6 @@ class DiretorNarrativo:
             )
 
         # PASSO 14+ ── Entra no gameplay normal de 2026
-        # (as rotas são escolhidas pelo evento_encruzilhada_2026 do próprio JSON)
         else:
             self.passo_prologo_2026 = 0
             dados_novos = self.motor.formatar_para_frontend()
@@ -638,17 +680,46 @@ class DiretorNarrativo:
         )
 
     def _renderizar_fim_de_jogo(self):
-        return render_template(
-            "fim_de_jogo.html",
-            fim_de_jogo_text="<h2>FIM DE JOGO</h2><p>Você chegou ao final da jornada!</p>"
-        )
+        est = self.motor.estado
+        caixa  = est.get("caixa",  0)
+        tracao = est.get("tracao", 0)
+        acervo = est.get("acervo", 0)
+        stress = est.get("stress", 0)
+
+        # Classificação final baseada nas métricas
+        score_total = caixa + tracao + acervo - stress
+        if score_total >= 200:
+            classificacao = "LENDÁRIO 🏆 — A locadora entrou para a história!"
+        elif score_total >= 150:
+            classificacao = "EXCELENTE ⭐ — Uma gestão de mão cheia!"
+        elif score_total >= 100:
+            classificacao = "BOM 👍 — Sobrevivemos à virada do milênio."
+        elif score_total >= 50:
+            classificacao = "REGULAR 😅 — Deu pra segurar as pontas."
+        else:
+            classificacao = "DIFÍCIL 😬 — Mal chegamos ao fim."
+
+        fim_html = f"""
+<h2 style="font-size:2rem; margin-bottom:0.5rem;">FIM DE JOGO</h2>
+<p style="color:#aaffaa; margin-bottom:1.5rem;">Você chegou ao final da jornada da locadora!</p>
+<div style="border:1px solid #00ff00; padding:1.5rem 2.5rem; margin-bottom:1.5rem; text-align:left; min-width:280px;">
+  <h3 style="margin-top:0; text-align:center; letter-spacing:2px;">PLACAR FINAL</h3>
+  <p>💰 Caixa &nbsp;&nbsp;&nbsp;: <strong>{caixa}</strong></p>
+  <p>📈 Tração &nbsp;: <strong>{tracao}</strong></p>
+  <p>📼 Acervo &nbsp;: <strong>{acervo}</strong></p>
+  <p>😰 Stress &nbsp;&nbsp;: <strong>{stress}</strong></p>
+  <hr style="border-color:#00ff0044; margin:0.8rem 0;">
+  <p>🎯 Score &nbsp;&nbsp;&nbsp;: <strong style="font-size:1.3rem;">{score_total}</strong></p>
+</div>
+<p style="color:#ffff00; font-size:1.1rem;">{classificacao}</p>
+"""
+        return render_template("fim_de_jogo.html", fim_de_jogo_text=fim_html)
 
     def iniciar_intro(self, nome_jogador):
         self.nome_jogador = nome_jogador
         self.motor.reset_completo()
         self.motor.estado["nome_jogador"] = nome_jogador
 
-        # CIRÚRGICO: deepcopy para não corromper o cache imutável da memória interna
         self.roteiro_intro = copy.deepcopy(self._roteiro_intro_base)
         if self.roteiro_intro:
             self.roteiro_intro[0]["texto"] = self.roteiro_intro[0]["texto"].replace("{NOME_JOGADOR}", nome_jogador)
@@ -661,13 +732,10 @@ class DiretorNarrativo:
         if self.slide_atual < len(self.roteiro_intro):
             return self._renderizar_intro_slide()
         else:
-            # NOVO: Inicia a transição do jogo principal em vez de redirecionar diretamente
             return self.start_game_transition()
 
     def _renderizar_intro_slide(self):
         if self.slide_atual >= len(self.roteiro_intro):
-            # Isso não deve ser mais alcançado diretamente, pois avancar_intro_slide agora chama start_game_transition
-            # No entanto, como fallback, ainda redireciona.
             return redirect('/jogo')
 
         slide = self.roteiro_intro[self.slide_atual]
