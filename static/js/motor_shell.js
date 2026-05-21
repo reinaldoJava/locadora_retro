@@ -271,7 +271,7 @@ document.body.addEventListener('submit', destravarAudioGlobal, { once: true });
 document.body.addEventListener('htmx:afterSwap', (evt) => {
     const scrollBox = document.getElementById("scroll-box");
     if (scrollBox) {
-        scrollBox.scrollTop = scrollBox.scrollHeight;
+        scrollBox.scrollTop = 0;
     }
 
     const hxTriggerHeader = evt.detail.xhr.getResponseHeader('HX-Trigger');
@@ -323,7 +323,8 @@ document.body.addEventListener('animacao_terminal_concluida', (evt) => {
         console.warn("animacao_terminal_concluida: #ui-jogo não encontrado. Recriando sem destruir o body.");
         const novo = document.createElement('div');
         novo.id = 'ui-jogo';
-        novo.className = 'game-container';
+        const temaAtual = document.body.dataset.tema || 'tema-a';
+        novo.className = 'game-container ' + temaAtual;
         // Insere após o audio para manter a estrutura original do body
         const audio = document.getElementById('trilha-sonora-1999');
         if (audio) {
