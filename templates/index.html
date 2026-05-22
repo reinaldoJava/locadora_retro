@@ -10,16 +10,14 @@
 <body data-tema="tema-{{ tema_visual }}">
 <script type="module" src="/static/js/motor_shell.js"></script>
 
-<div id="start-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #000; z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <p class="texto-sistema">SISTEMA CARREGADO<span class="loading-dots"></span></p>
-    <button id="btn-start-game" style="margin-top: 50px; padding: 10px 20px; font-size: 16px; cursor: pointer; background: #222; color: #00ff00; border: 1px solid #00ff00;">ESTABELECER CONEXÃO</button>
-</div>
-
 <!-- Áudio fora do #ui-jogo para sobreviver aos swaps de innerHTML -->
 <audio id="trilha-sonora-1999" src="/static/audio/Game_1999.mp3" loop preload="auto"></audio>
 <audio id="trilha-sonora-2026" loop preload="none"></audio>
 
-<div class="game-container tema-{{ tema_visual }}" id="ui-jogo">
+<div class="game-container tema-{{ tema_visual }}" id="ui-jogo"
+     hx-post="/api/iniciar-game-transition"
+     hx-trigger="load"
+     hx-swap="innerHTML">
     {% if initial_gameplay_content %}
     {{ initial_gameplay_content | safe }}
     {% endif %}
