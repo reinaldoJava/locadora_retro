@@ -1,4 +1,16 @@
 # src/audio_config.py
+# Configuracao centralizada dos assets de audio do jogo.
+#
+# Consumido por: motor_shell.js (via endpoint /api/audio-config ou injetado no template)
+# e por audio_utils.js para resolver IDs e caminhos sem hardcode espalhado.
+#
+# Estrutura:
+#   keyboard_sounds  — pool de sons de tecla sorteados aleatoriamente no typeText
+#   click_sound      — feedback de clique em botoes de opcao
+#   intro_music      — trilha da tela de login (intro.html)
+#   game_music_1999  — trilha do gameplay 1999 (index.html)
+#   game_music_2026  — trilha do gameplay 2026, carregada sob demanda na virada
+#   countdown_bip_*  — sons da contagem regressiva da cinemática 1999->2000
 
 AUDIO_SETTINGS = {
     "keyboard_sounds": [

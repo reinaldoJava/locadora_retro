@@ -31,12 +31,12 @@ class CinematicMixin:
         animacao_nome = request.form.get("animacao")
 
         if animacao_nome == "terminal_shutdown" and self._initial_game_transition_step == 2:
-            print("Backend: Animacao do terminal concluida. Avancando para o gameplay.")
+            # Terminal da intro concluido: avanca para o gameplay inicial
             self._initial_game_transition_step = 3
             return self.proximo_passo()
 
         if animacao_nome == "terminal_shutdown" and self.passo_cinematico == 10:
-            print("Backend: Animacao do terminal concluida (virada). Avancando para o video wormhole.")
+            # Terminal da virada 1999->2026 concluido: exibe o video wormhole
             return self.proximo_passo()
 
         return make_response("", 204)

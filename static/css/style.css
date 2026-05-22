@@ -295,12 +295,15 @@ body, html {
 
 #imagens-personagens {
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 6px;
+    flex-wrap: nowrap;
     justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    padding: 0 1px;
 }
 
-#imagens-personagens img { height: 220px; }
+#imagens-personagens img { height: 240px; }
 
 
 /* =========================================
@@ -341,36 +344,40 @@ body, html {
 
 /* Slides de apresentação do elenco (intro_slide.html) */
 #elenco-imagem {
+    position: absolute;
+    bottom: 40%;
+    left: 50%;
+    transform: translateX(-50%);
     max-height: 55%;
     object-fit: contain;
     z-index: 2;
-    display: flex;
 }
 
 .ui-layer-intro {
+    position: absolute; bottom: 0; left: 0;
     width: 100%; height: 40%;
-    background-color: rgba(2, 12, 45, 0.95);
-    border-top: 4px solid #ffcc00;
+    background-color: var(--dialog-bg);
+    border-top: 4px solid var(--dialog-border);
     display: flex; flex-direction: column; padding: 20px;
     z-index: 10;
-    color: #f1f1f1;
+    color: var(--text-primary);
     text-align: center;
     box-shadow: 0 -10px 25px rgba(0,0,0,0.7);
 }
 
 .elenco-titulo {
-    font-size: 1.4rem; color: #ffcc00; margin-bottom: 14px; text-transform: uppercase;
+    font-size: 1.4rem; color: var(--text-speaker); margin-bottom: 14px; text-transform: uppercase;
 }
 .elenco-texto {
     font-size: 1.6rem; line-height: 1.1; white-space: pre-wrap; margin-bottom: 20px;
 }
 
 .btn-avancar-intro {
-    align-self: center; background-color: transparent; color: #ffcc00;
-    border: 2px solid #ffcc00; padding: 10px 30px; font-size: 1rem;
+    align-self: center; background-color: transparent; color: var(--btn-text);
+    border: 2px solid var(--btn-border); padding: 10px 30px; font-size: 1rem;
     cursor: pointer; transition: 0.1s; text-transform: uppercase; border-radius: 4px;
 }
-.btn-avancar-intro:hover { background-color: #ffcc00; color: #000; font-weight: bold; }
+.btn-avancar-intro:hover { background-color: var(--btn-hover-bg); color: var(--text-primary); font-weight: bold; }
 
 /* =========================================
    10. CINEMÁTICA — Overlay de terminal GIF

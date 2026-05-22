@@ -102,7 +102,7 @@ def _reset_game_state():
 def tela_inicial():
     """Entrada do jogo: reseta estado e exibe tela de login (intro.html)."""
     _reset_game_state()
-    return render_template('intro.html')
+    return render_template('intro.html', tema_visual=session['tema_visual'])
 
 @app.route('/jogo')
 def index_jogo():

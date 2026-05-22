@@ -1,13 +1,25 @@
+# src/agents.py
+# Interface com o modelo de linguagem local via Ollama (compativel com OpenAI SDK).
+#
+# Responsabilidade: gerar falas dinamicas para agentes NPC quando o evento define
+# um "agente_foco". O caller (engine.py via renderer_mixin.py) passa o contexto do
+# dia e recebe a fala como string HTML-safe, pronta para renderizacao.
+#
+# Arquitetura: cliente OpenAI apontado para localhost:11434 (Ollama). Cada agente
+# tem um system-prompt fixo em PROMPTS que define personalidade e restricoes de
+# roleplay. O user-prompt e montado dinamicamente com contexto, ano e nome do gerente.
+
 from openai import OpenAI
 
-# A mágica do zero custo: apontar o cliente para o localhost na porta do Ollama
+# Cliente aponta para Ollama rodando localmente; a api_key e exigida pela biblioteca
+# mas ignorada pelo servidor Ollama.
 client = OpenAI(
     base_url='http://localhost:11434/v1',
-    api_key='ollama' # A chave não importa para rodar local, mas a biblioteca exige preencher
+    api_key='ollama'
 )
 
-# Os prompts exatamente como validamos no GDD
-# Guardrails de arquitetura: força o LLM a atuar como API de diálogo
+# Guardrail de roleplay: impede que o LLM narre acoes, invente personagens ou
+# quebre a imersao do jogo. Compartilhado por todos os agentes como prefixo.
 INSTRUCAO_GERAL = (
     "=== REGRA DE SISTEMA (STRICT ROLEPLAY) ===\n"
     "Você é um personagem de um jogo. Responda APENAS com a sua fala direta.\n"
@@ -21,6 +33,7 @@ INSTRUCAO_GERAL = (
     "- NÃO INVENTE NÚMEROS. APENAS TRABALHE COM OS JÁ EXISTENTES."
 )
 
+# System-prompts individuais: personalidade + tarefa de cada NPC.
 PROMPTS = {
     "ID_Leila": f"{INSTRUCAO_GERAL}Você é Leila, atendente jovem, enérgica e focada no cliente. "
                 "Em 1999, use poucas gírias da época. Bem extovertida e gosta de novidades. Em 2026, foque em métricas e redes sociais. "
@@ -40,8 +53,12 @@ PROMPTS = {
 
 
 def gerar_fala(agente_id, contexto_dia, ano, nome_gerente):
-    # ... (seu código de inicialização do cliente) ...
+    """Gera a fala de um NPC via LLM local.
 
+    Monta o user-prompt com contexto do dia, ano e nome do gerente,
+    e retorna a fala gerada como string. Em caso de falha de conexao
+    com o Ollama, retorna uma fala de fallback para nao travar o jogo.
+    """
     prompt_sistema = PROMPTS.get(agente_id, INSTRUCAO_GERAL)
     prompt_usuario = (
         f"[CENA - ANO {ano}]\n"
@@ -52,17 +69,14 @@ def gerar_fala(agente_id, contexto_dia, ano, nome_gerente):
         f"A cena começa agora:"
     )
 
-    # ADICIONE ESTA LINHA PARA DEBUG:
-    # print(f"DEBUG: Enviando para IA -> {prompt_usuario}")
-
     try:
         resposta = client.chat.completions.create(
-            model="qwen2.5-instruct", # Recomendo fortemente este modelo para evitar recusas
+            model="qwen2.5-instruct",
             messages=[
                 {"role": "system", "content": prompt_sistema},
                 {"role": "user", "content": prompt_usuario}
             ],
-            temperature=0.5, # Aumentar um pouco ajuda a IA a ser mais "criativa"
+            temperature=0.5,
             max_tokens=240,
             timeout=120.0
         )
