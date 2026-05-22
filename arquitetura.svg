@@ -1,0 +1,295 @@
+<svg viewBox="0 0 1100 820" xmlns="http://www.w3.org/2000/svg" font-family="'Courier New', monospace">
+  <defs>
+    <style>
+      .title { font-size: 22px; font-weight: bold; fill: #f5d8b0; }
+      .layer-label { font-size: 13px; font-weight: bold; fill: #e8a060; letter-spacing: 0.1em; }
+      .box-label { font-size: 12px; font-weight: bold; fill: #f5d8b0; }
+      .box-sub { font-size: 10px; fill: #c8a96e; }
+      .arrow-label { font-size: 10px; fill: #8ab8d8; }
+      .protocol-label { font-size: 10px; fill: #70c870; }
+      .section-title { font-size: 11px; font-weight: bold; fill: #5ab8ff; }
+    </style>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#4a9de0" />
+    </marker>
+    <marker id="arrowhead-green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#39b54a" />
+    </marker>
+    <marker id="arrowhead-orange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#c8692a" />
+    </marker>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a02;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d0d0d;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="820" fill="url(#bg-grad)" rx="8"/>
+  <rect width="1100" height="820" fill="none" stroke="#c8692a" stroke-width="2" rx="8"/>
+
+  <!-- Title -->
+  <text x="550" y="36" text-anchor="middle" class="title">LOCADORA RETRO — ARQUITETURA DO SISTEMA</text>
+  <line x1="60" y1="46" x2="1040" y2="46" stroke="#c8692a" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- ═══════════════════════════════════════════
+       COLUNA ESQUERDA: BACKEND (PYTHON / FLASK)
+       ═══════════════════════════════════════════ -->
+
+  <!-- Layer label -->
+  <text x="80" y="72" class="layer-label">▶ BACKEND  (Python / Flask)</text>
+
+  <!-- app.py -->
+  <rect x="60" y="80" width="200" height="90" rx="5" fill="rgba(40,15,5,0.9)" stroke="#c8692a" stroke-width="1.5"/>
+  <text x="160" y="98" text-anchor="middle" class="box-label">app.py</text>
+  <text x="160" y="113" text-anchor="middle" class="box-sub">Rotas Flask + session</text>
+  <text x="160" y="127" text-anchor="middle" class="box-sub">/api/iniciar-game-transition</text>
+  <text x="160" y="141" text-anchor="middle" class="box-sub">/api/interagir</text>
+  <text x="160" y="155" text-anchor="middle" class="box-sub">/api/animacao-concluida</text>
+
+  <!-- DiretorNarrativo -->
+  <rect x="60" y="196" width="200" height="60" rx="5" fill="rgba(40,15,5,0.9)" stroke="#e8a060" stroke-width="2"/>
+  <text x="160" y="218" text-anchor="middle" class="box-label">DiretorNarrativo</text>
+  <text x="160" y="234" text-anchor="middle" class="box-sub">Orchestrator principal</text>
+  <text x="160" y="248" text-anchor="middle" class="box-sub">Herda todos os Mixins</text>
+  <line x1="160" y1="170" x2="160" y2="196" stroke="#4a9de0" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="165" y="185" class="arrow-label">instancia</text>
+
+  <!-- Mixins grid -->
+  <text x="80" y="284" class="section-title">MIXINS</text>
+  <!-- RendererMixin -->
+  <rect x="60" y="292" width="93" height="54" rx="4" fill="rgba(20,8,2,0.95)" stroke="#c8692a" stroke-width="1"/>
+  <text x="107" y="310" text-anchor="middle" class="box-sub" font-weight="bold">Renderer</text>
+  <text x="107" y="324" text-anchor="middle" class="box-sub">Mixin</text>
+  <text x="107" y="337" text-anchor="middle" class="box-sub">→ HTML</text>
+  <!-- CinematicMixin -->
+  <rect x="167" y="292" width="93" height="54" rx="4" fill="rgba(20,8,2,0.95)" stroke="#c8692a" stroke-width="1"/>
+  <text x="213" y="310" text-anchor="middle" class="box-sub" font-weight="bold">Cinematic</text>
+  <text x="213" y="324" text-anchor="middle" class="box-sub">Mixin</text>
+  <text x="213" y="337" text-anchor="middle" class="box-sub">→ 1999→2026</text>
+  <!-- PrologoMixin -->
+  <rect x="60" y="354" width="93" height="54" rx="4" fill="rgba(20,8,2,0.95)" stroke="#c8692a" stroke-width="1"/>
+  <text x="107" y="372" text-anchor="middle" class="box-sub" font-weight="bold">Prologo</text>
+  <text x="107" y="386" text-anchor="middle" class="box-sub">Mixin</text>
+  <text x="107" y="399" text-anchor="middle" class="box-sub">→ slides 2026</text>
+  <!-- IntroMixin -->
+  <rect x="167" y="354" width="93" height="54" rx="4" fill="rgba(20,8,2,0.95)" stroke="#c8692a" stroke-width="1"/>
+  <text x="213" y="372" text-anchor="middle" class="box-sub" font-weight="bold">Intro</text>
+  <text x="213" y="386" text-anchor="middle" class="box-sub">Mixin</text>
+  <text x="213" y="399" text-anchor="middle" class="box-sub">→ slides login</text>
+
+  <!-- Connector from DiretorNarrativo to mixins -->
+  <line x1="160" y1="256" x2="160" y2="292" stroke="#c8692a" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- Engine -->
+  <rect x="60" y="430" width="200" height="60" rx="5" fill="rgba(2,8,25,0.95)" stroke="#4a9de0" stroke-width="1.5"/>
+  <text x="160" y="452" text-anchor="middle" class="box-label">engine.py</text>
+  <text x="160" y="467" text-anchor="middle" class="box-sub">Estado da partida</text>
+  <text x="160" y="481" text-anchor="middle" class="box-sub">processar_escolha() · formatar_para_frontend()</text>
+  <line x1="160" y1="408" x2="160" y2="430" stroke="#4a9de0" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- Data files -->
+  <text x="80" y="516" class="section-title">DADOS (JSON)</text>
+  <rect x="60" y="524" width="90" height="40" rx="4" fill="rgba(5,15,5,0.9)" stroke="#39b54a" stroke-width="1"/>
+  <text x="105" y="540" text-anchor="middle" class="box-sub" font-weight="bold">eventos</text>
+  <text x="105" y="554" text-anchor="middle" class="box-sub">_1999/2026</text>
+  <rect x="160" y="524" width="100" height="40" rx="4" fill="rgba(5,15,5,0.9)" stroke="#39b54a" stroke-width="1"/>
+  <text x="210" y="540" text-anchor="middle" class="box-sub" font-weight="bold">audio_config</text>
+  <text x="210" y="554" text-anchor="middle" class="box-sub">Maps.py</text>
+  <line x1="160" y1="490" x2="160" y2="524" stroke="#39b54a" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- ═══════════════════════════════════════════
+       COLUNA CENTRAL: HTTP / HTMX
+       ═══════════════════════════════════════════ -->
+
+  <text x="420" y="72" class="layer-label">▶ TRANSPORTE  (HTTP + HTMX)</text>
+
+  <!-- HTTP box -->
+  <rect x="360" y="80" width="200" height="136" rx="5" fill="rgba(2,8,25,0.9)" stroke="#4a9de0" stroke-width="1.5"/>
+  <text x="460" y="100" text-anchor="middle" class="box-label">Requisições HTMX</text>
+  <line x1="375" y1="107" x2="545" y2="107" stroke="#4a9de0" stroke-width="0.5"/>
+  <text x="380" y="122" class="box-sub">hx-post="/api/interagir"</text>
+  <text x="380" y="137" class="box-sub">hx-target="#ui-jogo"</text>
+  <text x="380" y="152" class="box-sub">hx-swap="innerHTML"</text>
+  <text x="380" y="167" class="box-sub">hx-trigger="load"</text>
+  <text x="380" y="182" class="box-sub">HX-Redirect → /jogo</text>
+  <text x="380" y="197" class="box-sub">HX-Trigger → ui_commands</text>
+
+  <!-- HX-Trigger protocol box -->
+  <rect x="360" y="238" width="200" height="110" rx="5" fill="rgba(5,15,5,0.9)" stroke="#39b54a" stroke-width="1.5"/>
+  <text x="460" y="258" text-anchor="middle" class="box-label">HX-Trigger Protocol</text>
+  <line x1="375" y1="265" x2="545" y2="265" stroke="#39b54a" stroke-width="0.5"/>
+  <text x="380" y="280" class="protocol-label">{ "ui_commands": [</text>
+  <text x="390" y="294" class="protocol-label">{ "action": "typeText",</text>
+  <text x="390" y="308" class="protocol-label">  "args": { elementId,</text>
+  <text x="390" y="322" class="protocol-label">    fullText, speed } },</text>
+  <text x="380" y="336" class="protocol-label">{ "action": "playAudio", ... }]}</text>
+
+  <!-- Session box -->
+  <rect x="360" y="370" width="200" height="80" rx="5" fill="rgba(40,15,5,0.9)" stroke="#c8692a" stroke-width="1.5"/>
+  <text x="460" y="390" text-anchor="middle" class="box-label">Flask Session</text>
+  <line x1="375" y1="397" x2="545" y2="397" stroke="#c8692a" stroke-width="0.5"/>
+  <text x="380" y="412" class="box-sub">Serializa DiretorNarrativo</text>
+  <text x="380" y="427" class="box-sub">Recria por requisição</text>
+  <text x="380" y="441" class="box-sub">Cookie signed (SECRET_KEY)</text>
+
+  <!-- Templates box -->
+  <rect x="360" y="472" width="200" height="80" rx="5" fill="rgba(20,8,2,0.9)" stroke="#c8692a" stroke-width="1.5"/>
+  <text x="460" y="492" text-anchor="middle" class="box-label">Templates Jinja2</text>
+  <line x1="375" y1="499" x2="545" y2="499" stroke="#c8692a" stroke-width="0.5"/>
+  <text x="380" y="514" class="box-sub">index.html · intro.html</text>
+  <text x="380" y="529" class="box-sub">game_ui.html · game_over.html</text>
+  <text x="380" y="543" class="box-sub">fim_de_jogo.html</text>
+
+  <!-- Arrows between backend and transport -->
+  <line x1="260" y1="130" x2="360" y2="130" stroke="#4a9de0" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="290" y="124" class="arrow-label">HTML</text>
+  <line x1="360" y1="145" x2="260" y2="145" stroke="#c8692a" stroke-width="1.5" marker-end="url(#arrowhead-orange)"/>
+  <text x="290" y="158" class="arrow-label">POST</text>
+
+  <!-- ═══════════════════════════════════════════
+       COLUNA DIREITA: FRONTEND (JS)
+       ═══════════════════════════════════════════ -->
+
+  <text x="700" y="72" class="layer-label">▶ FRONTEND  (JavaScript ES Modules)</text>
+
+  <!-- motor_shell.js -->
+  <rect x="640" y="80" width="200" height="90" rx="5" fill="rgba(2,8,25,0.9)" stroke="#4a9de0" stroke-width="1.5"/>
+  <text x="740" y="100" text-anchor="middle" class="box-label">motor_shell.js</text>
+  <text x="740" y="115" text-anchor="middle" class="box-sub">Orquestrador HTMX</text>
+  <text x="740" y="130" text-anchor="middle" class="box-sub">htmx:afterSwap → dispatcher</text>
+  <text x="740" y="145" text-anchor="middle" class="box-sub">window.fadeOutMusic</text>
+  <text x="740" y="160" text-anchor="middle" class="box-sub">window.skipCurrentTyping</text>
+
+  <!-- ui_effects.js -->
+  <rect x="640" y="196" width="200" height="90" rx="5" fill="rgba(2,8,25,0.9)" stroke="#4a9de0" stroke-width="1.5"/>
+  <text x="740" y="216" text-anchor="middle" class="box-label">ui_effects.js</text>
+  <text x="740" y="231" text-anchor="middle" class="box-sub">typeText() · animacaoTerminal()</text>
+  <text x="740" y="246" text-anchor="middle" class="box-sub">loopAutomatico() · esperarVideo()</text>
+  <text x="740" y="261" text-anchor="middle" class="box-sub">playVideo() · showElementById()</text>
+  <text x="740" y="276" text-anchor="middle" class="box-sub">postTypingCommand (callback)</text>
+  <line x1="740" y1="170" x2="740" y2="196" stroke="#4a9de0" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="745" y="186" class="arrow-label">imports</text>
+
+  <!-- audio_utils.js -->
+  <rect x="640" y="312" width="200" height="90" rx="5" fill="rgba(2,8,25,0.9)" stroke="#4a9de0" stroke-width="1.5"/>
+  <text x="740" y="332" text-anchor="middle" class="box-label">audio_utils.js</text>
+  <text x="740" y="347" text-anchor="middle" class="box-sub">playAudio() · fadeOutMusic()</text>
+  <text x="740" y="362" text-anchor="middle" class="box-sub">tocarClick() · tocarSomDeTecla()</text>
+  <text x="740" y="377" text-anchor="middle" class="box-sub">destravarAudioGlobal()</text>
+  <text x="740" y="392" text-anchor="middle" class="box-sub">_audioPlayers{} (cache)</text>
+  <line x1="740" y1="286" x2="740" y2="312" stroke="#4a9de0" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <text x="745" y="302" class="arrow-label">imports</text>
+
+  <!-- uiActionMap box -->
+  <rect x="640" y="428" width="200" height="70" rx="5" fill="rgba(5,15,5,0.9)" stroke="#39b54a" stroke-width="1.5"/>
+  <text x="740" y="448" text-anchor="middle" class="box-label">uiActionMap</text>
+  <line x1="655" y1="455" x2="825" y2="455" stroke="#39b54a" stroke-width="0.5"/>
+  <text x="740" y="469" text-anchor="middle" class="box-sub">action string → função JS</text>
+  <text x="740" y="483" text-anchor="middle" class="box-sub">Despachado por motor_shell</text>
+  <line x1="740" y1="402" x2="740" y2="428" stroke="#39b54a" stroke-width="1.5" marker-end="url(#arrowhead-green)"/>
+
+  <!-- Browser Audio box -->
+  <rect x="640" y="524" width="200" height="60" rx="5" fill="rgba(20,8,2,0.9)" stroke="#c8692a" stroke-width="1.5"/>
+  <text x="740" y="544" text-anchor="middle" class="box-label">Browser Audio API</text>
+  <text x="740" y="559" text-anchor="middle" class="box-sub">HTMLAudioElement (autoplay)</text>
+  <text x="740" y="573" text-anchor="middle" class="box-sub">Desbloqueado por gesture</text>
+  <line x1="740" y1="498" x2="740" y2="524" stroke="#c8692a" stroke-width="1.5" marker-end="url(#arrowhead-orange)"/>
+
+  <!-- Arrow from transport to frontend -->
+  <line x1="560" y1="130" x2="640" y2="130" stroke="#39b54a" stroke-width="1.5" marker-end="url(#arrowhead-green)"/>
+  <text x="575" y="124" class="protocol-label">HX-Trigger</text>
+
+  <!-- ═══════════════════════════════════════════
+       COLUNA FAR RIGHT: FLUXO DE ESTADOS
+       ═══════════════════════════════════════════ -->
+
+  <text x="900" y="72" class="layer-label">▶ FLUXO DO JOGO</text>
+
+  <rect x="870" y="80" width="190" height="44" rx="4" fill="rgba(5,15,5,0.9)" stroke="#39b54a" stroke-width="1.5"/>
+  <text x="965" y="98" text-anchor="middle" class="box-sub" font-weight="bold">① intro.html</text>
+  <text x="965" y="113" text-anchor="middle" class="box-sub">Login + slides elenco</text>
+
+  <line x1="965" y1="124" x2="965" y2="144" stroke="#39b54a" stroke-width="1.5" marker-end="url(#arrowhead-green)"/>
+  <text x="970" y="138" class="protocol-label">HX-Redirect</text>
+
+  <rect x="870" y="148" width="190" height="44" rx="4" fill="rgba(5,15,5,0.9)" stroke="#39b54a" stroke-width="1.5"/>
+  <text x="965" y="166" text-anchor="middle" class="box-sub" font-weight="bold">② index.html / /jogo</text>
+  <text x="965" y="181" text-anchor="middle" class="box-sub">Container #ui-jogo</text>
+
+  <line x1="965" y1="192" x2="965" y2="212" stroke="#39b54a" stroke-width="1.5" marker-end="url(#arrowhead-green)"/>
+  <text x="970" y="206" class="protocol-label">hx-trigger=load</text>
+
+  <rect x="870" y="216" width="190" height="44" rx="4" fill="rgba(40,15,5,0.9)" stroke="#c8692a" stroke-width="1.5"/>
+  <text x="965" y="234" text-anchor="middle" class="box-sub" font-weight="bold">③ Cinemática 1999</text>
+  <text x="965" y="249" text-anchor="middle" class="box-sub">Terminal GIF + countdown</text>
+
+  <line x1="965" y1="260" x2="965" y2="280" stroke="#c8692a" stroke-width="1.5" marker-end="url(#arrowhead-orange)"/>
+
+  <rect x="870" y="284" width="190" height="44" rx="4" fill="rgba(40,15,5,0.9)" stroke="#c8692a" stroke-width="1.5"/>
+  <text x="965" y="302" text-anchor="middle" class="box-sub" font-weight="bold">④ Gameplay 1999</text>
+  <text x="965" y="317" text-anchor="middle" class="box-sub">Eventos JSON + escolhas</text>
+
+  <line x1="965" y1="328" x2="965" y2="348" stroke="#c8692a" stroke-width="1.5" marker-end="url(#arrowhead-orange)"/>
+
+  <rect x="870" y="352" width="190" height="44" rx="4" fill="rgba(2,8,25,0.9)" stroke="#4a9de0" stroke-width="1.5"/>
+  <text x="965" y="370" text-anchor="middle" class="box-sub" font-weight="bold">⑤ Virada 1999→2026</text>
+  <text x="965" y="385" text-anchor="middle" class="box-sub">Fade + animacaoTerminal</text>
+
+  <line x1="965" y1="396" x2="965" y2="416" stroke="#4a9de0" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <rect x="870" y="420" width="190" height="44" rx="4" fill="rgba(2,8,25,0.9)" stroke="#4a9de0" stroke-width="1.5"/>
+  <text x="965" y="438" text-anchor="middle" class="box-sub" font-weight="bold">⑥ Prólogo 2026</text>
+  <text x="965" y="453" text-anchor="middle" class="box-sub">Slides narrativos + rota</text>
+
+  <line x1="965" y1="464" x2="965" y2="484" stroke="#4a9de0" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <rect x="870" y="488" width="190" height="44" rx="4" fill="rgba(2,8,25,0.9)" stroke="#4a9de0" stroke-width="1.5"/>
+  <text x="965" y="506" text-anchor="middle" class="box-sub" font-weight="bold">⑦ Gameplay 2026</text>
+  <text x="965" y="521" text-anchor="middle" class="box-sub">Encruzilhada + desfecho</text>
+
+  <line x1="965" y1="532" x2="965" y2="552" stroke="#4a9de0" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <rect x="870" y="556" width="190" height="44" rx="4" fill="rgba(5,15,5,0.9)" stroke="#39b54a" stroke-width="1.5"/>
+  <text x="965" y="574" text-anchor="middle" class="box-sub" font-weight="bold">⑧ Fim de Jogo</text>
+  <text x="965" y="589" text-anchor="middle" class="box-sub">Score · Classificação</text>
+
+  <line x1="965" y1="600" x2="965" y2="620" stroke="#39b54a" stroke-width="1.5" marker-end="url(#arrowhead-green)"/>
+  <text x="970" y="614" class="protocol-label">href='/'</text>
+
+  <!-- Loop back arrow -->
+  <path d="M 870 624 L 840 624 L 840 92 L 870 92" fill="none" stroke="#39b54a" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowhead-green)"/>
+  <text x="828" y="365" class="protocol-label" transform="rotate(-90, 828, 365)">nova partida</text>
+
+  <!-- ═══════════════════════════════════════════
+       BOTTOM: LEGENDA
+       ═══════════════════════════════════════════ -->
+  <line x1="60" y1="648" x2="1040" y2="648" stroke="#c8692a" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="80" y="668" class="section-title">LEGENDA</text>
+
+  <line x1="150" y1="664" x2="185" y2="664" stroke="#4a9de0" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="192" y="668" class="box-sub">Fluxo de dados</text>
+
+  <line x1="320" y1="664" x2="355" y2="664" stroke="#39b54a" stroke-width="2" marker-end="url(#arrowhead-green)"/>
+  <text x="362" y="668" class="box-sub">Navegação de estado</text>
+
+  <line x1="520" y1="664" x2="555" y2="664" stroke="#c8692a" stroke-width="2" marker-end="url(#arrowhead-orange)"/>
+  <text x="562" y="668" class="box-sub">Renderização HTML</text>
+
+  <rect x="700" y="657" width="12" height="12" fill="rgba(40,15,5,0.9)" stroke="#c8692a" stroke-width="1.5"/>
+  <text x="718" y="668" class="box-sub">Python / Backend</text>
+
+  <rect x="820" y="657" width="12" height="12" fill="rgba(2,8,25,0.9)" stroke="#4a9de0" stroke-width="1.5"/>
+  <text x="838" y="668" class="box-sub">JavaScript / Frontend</text>
+
+  <rect x="960" y="657" width="12" height="12" fill="rgba(5,15,5,0.9)" stroke="#39b54a" stroke-width="1.5"/>
+  <text x="978" y="668" class="box-sub">Dados / Estado</text>
+
+  <!-- Bottom note -->
+  <text x="550" y="698" text-anchor="middle" class="box-sub">Stack: Flask · HTMX · Jinja2 · ES Modules · Web Audio API</text>
+  <text x="550" y="716" text-anchor="middle" class="box-sub">Padrão: SPA com fragment swapping · Mixins Python · HX-Trigger para comandos UI</text>
+  <text x="550" y="734" text-anchor="middle" class="box-sub">Estado: Flask Session (cookie) serializa DiretorNarrativo por requisição · Engine JSON puro</text>
+
+  <!-- Version stamp -->
+  <text x="1030" y="810" text-anchor="end" font-size="9" fill="#555">Locadora Retro © 2026</text>
+</svg>

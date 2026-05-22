@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquitetura — Motor 1999/2026</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --accent: #c8692a; --blue: #4a9de0; --green: #39b54a;
+    --text: #e6edf3; --muted: #8b949e; --yellow: #e3b341;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+
+  header { padding: 28px 40px 0; border-bottom: 1px solid var(--border); }
+  header h1 { font-size: 1.5rem; font-weight: 700; color: var(--accent); letter-spacing: .04em; }
+  header p  { color: var(--muted); font-size: .85rem; margin-top: 4px; padding-bottom: 18px; }
+
+  nav { display: flex; gap: 0; padding: 0 40px; background: var(--surface); border-bottom: 1px solid var(--border); }
+  nav button {
+    background: none; border: none; color: var(--muted); padding: 12px 20px;
+    cursor: pointer; font-size: .85rem; font-weight: 600; letter-spacing: .04em;
+    border-bottom: 2px solid transparent; transition: all .15s;
+  }
+  nav button:hover { color: var(--text); }
+  nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  main { padding: 32px 40px; }
+  .tab { display: none; }
+  .tab.active { display: block; }
+
+  /* ── boxes ── */
+  .row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; align-items: flex-start; }
+  .box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 18px; flex: 1; min-width: 180px;
+  }
+  .box h3 { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; }
+  .box .title { font-size: .95rem; font-weight: 700; margin-bottom: 6px; }
+  .box .sub  { font-size: .78rem; color: var(--muted); line-height: 1.6; }
+  .box.accent { border-color: var(--accent); }
+  .box.blue   { border-color: var(--blue); }
+  .box.green  { border-color: var(--green); }
+  .box.yellow { border-color: var(--yellow); }
+
+  .pill {
+    display: inline-block; background: rgba(200,105,42,.15); border: 1px solid var(--accent);
+    color: var(--accent); border-radius: 4px; padding: 2px 8px; font-size: .72rem;
+    font-weight: 600; margin: 2px 2px 0 0;
+  }
+  .pill.blue   { background: rgba(74,157,224,.12); border-color: var(--blue);   color: var(--blue); }
+  .pill.green  { background: rgba(57,181,74,.12);  border-color: var(--green);  color: var(--green); }
+  .pill.yellow { background: rgba(227,179,65,.12); border-color: var(--yellow); color: var(--yellow); }
+  .pill.muted  { background: rgba(139,148,158,.1); border-color: var(--border); color: var(--muted); }
+
+  .arrow { color: var(--muted); font-size: 1.3rem; align-self: center; padding: 0 4px; }
+  .arrow.down { display: block; text-align: center; margin: 4px 0; font-size: 1.1rem; }
+
+  /* ── flow diagram ── */
+  .flow { display: flex; flex-direction: column; gap: 0; max-width: 780px; }
+  .flow-step {
+    display: flex; align-items: stretch; gap: 0;
+  }
+  .flow-line { width: 2px; background: var(--border); margin: 0 20px; flex-shrink: 0; }
+  .flow-dot  {
+    width: 12px; height: 12px; border-radius: 50%; background: var(--accent);
+    flex-shrink: 0; margin-top: 18px; margin-right: 12px;
+  }
+  .flow-dot.blue   { background: var(--blue); }
+  .flow-dot.green  { background: var(--green); }
+  .flow-dot.yellow { background: var(--yellow); }
+  .flow-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 10px 14px; margin: 6px 0 6px 0;
+    flex: 1;
+  }
+  .flow-card .route { font-size: .72rem; color: var(--muted); margin-bottom: 2px; font-family: monospace; }
+  .flow-card .desc  { font-size: .85rem; font-weight: 600; }
+  .flow-card .note  { font-size: .73rem; color: var(--muted); margin-top: 3px; }
+  .flow-card.accent { border-color: var(--accent); }
+  .flow-card.blue   { border-color: var(--blue); }
+  .flow-card.green  { border-color: var(--green); }
+  .flow-card.yellow { border-color: var(--yellow); }
+
+  .indent { margin-left: 44px; }
+
+  /* ── mixin diagram ── */
+  .mixin-root {
+    background: var(--surface); border: 2px solid var(--accent);
+    border-radius: 8px; padding: 16px 20px; max-width: 380px; margin-bottom: 16px;
+  }
+  .mixin-root .name { font-size: 1rem; font-weight: 700; color: var(--accent); }
+  .mixin-root .desc { font-size: .78rem; color: var(--muted); margin-top: 4px; }
+  .mixin-root .state { margin-top: 10px; }
+  .mixin-root .state span { display: block; font-size: .75rem; color: var(--blue); font-family: monospace; margin: 1px 0; }
+
+  .mixin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 780px; }
+  .mixin-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px 14px;
+  }
+  .mixin-card .name { font-size: .85rem; font-weight: 700; margin-bottom: 4px; }
+  .mixin-card .file { font-size: .7rem; color: var(--muted); font-family: monospace; margin-bottom: 6px; }
+  .mixin-card .method { font-size: .73rem; color: var(--green); font-family: monospace; margin: 1px 0; }
+  .mixin-card.accent { border-color: var(--accent); }
+  .mixin-card.blue   { border-color: var(--blue); }
+  .mixin-card.green  { border-color: var(--green); }
+  .mixin-card.yellow { border-color: var(--yellow); }
+  .mixin-card.purple { border-color: #a78bfa; }
+  .mixin-card .name.purple { color: #a78bfa; }
+
+  /* ── data table ── */
+  table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  th { text-align: left; padding: 8px 12px; background: var(--surface); color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; border-bottom: 1px solid var(--border); }
+  td { padding: 9px 12px; border-bottom: 1px solid rgba(48,54,61,.5); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  code { background: rgba(139,148,158,.1); border-radius: 3px; padding: 1px 5px; font-size: .78rem; font-family: monospace; color: var(--yellow); }
+
+  .section-title { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 24px 0 10px; }
+  .section-title:first-child { margin-top: 0; }
+
+  .connector { display: flex; align-items: center; gap: 8px; margin: 8px 0; font-size: .8rem; color: var(--muted); }
+  .connector code { color: var(--blue); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Motor 1999/2026 — Arquitetura do Projeto</h1>
+  <p>Visual novel engine · Flask + HTMX · Python mixins · ES modules</p>
+</header>
+
+<nav>
+  <button class="active" onclick="showTab('camadas')">Camadas</button>
+  <button onclick="showTab('mixins')">Mixins Python</button>
+  <button onclick="showTab('fluxo')">Fluxo de Jogo</button>
+  <button onclick="showTab('frontend')">Frontend JS</button>
+  <button onclick="showTab('dados')">Dados &amp; Config</button>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════ TAB: CAMADAS ══ -->
+<div id="tab-camadas" class="tab active">
+
+  <p class="section-title">Camada de Apresentação — Browser</p>
+  <div class="row">
+    <div class="box blue">
+      <h3>Páginas completas</h3>
+      <div class="title" style="color:var(--blue)">intro.html / index.html</div>
+      <div class="sub">intro.html: login + slides de introdução<br>
+      index.html: palco do jogo, áudio persistente, hx-trigger="load"</div>
+    </div>
+    <div class="box blue">
+      <h3>Fragmentos HTMX</h3>
+      <div class="title" style="color:var(--blue)">game_ui.html + parciais</div>
+      <div class="sub">Swapados em <code style="color:var(--yellow)">#ui-jogo</code> ou <code style="color:var(--yellow)">#intro-container</code><br>
+      Temas visuais via CSS custom properties (tema-a/b/c)</div>
+    </div>
+    <div class="box blue">
+      <h3>JavaScript (ES modules)</h3>
+      <div class="title" style="color:var(--blue)">motor_shell · audio_utils · ui_effects</div>
+      <div class="sub">motor_shell despacha HX-Trigger para os outros dois módulos</div>
+    </div>
+  </div>
+
+  <div class="connector">
+    <span style="font-size:1.4rem">↕</span>
+    <span>HTMX: <code>POST /api/*</code> retorna fragmento HTML + header <code>HX-Trigger: { ui_commands }</code></span>
+  </div>
+
+  <p class="section-title">Camada de Transporte — Flask (app.py)</p>
+  <div class="row">
+    <div class="box accent">
+      <h3>Rotas de Página</h3>
+      <span class="pill">GET /</span>
+      <span class="pill">GET /jogo</span>
+      <div class="sub" style="margin-top:8px">Reinicia sessão · Passa tema sorteado · Carrega diretor</div>
+    </div>
+    <div class="box accent">
+      <h3>Rotas de Intro</h3>
+      <span class="pill">POST /api/iniciar-intro</span>
+      <span class="pill">POST /api/avancar-intro-slide</span>
+      <div class="sub" style="margin-top:8px">Fragmentos → <code style="color:var(--yellow)">#intro-container</code></div>
+    </div>
+    <div class="box accent">
+      <h3>Rotas de Jogo</h3>
+      <span class="pill">POST /api/iniciar-game-transition</span>
+      <span class="pill">POST /api/transicao-para-game-1999</span>
+      <span class="pill">POST /api/animacao-concluida</span>
+      <span class="pill">POST /api/interagir</span>
+      <div class="sub" style="margin-top:8px">Fragmentos → <code style="color:var(--yellow)">#ui-jogo</code></div>
+    </div>
+  </div>
+  <div class="box" style="max-width:480px;margin-bottom:16px">
+    <h3>Padrão de Sessão Flask</h3>
+    <div class="sub">
+      Cada request: <strong>deserializa</strong> DiretorNarrativo da sessão →
+      executa método → <strong>serializa</strong> de volta.<br>
+      <code style="color:var(--green)">_load_diretor_from_data()</code> /
+      <code style="color:var(--green)">_extract_data_from_diretor()</code>
+    </div>
+  </div>
+
+  <div class="connector">
+    <span style="font-size:1.4rem">↕</span>
+    <span>Chamadas diretas Python</span>
+  </div>
+
+  <p class="section-title">Camada Narrativa — DiretorNarrativo</p>
+  <div class="row">
+    <div class="box accent" style="max-width:320px">
+      <h3>Coordenador (narrative_director.py)</h3>
+      <div class="sub"><code style="color:var(--green)">proximo_passo()</code> — único ponto de entrada<br>
+      Herda de 4 mixins por composição MRO<br>
+      Mantém todo o estado narrativo</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="box" style="flex:2">
+      <h3>Mixins de comportamento</h3>
+      <span class="pill">RendererMixin</span>
+      <span class="pill">CinematicMixin</span>
+      <span class="pill">PrologoMixin</span>
+      <span class="pill">IntroMixin</span>
+      <div class="sub" style="margin-top:8px">Cada mixin encapsula um domínio narrativo sem acessar app.py</div>
+    </div>
+  </div>
+
+  <div class="connector">
+    <span style="font-size:1.4rem">↕</span>
+    <span>Chamadas diretas Python</span>
+  </div>
+
+  <p class="section-title">Camada de Domínio — Engine (engine.py)</p>
+  <div class="row">
+    <div class="box green">
+      <h3>Máquina de estados</h3>
+      <div class="title" style="color:var(--green)">Engine</div>
+      <div class="sub">Carrega JSON · processa escolhas · aplica impactos nas métricas<br>
+      <code style="color:var(--green)">formatar_para_frontend()</code> · <code style="color:var(--green)">processar_escolha()</code></div>
+    </div>
+    <div class="box green">
+      <h3>Métricas do jogador</h3>
+      <div class="sub">
+        <code style="color:var(--yellow)">caixa</code> · <code style="color:var(--yellow)">tracao</code> ·
+        <code style="color:var(--yellow)">acervo</code> · <code style="color:var(--yellow)">stress</code><br>
+        Game Over: stress ≥ 1000
+      </div>
+    </div>
+    <div class="box green">
+      <h3>Buffers multi-turno</h3>
+      <div class="sub">
+        <code style="color:var(--yellow)">texto_gerente_pendente</code><br>
+        <code style="color:var(--yellow)">texto_treplica_pendente</code><br>
+        <code style="color:var(--yellow)">rota_pendente_idx</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">
+    <span style="font-size:1.4rem">↕</span>
+    <span>Leitura de arquivos JSON</span>
+  </div>
+
+  <p class="section-title">Camada de Dados — data/*.json</p>
+  <div class="row">
+    <div class="box yellow"><h3>1999</h3><span class="pill yellow">eventos_1999.json</span></div>
+    <div class="box yellow"><h3>2026 base</h3><span class="pill yellow">eventos_2026.json</span></div>
+    <div class="box yellow"><h3>Rotas 2026</h3>
+      <span class="pill yellow">rota_A.json</span>
+      <span class="pill yellow">rota_B.json</span>
+      <span class="pill yellow">rota_C.json</span>
+      <span class="pill yellow">rota_D.json</span>
+    </div>
+    <div class="box yellow"><h3>Narrativa</h3>
+      <span class="pill yellow">intro.json</span>
+      <span class="pill yellow">evento_salto_temporal.json</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ TAB: MIXINS ══ -->
+<div id="tab-mixins" class="tab">
+
+  <div class="mixin-root">
+    <div class="name">DiretorNarrativo</div>
+    <div class="desc">narrative_director.py · coordenador central de estado</div>
+    <div class="state">
+      <span>_initial_game_transition_step</span>
+      <span>passo_cinematico</span>
+      <span>nome_jogador · slide_atual · roteiro_intro</span>
+      <span>passo_prologo_2026 · passo_encruzilhada_2026</span>
+      <span>rota_escolhida_id · _passo_dialogo_evento</span>
+    </div>
+  </div>
+
+  <div style="color:var(--muted);font-size:.85rem;margin-bottom:12px">
+    ↳ herda por MRO: RendererMixin → CinematicMixin → PrologoMixin → IntroMixin
+  </div>
+
+  <div class="mixin-grid">
+    <div class="mixin-card accent">
+      <div class="name" style="color:var(--accent)">RendererMixin</div>
+      <div class="file">src/renderer_mixin.py</div>
+      <div class="method">_render_game_ui()</div>
+      <div class="method">_renderizar_gameplay()</div>
+      <div class="method">_orquestrar_dialogo_evento()</div>
+      <div class="method">_render_prologo_slide()</div>
+      <div class="method">_renderizar_game_over()</div>
+      <div class="method">_renderizar_fim_de_jogo()</div>
+      <div class="method">_calcular_bg_src() · _spotlight_for_agente()</div>
+    </div>
+    <div class="mixin-card blue">
+      <div class="name" style="color:var(--blue)">CinematicMixin</div>
+      <div class="file">src/cinematic_mixin.py</div>
+      <div class="method">start_game_transition()</div>
+      <div class="method">start_game_1999_sequence()</div>
+      <div class="method">handle_animacao_concluida()</div>
+      <div class="method">_orquestrar_initial_game_transition()</div>
+      <div class="method">_orquestrar_virada_2026()  · 11 passos</div>
+    </div>
+    <div class="mixin-card green">
+      <div class="name" style="color:var(--green)">PrologoMixin</div>
+      <div class="file">src/prologo_mixin.py</div>
+      <div class="method">_orquestrar_prologo_2026()  · 13 passos</div>
+      <div class="method">_orquestrar_encruzilhada_2026()  · 3 passos</div>
+    </div>
+    <div class="mixin-card yellow">
+      <div class="name" style="color:var(--yellow)">IntroMixin</div>
+      <div class="file">src/intro_mixin.py</div>
+      <div class="method">iniciar_intro(nome_jogador)</div>
+      <div class="method">avancar_intro_slide()</div>
+      <div class="method">_renderizar_intro_slide()</div>
+    </div>
+  </div>
+
+  <p class="section-title" style="margin-top:24px">Módulos de suporte</p>
+  <div class="mixin-grid">
+    <div class="mixin-card">
+      <div class="name">Engine</div>
+      <div class="file">src/engine.py</div>
+      <div class="method">formatar_para_frontend()</div>
+      <div class="method">processar_escolha(idx)</div>
+      <div class="method">obter_evento_atual()</div>
+      <div class="method">_aplicar_impacto_dinamico()</div>
+      <div class="method">verificar_game_over()</div>
+    </div>
+    <div class="mixin-card purple">
+      <div class="name purple">Utilitários</div>
+      <div class="file">src/utils.py · audio_config.py · Maps.py</div>
+      <div class="method">formatar_dialogo()  — HTML de diálogo</div>
+      <div class="method">data_hoje_ptbr()  — data localizada</div>
+      <div class="method">AUDIO_SETTINGS  — paths + volumes</div>
+      <div class="method">ROTA_BG_2026  — rota → background</div>
+      <div class="method">IMG_PERSONS  — personagem → imagem</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ TAB: FLUXO ══ -->
+<div id="tab-fluxo" class="tab">
+<div class="flow">
+
+  <div class="flow-step">
+    <div class="flow-dot"></div>
+    <div class="flow-card accent">
+      <div class="route">GET /</div>
+      <div class="desc">Tela de Login — intro.html</div>
+      <div class="note">_reset_game_state() · sorteia tema visual (a/b/c)</div>
+    </div>
+  </div>
+  <div class="flow-line" style="height:8px;margin-left:25px"></div>
+
+  <div class="flow-step">
+    <div class="flow-dot"></div>
+    <div class="flow-card">
+      <div class="route">POST /api/iniciar-intro</div>
+      <div class="desc">Primeiro slide da intro (swap #intro-container)</div>
+      <div class="note">Recebe nome do jogador · inicia música da intro</div>
+    </div>
+  </div>
+  <div class="flow-line" style="height:8px;margin-left:25px"></div>
+
+  <div class="flow-step">
+    <div class="flow-dot"></div>
+    <div class="flow-card">
+      <div class="route">POST /api/avancar-intro-slide  ×N</div>
+      <div class="desc">Slides de introdução (personagens, história)</div>
+      <div class="note">Último slide → HX-Redirect: /jogo</div>
+    </div>
+  </div>
+  <div class="flow-line" style="height:8px;margin-left:25px"></div>
+
+  <div class="flow-step">
+    <div class="flow-dot blue"></div>
+    <div class="flow-card blue">
+      <div class="route">GET /jogo → index.html  →  hx-trigger="load"</div>
+      <div class="desc">Página principal do jogo</div>
+      <div class="note">Áudio persistente fora do #ui-jogo · tema aplicado via data-tema no &lt;body&gt;</div>
+    </div>
+  </div>
+  <div class="flow-line" style="height:8px;margin-left:25px"></div>
+
+  <div class="flow-step">
+    <div class="flow-dot blue"></div>
+    <div class="flow-card blue">
+      <div class="route">POST /api/iniciar-game-transition</div>
+      <div class="desc">Cinematic step 1 — digita "SISTEMA CARREGADO" + botão INICIAR SISTEMA</div>
+      <div class="note">HX-Trigger: typeText + showElementById</div>
+    </div>
+  </div>
+  <div class="flow-line" style="height:8px;margin-left:25px"></div>
+
+  <div class="flow-step">
+    <div class="flow-dot blue"></div>
+    <div class="flow-card blue">
+      <div class="route">POST /api/transicao-para-game-1999</div>
+      <div class="desc">Cinematic step 2 — terminal GIF + inicia trilha 1999</div>
+      <div class="note">HX-Trigger: animacaoTerminal + playAudio · desbloqueio de autoplay pelo clique</div>
+    </div>
+  </div>
+  <div class="flow-line" style="height:8px;margin-left:25px"></div>
+
+  <div class="flow-step">
+    <div class="flow-dot blue"></div>
+    <div class="flow-card blue">
+      <div class="route">POST /api/animacao-concluida  (step 2→3)</div>
+      <div class="desc">Cinematic step 3 — inicia gameplay 1999</div>
+      <div class="note">Disparado por CustomEvent animacao_terminal_concluida no JS</div>
+    </div>
+  </div>
+  <div class="flow-line" style="height:8px;margin-left:25px"></div>
+
+  <div class="flow-step">
+    <div class="flow-dot green"></div>
+    <div class="flow-card green">
+      <div class="route">POST /api/interagir  ×N</div>
+      <div class="desc">🎮 Gameplay 1999 — loop de eventos e escolhas</div>
+      <div class="note">Engine: formatar_para_frontend → processar_escolha → impacto nas métricas</div>
+    </div>
+  </div>
+  <div class="flow-line" style="height:8px;margin-left:25px"></div>
+
+  <div class="flow-step">
+    <div class="flow-dot accent"></div>
+    <div class="flow-card accent">
+      <div class="route">virada_1999 = True</div>
+      <div class="desc">Cinemática 1999 → 2026  (11 passos automáticos)</div>
+      <div class="note">Fade · texto · contagem 5→1 · Feliz Ano 2000 · terminal GIF · wormhole</div>
+    </div>
+  </div>
+  <div class="flow-line" style="height:8px;margin-left:25px"></div>
+
+  <div class="flow-step">
+    <div class="flow-dot accent"></div>
+    <div class="flow-card accent">
+      <div class="route">POST /api/animacao-concluida  (passo 10→11→prologo)</div>
+      <div class="desc">Prólogo 2026  (13 passos)</div>
+      <div class="note">evento_salto_temporal.json · troca trilha para Game_2026.mp3</div>
+    </div>
+  </div>
+  <div class="flow-line" style="height:8px;margin-left:25px"></div>
+
+  <div class="flow-step">
+    <div class="flow-dot yellow"></div>
+    <div class="flow-card yellow">
+      <div class="route">POST /api/interagir</div>
+      <div class="desc">Encruzilhada — escolha de rota A / B / C / D</div>
+      <div class="note">Define evento_2026_gatilho_rota_X.json como cenário ativo</div>
+    </div>
+  </div>
+  <div class="flow-line" style="height:8px;margin-left:25px"></div>
+
+  <div class="flow-step">
+    <div class="flow-dot green"></div>
+    <div class="flow-card green">
+      <div class="route">POST /api/interagir  ×N</div>
+      <div class="desc">🎮 Gameplay 2026 — loop da rota escolhida</div>
+      <div class="note">Eventos filtrados por gatilho_rota no historico_rotas</div>
+    </div>
+  </div>
+  <div class="flow-line" style="height:8px;margin-left:25px"></div>
+
+  <div class="flow-step">
+    <div class="flow-dot"></div>
+    <div class="flow-card">
+      <div class="route">fim = True  |  stress ≥ 1000</div>
+      <div class="desc">Fim de Jogo · Game Over</div>
+      <div class="note">onclick → window.location.href='/'  · reinicia sessão completa</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ TAB: FRONTEND ══ -->
+<div id="tab-frontend" class="tab">
+
+  <p class="section-title">Módulos JavaScript (ES modules)</p>
+  <div class="row">
+    <div class="box blue" style="flex:1.5">
+      <h3>motor_shell.js — Orquestrador</h3>
+      <div class="sub">
+        Importa <code style="color:var(--green)">audio_utils</code> e <code style="color:var(--green)">ui_effects</code>.<br>
+        Ouve <code style="color:var(--yellow)">htmx:afterSwap</code> · extrai <code style="color:var(--yellow)">HX-Trigger</code> ·
+        despacha <code style="color:var(--yellow)">ui_commands[]</code> para o mapa de ações.<br>
+        Expõe <code style="color:var(--yellow)">window.fadeOutMusic</code> e <code style="color:var(--yellow)">window.skipCurrentTyping</code>
+        para uso em <code style="color:var(--blue)">hx-on:click</code>.
+      </div>
+    </div>
+  </div>
+
+  <div class="connector"><span>↙</span><span>importa</span><span>↘</span></div>
+
+  <div class="row">
+    <div class="box">
+      <h3>audio_utils.js</h3>
+      <span class="pill muted">playAudio(config)</span>
+      <span class="pill muted">fadeOutMusic(id, ms)</span>
+      <span class="pill muted">transicaoDeVolume()</span>
+      <span class="pill muted">tocarSomDeTecla()</span>
+      <span class="pill muted">stopAllTypingSounds()</span>
+      <span class="pill muted">destravarAudioGlobal()</span>
+      <div class="sub" style="margin-top:8px">
+        <code style="color:var(--yellow)">_audioPlayers{}</code> — persiste referências aos players
+        entre swaps de innerHTML
+      </div>
+    </div>
+    <div class="box">
+      <h3>ui_effects.js</h3>
+      <span class="pill muted">typeText()</span>
+      <span class="pill muted">skipCurrentTyping()</span>
+      <span class="pill muted">animacaoTerminal()</span>
+      <span class="pill muted">loopAutomatico()</span>
+      <span class="pill muted">esperarVideo()</span>
+      <span class="pill muted">playVideo()</span>
+      <span class="pill muted">showElementById()</span>
+      <div class="sub" style="margin-top:8px">
+        <code style="color:var(--yellow)">setUiActionMap()</code> — injeta referência reversa para
+        <code style="color:var(--yellow)">postTypingCommand</code>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-title">Protocolo HX-Trigger</p>
+  <div class="box" style="max-width:620px">
+    <h3>Backend → Frontend (header de resposta)</h3>
+    <pre style="font-size:.75rem;color:var(--green);line-height:1.7;margin-top:8px">HX-Trigger: {
+  "ui_commands": [
+    { "action": "typeText",   "args": { "elementId": "...", "fullText": "...", "speed": 60,
+                                        "postTypingCommand": { "action": "showElementById",
+                                                               "args": { "elementId": "btn-iniciar-sistema" } } } },
+    { "action": "playAudio",  "args": { "id": "trilha-sonora-1999", "acao": "trocar_trilha",
+                                        "src": "/static/audio/Game_1999.mp3", "volume": 0.3 } },
+    { "action": "loopAutomatico", "args": { "tempo_ms": 1500 } }
+  ]
+}</pre>
+  </div>
+
+  <p class="section-title">Animações de terminal (ciclo assíncrono)</p>
+  <div class="flow" style="flex-direction:row;gap:6px;flex-wrap:wrap;align-items:center">
+    <div class="flow-card" style="flex:0 0 auto;min-width:140px">
+      <div class="desc" style="font-size:.78rem">Backend envia<br>animacaoTerminal</div>
+    </div>
+    <span class="arrow">→</span>
+    <div class="flow-card" style="flex:0 0 auto;min-width:140px">
+      <div class="desc" style="font-size:.78rem">JS exibe GIF overlay<br>aguarda N ms</div>
+    </div>
+    <span class="arrow">→</span>
+    <div class="flow-card" style="flex:0 0 auto;min-width:170px">
+      <div class="desc" style="font-size:.78rem">CustomEvent<br>animacao_terminal_concluida</div>
+    </div>
+    <span class="arrow">→</span>
+    <div class="flow-card blue" style="flex:0 0 auto;min-width:160px">
+      <div class="desc" style="font-size:.78rem">htmx.ajax POST<br>/api/animacao-concluida</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ TAB: DADOS ══ -->
+<div id="tab-dados" class="tab">
+
+  <p class="section-title">Arquivos de dados (data/)</p>
+  <table>
+    <thead>
+      <tr><th>Arquivo</th><th>Conteúdo</th><th>Consumido por</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>eventos_1999.json</code></td><td>Lista de eventos do arco 1999 com rotas, diálogos e impactos</td><td>Engine (arquivos_cenario[0])</td></tr>
+      <tr><td><code>eventos_2026.json</code></td><td>Eventos 2026 sem rota específica; incluí evento_encruzilhada</td><td>Engine (arquivos_cenario[1] fallback)</td></tr>
+      <tr><td><code>evento_2026_gatilho_rota_A.json</code></td><td>Evento exclusivo da rota A (evento_malu2000)</td><td>Engine (após encruzilhada)</td></tr>
+      <tr><td><code>evento_2026_gatilho_rota_B.json</code></td><td>Evento exclusivo da rota B (evento_mercado_livre)</td><td>Engine (após encruzilhada)</td></tr>
+      <tr><td><code>evento_2026_gatilho_rota_C.json</code></td><td>Evento exclusivo da rota C (evento_detox_digital)</td><td>Engine (após encruzilhada)</td></tr>
+      <tr><td><code>evento_2026_gatilho_rota_D.json</code></td><td>Evento exclusivo da rota D (evento_cine_pub)</td><td>Engine (após encruzilhada)</td></tr>
+      <tr><td><code>intro.json</code></td><td>Roteiro dos slides de introdução (título + texto + imagem)</td><td>IntroMixin</td></tr>
+      <tr><td><code>evento_salto_temporal.json</code></td><td>Cenas narrativas do prólogo 2026 (13 passos)</td><td>PrologoMixin</td></tr>
+    </tbody>
+  </table>
+
+  <p class="section-title">Configuração (src/)</p>
+  <table>
+    <thead>
+      <tr><th>Módulo</th><th>Exporta</th><th>Usado em</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>audio_config.py</code></td><td>AUDIO_SETTINGS — ids, paths e volumes de todas as trilhas e efeitos</td><td>CinematicMixin, IntroMixin, PrologoMixin</td></tr>
+      <tr><td><code>Maps.py</code></td><td>ROTA_BG_2026 — rota letra → nome do background<br>IMG_PERSONS — nome → arquivo de imagem</td><td>RendererMixin</td></tr>
+      <tr><td><code>utils.py</code></td><td>formatar_dialogo() — dict → HTML<br>data_hoje_ptbr() — data localizada</td><td>PrologoMixin</td></tr>
+    </tbody>
+  </table>
+
+  <p class="section-title">Templates (templates/)</p>
+  <table>
+    <thead>
+      <tr><th>Template</th><th>Tipo</th><th>Target HTMX</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>intro.html</code></td><td>Página completa</td><td>—</td></tr>
+      <tr><td><code>index.html</code></td><td>Página completa</td><td>—</td></tr>
+      <tr><td><code>intro_slide.html</code></td><td>Fragmento</td><td>#intro-container</td></tr>
+      <tr><td><code>game_ui.html</code></td><td>Fragmento</td><td>#ui-jogo</td></tr>
+      <tr><td><code>cinematic_transition_placeholder.html</code></td><td>Fragmento</td><td>#ui-jogo</td></tr>
+      <tr><td><code>cinematic_transition_animation_placeholder.html</code></td><td>Fragmento</td><td>#ui-jogo</td></tr>
+      <tr><td><code>cinematic_1999_to_2026.html</code></td><td>Fragmento</td><td>#ui-jogo</td></tr>
+      <tr><td><code>fim_de_jogo.html</code></td><td>Fragmento</td><td>#ui-jogo</td></tr>
+      <tr><td><code>game_over.html</code></td><td>Fragmento</td><td>#ui-jogo</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</main>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
