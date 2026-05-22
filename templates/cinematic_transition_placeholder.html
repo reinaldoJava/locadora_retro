@@ -1,4 +1,12 @@
-<div id="cinematic-transition-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background-color: black; color: #00ff00; font-family: 'Press Start 2P', cursive; text-align: center;">
+<div id="cinematic-transition-container"
+     style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background-color: black; color: #00ff00; font-family: 'Press Start 2P', cursive; text-align: center;"
+     xmlns:hx-on="http://www.w3.org/1999/xhtml">
     <pre id="system-message" style="white-space: pre-wrap; margin-bottom: 20px; font-size: 1.5em;"></pre>
-    <button id="btn-iniciar-sistema" class="btn-opcao-iniciar-sistema" style="display: none; margin-top: 20px;">INICIAR SISTEMA</button>
+    <button id="btn-iniciar-sistema"
+            class="btn-opcao-iniciar-sistema"
+            hx-post="/api/transicao-para-game-1999"
+            hx-target="#ui-jogo"
+            hx-swap="innerHTML"
+            hx-on:click="fadeOutMusic('trilha-sonora-intro',2000);"
+            style="display: none; margin-top: 20px;">INICIAR SISTEMA</button>
 </div>

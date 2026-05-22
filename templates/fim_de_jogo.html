@@ -1,13 +1,45 @@
 <div id="end-game-screen" style="
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background-color: rgba(0, 0, 0, 0.9); color: #00ff00;
+    background-color: rgba(0,0,0,0.92); color: var(--text-primary, #f5d8b0);
     display: flex; flex-direction: column; justify-content: center; align-items: center;
-    font-family: monospace; text-align: center;
+    font-family: var(--dialog-font, 'Courier New', monospace); text-align: center;
+    padding: 2rem;
 ">
-    {{ fim_de_jogo_text | safe }}
-    <button style="
-        margin-top: 30px; padding: 15px 30px; font-size: 1.2rem;
-        background: #008000; color: white; border: none; border-radius: 5px;
-        cursor: pointer; transition: background 0.3s ease;
-    " onclick="window.location.reload()">JOGAR NOVAMENTE</button>
+    <h2 style="font-size:2rem; margin-bottom:0.5rem; color: var(--text-speaker, #e8a060);">
+        FIM DE JOGO
+    </h2>
+    <p style="color: var(--text-narrator, #c8a96e); margin-bottom:1.5rem;">
+        Voce chegou ao final da jornada da locadora!
+    </p>
+
+    <div style="
+        border: 1px solid var(--dialog-border, #c8692a);
+        padding: 1.5rem 2.5rem; margin-bottom: 1.5rem;
+        text-align: left; min-width: 280px;
+        background: var(--dialog-bg, rgba(20,10,2,0.95));
+    ">
+        <h3 style="margin-top:0; text-align:center; letter-spacing:2px;
+                   color: var(--text-speaker, #e8a060);">PLACAR FINAL</h3>
+        <p>Caixa &nbsp;&nbsp;&nbsp;: <strong>{{ caixa }}</strong></p>
+        <p>Tracao &nbsp;: <strong>{{ tracao }}</strong></p>
+        <p>Acervo &nbsp;: <strong>{{ acervo }}</strong></p>
+        <p>Stress &nbsp;&nbsp;: <strong>{{ stress }}</strong></p>
+        <hr style="border-color: var(--dialog-border, #c8692a); opacity:0.4; margin:0.8rem 0;">
+        <p>Score &nbsp;&nbsp;&nbsp;: <strong style="font-size:1.3rem;">{{ score_total }}</strong></p>
+    </div>
+
+    <p style="color: var(--text-speaker, #e8a060); font-size:1.1rem; margin-bottom:2rem;">
+        {{ classificacao }}
+    </p>
+
+    <button
+        style="padding: 12px 30px; font-size:1rem; cursor:pointer;
+               background: var(--btn-hover-bg, rgba(200,105,42,0.85));
+               color: var(--btn-text, #e8a060);
+               border: 1px solid var(--dialog-border, #c8692a);
+               font-family: var(--dialog-font, monospace);
+               border-radius: 4px; letter-spacing: 1px;"
+        onclick="window.location.href='/'">
+        JOGAR NOVAMENTE
+    </button>
 </div>

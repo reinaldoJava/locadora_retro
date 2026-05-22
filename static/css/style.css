@@ -6,7 +6,7 @@
 body, html {
     height: 100%;
     width: 100%;
-    background-color: #1a1a1a; /* Cinza escuro das bordas laterais (Letterbox) */
+    background-color: #1a1a1a;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,14 +19,13 @@ body, html {
    ========================================= */
 .game-container {
     position: relative;
-    /* O Segredo da Responsividade Fixa */
     aspect-ratio: 9 / 16;
     width: 100%;
     max-height: 100vh;
-    max-width: calc(100vh * (9 / 16)); /* Trava a largura para não quebrar o 16:9 */
+    max-width: calc(100vh * (9 / 16));
     background-color: #000;
     overflow: hidden;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9); /* Destaca o jogo do fundo do navegador */
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
 }
 
 .bg-layer {
@@ -51,7 +50,7 @@ body, html {
 
 .actor-layer {
     position: absolute;
-    bottom: 27%; /* Acima da caixa de diálogo */
+    bottom: 27%;
     width: 100%; height: 65%;
     display: flex;
     align-items: flex-end;
@@ -87,8 +86,11 @@ body, html {
 }
 
 .layout-esquerda { justify-content: flex-start; margin-left: 1%; }
-.layout-direita { justify-content: flex-end; margin-right: 2%; }
-.layout-oculto { display: none; }
+.layout-direita  { justify-content: flex-end;   margin-right: 2%; }
+.layout-oculto   { display: none; }
+
+/* Utilitário: ocultar elementos com !important (ex: vídeos no estado inicial) */
+.oculto { display: none !important; }
 
 /* =========================================
    4. TEMAS VISUAIS (sorteados por partida)
@@ -192,9 +194,6 @@ body, html {
     white-space: pre-wrap;
 }
 
-/* Compatibilidade com classes antigas */
-.fala-vagner, .fala-npc { color: var(--text-primary); font-size: 1.0rem; line-height: 1.65; margin-bottom: 4px; }
-
 /* Narração (sem personagem em cena) */
 .texto-narrador {
     color: var(--text-narrator);
@@ -204,7 +203,6 @@ body, html {
     margin-bottom: 2px;
 }
 
-/* Caixa de texto geral */
 .dialog-text {
     margin-bottom: 10px;
 }
@@ -216,8 +214,8 @@ body, html {
     padding: 8px 0 14px;
 }
 
-/* Botão de opção (era .vn-btn, agora .btn-opcao é o padrão) */
-.btn-opcao, .vn-btn {
+/* Botão de opção */
+.btn-opcao {
     display: block;
     width: 100%;
     background: transparent;
@@ -232,14 +230,14 @@ body, html {
     transition: background 0.15s, color 0.15s;
 }
 
-.btn-opcao:hover, .vn-btn:hover {
+.btn-opcao:hover {
     background: var(--btn-hover-bg);
     color: #fff;
     font-weight: bold;
 }
 
 /* =========================================
-   5. TRANSIÇÕES (MANTIDAS)
+   6. OVERLAY DE TRANSIÇÃO DE TELA
    ========================================= */
 .transition-overlay {
     position: absolute; top: 0; left: 0;
@@ -250,19 +248,17 @@ body, html {
     opacity: 0;
     transition: opacity 0.5s ease;
 }
-.fx-fade-out { opacity: 1; }
 
 /* =========================================
-   6. CINEMÁTICA 1999 → 2026
+   7. CINEMÁTICA 1999 → 2026
    ========================================= */
 #cena-fim-1999 {
     position: absolute; top: 0; left: 0;
     width: 100%; height: 100%;
-    /* display é controlado via inline style no template (flex / none) */
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 20;       /* acima de bg-layer (1), atores (2) e ui-layer (10) */
+    z-index: 20;
 }
 
 #texto-virada {
@@ -308,36 +304,10 @@ body, html {
 
 
 /* =========================================
-           1. SETUP BASE E RESPONSIVIDADE 16:9
-           ========================================= */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body, html {
-    height: 100%; width: 100%;
-    background-color: #1a1a1a;
-    display: flex; justify-content: center; align-items: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden;
-}
-.game-container {
-    position: relative;
-    /* O Segredo da Responsividade Fixa */
-    aspect-ratio: 9 / 16;
-    width: 100%;
-    max-height: 100vh;
-    max-width: calc(100vh * (9 / 16)); /* Trava a largura para não quebrar o 16:9 */
-    background-color: #000;
-    overflow: hidden;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9); /* Destaca o jogo do fundo do navegador */
-}
-
-/* Classes utilitárias de transição */
-.oculto { display: none !important; }
-.fade-in { animation: fadeIn 1s forwards; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* =========================================
-   ATO 1: O TERMINAL
+   9. INTRO — Tela de login e apresentação
    ========================================= */
+
+/* Ato 1: terminal de login */
 #ato1-terminal {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: url('/static/img/terminal_bg.gif') center/cover no-repeat;
@@ -346,7 +316,7 @@ body, html {
 }
 
 .terminal-input-wrapper {
-    margin-top: 15%; /* Ajuste conforme o espaço vazio do seu GIF */
+    margin-top: 15%;
     display: flex; align-items: center;
 }
 
@@ -362,31 +332,19 @@ body, html {
     text-shadow: 0 0 5px #00ff00;
 }
 
-/* =========================================
-   ATO 2: O VHS
-   ========================================= */
+/* Ato 2: placeholder VHS (oculto por padrão) */
 #ato2-vhs {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: url('/static/img/terminal_bg.gif') center/cover no-repeat;
     z-index: 20;
 }
 
-/* =========================================
-   ATO 3: A APRESENTAÇÃO DO ELENCO
-   ========================================= */
-#ato3-elenco {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: url('/static/img/terminal_bg.png') center/cover no-repeat;
-    z-index: 30;
-    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
-}
-
+/* Slides de apresentação do elenco (intro_slide.html) */
 #elenco-imagem {
     max-height: 55%;
     object-fit: contain;
     z-index: 2;
     display: flex;
-
 }
 
 .ui-layer-intro {
@@ -412,35 +370,11 @@ body, html {
     border: 2px solid #ffcc00; padding: 10px 30px; font-size: 1rem;
     cursor: pointer; transition: 0.1s; text-transform: uppercase; border-radius: 4px;
 }
-.btn-avancar-intro:hover { background-color: #ffcc00; color: #000; font-weight: bold; font-size: 1rem; }
+.btn-avancar-intro:hover { background-color: #ffcc00; color: #000; font-weight: bold; }
 
-/* ==========================================
-   EFEITOS CINEMÁTICOS E TRANSIÇÕES SUAVES
-   ========================================== */
-
-/* 1. O VÍDEO DO WORMHOLE */
-#video-wormhole {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background-color: #000;
-    z-index: 10000;
-    object-fit: cover;
-
-    /* A MÁGICA: Define que qualquer mudança de opacidade levará 1 segundo */
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 1.5s ease-in-out, visibility 1.5s ease-in-out;
-}
-
-#video-wormhole.layout-oculto {
-    display: block !important; /* Impede o 'display: none' abrupto da classe original */
-    opacity: 10;                /* Fica 100% transparente (suavemente) */
-    visibility: hidden;        /* O navegador ignora a existência dele */
-    pointer-events: none;      /* Impede cliques fantasmas na tela */
-}
-
-/* 2. O GIF DO TERMINAL */
+/* =========================================
+   10. CINEMÁTICA — Overlay de terminal GIF
+   ========================================= */
 #terminal-overlay {
     position: fixed;
     top: 0; left: 0;
@@ -450,8 +384,6 @@ body, html {
     justify-content: center;
     align-items: center;
     z-index: 10000;
-
-    /* A MÁGICA PARA O GIF (Meio segundo de transição) */
     opacity: 1;
     visibility: visible;
     transition: opacity 1.19s ease-in-out, visibility 1.19s ease-in-out;
@@ -463,96 +395,21 @@ body, html {
 }
 
 #terminal-overlay.layout-oculto {
-    display: flex !important;  /* Mantém a estrutura flexível */
-    opacity: 0;                /* Fade out */
+    display: flex !important;
+    opacity: 0;
     visibility: hidden;
     pointer-events: none;
 }
-#start-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background-color: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999; /* Fica acima de TUDO */
-}
-/* Cria a animação que troca o texto das reticências */
-@keyframes animarPontos {
-    0% { content: "."; }
-    25% { content: ".."; }
-    50% { content: "..."; }
-    75% { content: "...."; }
-    100% { content: "."; }
-}
-/* Configuração do texto base para ele ficar imóvel */
-.texto-sistema {
-    color: #00ff00;
-    font-family: monospace;
-    font-size: 24px; /* Ajuste para o tamanho que você definiu */
-    position: relative; /* Transforma o texto na "âncora" para os pontos */
-    display: inline-block; /* Garante que a largura calculada seja apenas a das letras */
-}
 
-/* Os pontos flutuam do lado de fora do texto, sem empurrar ele */
-.loading-dots {
-    position: absolute;
-    left: 100%; /* Joga os pontos exatamente após o último "O" de CARREGADO */
-}
-
-/* Configuração do texto base para ele ficar imóvel */
-.texto-sistema {
-    color: #00ff00;
-    font-family: monospace;
-    font-size: 24px; /* Ajuste para o tamanho que você definiu */
-    position: relative; /* Transforma o texto na "âncora" para os pontos */
-    display: inline-block; /* Garante que a largura calculada seja apenas a das letras */
-}
-
-/* Os pontos flutuam do lado de fora do texto, sem empurrar ele */
-.loading-dots {
-    position: absolute;
-    left: 100%; /* Joga os pontos exatamente após o último "O" de CARREGADO */
-}
-
-/* Animação dos pontos (mantida) */
-@keyframes animarPontos {
-    0% { content: "."; }
-    25% { content: ".."; }
-    50% { content: "..."; }
-    75% { content: "...."; }
-    100% { content: "."; }
-}
-
-.loading-dots::after {
-    content: "";
-    /* O "step-start" faz a troca ser "dura", dando um ar mais mecânico de terminal */
-    animation: animarPontos 1.5s infinite step-start;
-}
-/* #cena-fim-1999: definição completa está na seção 6 acima */
-.layout-oculto {
-    display: none;
-}
-#terminal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 9 / 16;
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Garante que fique acima de outros elementos */
-}
 .terminal-gif-full {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
 }
-/* Estilos básicos para o botão, se não houver um global */
+
+/* =========================================
+   11. BOTÃO INICIAR SISTEMA (cinematic_transition_placeholder)
+   ========================================= */
 .btn-opcao-iniciar-sistema {
     background-color: #008f00;
     color: black;
@@ -568,22 +425,17 @@ body, html {
     background-color: black;
     color: #008f00;
 }
-/* No seu arquivo static/css/style.css */
 
+/* =========================================
+   12. HUD — TABELA DE STATUS
+   ========================================= */
 .container-tabela {
     position: absolute;
-    /* Ancoragem no canto superior direito do game-container */
     top: 5px;
     right: 5px;
-
-    /* Z-index 2000 garante que fique acima dos atores (2) e da UI (10) */
     z-index: 2000;
-
-    /* Dimensionamento que respeita a área dos atores no centro */
     width: 200px;
-    max-width: 18%; 
-
-    /* Segue o tema visual sorteado por partida */
+    max-width: 18%;
     background: var(--dialog-bg, rgba(20, 10, 2, 0.95));
     border: 1px solid var(--dialog-border, #c8692a);
     color: var(--text-narrator, #c8a96e);

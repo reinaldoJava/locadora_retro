@@ -1,3 +1,8 @@
+# src/Maps.py
+# Constantes de mapeamento usadas pelos mixins de renderizacao.
+# LAYOUT_RANDOM e mantido por compatibilidade mas o tema por partida
+# e gerenciado pela sessao Flask (session[tema_visual]).
+
 import random
 
 LAYOUT_RANDOM = random.choice(["tema-a", "tema-b", "tema-c"])
