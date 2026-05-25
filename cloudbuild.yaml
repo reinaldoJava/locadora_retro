@@ -7,7 +7,7 @@
 substitutions:
   _REGION: us-central1
   _SERVICE: locadora-retro
-  _LLM_MODEL: gemini-2.0-flash-lite
+  _LLM_MODEL: gemini-3.1-flash-lite
 
 steps:
   # ── 1. Build da imagem Docker ──────────────────────────────
@@ -28,7 +28,7 @@ steps:
     args:
       - push
       - --all-tags
-      - gcr.io/$PROJECT_ID/$_SERVICE
+      - us-central1-docker.pkg.dev/$PROJECT_ID/nome-do-seu-repositorio/$_SERVICE
 
   # ── 3. Deploy no Cloud Run ─────────────────────────────────
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
