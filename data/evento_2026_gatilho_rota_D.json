@@ -57,5 +57,64 @@
         }
       }
     ]
+  },
+  {
+    "id": "evento_crise_banda_2026",
+    "gatilho_rota": "D",
+    "ano": 2026,
+    "titulo": "A Noite de Abertura Sem Banda",
+    "contexto_ia": "A noite de abertura do Cine-Pub está chegando e a banda Dream Dreamcast cancelou tudo por mensagem de áudio duas horas atrás. A casa está lotada no pré-venda. Alguém precisa tocar.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Leila",
+        "fala": "Chefe, eu conheço o DJ Trash 80! Ele toca chiptune e synth retrô, cobra R$ 400 e já tem o equipamento. Me dá o sinal verde que eu ligo agora."
+      },
+      {
+        "agente": "ID_Mauricio",
+        "fala": "Chiptune?! Isso é música de videogame! Eu tenho o contato do The Sluggs, punk rock alternativo raiz dos anos 90. O som é pesado mas pelo menos tem alma. Cobram R$ 1.800."
+      },
+      {
+        "agente": "ID_Vagner",
+        "fala": "Gente, eu preciso de uma resposta agora. Tem 80 pessoas chegando em três horas e eu não posso devolver ingresso. Alguém decide ou eu coloco o rádio do escritório no volume máximo."
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "D4",
+        "foco": "DJ Trash 80 / Custo Baixo",
+        "argumento_gerente": "Leila, chama o Trash 80. R$ 400 contra R$ 1.800 é uma escolha fácil com a casa lotada. A gente usa a economia para abrir barra livre na primeira hora e cria o buzz na internet. O público vem pelo Cine-Pub, não pela banda.",
+        "treplica": "(Vagner respira) 'Barra livre na primeira hora vai virar post. Decisão certa.' (Maurício torce o nariz) 'Desde que o volume não passe de 70 decibéis perto do acervo.'",
+        "impactos": {
+          "caixa": 1200,
+          "acervo": 0,
+          "stress": -10,
+          "tracao": 20
+        }
+      },
+      {
+        "id_opcao": "D5",
+        "foco": "The Sluggs / Autenticidade Anos 90",
+        "argumento_gerente": "Maurício, fecha com o The Sluggs. R$ 1.800 é o preço de ter credibilidade. Rock alternativo dos anos 90 é exatamente a proposta do Cine-Pub. Se a casa vier abaixo, vira lenda. Isso não tem preço em marketing.",
+        "treplica": "(Leila filma tudo) 'Já tô postando o line-up. A fila vai dobrar o quarteirão.' (Maurício) 'Finalmente, música com intenção. Trago meus LPs para tocar no intervalo.'",
+        "impactos": {
+          "caixa": -400,
+          "acervo": 0,
+          "stress": 30,
+          "tracao": 50
+        }
+      },
+      {
+        "id_opcao": "D6",
+        "foco": "Maurício no Comando / Sessão Comentada",
+        "argumento_gerente": "Cancela os dois. Maurício, você vai sentar na frente da tela, ligar o toca-disco e narrar a sessão ao vivo. Cine-Clube de emergência. Transforma o problema em conteúdo: 'A noite em que a banda não veio e foi a melhor noite da história.'",
+        "treplica": "(Maurício endireita a postura) 'Um comentarista cinematográfico ao vivo. Sempre sonhei.' (Vagner sussurra pra Leila) 'Filma tudo. Isso vai virar série.'",
+        "impactos": {
+          "caixa": 600,
+          "acervo": 20,
+          "stress": -20,
+          "tracao": 30
+        }
+      }
+    ]
   }
 ]

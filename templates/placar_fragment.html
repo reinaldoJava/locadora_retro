@@ -1,0 +1,42 @@
+<div style="
+    border: 1px solid var(--dialog-border, #c8692a);
+    padding: 1rem 1.5rem; min-width: 280px;
+    background: var(--dialog-bg, rgba(20,10,2,0.95));
+    font-family: var(--dialog-font, 'Courier New', monospace);
+">
+    <h3 style="margin:0 0 0.8rem 0; text-align:center; letter-spacing:3px;
+               color: var(--text-speaker, #e8a060); font-size:0.9rem;">
+        ★ TOP 10 ★
+    </h3>
+    {% if entradas %}
+    <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+        <thead>
+            <tr style="color: var(--text-narrator, #c8a96e); opacity:0.6; font-size:0.75rem;">
+                <th style="text-align:left; padding:0 0.3rem 0.4rem 0;">#</th>
+                <th style="text-align:left; padding:0 0.3rem 0.4rem 0;">INI</th>
+                <th style="text-align:right; padding:0 0.3rem 0.4rem 0;">SCORE</th>
+                <th style="text-align:right; padding:0 0 0.4rem 0.3rem;">NÍVEL</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for e in entradas %}
+            {% set destaque = score_atual is not none and e.score == score_atual %}
+            <tr style="
+                color: {% if destaque %}var(--text-speaker, #e8a060){% else %}var(--text-primary, #f5d8b0){% endif %};
+                {% if destaque %}font-weight: bold;{% endif %}
+            ">
+                <td style="padding:0.2rem 0.3rem;">{{ loop.index }}</td>
+                <td style="padding:0.2rem 0.3rem; letter-spacing:3px;">{{ e.iniciais }}</td>
+                <td style="padding:0.2rem 0.3rem; text-align:right;">{{ e.score }}</td>
+                <td style="padding:0.2rem 0 0.2rem 0.3rem; text-align:right;
+                           font-size:0.75rem; opacity:0.7;">{{ e.dificuldade }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align:center; color: var(--text-narrator, #c8a96e); opacity:0.5; margin:0.5rem 0;">
+        Nenhum registro ainda.
+    </p>
+    {% endif %}
+</div>

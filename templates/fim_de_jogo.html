@@ -1,45 +1,144 @@
 <div id="end-game-screen" style="
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background-color: rgba(0,0,0,0.92); color: var(--text-primary, #f5d8b0);
+    background-color: rgba(0,0,0,0.95); color: var(--text-primary, #f5d8b0);
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     font-family: var(--dialog-font, 'Courier New', monospace); text-align: center;
-    padding: 2rem;
+    padding: 1.5rem; overflow-y: auto; gap: 1rem;
 ">
-    <h2 style="font-size:2rem; margin-bottom:0.5rem; color: var(--text-speaker, #e8a060);">
-        FIM DE JOGO
+    <h2 style="font-size:1.8rem; margin:0; letter-spacing:4px; color: var(--text-speaker, #e8a060);">
+        ★ FIM DE JOGO ★
     </h2>
-    <p style="color: var(--text-narrator, #c8a96e); margin-bottom:1.5rem;">
-        Voce chegou ao final da jornada da locadora!
+    <p style="color: var(--text-narrator, #c8a96e); margin:0; font-size:0.9rem; opacity:0.7;">
+        DIFICULDADE: {{ dificuldade }}
     </p>
 
+    <!-- Painel de métricas -->
     <div style="
         border: 1px solid var(--dialog-border, #c8692a);
-        padding: 1.5rem 2.5rem; margin-bottom: 1.5rem;
-        text-align: left; min-width: 280px;
+        padding: 1.2rem 2rem; min-width: 280px;
         background: var(--dialog-bg, rgba(20,10,2,0.95));
     ">
-        <h3 style="margin-top:0; text-align:center; letter-spacing:2px;
-                   color: var(--text-speaker, #e8a060);">PLACAR FINAL</h3>
-        <p>Caixa &nbsp;&nbsp;&nbsp;: <strong>{{ caixa }}</strong></p>
-        <p>Tracao &nbsp;: <strong>{{ tracao }}</strong></p>
-        <p>Acervo &nbsp;: <strong>{{ acervo }}</strong></p>
-        <p>Stress &nbsp;&nbsp;: <strong>{{ stress }}</strong></p>
-        <hr style="border-color: var(--dialog-border, #c8692a); opacity:0.4; margin:0.8rem 0;">
-        <p>Score &nbsp;&nbsp;&nbsp;: <strong style="font-size:1.3rem;">{{ score_total }}</strong></p>
+        <h3 style="margin:0 0 0.8rem 0; text-align:center; letter-spacing:3px;
+                   color: var(--text-speaker, #e8a060); font-size:0.95rem;">PLACAR FINAL</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.3rem 2rem; text-align:left; font-size:0.9rem;">
+            <span>CAIXA</span>  <strong style="text-align:right;">{{ caixa }}</strong>
+            <span>TRACÃO</span> <strong style="text-align:right;">{{ tracao }}</strong>
+            <span>ACERVO</span> <strong style="text-align:right;">{{ acervo }}</strong>
+            <span>STRESS</span> <strong style="text-align:right; color:#e05050;">-{{ stress }}</strong>
+        </div>
+        <hr style="border-color: var(--dialog-border, #c8692a); opacity:0.35; margin:0.7rem 0;">
+        <p style="margin:0; font-size:1.4rem; letter-spacing:2px;">
+            SCORE: <strong style="color: var(--text-speaker, #e8a060);">{{ score_total }}</strong>
+        </p>
     </div>
 
-    <p style="color: var(--text-speaker, #e8a060); font-size:1.1rem; margin-bottom:2rem;">
+    <!-- Classificação -->
+    <p style="color: var(--text-speaker, #e8a060); font-size:1rem; margin:0;">
         {{ classificacao }}
     </p>
 
+    <!-- Entrada de iniciais estilo fliperama -->
+    <div id="iniciais-form-wrapper" style="
+        border: 1px solid var(--dialog-border, #c8692a);
+        padding: 1rem 1.5rem; min-width: 280px;
+        background: var(--dialog-bg, rgba(20,10,2,0.95));
+    ">
+        <p style="margin:0 0 0.6rem 0; font-size:0.85rem; color: var(--text-narrator, #c8a96e); letter-spacing:2px;">
+            INSIRA SUAS INICIAIS:
+        </p>
+        <div style="display:flex; gap:0.5rem; justify-content:center; margin-bottom:0.8rem;">
+            <input id="ini-1" maxlength="1" type="text"
+                style="width:2.5rem; height:2.8rem; text-align:center; font-size:1.6rem; font-weight:bold;
+                       font-family: monospace; background: #111; color: var(--text-speaker, #e8a060);
+                       border: 2px solid var(--dialog-border, #c8692a); border-radius:3px;
+                       text-transform:uppercase; caret-color: transparent;">
+            <input id="ini-2" maxlength="1" type="text"
+                style="width:2.5rem; height:2.8rem; text-align:center; font-size:1.6rem; font-weight:bold;
+                       font-family: monospace; background: #111; color: var(--text-speaker, #e8a060);
+                       border: 2px solid var(--dialog-border, #c8692a); border-radius:3px;
+                       text-transform:uppercase; caret-color: transparent;">
+            <input id="ini-3" maxlength="1" type="text"
+                style="width:2.5rem; height:2.8rem; text-align:center; font-size:1.6rem; font-weight:bold;
+                       font-family: monospace; background: #111; color: var(--text-speaker, #e8a060);
+                       border: 2px solid var(--dialog-border, #c8692a); border-radius:3px;
+                       text-transform:uppercase; caret-color: transparent;">
+        </div>
+        <button id="btn-salvar-placar"
+            style="padding:8px 24px; font-size:0.9rem; cursor:pointer;
+                   background: var(--btn-hover-bg, rgba(200,105,42,0.85));
+                   color: var(--btn-text, #e8a060);
+                   border: 1px solid var(--dialog-border, #c8692a);
+                   font-family: var(--dialog-font, monospace);
+                   border-radius:3px; letter-spacing:2px; width:100%;">
+            ✓ REGISTRAR
+        </button>
+    </div>
+
+    <!-- Área do leaderboard (preenchida após salvar) -->
+    <div id="placar-container" style="min-width:280px;"></div>
+
+    <!-- Botão jogar novamente -->
     <button
-        style="padding: 12px 30px; font-size:1rem; cursor:pointer;
-               background: var(--btn-hover-bg, rgba(200,105,42,0.85));
-               color: var(--btn-text, #e8a060);
-               border: 1px solid var(--dialog-border, #c8692a);
+        style="padding:10px 28px; font-size:0.9rem; cursor:pointer;
+               background: transparent;
+               color: var(--text-narrator, #c8a96e);
+               border: 1px solid rgba(200,169,110,0.3);
                font-family: var(--dialog-font, monospace);
-               border-radius: 4px; letter-spacing: 1px;"
+               border-radius:3px; letter-spacing:1px;"
         onclick="window.location.href='/'">
         JOGAR NOVAMENTE
     </button>
 </div>
+
+<script>
+(function() {
+    var inputs = [
+        document.getElementById('ini-1'),
+        document.getElementById('ini-2'),
+        document.getElementById('ini-3')
+    ];
+
+    // Auto-avança foco e força maiúsculas
+    inputs.forEach(function(inp, i) {
+        inp.addEventListener('input', function() {
+            inp.value = inp.value.toUpperCase().replace(/[^A-Z]/g, '');
+            if (inp.value.length === 1 && i < 2) {
+                inputs[i + 1].focus();
+            }
+        });
+        inp.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && inp.value === '' && i > 0) {
+                inputs[i - 1].focus();
+            }
+        });
+    });
+
+    document.getElementById('btn-salvar-placar').addEventListener('click', function() {
+        var iniciais = (inputs[0].value + inputs[1].value + inputs[2].value).trim();
+        if (iniciais.length === 0) iniciais = 'AAA';
+        while (iniciais.length < 3) iniciais += '_';
+
+        var btn = this;
+        btn.disabled = true;
+        btn.textContent = '...';
+
+        var formData = new FormData();
+        formData.append('iniciais', iniciais);
+        formData.append('score', '{{ score_total }}');
+
+        fetch('/api/salvar_placar', { method: 'POST', body: formData })
+            .then(function(r) { return r.text(); })
+            .then(function(html) {
+                document.getElementById('iniciais-form-wrapper').style.display = 'none';
+                document.getElementById('placar-container').innerHTML = html;
+            })
+            .catch(function() {
+                btn.disabled = false;
+                btn.textContent = '✓ REGISTRAR';
+            });
+    });
+
+    // Foca automaticamente no primeiro campo
+    inputs[0].focus();
+})();
+</script>

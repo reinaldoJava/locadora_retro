@@ -9,6 +9,7 @@
 
 from flask import render_template, make_response, session as flask_session
 from src.Maps import ROTA_BG_2026, IMG_PERSONS
+from src.agents import obter_do_pool, adicionar_ao_pool, gerar_fala
 
 
 class RendererMixin:
@@ -40,6 +41,26 @@ class RendererMixin:
 
     def _tema_atual(self):
         return "tema-" + flask_session.get("tema_visual", "a")
+
+    def _renderizar_fala_llm(self, contexto: str, agente_id: str, ano: int,
+                             pool_key: str, temperatura: float | None,
+                             argumento: str = "") -> str:
+        """Pool + gerar_fala síncrono para réplica e tréplica.
+        Pool hit → instantâneo. Pool miss → chamada LLM (~1s), armazena no pool.
+        'Gerente' no texto gerado é substituído pelo nome real do jogador.
+        contexto  = contexto_ia (premissa da cena).
+        argumento = o que o Gerente disse (fala_gerente ou argumento_gerente).
+        """
+        agente_nome = agente_id.replace("ID_", "")
+       # fala = obter_do_pool(pool_key)
+        fala = None
+        if not fala:
+            fala = gerar_fala(agente_id, contexto, ano, temperatura, argumento=argumento)
+            adicionar_ao_pool(pool_key, fala)
+        fala_personalizada = fala.replace("Gerente", self.nome_jogador)
+        fala_html = fala_personalizada.replace(chr(10), "<br>")
+        return ("<p class='nome-personagem'>" + agente_nome + "</p>"
+                "<p class='fala-dialogo'>" + fala_html + "</p>")
 
     def _render_game_ui(self, texto_html, opcoes_html, spotlight, ano,
                         bg_src=None, estado=None):
@@ -79,14 +100,111 @@ class RendererMixin:
                 return self._orquestrar_encruzilhada_2026()
 
         evt_atual = self.motor.obter_evento_atual()
+        _contexto_ia_pendente = (
+            bool(evt_atual and evt_atual.get("agente_foco") and evt_atual.get("contexto_ia") and
+                 self.motor.estado.get("_contexto_exibido_id") != evt_atual.get("id") and
+                 self.motor.estado.get("rota_pendente_idx") is None)
+        )
         _tem_pendente = (self.motor.estado.get("texto_gerente_pendente") or
-                         self.motor.estado.get("texto_treplica_pendente"))
+                         self.motor.estado.get("texto_treplica_pendente") or
+                         _contexto_ia_pendente)
         if evt_atual and "dialogos_iniciais" in evt_atual and not _tem_pendente:
+            # Exibe contexto_ia como frame Sistema antes de iniciar os dialogos do evento
+            if (evt_atual.get("contexto_ia") and
+                    self.motor.estado.get("_contexto_exibido_id") != evt_atual.get("id")):
+                texto_html = ("<p class='fala-dialogo'>" +
+                              evt_atual["contexto_ia"].replace(chr(10), "<br>") + "</p>")
+                opcoes_html = ("<button class='btn-opcao' hx-post='/api/interagir' "
+                               "hx-target='#ui-jogo' hx-swap='innerHTML'>Continuar</button>")
+                spotlight = dict(personagem_foco="Sistema",
+                                 img_esq_src="/static/img/vagner.png", ator_esq_foco=False,
+                                 mostra_npc=False, npc_eh_foco=False, img_npc_src="")
+                return self._render_game_ui(texto_html, opcoes_html, spotlight,
+                                            ano=evt_atual.get("ano", 2026),
+                                            estado=self.motor.estado)
             return self._orquestrar_dialogo_evento(evt_atual, dados)
 
         estado_barras = dados.get("estado", {})
-        texto_raw = dados.get("texto") or ""
-        texto_html = f"<p class='fala-dialogo'>{texto_raw.replace(chr(10), '<br>')}</p>"
+
+        # Fala dinâmica via LLM para eventos 1999 com agente_foco.
+        # Pool hit  → renderização instantânea com nome personalizado.
+        # Pool miss → placeholder com trigger SSE; geração e persistência no pool
+        #             ocorrem no endpoint /api/fala-stream via streaming.
+        if (evt_atual and
+                evt_atual.get("agente_foco") and
+                evt_atual.get("ano") == 1999 and
+                not _tem_pendente and
+                self.motor.estado.get("rota_pendente_idx") is None):
+            evt_id      = evt_atual.get("id", "")
+            agente_id   = evt_atual["agente_foco"]
+            agente_nome = agente_id.replace("ID_", "")
+            fala        = obter_do_pool(evt_id)
+            if fala:
+                # Pool hit: renderização instantânea; substitui placeholder pelo nome real.
+                fala_personalizada = fala.replace("Gerente", self.nome_jogador)
+                fala_html  = fala_personalizada.replace(chr(10), "<br>")
+                texto_html = ("<p class='nome-personagem'>" + agente_nome + "</p>"
+                              "<p class='fala-dialogo'>" + fala_html + "</p>")
+            else:
+                # Pool miss: placeholder com trigger para o handler SSE no motor_shell.js.
+                texto_html = (
+                    "<p class='nome-personagem'>" + agente_nome + "</p>"
+                    "<p class='fala-dialogo' id='fala-stream-target'"
+                    " data-nome-jogador='" + self.nome_jogador + "'>▌</p>"
+                    "<div id='fala-stream-trigger' style='display:none'></div>"
+                )
+        elif _contexto_ia_pendente:
+            # Contexto IA: exibe premissa da situação como frame SISTEMA sem chamar LLM
+            texto_raw  = dados.get("texto") or ""
+            texto_html = "<p class='fala-dialogo'>" + texto_raw.replace(chr(10), "<br>") + "</p>"
+        elif self.motor.estado.get("texto_gerente_pendente"):
+            # Fala do Gerente: exibe fala_gerente ou argumento_gerente sem chamar LLM
+            texto_raw  = dados.get("texto") or ""
+            texto_html = ("<p class='nome-personagem'>" + self.nome_jogador + "</p>"
+                          "<p class='fala-dialogo'>" + texto_raw.replace(chr(10), "<br>") + "</p>")
+        elif self.motor.estado.get("texto_treplica_pendente"):
+            agente_atual = self.motor.estado.get("agente_atual", "Vagner")
+            if agente_atual == "Sistema":
+                # 2026: tréplica é texto estático com múltiplos personagens — exibe diretamente
+                texto_raw  = dados.get("texto") or ""
+                texto_html = "<p class='fala-dialogo'>" + texto_raw.replace(chr(10), "<br>") + "</p>"
+            else:
+                # 1999: tréplica gera via LLM usando contexto_ia + argumento_gerente
+                texto_html = self._renderizar_fala_llm(
+                    contexto    = evt_atual.get("contexto_ia", "") if evt_atual else "",
+                    agente_id   = "ID_" + agente_atual,
+                    ano         = dados.get("ano", 1999),
+                    pool_key    = self.motor.estado.get("pool_key_treplica", ""),
+                    temperatura = self.motor.estado.get("temp_treplica"),
+                    argumento   = self.motor.estado.get("llm_argumento", ""),
+                )
+        elif self.motor.estado.get("rota_pendente_idx") is not None:
+            if self.motor.estado.get("crise_ativa_evento"):
+                # Evento de crise: exibe texto estático do pushback (fala do personagem)
+                texto_raw  = dados.get("texto", "")
+                agente_nome = (evt_atual.get("agente_foco", "Sistema").replace("ID_", "")
+                               if evt_atual else "Sistema")
+                texto_html = ("<p class='nome-personagem'>" + agente_nome + "</p>"
+                              "<p class='fala-dialogo'>" + texto_raw.replace(chr(10), "<br>") + "</p>")
+            else:
+                # Réplica 1999: contexto_ia como cena + fala_gerente como gatilho → gerar_fala síncrono com pool
+                evt_id    = evt_atual.get("id", "") if evt_atual else ""
+                rota_idx  = self.motor.estado["rota_pendente_idx"]
+                rota      = (evt_atual["rotas_principais"][rota_idx]
+                             if evt_atual and "rotas_principais" in evt_atual else {})
+                pool_key  = f"{evt_id}:replica:{rota_idx}"
+                agente_id = evt_atual.get("agente_foco", "ID_Vagner") if evt_atual else "ID_Vagner"
+                texto_html = self._renderizar_fala_llm(
+                    contexto        = evt_atual.get("contexto_ia", "") if evt_atual else "",
+                    agente_id       = agente_id,
+                    ano             = dados.get("ano", 1999),
+                    pool_key        = pool_key,
+                    temperatura     = rota.get("temp_replica"),
+                    argumento       = self.motor.estado.get("llm_argumento", ""),
+                )
+        else:
+            texto_raw  = dados.get("texto") or ""
+            texto_html = "<p class='fala-dialogo'>" + texto_raw.replace(chr(10), "<br>") + "</p>"
         opcoes_html = "".join(
             f"<button class='btn-opcao' hx-post='/api/interagir' "
             f"hx-vals='{{\"choice\": {idx}}}' "
@@ -166,19 +284,22 @@ class RendererMixin:
 
     def _renderizar_fim_de_jogo(self):
         est = self.motor.estado
-        caixa  = est.get("caixa",  0)
-        tracao = est.get("tracao", 0)
-        acervo = est.get("acervo", 0)
-        stress = est.get("stress", 0)
-        score_total = caixa + tracao + acervo - stress
+        caixa       = est.get("caixa",  0)
+        tracao      = est.get("tracao", 0)
+        acervo      = est.get("acervo", 0)
+        stress      = est.get("stress", 0)
+        mult        = est.get("dificuldade_mult", 1.0)
+        dificuldade = est.get("dificuldade_nome", "BETA")
+        score_base  = caixa + tracao + acervo - stress
+        score_total = int(score_base * mult)
 
-        if score_total >= 200:
+        if score_total >= 300:
             classificacao = "LENDARIO - A locadora entrou para a historia!"
-        elif score_total >= 150:
+        elif score_total >= 200:
             classificacao = "EXCELENTE - Uma gestao de mao cheia!"
-        elif score_total >= 100:
+        elif score_total >= 120:
             classificacao = "BOM - Sobrevivemos a virada do milenio."
-        elif score_total >= 50:
+        elif score_total >= 60:
             classificacao = "REGULAR - Deu pra segurar as pontas."
         else:
             classificacao = "DIFICIL - Mal chegamos ao fim."
@@ -186,7 +307,8 @@ class RendererMixin:
         return render_template(
             "fim_de_jogo.html",
             caixa=caixa, tracao=tracao, acervo=acervo, stress=stress,
-            score_total=score_total, classificacao=classificacao
+            score_total=score_total, classificacao=classificacao,
+            dificuldade=dificuldade
         )
 
     # ------------------------------------------------------------------ #

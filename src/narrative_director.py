@@ -53,6 +53,24 @@ class DiretorNarrativo(RendererMixin, CinematicMixin, PrologoMixin, IntroMixin):
     # PONTO DE ENTRADA UNICO                                               #
     # ------------------------------------------------------------------ #
 
+    def _aplicar_impactos_crise_vitoria(self):
+        """Aplica os impactos numericos apos resolucao vitoriosa de uma crise."""
+        crise_id = self.motor.estado.get("crise_ativa_id", "")
+        est = self.motor.estado
+        if crise_id == "ultimato_leila_tracao":
+            est["tracao"] = min(100, est.get("tracao", 0) + 40)
+            est["caixa"]  = max(0, int(est.get("caixa", 0) * 0.80))
+        elif crise_id == "ultimato_mauricio_acervo":
+            est["acervo"] = min(100, est.get("acervo", 0) + 30)
+            est["stress"] = max(0, est.get("stress", 0) - 10)
+        elif crise_id == "ultimato_vagner_operacional":
+            est["stress"] = max(0, est.get("stress", 0) - 60)
+            est["caixa"]  = max(0, est.get("caixa", 0) - 3000)
+        elif crise_id == "ultimato_advogado_caixa":
+            est["caixa"]  = max(0, est.get("caixa", 0) + 2000)
+            est["tracao"] = max(0, est.get("tracao", 0) - 15)
+        est["crise_ativa_id"] = None
+
     def proximo_passo(self, escolha_usuario=None):
         """Roteia para o mixin correto conforme o estado atual do jogo."""
 
@@ -67,6 +85,16 @@ class DiretorNarrativo(RendererMixin, CinematicMixin, PrologoMixin, IntroMixin):
 
         if escolha_usuario is not None:
             self.motor.processar_escolha(escolha_usuario)
+
+        # Verifica se uma crise foi resolvida neste passo
+        if self.motor.estado.pop("crise_resolvida", False):
+            resultado = self.motor.estado.get("crise_resultado", "game_over")
+            self.motor.estado["crise_resultado"] = None
+            if resultado == "game_over":
+                self.motor.estado["game_over_forcado"] = True
+                return self._renderizar_game_over()
+            # vitoria: aplica penalidades numericas
+            self._aplicar_impactos_crise_vitoria()
 
         if self._initial_game_transition_step and self._initial_game_transition_step > 0:
             return self._orquestrar_initial_game_transition()

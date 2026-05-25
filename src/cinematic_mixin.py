@@ -108,14 +108,14 @@ class CinematicMixin:
         elif self.passo_cinematico == 2:
             response_data = render_template(
                 "cinematic_1999_to_2026.html", passo=2,
-                texto_virada="Parabens, voce chegou ao final de 1999.<br>",
+                texto_virada="Parabéns, voce chegou ao final de 1999.<br>",
                 numero_contagem_display="none", texto_feliz_ano_display="none",
                 imagens_personagens_display="none"
             )
             ui_commands.append({"action": "loopAutomatico", "args": {"tempo_ms": 2500}})
 
         elif self.passo_cinematico == 3:
-            texto = ("Parabens, voce chegou ao final de 1999.<br><br>"
+            texto = ("Parabéns, voce chegou ao final de 1999.<br><br>"
                      "Vai comecar a contagem regressiva para as novas aventuras "
                      "no ano 2000 que se iniciara em:")
             response_data = render_template(
@@ -129,7 +129,7 @@ class CinematicMixin:
             contador = 9 - self.passo_cinematico
             audio_src = (AUDIO_SETTINGS["countdown_bip_normal"]
                          if contador > 1 else AUDIO_SETTINGS["countdown_bip_final"])
-            texto = ("Parabens, voce chegou ao final de 1999.<br><br>"
+            texto = ("Parabéns, voce chegou ao final de 1999.<br><br>"
                      "Vai comecar a contagem regressiva para as novas aventuras "
                      "no ano 2000 que se iniciara em:")
             response_data = render_template(

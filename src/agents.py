@@ -1,85 +1,305 @@
 # src/agents.py
-# Interface com o modelo de linguagem local via Ollama (compativel com OpenAI SDK).
+# Interface com o modelo de linguagem via Gemini API (compatível com OpenAI SDK).
 #
-# Responsabilidade: gerar falas dinamicas para agentes NPC quando o evento define
-# um "agente_foco". O caller (engine.py via renderer_mixin.py) passa o contexto do
-# dia e recebe a fala como string HTML-safe, pronta para renderizacao.
+# Responsabilidade: gerar falas dinâmicas para agentes NPC quando o evento define
+# um "agente_foco". Expõe duas funções públicas:
+#   gerar_fala()        → string completa (uso síncrono / fallback)
+#   gerar_fala_stream() → generator de tokens (uso via SSE em /api/fala-stream)
 #
-# Arquitetura: cliente OpenAI apontado para localhost:11434 (Ollama). Cada agente
-# tem um system-prompt fixo em PROMPTS que define personalidade e restricoes de
-# roleplay. O user-prompt e montado dinamicamente com contexto, ano e nome do gerente.
+# Pool de falas (Firestore com fallback in-memory):
+#   Compartilhado entre todas as sessões e instâncias Cloud Run. A primeira geração
+#   de cada evento abastece os jogadores subsequentes via random.choice, minimizando
+#   chamadas à API. O nome do jogador é substituído no renderer/JS, não no LLM,
+#   garantindo que as falas do pool sejam reutilizáveis entre diferentes usuários.
+#   Em dev local (sem credenciais GCP), usa dict in-memory automaticamente.
+#
+# Arquitetura do cliente:
+#   OpenAI SDK apontado para o endpoint OpenAI-compatível do Gemini.
+#   A api_key é lida da variável de ambiente GEMINI_API_KEY.
 
+import os
+import random
+import threading
 from openai import OpenAI
 
-# Cliente aponta para Ollama rodando localmente; a api_key e exigida pela biblioteca
-# mas ignorada pelo servidor Ollama.
-client = OpenAI(
-    base_url='http://localhost:11434/v1',
-    api_key='ollama'
-)
+try:
+    from google.cloud import firestore as _firestore
+    _db = _firestore.Client()
+    _FIRESTORE_OK = True
+    print("[agents] Firestore: conectado")
+except Exception as _fs_err:
+    _db = None
+    _FIRESTORE_OK = False
+    print(f"[agents] Firestore: indisponível ({_fs_err}) — usando pool in-memory")
 
-# Guardrail de roleplay: impede que o LLM narre acoes, invente personagens ou
-# quebre a imersao do jogo. Compartilhado por todos os agentes como prefixo.
+_POOL_COLLECTION = "fala_pool"
+
+# LLM_PROVIDER controla qual backend é usado:
+#   "ollama"  (padrão) → Ollama local, modelo configurável via LLM_MODEL
+#   "gemini"            → Gemini via API OpenAI-compatível, modelo configurável via LLM_MODEL
+_PROVIDER = os.environ.get('LLM_PROVIDER', 'ollama').lower()
+
+if _PROVIDER == 'gemini':
+    _api_key = os.environ.get('GEMINI_API_KEY', '')
+    _MODEL = os.environ.get('LLM_MODEL', 'gemini-3.1-flash-lite')
+    print(f"[agents] provider=gemini model={_MODEL} api_key={'SET' if _api_key else 'MISSING'}")
+    client = OpenAI(
+        base_url='https://generativelanguage.googleapis.com/v1beta/openai/',
+        api_key=_api_key
+    )
+else:
+    _MODEL = os.environ.get('LLM_MODEL', 'qwen2.5:1.5b-instruct')
+    print(f"[agents] provider=ollama model={_MODEL}")
+    client = OpenAI(
+        base_url='http://localhost:11434/v1',
+        api_key='ollama'
+    )
+
+# Pool in-memory usado como fallback quando Firestore não está disponível (dev local).
+_pool: dict[str, list[str]] = {}
+POOL_MAX = 5  # Máximo de variações armazenadas por evento
+
+# Guardrail mínimo compartilhado: ancora o personagem como funcionário falando COM o Gerente.
+# Prompt curto é intencional — modelos pequenos (1.5B) obedecem melhor a poucas regras claras.
+# Usa "Gerente" como placeholder — substituído pelo nome real no renderer ou no JS.
 INSTRUCAO_GERAL = (
-    "=== REGRA DE SISTEMA (STRICT ROLEPLAY) ===\n"
-    "Você é um personagem de um jogo. Responda APENAS com a sua fala direta.\n"
-    "RESTRIÇÕES CRÍTICAS:\n"
-    "- NÃO narre ações em terceira pessoa.\n"
-    "- NÃO use asteriscos para simular ações (ex: *sorri*, *olha para o gerente*).\n"
-    "- NÃO invente nomes de outros personagens. USE APENAS OS PERSONAGENS CRIADOS NO CONTEXTO.\n"
-    "- Fale diretamente com o gerente.\n\n"
-    "- TODOS SÃO EDUCADOS E GENTIS.\n"
-    "- IMPROVISAÇÕES CIRURGICAS NO TEXTOS SEM ALTERAR OS CONTEXTOS.\n"
-    "- NÃO INVENTE NÚMEROS. APENAS TRABALHE COM OS JÁ EXISTENTES."
+    "Você é um funcionário da locadora falando DIRETAMENTE com o Gerente. "
+    "Ignore outros personagens mencionados no contexto — dirija-se só ao Gerente. "
+    "Responda com 1 a 2 frases curtas. Sem frases de abertura clichê ou repetitivas. "
+    "Dê sua opinião — a decisão final é do Gerente, não sua. "
+    "PROIBIDO usar adjetivos pejorativos ou depreciativos para descrever clientes, "
+    "funcionários ou qualquer pessoa citada no contexto (ex: fofoqueira, metida, difícil, "
+    "problemática, chata). Trate todos os personagens com respeito mesmo ao discordar."
 )
 
-# System-prompts individuais: personalidade + tarefa de cada NPC.
-PROMPTS = {
-    "ID_Leila": f"{INSTRUCAO_GERAL}Você é Leila, atendente jovem, enérgica e focada no cliente. "
-                "Em 1999, use poucas gírias da época. Bem extovertida e gosta de novidades. Em 2026, foque em métricas e redes sociais. "
-                "Sua Tarefa: Informe o Gerente sobre o problema e sugira uma saída amigável. Seja breve.",
-
-    "ID_Mauricio": f"{INSTRUCAO_GERAL}Você é Maurício, curador cinéfilo, polido e e introvertido, tem um bom coração. É apaixonado pelo que faz. "
-                   "Você prioriza a preservação das fitas acima do lucro."
-                   "Sua Tarefa: Reclame da situação exigindo proteção ao acervo. Seja breve e eloquente, as vezes rebuscado.",
-
-    "ID_Vagner": f"{INSTRUCAO_GERAL}Você é Vagner, dono da locadora, gerente financeiro, conservador. Torcedor fanático do Vitoria "
-                 "Você tem pavor de perder dinheiro. A Blockbuster é o rival. "
-                 "Sua Tarefa: Alerte o Gerente sobre o risco financeiro e exija lucro com bom senso. Tem um bom coração e gosta dos funcionários",
-
-    "ID_Financeiro": f"{INSTRUCAO_GERAL}Você é a voz da consciência financeira (sob os preceitos de Vagner). "
-                     "Sua Tarefa: Fale com o gerente focando puramente no fluxo de caixa e regras do sistema. Seja implacável e breve."
+# Configuração por personagem: system prompt + parâmetros de geração.
+# Temperaturas derivadas do perfil narrativo de cada personagem.
+PROMPTS: dict[str, dict] = {
+    "ID_Leila": {
+        "nome": "Leila",
+        "system": (
+            "Você é Leila, atendente de 22 anos da locadora. "
+            "Fale DIRETAMENTE com o Gerente — ignore outros personagens mencionados no contexto. "
+            "Sem frases de abertura repetitivas. "
+            "Normalmente animada e direta. Em temas de risco financeiro, fica mais contida e séria. "
+            "Fala abertamente quando discorda, mas só quando perguntada ou provocada. "
+            "Tende a concordar após ouvir o argumento do Gerente. "
+            "Use no máximo 1 gíria dos anos 90, só se vier naturalmente."
+        ),
+        "temperature": 0.4,
+        "max_tokens": 80,
+    },
+    "ID_Mauricio": {
+        "nome": "Maurício",
+        "system": (
+            "Você é Maurício, curador cinéfilo de 30 anos da locadora. "
+            "Fale DIRETAMENTE com o Gerente — ignore outros personagens mencionados no contexto. "
+            "Sem frases de abertura repetitivas. "
+            "Tom equilibrado — você respeita tanto o acervo quanto o financeiro. "
+            "Quando discorda, argumenta com elegância e referências cinematográficas, nunca com drama. "
+            "Aceita as decisões do Gerente de bom grado. "
+            "Permite-se ironia leve quando o momento pede."
+        ),
+        "temperature": 0.35,
+        "max_tokens": 80,
+    },
+    "ID_Vagner": {
+        "nome": "Vagner",
+        "system": (
+            "Você é Vagner, dono de uma videolocadora de bairro em 1999, 43 anos. Seu tom é de comerciante experiente, prático, direto e levemente ranzinza, mas que confia no seu Gerente.\n\n"
+            "REGRAS CRÍTICAS DE RESPOSTA:\n"
+            "1. Fale DIRETAMENTE com o Gerente. Reaja APENAS e estritamente à última ideia/escolha que o Gerente propôs.\n"
+            "2. NÃO INVENTE dados, estatísticas (ex: 'queda de 12%') ou problemas novos que não estão na fala do Gerente.\n"
+            "3. Avalie a proposta como um comerciante focado no caixa do dia: se a ideia do Gerente for ruim, critique a perda de dinheiro com unhas e dentes. Se a sacada do Gerente for genial e trouxer lucro, reconheça o mérito com uma resignação admirada.\n"
+            "4. Responda com no máximo 2 ou 3 frases curtas, informais e impactantes. Sem clichês corporativos.\n"
+            "5. NUNCA use adjetivos pejorativos para descrever clientes ou outros personagens (ex: fofoqueira, chato, difícil, problemático). Critique SITUAÇÕES e NÚMEROS, nunca o caráter de pessoas.\n\n"
+            "EXEMPLO DE FEEDBACK RUIM (Prejuízo):\n"
+            "Gerente: 'Perdoo os R$15 se ela levar o combo por R$20.'\n"
+            "Vagner: 'Peraí. Você tá trocando dinheiro limpo de multa por pipoca que tem custo de reposição? Desse jeito a nossa margem vai pro ralo, rapaz.'\n\n"
+            "EXEMPLO DE FEEDBACK BOM (Lucro/Malícia Comercial):\n"
+            "Gerente: 'Ela vai gastar R$5 a mais achando que ganhou um desconto. É o paradoxo da escolha.'\n"
+            "Vagner: 'Rapaz, você me assusta às vezes. A cliente vai pagar mais caro e sair sorrindo? Vai logo pro balcão antes que eu mude de ideia.'"
+        ),
+        "temperature": 0.4,
+        "max_tokens": 80,
+    },
+    "ID_Financeiro": {
+        "nome": "Vagner",
+        "system": (
+            "Você é Vagner em modo de emergência financeira. "
+            "Fale DIRETAMENTE com o Gerente — ignore outros personagens mencionados no contexto. "
+            "Sem frases de abertura. Sem metáforas. Sem emoção. "
+            "Apenas números, margens, prazos e riscos objetivos. "
+            "Mantenha o respeito pela relação com o Gerente mesmo sendo completamente frio."
+        ),
+        "temperature": 0.1,
+        "max_tokens": 80,
+    },
 }
 
 
-def gerar_fala(agente_id, contexto_dia, ano, nome_gerente):
-    """Gera a fala de um NPC via LLM local.
+def _montar_prompt_usuario(contexto_dia: str, ano: int, nome_personagem: str,
+                           argumento: str = "") -> str:
+    """Completion anchor: monta o prompt de usuário para o LLM.
+    'Gerente' é placeholder — substituído pelo nome real no renderer/JS (pool-safety).
 
-    Monta o user-prompt com contexto do dia, ano e nome do gerente,
-    e retorna a fala gerada como string. Em caso de falha de conexao
-    com o Ollama, retorna uma fala de fallback para nao travar o jogo.
+    Sem argumento (situação inicial):
+        Vagner reage ao cenário da locadora com sua opinião.
+    Com argumento (réplica/tréplica):
+        Vagner reage DIRETAMENTE ao que o Gerente acabou de dizer.
     """
-    prompt_sistema = PROMPTS.get(agente_id, INSTRUCAO_GERAL)
-    prompt_usuario = (
-        f"[CENA - ANO {ano}]\n"
-        f"Situação atual: {contexto_dia}\n\n"
-        f"AÇÃO: Dirija-se EXCLUSIVA E DIRETAMENTE ao gerente ({nome_gerente}). "
-        f"Dê a sua visão sobre a situação atual baseado no seu cargo e personalidade. "
-        f"Seja assertivo, não gagueje, e vá direto ao ponto. "
-        f"A cena começa agora:"
+    base = f"[ANO {ano}] {contexto_dia}\n\n"
+    if argumento:
+        return (
+            base +
+            f"O Gerente disse: \"{argumento}\"\n\n"
+            f"Reaja DIRETAMENTE a esta afirmação do Gerente. "
+            f"{nome_personagem} respondeu:"
+        )
+    return (
+        base +
+        f"O Gerente aguarda sua opinião sobre a situação. "
+        f"{nome_personagem} disse:"
     )
 
+
+# ---------------------------------------------------------------------------
+# API pública do pool
+# ---------------------------------------------------------------------------
+
+def obter_do_pool(evt_id: str) -> str | None:
+    """Retorna fala aleatória do pool para o evento ou None se pool vazio.
+    Lê do Firestore quando disponível, senão do dict in-memory.
+    """
+    if _FIRESTORE_OK:
+        try:
+            doc = _db.collection(_POOL_COLLECTION).document(evt_id).get()
+            if doc.exists:
+                falas = doc.to_dict().get("falas", [])
+                return random.choice(falas) if falas else None
+            return None
+        except Exception:
+            pass  # fallback in-memory
+    falas = _pool.get(evt_id, [])
+    return random.choice(falas) if falas else None
+
+
+def adicionar_ao_pool(evt_id: str, fala: str) -> None:
+    """Adiciona fala ao pool do evento respeitando o limite POOL_MAX.
+    Persiste no Firestore quando disponível, senão no dict in-memory.
+    """
+    if not fala or not evt_id:
+        return
+    if _FIRESTORE_OK:
+        try:
+            ref = _db.collection(_POOL_COLLECTION).document(evt_id)
+            doc = ref.get()
+            falas = doc.to_dict().get("falas", []) if doc.exists else []
+            if len(falas) < POOL_MAX:
+                falas.append(fala)
+                ref.set({"falas": falas})
+            return
+        except Exception:
+            pass  # fallback in-memory
+    if evt_id not in _pool:
+        _pool[evt_id] = []
+    if len(_pool[evt_id]) < POOL_MAX:
+        _pool[evt_id].append(fala)
+
+
+def preaquecer_replicas(evt: dict) -> None:
+    """Dispara threads em background para pré-gerar as réplicas de todas as rotas do evento.
+    Chamado ao final do SSE da situação, enquanto o jogador ainda está lendo e escolhendo.
+    Pool hit posterior → resposta instantânea sem latência de LLM.
+    """
+    evt_id    = evt.get("id", "")
+    agente_id = evt.get("agente_foco", "ID_Vagner")
+    contexto  = evt.get("contexto_ia", "")
+    ano       = evt.get("ano", 1999)
+
+    rotas = evt.get("rotas_principais", [])
+    for rota_idx, rota in enumerate(rotas):
+        if "sub_opcoes" not in rota:
+            continue  # só rotas com sub_opcoes têm réplica de LLM
+        pool_key  = f"{evt_id}:replica:{rota_idx}"
+        if obter_do_pool(pool_key):
+            continue  # já aquecido
+        argumento = rota.get("fala_gerente", "")
+        temp      = rota.get("temp_replica")
+
+        def _gerar(aid=agente_id, ctx=contexto, a=ano, t=temp, arg=argumento, pk=pool_key):
+            try:
+                fala = gerar_fala(aid, ctx, a, t, argumento=arg)
+                adicionar_ao_pool(pk, fala)
+            except Exception:
+                pass  # falha silenciosa — pool miss será tratado normalmente
+
+        threading.Thread(target=_gerar, daemon=True).start()
+
+
+# ---------------------------------------------------------------------------
+# Geração de falas
+# ---------------------------------------------------------------------------
+
+def _config(agente_id: str) -> dict:
+    """Retorna a configuração do agente (nome, system, temperature, max_tokens)."""
+    cfg = PROMPTS.get(agente_id)
+    if cfg:
+        return cfg
+    nome = agente_id.replace("ID_", "")
+    return {"nome": nome, "system": INSTRUCAO_GERAL, "temperature": 0.1, "max_tokens": 50}
+
+
+def gerar_fala(agente_id: str, contexto_dia: str, ano: int,
+               temperatura: float | None = None, argumento: str = "") -> str:
+    """Geração síncrona completa. Usada para réplica, tréplica e fallback.
+    temperatura sobrescreve o default do personagem quando informada.
+    argumento = o que o Gerente disse (fala_gerente / argumento_gerente).
+    """
+    cfg = _config(agente_id)
+    prompt_usuario = _montar_prompt_usuario(contexto_dia, ano, cfg["nome"], argumento)
+    temp = temperatura if temperatura is not None else cfg["temperature"]
     try:
         resposta = client.chat.completions.create(
-            model="qwen2.5-instruct",
+            model=_MODEL,
             messages=[
-                {"role": "system", "content": prompt_sistema},
-                {"role": "user", "content": prompt_usuario}
+                {"role": "system", "content": cfg["system"]},
+                {"role": "user",   "content": prompt_usuario}
             ],
-            temperature=0.5,
-            max_tokens=240,
-            timeout=120.0
+            temperature=temp,
+            max_tokens=cfg["max_tokens"],
+            stop=['\n'],
+            timeout=30.0
         )
-        return resposta.choices[0].message.content
+        return resposta.choices[0].message.content or ""
     except Exception as e:
-        return f"Chefe, estou meio sem voz agora (Erro: {e})"
+        return f"Chefe, estou meio sem voz agora. (Erro: {e})"
+
+
+def gerar_fala_stream(agente_id: str, contexto_dia: str, ano: int,
+                      temperatura: float | None = None, argumento: str = ""):
+    """Generator de tokens para streaming SSE (situação inicial — sem argumento).
+    temperatura sobrescreve o default do personagem quando informada.
+    """
+    cfg = _config(agente_id)
+    prompt_usuario = _montar_prompt_usuario(contexto_dia, ano, cfg["nome"], argumento)
+    temp = temperatura if temperatura is not None else cfg["temperature"]
+    try:
+        stream = client.chat.completions.create(
+            model=_MODEL,
+            messages=[
+                {"role": "system", "content": cfg["system"]},
+                {"role": "user",   "content": prompt_usuario}
+            ],
+            temperature=temp,
+            max_tokens=cfg["max_tokens"],
+            stop=['\n'],
+            stream=True,
+            timeout=30.0
+        )
+        for chunk in stream:
+            token = chunk.choices[0].delta.content or ""
+            if token:
+                yield token
+    except Exception as e:
+        yield f"Chefe, estou meio sem voz agora. (Erro: {e})"

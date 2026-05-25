@@ -41,10 +41,69 @@ window.skipCurrentTyping = skipCurrentTyping;
 // Dispatcher central de HX-Trigger
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Streaming SSE de fala de NPC (pool miss)
+// ---------------------------------------------------------------------------
+
+// Referência à EventSource ativa para permitir cancelamento em swap posterior.
+let _falaSource = null;
+
+function iniciarFalaStream() {
+    // Encerra stream anterior se ainda aberto (ex: swap rápido do jogador)
+    if (_falaSource) { _falaSource.close(); _falaSource = null; }
+
+    const nomeJogador = document.getElementById('fala-stream-target')?.dataset.nomeJogador || 'Gerente';
+
+    // Desabilita opções durante o streaming para aguardar a fala completa
+    document.querySelectorAll('#ui-opcoes .btn-opcao').forEach(btn => {
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+    });
+
+    _falaSource = new EventSource('/api/fala-stream');
+    let fullText = '';
+
+    _falaSource.onmessage = (e) => {
+        // Verifica se o elemento ainda está no DOM (proteção contra swap antecipado)
+        const target = document.getElementById('fala-stream-target');
+        if (!target) { _falaSource.close(); _falaSource = null; return; }
+
+        if (e.data === '[DONE]') {
+            _falaSource.close();
+            _falaSource = null;
+            document.querySelectorAll('#ui-opcoes .btn-opcao').forEach(btn => {
+                btn.disabled = false;
+                btn.style.opacity = '';
+            });
+            return;
+        }
+
+        // Restaura quebras de linha escapadas no protocolo SSE
+        fullText += e.data.replace(/\\n/g, '\n');
+        // Substitui o placeholder "Gerente" pelo nome real do jogador
+        const displayText = fullText.replace(/\bGerente\b/g, nomeJogador);
+        target.innerHTML = displayText.replace(/\n/g, '<br>');
+    };
+
+    _falaSource.onerror = () => {
+        _falaSource.close();
+        _falaSource = null;
+        document.querySelectorAll('#ui-opcoes .btn-opcao').forEach(btn => {
+            btn.disabled = false;
+            btn.style.opacity = '';
+        });
+    };
+}
+
 document.body.addEventListener('htmx:afterSwap', (evt) => {
     // Retorna ao topo da caixa de dialogo apos cada swap de conteudo
     const scrollBox = document.getElementById('scroll-box');
     if (scrollBox) scrollBox.scrollTop = 0;
+
+    // Pool miss: inicia streaming SSE da fala do NPC
+    if (document.getElementById('fala-stream-trigger')) {
+        iniciarFalaStream();
+    }
 
     const header = evt.detail.xhr.getResponseHeader('HX-Trigger');
     if (!header) return;

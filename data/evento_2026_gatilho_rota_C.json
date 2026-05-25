@@ -57,5 +57,64 @@
         }
       }
     ]
+  },
+  {
+    "id": "evento_games_retro_2026",
+    "gatilho_rota": "C",
+    "ano": 2026,
+    "titulo": "Do VHS ao Cartucho: A Expansão Retrô",
+    "contexto_ia": "O sucesso do Túnel do Tempo atraiu um público que não veio só pelo VHS — vieram pelos anos 90. Clientes começam a perguntar se a locadora também aluga videogames retrô. Um colecionador local propôs uma parceria. A questão é: como e quando expandir?",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Leila",
+        "fala": "Chefe, eu passei o fim de semana pesquisando. SNES, Mega Drive, PlayStation 1 e Dreamcast — o aluguel de consoles retrô tá bombando nos Estados Unidos. Tem gente faturando R$ 800 por fim de semana com dois consoles e vinte cartuchos."
+      },
+      {
+        "agente": "ID_Mauricio",
+        "fala": "Games?! Isso é uma invasão! A locadora tem identidade cinematográfica. Se a gente vira uma lan house retrô, diluímos o que nos faz especiais. O cliente vem pelo Kubrick, não pelo Sonic."
+      },
+      {
+        "agente": "ID_Vagner",
+        "fala": "O Carlos, aquele colecionador que sempre aparece aqui, tem 200 cartuchos e cinco consoles encaixotados na garagem. Ele já propôs parceria. Eu só precisava de uma sinalização sua pra responder."
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "C4",
+        "foco": "Parceria com o Carlos / Risco Compartilhado",
+        "argumento_gerente": "Vagner, fecha com o Carlos. Ele entra com o hardware, a gente entra com o espaço e o público. Dividimos 50/50 na receita. Se não funcionar em 90 dias, ele leva os consoles de volta. Custo zero, teste real de mercado.",
+        "treplica": "(Vagner) 'Parceria sem desembolso? Isso é negócio.' (Maurício torce o nariz mas aceita) 'Pelo menos o Carlos conhece o valor do que tem. Ele não vai misturar o Zelda com o Godard.'",
+        "impactos": {
+          "caixa": 1200,
+          "acervo": 10,
+          "stress": 10,
+          "tracao": 30
+        }
+      },
+      {
+        "id_opcao": "C5",
+        "foco": "Área Própria de Games / Investimento Direto",
+        "argumento_gerente": "A gente monta a área com hardware próprio. R$ 8.000 em consoles e cartuchos curados pelo Maurício — só clássicos com valor cultural, sem shovelware. A locadora vira referência total dos anos 90: filmes E jogos. Quem domina os dois lados, domina a nostalgia.",
+        "treplica": "(Maurício) 'Se eu curaro o acervo de games como curei as fitas, pode ser arte.' (Vagner) 'R$ 8 mil é alto, mas se a Leila tiver certa sobre a demanda, pagamos em dois meses.'",
+        "impactos": {
+          "caixa": -5000,
+          "acervo": 20,
+          "stress": 30,
+          "tracao": 50
+        }
+      },
+      {
+        "id_opcao": "C6",
+        "foco": "Anunciar Primeiro / Testar a Demanda",
+        "argumento_gerente": "Antes de gastar um centavo, a gente anuncia. Leila posta um story: 'Quem quer alugar SNES e Mega Drive aqui?' Se chegar 200 comentários em 24 horas, a gente avança. Se não chegar, a resposta do mercado veio de graça. Dado antes do dinheiro.",
+        "treplica": "(Leila pega o celular na hora) 'Já tô postando. Aposto R$ 50 que em uma hora tem 300 comentários.' (Vagner) 'Inteligência antes de risco. Isso é gestão, rapaz.'",
+        "impactos": {
+          "caixa": 0,
+          "acervo": 0,
+          "stress": -10,
+          "tracao": 20
+        }
+      }
+    ]
   }
 ]

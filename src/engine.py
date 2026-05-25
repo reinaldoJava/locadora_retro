@@ -1,18 +1,6 @@
 # src/engine.py
 # Maquina de estados narrativa: carrega eventos JSON, processa escolhas
 # e calcula o estado das metricas (caixa, tracao, acervo, stress).
-#
-# Modelo de dados:
-#   arquivos_cenario  — lista de arquivos JSON processados em sequencia
-#                       [0] eventos_1999.json  → [1] evento_2026_gatilho_rota_X.json
-#   estado            — dict mutavel com metricas, indice de evento e buffers de dialogo
-#   eventos           — lista de eventos do arquivo atual (carregada em memoria)
-#
-# Fluxo de escolha (multi-turno):
-#   1. formatar_para_frontend() — monta o frame atual para o DiretorNarrativo
-#   2. processar_escolha(idx)   — aplica impactos e avanca o indice_evento
-#   Buffers texto_gerente_pendente / texto_treplica_pendente permitem
-#   exibir a fala do Gerente e a treplica do NPC antes de avancar o evento.
 
 import json
 import os
@@ -25,16 +13,7 @@ class Engine:
         self.dia_atual = 1
         self.fluxo_atual = "inicio"
         self.historico_escolhas = []
-        self.estado = {
-            "indice_evento": 0,
-            "rota_pendente_idx": None,
-            "texto_treplica_pendente": None,
-            "historico_rotas": [],
-            "caixa": 100,
-            "tracao": 50,
-            "acervo": 50,
-            "stress": 0
-        }
+        self.estado = {}
         self.eventos = []
         self.indice_arquivo_atual = 0
 
@@ -45,13 +24,11 @@ class Engine:
             self.arquivos_cenario = lista_cenarios
             self._carregar_arquivo_atual()
         else:
-            # Modo de reconstrucao a partir de sessao: arquivos definidos externamente
             if lista_cenarios is None:
                 lista_cenarios = ['eventos_1999.json', 'eventos_2026.json']
             self.arquivos_cenario = lista_cenarios
 
     def _carregar_arquivo_atual(self):
-        """Le o arquivo JSON do cenario corrente e popula self.eventos."""
         if self.indice_arquivo_atual >= len(self.arquivos_cenario):
             self.eventos = []
             return
@@ -62,12 +39,10 @@ class Engine:
         self.eventos = list(dados.values()) if isinstance(dados, dict) else dados
 
     def obter_evento_atual(self):
-        """
-        Retorna o proximo evento que satisfaca o gatilho de rota, ou None se
-        o arquivo atual foi consumido (sinaliza virada de cenario).
-        Eventos com gatilho_rota so aparecem se a rota correspondente estiver
-        no historico_rotas do estado.
-        """
+        # Crise ativa: retorna o evento de crise antes de qualquer outro
+        if self.estado.get("crise_ativa_evento"):
+            return self.estado["crise_ativa_evento"]
+
         while self.estado["indice_evento"] < len(self.eventos):
             evt = self.eventos[self.estado["indice_evento"]]
             gatilho = evt.get("gatilho_rota")
@@ -75,22 +50,11 @@ class Engine:
                 return evt
             self.estado["indice_evento"] += 1
 
-        # Arquivo esgotado: avanca para o proximo cenario
         self.indice_arquivo_atual += 1
         self.estado["indice_evento"] = 0
         return None
 
     def formatar_para_frontend(self):
-        """
-        Monta o dict de estado do frame atual para consumo pelo DiretorNarrativo.
-
-        Prioridade de exibicao (do mais especifico ao mais geral):
-          1. texto_gerente_pendente — fala intercalada do Gerente (antes da treplica)
-          2. texto_treplica_pendente — resposta do NPC apos a escolha do jogador
-          3. evento atual — conteudo narrativo + opcoes de escolha
-          4. virada_1999 / fim — sinais de transicao de fase
-        """
-        # Fala pendente do Gerente (exibida antes da treplica do NPC)
         if self.estado.get("texto_gerente_pendente"):
             return {
                 "ano": self.estado.get("ano_buffer", 1999),
@@ -100,7 +64,6 @@ class Engine:
                 "estado": self.estado
             }
 
-        # Treplica pendente do NPC
         if self.estado.get("texto_treplica_pendente"):
             return {
                 "ano": self.estado.get("ano_buffer", 1999),
@@ -112,12 +75,10 @@ class Engine:
 
         evt = self.obter_evento_atual()
         if not evt:
-            # indice_arquivo_atual == 1 e indice_evento == 0: acabou 1999, nao ha mais 2026 generico
             if self.indice_arquivo_atual == 1 and self.estado["indice_evento"] == 0:
                 return {"virada_1999": True}
             return {"fim": True}
 
-        # Sub-opcoes de uma rota: exibe pushback do Vagner + escolha granular
         if self.estado.get("rota_pendente_idx") is not None:
             rota = evt["rotas_principais"][self.estado["rota_pendente_idx"]]
             return {
@@ -127,7 +88,16 @@ class Engine:
                 "estado": self.estado
             }
 
-        # Evento padrao: agrega contexto, narracao e dialogos em um unico texto
+        if (evt.get("agente_foco") and evt.get("contexto_ia") and
+                self.estado.get("_contexto_exibido_id") != evt.get("id")):
+            return {
+                "ano": evt.get("ano", 1999),
+                "personagem": "Sistema",
+                "texto": evt["contexto_ia"],
+                "opcoes": ["Continuar"],
+                "estado": self.estado,
+            }
+
         texto_partes = []
         if "contexto_ia"       in evt: texto_partes.append(evt["contexto_ia"])
         if "fala_narrativa"    in evt: texto_partes.append(f"Narrador:\n{evt['fala_narrativa']}")
@@ -138,7 +108,6 @@ class Engine:
                 texto_partes.append(f"{agente}:\n{d['fala']}")
         texto_final = "\n\n".join(texto_partes)
 
-        # Resolve personagem em foco para o spotlight de atores
         if "agente_foco" in evt:
             personagem = evt["agente_foco"].replace("ID_", "")
         elif "discurso_gerente" in evt:
@@ -148,7 +117,6 @@ class Engine:
         else:
             personagem = "Sistema"
 
-        # Opcoes de escolha: rotas_principais ou opcoes simples
         if "rotas_principais" in evt:
             opcoes_txt = [r.get("nome", r.get("descricao", "Opcao")) for r in evt["rotas_principais"]]
         elif "opcoes" in evt:
@@ -165,17 +133,6 @@ class Engine:
         }
 
     def processar_escolha(self, indice_opcao):
-        """
-        Aplica a escolha do jogador ao estado.
-
-        Maquina de sub-estados:
-          - texto_gerente_pendente   → limpa buffer, volta ao evento
-          - texto_treplica_pendente  → limpa buffer, avanca indice_evento
-          - rota_pendente_idx        → aplica sub_opcao escolhida (impacto + treplica)
-          - evento com sub_opcoes    → registra rota, seta gerente_pendente
-          - evento com treplica      → aplica impacto, seta treplica_pendente
-          - evento simples           → aplica impacto, avanca indice_evento
-        """
         if self.estado.get("texto_gerente_pendente"):
             self.estado["texto_gerente_pendente"] = None
             if (not self.estado.get("texto_treplica_pendente") and
@@ -187,34 +144,59 @@ class Engine:
         if self.estado.get("texto_treplica_pendente"):
             self.estado["texto_treplica_pendente"] = None
             self.estado.pop("ano_buffer", None)
-            self.estado["indice_evento"] += 1
+            if self.estado.get("crise_ativa_evento"):
+                # Crise resolvida: nao incrementa indice_evento (evento era virtual)
+                self.estado["crise_ativa_evento"] = None
+                self.estado["crise_resolvida"] = True
+            else:
+                self.estado["indice_evento"] += 1
             return self.estado
 
         evt = self.obter_evento_atual()
         if not evt:
             return self.estado
 
-        # Sub-opcao dentro de uma rota ja selecionada
+        # Consumir frame de contexto_ia: eventos 1999 (agente_foco) e 2026 (dialogos_iniciais)
+        if (evt.get("contexto_ia") and
+                self.estado.get("_contexto_exibido_id") != evt.get("id") and
+                self.estado.get("rota_pendente_idx") is None and
+                ("agente_foco" in evt or "dialogos_iniciais" in evt)):
+            self.estado["_contexto_exibido_id"] = evt.get("id", "")
+            return self.estado
+
         if self.estado.get("rota_pendente_idx") is not None:
-            rota = evt["rotas_principais"][self.estado["rota_pendente_idx"]]
+            rota_idx  = self.estado["rota_pendente_idx"]
+            rota      = evt["rotas_principais"][rota_idx]
             sub_opcao = rota["sub_opcoes"][indice_opcao]
             self._aplicar_impacto_dinamico(sub_opcao)
+            # Armazena resultado da crise (vitoria / game_over) se crise ativa
+            if self.estado.get("crise_ativa_evento"):
+                self.estado["crise_resultado"] = sub_opcao.get("resultado", "game_over")
             self.estado["texto_treplica_pendente"] = sub_opcao.get(
-                "resolucao_vagner", sub_opcao.get("argumento_gerente", ""))
+                "resolucao_agente", sub_opcao.get("resolucao_vagner",
+                sub_opcao.get("argumento_gerente", "")))
+            self.estado["temp_treplica"] = sub_opcao.get("temp_treplica")
+            self.estado["pool_key_treplica"] = (
+                f"{evt.get('id', '')}:treplica:{rota_idx}:{indice_opcao}"
+            )
             self.estado["rota_pendente_idx"] = None
+            if sub_opcao.get("argumento_gerente"):
+                self.estado["texto_gerente_pendente"] = sub_opcao["argumento_gerente"]
+                self.estado["llm_argumento"] = sub_opcao["argumento_gerente"]
+                self.estado["ano_buffer"] = evt.get("ano", 1999)
             return self.estado
 
         escolha = None
         if "rotas_principais" in evt:
             escolha = evt["rotas_principais"][indice_opcao]
             if "sub_opcoes" in escolha:
-                # Rota com sub-opcoes: registra rota, espera pushback + sub-escolha
                 self.estado["historico_rotas"].append(escolha.get("id_rota", ""))
                 self.estado["rota_pendente_idx"] = indice_opcao
                 agente_foco_default = evt.get("agente_foco", "ID_Vagner").replace("ID_", "")
                 pushback = escolha.get("pushback_vagner", "")
                 self.estado["agente_atual"] = self._detectar_agente_pushback(pushback, agente_foco_default)
                 self.estado["texto_gerente_pendente"] = escolha.get("fala_gerente", "")
+                self.estado["llm_argumento"] = escolha.get("fala_gerente", "")
                 return self.estado
 
         elif "opcoes" in evt:
@@ -232,7 +214,6 @@ class Engine:
                 self.estado["ano_buffer"] = evt.get("ano", 1999)
                 return self.estado
 
-        # Escolha simples: aplica impacto e avanca
         if escolha:
             id_escolha = escolha.get("id_opcao", escolha.get("id_rota", ""))
             if id_escolha:
@@ -243,7 +224,6 @@ class Engine:
         return self.estado
 
     def _detectar_agente_pushback(self, pushback_text, agente_foco_default):
-        """Identifica qual personagem fala no pushback pelo prefixo 'Nome:'."""
         nomes = {"Vagner": "Vagner", "Leila": "Leila",
                  "Mauricio": "Mauricio", "Gerente": "Gerente"}
         for nome, agente in nomes.items():
@@ -252,17 +232,20 @@ class Engine:
         return agente_foco_default
 
     def _aplicar_impacto_dinamico(self, dict_opcao):
-        """Aplica deltas numericos do campo 'impacto' ao estado de metricas."""
+        """Aplica deltas numericos multiplicados pelo fator de dificuldade."""
         impactos = dict_opcao.get("impacto",
                    dict_opcao.get("impactos",
                    dict_opcao.get("impacto_sistema", {})))
+        mult = self.estado.get("dificuldade_mult", 1.0)
         for k, v in impactos.items():
             if isinstance(v, (int, float)) and k in self.estado:
-                self.estado[k] = max(0, self.estado.get(k, 0) + v)
+                delta = round(v * mult)
+                self.estado[k] = max(0, self.estado.get(k, 0) + delta)
 
     def verificar_game_over(self):
-        """Condicao de derrota: stress >= 1000."""
-        return self.estado["stress"] >= 1000
+        """Condicao de derrota: stress >= 1000 ou game_over_forcado."""
+        return (self.estado.get("stress", 0) >= 1000 or
+                self.estado.get("game_over_forcado", False))
 
     def reset_completo(self):
         """Reinicia todas as metricas e ponteiros para o estado inicial."""
@@ -274,10 +257,19 @@ class Engine:
             "rota_pendente_idx": None,
             "texto_treplica_pendente": None,
             "texto_gerente_pendente": None,
+            "llm_argumento": "",
             "historico_rotas": [],
             "agente_atual": "Vagner",
             "caixa": 100,
             "tracao": 50,
             "acervo": 50,
-            "stress": 0
+            "stress": 0,
+            # --- Sistema de crise e dificuldade ---
+            "dificuldade_mult": 1.0,
+            "dificuldade_nome": "BETA",
+            "crises_usadas": [],
+            "crise_ativa_evento": None,
+            "crise_ativa_id": None,
+            "crise_resultado": None,
+            "game_over_forcado": False,
         }

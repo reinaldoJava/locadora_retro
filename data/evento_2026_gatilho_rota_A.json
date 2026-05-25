@@ -61,5 +61,64 @@
         }
       }
     ]
+  },
+  {
+    "id": "evento_feira_geek_2026",
+    "gatilho_rota": "A",
+    "ano": 2026,
+    "titulo": "O Estande na Maior Feira Geek da América Latina",
+    "contexto_ia": "A fama do estúdio abriu uma porta improvável: um convite para montar estande na CCXP — maior feira de entretenimento geek da América Latina, 280 mil visitantes em quatro dias. O investimento é alto e o prazo é curto.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Leila",
+        "fala": "Chefe, eu já pesquisei tudo. O estande básico na área independente custa R$ 6.000. Dá pra montar com a gente mesmo e levar equipamento da loja. É a maior vitrine que a gente vai ter na vida!"
+      },
+      {
+        "agente": "ID_Mauricio",
+        "fala": "280 mil pessoas passando pelo acervo? Quem garante que ninguém vai tocar nas fitas sem luva? Precisamos de pessoal treinado. Não é qualquer estagiário que toca no meu Bergman."
+      },
+      {
+        "agente": "ID_Vagner",
+        "fala": "Estande, frete, hospedagem quatro dias em São Paulo, comida... Isso facilmente passa de R$ 15 mil. A gente tem esse dinheiro disponível? Porque se o estande não pagar, a gente volta falido."
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "A6",
+        "foco": "Estande Básico / Baixo Risco",
+        "argumento_gerente": "Vamos na versão enxuta. Estande de 6m², um monitor passando os melhores clipes do estúdio, banner impresso e a Leila como vendedora. Investimento de R$ 8.000 com frete. O objetivo é plantar a semente, não lucrar agora.",
+        "treplica": "(Vagner aprova) 'Custo controlado, a gente aprende o terreno. Na próxima edição a gente dobra.' (Leila já está escolhendo a roupa) 'Eu vendo qualquer coisa com aquela tela passando.'",
+        "impactos": {
+          "caixa": -3000,
+          "acervo": 0,
+          "stress": 10,
+          "tracao": 30
+        }
+      },
+      {
+        "id_opcao": "A7",
+        "foco": "Estande Premium / Experiência Imersiva",
+        "argumento_gerente": "Se vamos ir, vamos de vez. Estande de 20m² com cabine de gravação ao vivo e dois assistentes contratados. Investimento de R$ 18.000. O visitante grava um VT dentro do estande e sai com QR Code. Isso viraliza sozinho.",
+        "treplica": "(Maurício) 'Arte interativa ao vivo. Eu aprovo cada centavo.' (Vagner fecha os olhos) 'R$ 18 mil é aposta alta. Mas se viralizar metade do que você tá prometendo, vale.'",
+        "impactos": {
+          "caixa": -8000,
+          "acervo": 0,
+          "stress": 40,
+          "tracao": 80
+        }
+      },
+      {
+        "id_opcao": "A8",
+        "foco": "Parceria com Marca Retrô / Custo Compartilhado",
+        "argumento_gerente": "Já conversei com a Kodak Vintage Brasil — eles querem marcar presença na CCXP mas não têm conceito. A gente entra com o estúdio, eles entram com R$ 10.000 de patrocínio. Saímos com lucro líquido e a marca deles nos credencia na frente de 280 mil pessoas.",
+        "treplica": "(Vagner bate na mesa) 'Patrocinador paga pra aparecer com a gente? Isso é o sonho de consumo.' (Leila) 'A Kodak nos valida. Fechado, chefe.'",
+        "impactos": {
+          "caixa": 4000,
+          "acervo": 0,
+          "stress": 20,
+          "tracao": 60
+        }
+      }
+    ]
   }
 ]

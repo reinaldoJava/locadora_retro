@@ -6,6 +6,37 @@
     <title>Motor 1999/2026 - Inicialização</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        .dificuldade-selector {
+            display: flex;
+            gap: 1rem;
+            margin: 0.8rem 0 1rem 0;
+            flex-wrap: wrap;
+        }
+        .dificuldade-selector label {
+            cursor: pointer;
+            border: 1px solid var(--dialog-border, #c8692a);
+            padding: 0.3rem 0.8rem;
+            font-family: var(--dialog-font, 'Courier New', monospace);
+            font-size: 0.85rem;
+            color: var(--text-narrator, #c8a96e);
+            opacity: 0.6;
+            transition: opacity 0.15s, color 0.15s;
+            white-space: nowrap;
+        }
+        .dificuldade-selector input[type="radio"] { display: none; }
+        .dificuldade-selector input[type="radio"]:checked + label {
+            opacity: 1;
+            color: var(--text-speaker, #e8a060);
+            border-color: var(--text-speaker, #e8a060);
+        }
+        .dificuldade-hint {
+            font-size: 0.75rem;
+            color: var(--text-narrator, #c8a96e);
+            opacity: 0.55;
+            margin-bottom: 0.4rem;
+        }
+    </style>
 </head>
 <body>
 <audio id="trilha-sonora-intro" src="/static/audio/Game_1999.mp3" preload="auto" muted></audio>
@@ -16,6 +47,20 @@
             <span class="terminal-prompt">LOGIN:</span>
             <form hx-post="/api/iniciar-intro" hx-target="#intro-container" hx-swap="innerHTML">
                 <input type="text" id="nome-jogador" name="nome" autocomplete="off" autofocus maxlength="15">
+                <!-- Seletor de dificuldade desabilitado para a demo — sempre usa BETA (×1.0) -->
+                <!--
+                <div class="dificuldade-hint">// NÍVEL DE DIFICULDADE:</div>
+                <div class="dificuldade-selector">
+                    <input type="radio" id="d-vhs" name="dificuldade" value="vhs">
+                    <label for="d-vhs">VHS [×0.6]</label>
+
+                    <input type="radio" id="d-beta" name="dificuldade" value="beta" checked>
+                    <label for="d-beta">BETA [×1.0]</label>
+
+                    <input type="radio" id="d-laser" name="dificuldade" value="laser">
+                    <label for="d-laser">LASER DISC [×1.5]</label>
+                </div>
+                -->
             </form>
         </div>
     </div>

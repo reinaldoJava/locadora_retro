@@ -1,0 +1,37 @@
+# Variáveis de ambiente — nunca entram na imagem
+.env
+
+# Controle de versão
+.git/
+.gitignore
+.gitattributes
+
+# Ambientes virtuais Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# IDEs e editores
+.idea/
+.vscode/
+.continue/
+
+# Dependências de dev (não precisam no container)
+requirements-dev.txt
+
+# Documentação e análises (não precisam no container)
+*.md
+*.html
+*.svg
+HANDOFF.md
+analise_narrativa.md
+arquitetura.*
+
+# Docker local
+docker-compose.yml
+
+# Testes
+src/tests/
