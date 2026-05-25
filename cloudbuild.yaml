@@ -22,13 +22,14 @@ steps:
       - .
 
   # ── 2. Push para o Container Registry ─────────────────────
+  # ── 2. Push para o Artifact Registry (Formato correto) ─────────────────────
   - name: gcr.io/cloud-builders/docker
     id: push
     waitFor: [build]
     args:
       - push
       - --all-tags
-      - us-central1-docker.pkg.dev/$PROJECT_ID/nome-do-seu-repositorio/$_SERVICE
+      - us-central1-docker.pkg.dev/$PROJECT_ID/$_SERVICE
 
   # ── 3. Deploy no Cloud Run ─────────────────────────────────
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
