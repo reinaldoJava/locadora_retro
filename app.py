@@ -13,13 +13,34 @@
 #   POST /api/*    → acoes do jogo retornam fragmentos HTML para swap HTMX em #ui-jogo
 #                    exceto /api/avancar-intro-slide (ultimo slide) → HX-Redirect: /jogo
 
-from flask import Flask, render_template, request, session, make_response
+import os
+import json
+from pathlib import Path
+from datetime import datetime
+
+from dotenv import load_dotenv
+load_dotenv()
+
+from flask import Flask, render_template, request, session, make_response, Response, stream_with_context, jsonify
 from src.narrative_director import DiretorNarrativo
 from src.engine import Engine
+from src.agents import gerar_fala_stream, adicionar_ao_pool, preaquecer_replicas
 import random
 
+# ---------------------------------------------------------------------------
+# Dados estaticos: game_over events indexados por id
+# ---------------------------------------------------------------------------
+_BASE_DATA = Path(__file__).resolve().parent / "data"
+with open(_BASE_DATA / "game_over.json", "r", encoding="utf-8") as _f:
+    _GAME_OVER_EVENTOS = {evt["id"]: evt for evt in json.load(_f)}
+
+_DIFICULDADE_MULT = {"vhs": 0.6, "beta": 1.0, "laser": 1.5}
+_DIFICULDADE_NOME = {"vhs": "VHS", "beta": "BETA", "laser": "LASER DISC"}
+
 app = Flask(__name__)
-app.secret_key = 'chave_secreta_super_segura_1999'
+# Em produção (Cloud Run), SECRET_KEY vem do Secret Manager via env var.
+# Localmente, usa o valor do .env ou o fallback de dev abaixo.
+app.secret_key = os.environ.get('SECRET_KEY', 'chave_secreta_super_segura_1999_dev')
 
 
 # ---------------------------------------------------------------------------
@@ -124,9 +145,15 @@ def index_jogo():
 
 @app.route('/api/iniciar-intro', methods=['POST'])
 def iniciar_intro_api():
-    """Recebe o nome do jogador e retorna o primeiro slide da intro."""
+    """Recebe o nome e a dificuldade do jogador; retorna o primeiro slide da intro."""
     nome_jogador = request.form.get('nome', 'GERENTE').strip() or 'GERENTE'
+    dificuldade  = request.form.get('dificuldade', 'beta').lower()
+    if dificuldade not in _DIFICULDADE_MULT:
+        dificuldade = 'beta'
     diretor = _get_diretor()
+    diretor.motor.estado['dificuldade_mult'] = _DIFICULDADE_MULT[dificuldade]
+    diretor.motor.estado['dificuldade_nome'] = _DIFICULDADE_NOME[dificuldade]
+    session['dificuldade'] = dificuldade
     response = diretor.iniciar_intro(nome_jogador)
     _save_diretor(diretor)
     return response
@@ -173,12 +200,50 @@ def iniciar_game_1999_sequence_api():
 # Rotas de gameplay (fragmentos HTMX → swap em #ui-jogo)
 # ---------------------------------------------------------------------------
 
+def _verificar_e_injetar_crise(diretor):
+    """Verifica limiares de metricas e injeta evento de crise se necessario.
+    Chamado apos cada processamento de escolha. Nao age se uma crise ja esta ativa."""
+    estado = diretor.motor.estado
+    if estado.get("crise_ativa_evento"):
+        return  # Crise ja ativa; aguarda resolucao
+
+    crises_usadas = estado.get("crises_usadas", [])
+
+    # Determina qual crise deve ser disparada (prioridade: caixa > stress > acervo > tracao)
+    crise_id = None
+    if estado.get("caixa", 100) <= 0:
+        crise_id = "ultimato_advogado_caixa"
+    elif estado.get("stress", 0) >= 90:
+        crise_id = "ultimato_vagner_operacional"
+    elif estado.get("acervo", 50) <= 20:
+        crise_id = "ultimato_mauricio_acervo"
+    elif estado.get("tracao", 50) <= 10:
+        crise_id = "ultimato_leila_tracao"
+
+    if not crise_id:
+        return  # Sem crise
+
+    if crise_id in crises_usadas:
+        # Segunda ocorrencia: game over imediato
+        estado["game_over_forcado"] = True
+        return
+
+    # Injeta crise
+    crises_usadas.append(crise_id)
+    estado["crises_usadas"]    = crises_usadas
+    estado["crise_ativa_id"]   = crise_id
+    estado["crise_ativa_evento"] = _GAME_OVER_EVENTOS[crise_id]
+
+
 @app.route('/api/interagir', methods=['POST'])
 def interagir():
     """Processa escolha do jogador e avanca o estado narrativo."""
     escolha = request.form.get("choice", type=int)
     diretor = _get_diretor()
     response = diretor.proximo_passo(escolha)
+    # Verifica crise apos cada escolha efetiva do jogador
+    if escolha is not None:
+        _verificar_e_injetar_crise(diretor)
     _save_diretor(diretor)
     return response
 
@@ -191,6 +256,101 @@ def reset_jogo():
     response = make_response(diretor._renderizar_gameplay(dados_motor))
     _save_diretor(diretor)
     return response
+
+
+@app.route('/api/fala-stream')
+def fala_stream_api():
+    """Streaming SSE da fala do NPC atual. Lê o evento da sessão, gera via Gemini
+    e adiciona a fala completa ao pool ao concluir — abastecendo jogadores futuros."""
+    diretor = _get_diretor()
+    evt = diretor.motor.obter_evento_atual()
+    if not evt or not evt.get("agente_foco"):
+        return Response("data: [DONE]\n\n", mimetype='text/event-stream')
+
+    evt_id    = evt.get("id", "")
+    agente_id = evt["agente_foco"]
+    contexto  = evt.get("contexto_ia", "")
+    ano       = diretor.motor.estado.get("ano", 1999)
+
+    temperatura = evt.get("temp_situacao")
+
+    def generate():
+        full_text = ""
+        for token in gerar_fala_stream(agente_id, contexto, ano, temperatura):
+            full_text += token
+            # Escapa quebras de linha para o protocolo SSE (cada mensagem é uma linha)
+            safe_token = token.replace('\n', '\\n')
+            yield f"data: {safe_token}\n\n"
+        adicionar_ao_pool(evt_id, full_text)
+        # Pré-aquece réplicas de todas as rotas em background enquanto o jogador lê e escolhe
+        preaquecer_replicas(evt)
+        yield "data: [DONE]\n\n"
+
+    return Response(
+        stream_with_context(generate()),
+        mimetype='text/event-stream',
+        headers={
+            'Cache-Control': 'no-cache',
+            'X-Accel-Buffering': 'no'   # Desativa buffer do Nginx para SSE
+        }
+    )
+
+
+# ---------------------------------------------------------------------------
+# Rotas de placar (leaderboard)
+# ---------------------------------------------------------------------------
+
+@app.route('/api/salvar_placar', methods=['POST'])
+def salvar_placar_api():
+    """Salva iniciais e pontuacao no Firestore e retorna o placar atualizado."""
+    iniciais  = request.form.get('iniciais', 'AAA').upper()[:3].strip() or 'AAA'
+    score     = request.form.get('score', type=int, default=0)
+    dificuldade = session.get('dificuldade', 'beta').upper()
+
+    try:
+        from google.cloud import firestore as _fs
+        db = _fs.Client()
+        db.collection('placar').add({
+            'iniciais':   iniciais,
+            'score':      score,
+            'dificuldade': dificuldade,
+            'timestamp':  datetime.utcnow(),
+        })
+    except Exception:
+        pass  # Firestore indisponivel (dev local) — ignora silenciosamente
+
+    return _render_placar_html(score)
+
+
+@app.route('/api/placar', methods=['GET'])
+def placar_api():
+    """Retorna o top-10 do placar como fragmento HTML."""
+    return _render_placar_html()
+
+
+def _render_placar_html(score_atual=None):
+    """Busca top-10 do Firestore e renderiza fragmento HTML do placar."""
+    entradas = []
+    try:
+        from google.cloud import firestore as _fs
+        db = _fs.Client()
+        docs = (db.collection('placar')
+                  .order_by('score', direction=_fs.Query.DESCENDING)
+                  .limit(10)
+                  .stream())
+        for doc in docs:
+            d = doc.to_dict()
+            entradas.append({
+                'iniciais':   d.get('iniciais', '???'),
+                'score':      d.get('score', 0),
+                'dificuldade': d.get('dificuldade', ''),
+            })
+    except Exception:
+        pass
+
+    return render_template('placar_fragment.html',
+                           entradas=entradas,
+                           score_atual=score_atual)
 
 
 if __name__ == '__main__':

@@ -39,7 +39,7 @@
     "objetivo_final": "⚖️ O SEU OBJETIVO: Toda escolha tem um preço. Agradar o Maurício afasta os adolescentes da Leila. Dar poder para a Leila gasta o dinheiro que o Vagner escondeu para os impostos. Administre os recursos. Equilibre o Caixa. E tente não falir... pelo menos não antes de descobrir o que o futuro reserva.",
     "estado_inicial": {
       "ano_inicial": 1999,
-      "caixa": 1000.00,
+      "caixa": 100.00,
       "tracao": 0,
       "acervo": 0,
       "stress": 0

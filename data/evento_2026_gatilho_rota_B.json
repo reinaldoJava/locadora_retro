@@ -57,5 +57,64 @@
         }
       }
     ]
+  },
+  {
+    "id": "evento_autenticidade_2026",
+    "gatilho_rota": "B",
+    "ano": 2026,
+    "titulo": "Original ou Pirata? A Guerra da Autenticidade",
+    "contexto_ia": "Um comprador internacional contestou a autenticidade de três fitas vendidas no leilão. A notícia vazou nos fóruns de colecionadores e agora toda venda está sob suspeita. Os scalpers estão revendendo o que compraram com margem inflada antes que o escândalo cresça.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Mauricio",
+        "fala": "Eu sabia. EU SABIA. Aquele lote comprado em 1999 tinha duplicatas. Preciso de duas semanas para verificar fita por fita. Duas semanas, uma lupa e silêncio absoluto no depósito."
+      },
+      {
+        "agente": "ID_Vagner",
+        "fala": "Duas semanas?! O comprador quer reembolso e os scalpers já estão revendendo no dobro com a história do 'escândalo'. A gente tá perdendo dinheiro parado aqui discutindo lupa."
+      },
+      {
+        "agente": "ID_Leila",
+        "fala": "Achei um perito em São Paulo que faz laudo de autenticidade de mídias analógicas. Cobra R$ 80 por fita. Tem fila de três semanas. Ou a gente controla a narrativa agora antes que o fórum exploda de vez."
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "B4",
+        "foco": "Certificação Profissional / Transparência Total",
+        "argumento_gerente": "Leila, contrata o perito para auditar o acervo inteiro. Paramos as vendas e comunicamos publicamente que estamos certificando tudo. Isso transforma o escândalo em prova de seriedade. Fita com laudo vale três vezes mais no leilão.",
+        "treplica": "(Maurício) 'Um laudo técnico é a única linguagem que colecionador sério respeita.' (Vagner) 'Caro e lento, mas quem tem laudo manda o preço. Aprovado.'",
+        "impactos": {
+          "caixa": -2000,
+          "acervo": 40,
+          "stress": 10,
+          "tracao": 20
+        }
+      },
+      {
+        "id_opcao": "B5",
+        "foco": "Venda com Disclaimer / Velocidade Sobre Margem",
+        "argumento_gerente": "A gente não para. Adicionamos aviso em cada anúncio: 'Acervo histórico vendido no estado original — autenticidade não certificada.' Baixamos 20% do preço e vendemos tudo antes que o barulho aumente. Disclaimer cobre a gente juridicamente.",
+        "treplica": "(Vagner) 'Rápido, limpo e legal. Disclaimer cobre a gente.' (Maurício vira o rosto) 'Não me pergunte se eu concordo. Mas entendo a lógica do caixa.'",
+        "impactos": {
+          "caixa": 2500,
+          "acervo": -20,
+          "stress": 20,
+          "tracao": -20
+        }
+      },
+      {
+        "id_opcao": "B6",
+        "foco": "Anti-Scalper / Venda Direta para Colecionadores",
+        "argumento_gerente": "Bloqueamos qualquer revenda. Cada comprador se cadastra com CPF e assina termo proibindo revenda com lucro por 12 meses. Os scalpers saem do jogo. Vendemos mais devagar, mas para quem realmente ama o cinema. Isso é reputação que não tem preço.",
+        "treplica": "(Maurício aplaude) 'Proteção cultural. Finalmente alguém pensando no legado.' (Leila) 'Os fóruns já estão nos chamando de guardiões do VHS. Isso vale ouro em tração.'",
+        "impactos": {
+          "caixa": 800,
+          "acervo": 10,
+          "stress": -10,
+          "tracao": 40
+        }
+      }
+    ]
   }
 ]
