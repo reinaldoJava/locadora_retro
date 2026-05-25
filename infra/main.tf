@@ -53,6 +53,7 @@ resource "google_project_iam_member" "cloudbuild_roles" {
     "roles/storage.admin",            # push imagens no Container Registry
     "roles/logging.logWriter",        # enviar logs ao Cloud Logging
     "roles/secretmanager.secretAccessor", # ler segredos no build (se necessário)
+    "roles/artifactregistry.writer"
   ])
 
   project = var.project_id
