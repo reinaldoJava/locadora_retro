@@ -56,6 +56,7 @@ steps:
       - --concurrency=80
       - --set-env-vars=LLM_PROVIDER=gemini,LLM_MODEL=$_LLM_MODEL
       - --set-secrets=GEMINI_API_KEY=gemini-api-key:latest,SECRET_KEY=flask-secret-key:latest
+      - --service-account=sa-cloudrun@$PROJECT_ID.iam.gserviceaccount.com
 
 images:
   - $_REGION-docker.pkg.dev/$PROJECT_ID/locadora-retro/$_SERVICE:$SHORT_SHA
