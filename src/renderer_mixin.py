@@ -328,4 +328,12 @@ class RendererMixin:
         else:
             personagem_foco = "Outro"
 
-        _img_esq = img_esq_src if img_esq_src is not None e
+        _img_esq = img_esq_src if img_esq_src is not None else "/static/img/vagner.webp"
+        _ator_esq = ator_esq_foco if ator_esq_foco is not None else vagner_foco
+
+        spotlight = dict(personagem_foco=personagem_foco,
+                         img_esq_src=_img_esq, ator_esq_foco=_ator_esq,
+                         mostra_npc=npc_visivel, npc_eh_foco=npc_foco,
+                         img_npc_src=npc_img)
+        return self._render_game_ui(texto_html, opcoes_html, spotlight, ano=2026,
+                                    bg_src="/static/img/bg_2026.webp")
