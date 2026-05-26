@@ -52,8 +52,7 @@ class RendererMixin:
         argumento = o que o Gerente disse (fala_gerente ou argumento_gerente).
         """
         agente_nome = agente_id.replace("ID_", "")
-       # fala = obter_do_pool(pool_key)
-        fala = None
+        fala = obter_do_pool(pool_key)
         if not fala:
             fala = gerar_fala(agente_id, contexto, ano, temperatura, argumento=argumento)
             adicionar_ao_pool(pool_key, fala)
