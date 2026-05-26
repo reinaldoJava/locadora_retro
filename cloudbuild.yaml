@@ -10,9 +10,25 @@ substitutions:
   _LLM_MODEL: gemini-3.1-flash-lite
 
 steps:
+  # ── 0. Garante que o repositório Artifact Registry existe ─
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    id: ensure-repo
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        gcloud artifacts repositories describe locadora-retro \
+          --location=$_REGION --project=$PROJECT_ID 2>/dev/null \
+        || gcloud artifacts repositories create locadora-retro \
+             --repository-format=docker \
+             --location=$_REGION \
+             --project=$PROJECT_ID \
+             --description="Locadora Retro Docker images"
+
   # ── 1. Build da imagem Docker ──────────────────────────────
   - name: gcr.io/cloud-builders/docker
     id: build
+    waitFor: [ensure-repo]
     args:
       - build
       - -t
@@ -21,7 +37,7 @@ steps:
       - $_REGION-docker.pkg.dev/$PROJECT_ID/locadora-retro/$_SERVICE:latest
       - .
 
-  # ── 2. Push para o Container Registry ─────────────────────
+  # ── 2. Push para o Artifact Registry ──────────────────────
   - name: gcr.io/cloud-builders/docker
     id: push
     waitFor: [build]
@@ -39,7 +55,7 @@ steps:
       - run
       - deploy
       - $_SERVICE
-      - --image=docker.pkg.dev/$PROJECT_ID/locadora-retro/$_SERVICE:$SHORT_SHA
+      - --image=$_REGION-docker.pkg.dev/$PROJECT_ID/locadora-retro/$_SERVICE:$SHORT_SHA
       - --region=$_REGION
       - --platform=managed
       - --allow-unauthenticated          # URL pública sem autenticação
@@ -54,7 +70,7 @@ steps:
       - --set-secrets=GEMINI_API_KEY=gemini-api-key:latest,SECRET_KEY=flask-secret-key:latest
 
 images:
-  - gcr.io/$PROJECT_ID/$_SERVICE
+  - $_REGION-docker.pkg.dev/$PROJECT_ID/locadora-retro/$_SERVICE:$SHORT_SHA
 
 options:
   logging: CLOUD_LOGGING_ONLY
