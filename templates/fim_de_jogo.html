@@ -74,8 +74,13 @@
         </button>
     </div>
 
-    <!-- Área do leaderboard (preenchida após salvar) -->
-    <div id="placar-container" style="min-width:280px;"></div>
+    <!-- Área do leaderboard (carregada ao abrir e atualizada após salvar) -->
+    <div id="placar-container" style="min-width:280px;">
+        <div style="text-align:center; color: var(--text-narrator, #c8a96e); opacity:0.5;
+                    font-size:0.8rem; padding:1rem; font-family: monospace;">
+            carregando ranking...
+        </div>
+    </div>
 
     <!-- Botão jogar novamente -->
     <button
@@ -137,6 +142,16 @@
                 btn.textContent = '✓ REGISTRAR';
             });
     });
+
+    // Carrega o top 10 assim que a tela aparece
+    fetch('/api/placar')
+        .then(function(r) { return r.text(); })
+        .then(function(html) {
+            document.getElementById('placar-container').innerHTML = html;
+        })
+        .catch(function() {
+            document.getElementById('placar-container').innerHTML = '';
+        });
 
     // Foca automaticamente no primeiro campo
     inputs[0].focus();

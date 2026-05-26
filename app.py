@@ -154,7 +154,7 @@ def index_jogo():
 @app.route('/api/iniciar-intro', methods=['POST'])
 def iniciar_intro_api():
     """Recebe o nome e a dificuldade do jogador; retorna o primeiro slide da intro."""
-    nome_jogador = request.form.get('nome', 'GERENTE').strip() or 'GERENTE'
+    nome_jogador = (request.form.get('nome', 'GERENTE').strip() or 'GERENTE')[:15]
     dificuldade  = request.form.get('dificuldade', 'beta').lower()
     if dificuldade not in _DIFICULDADE_MULT:
         dificuldade = 'beta'

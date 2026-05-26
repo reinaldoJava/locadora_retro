@@ -45,53 +45,85 @@ window.skipCurrentTyping = skipCurrentTyping;
 // Streaming SSE de fala de NPC (pool miss)
 // ---------------------------------------------------------------------------
 
-// Referência à EventSource ativa para permitir cancelamento em swap posterior.
-let _falaSource = null;
+// Referência à EventSource ativa e ao timer do typewriter.
+let _falaSource   = null;
+let _typingTimer  = null;
+
+function _setBotoes(enabled) {
+    document.querySelectorAll('#ui-opcoes .btn-opcao').forEach(btn => {
+        btn.disabled   = !enabled;
+        btn.style.opacity = enabled ? '' : '0.5';
+    });
+}
 
 function iniciarFalaStream() {
-    // Encerra stream anterior se ainda aberto (ex: swap rápido do jogador)
-    if (_falaSource) { _falaSource.close(); _falaSource = null; }
+    // Encerra stream e timer anteriores (ex: swap rápido do jogador)
+    if (_falaSource)  { _falaSource.close(); _falaSource = null; }
+    if (_typingTimer) { clearInterval(_typingTimer); _typingTimer = null; }
 
     const nomeJogador = document.getElementById('fala-stream-target')?.dataset.nomeJogador || 'Gerente';
 
-    // Desabilita opções durante o streaming para aguardar a fala completa
-    document.querySelectorAll('#ui-opcoes .btn-opcao').forEach(btn => {
-        btn.disabled = true;
-        btn.style.opacity = '0.5';
-    });
+    _setBotoes(false);
 
     _falaSource = new EventSource('/api/fala-stream');
-    let fullText = '';
+
+    let rawText  = '';   // texto acumulado do SSE (bruto)
+    let typedLen = 0;    // quantos caracteres já foram "digitados"
+    let sseEnded = false;
+    const SPEED  = 22;   // ms por caractere (~45 chars/s)
+
+    function renderSlice(showCursor) {
+        const target = document.getElementById('fala-stream-target');
+        if (!target) return;
+        const slice = rawText.slice(0, typedLen)
+            .replace(/\bGerente\b/g, nomeJogador)
+            .replace(/\n/g, '<br>');
+        target.innerHTML = slice + (showCursor ? '<span class="cursor-blink">▌</span>' : '');
+    }
+
+    function finalizarTypewriter() {
+        clearInterval(_typingTimer);
+        _typingTimer = null;
+        typedLen = rawText.length;
+        renderSlice(false);
+        const target = document.getElementById('fala-stream-target');
+        if (target) target.style.cursor = '';
+        _setBotoes(true);
+    }
+
+    // Clique/tap no texto pula direto para o fim (skip)
+    const target = document.getElementById('fala-stream-target');
+    if (target) {
+        target.style.cursor = 'pointer';
+        target.addEventListener('click', finalizarTypewriter, { once: true });
+    }
+
+    // Timer que avança um caractere por vez
+    _typingTimer = setInterval(() => {
+        if (typedLen < rawText.length) {
+            typedLen++;
+            renderSlice(true);
+        } else if (sseEnded) {
+            finalizarTypewriter();
+        }
+        // Se SSE ainda não terminou e não há texto novo, aguarda (cursor pisca)
+    }, SPEED);
 
     _falaSource.onmessage = (e) => {
-        // Verifica se o elemento ainda está no DOM (proteção contra swap antecipado)
-        const target = document.getElementById('fala-stream-target');
-        if (!target) { _falaSource.close(); _falaSource = null; return; }
-
+        if (!document.getElementById('fala-stream-target')) {
+            _falaSource.close(); _falaSource = null; return;
+        }
         if (e.data === '[DONE]') {
-            _falaSource.close();
-            _falaSource = null;
-            document.querySelectorAll('#ui-opcoes .btn-opcao').forEach(btn => {
-                btn.disabled = false;
-                btn.style.opacity = '';
-            });
+            _falaSource.close(); _falaSource = null;
+            sseEnded = true;
             return;
         }
-
-        // Restaura quebras de linha escapadas no protocolo SSE
-        fullText += e.data.replace(/\\n/g, '\n');
-        // Substitui o placeholder "Gerente" pelo nome real do jogador
-        const displayText = fullText.replace(/\bGerente\b/g, nomeJogador);
-        target.innerHTML = displayText.replace(/\n/g, '<br>');
+        rawText += e.data.replace(/\\n/g, '\n');
     };
 
     _falaSource.onerror = () => {
-        _falaSource.close();
-        _falaSource = null;
-        document.querySelectorAll('#ui-opcoes .btn-opcao').forEach(btn => {
-            btn.disabled = false;
-            btn.style.opacity = '';
-        });
+        _falaSource.close(); _falaSource = null;
+        sseEnded = true;
     };
 }
 
@@ -179,3 +211,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// ---------------------------------------------------------------------------
+// Fullscreen mobile
+// Ativado na primeira interação do usuário (obrigatório pelos browsers).
+// iOS Safari não suporta requestFullscreen — os meta tags apple-mobile-web-app
+// no <head> garantem tela cheia quando adicionado à Home Screen.
+// Android Chrome entra em fullscreen automaticamente na primeira tocada.
+// ---------------------------------------------------------------------------
+(function () {
+    const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    if (!isMobile) return;
+
+    function pedirFullscreen() {
+        const el = document.documentElement;
+        if (el.requestFullscreen)            el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    }
+
+    // Primeira interação real → entra em fullscreen
+    document.body.addEventListener('click', pedirFullscreen, { once: true });
+
+    // Se o usuário sair do fullscreen acidentalmente, re-oferece na próxima tocada
+    document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) {
+            document.body.addEventListener('click', pedirFullscreen, { once: true });
+        }
+    });
+    document.addEventListener('webkitfullscreenchange', () => {
+        if (!document.webkitFullscreenElement) {
+            document.body.addEventListener('click', pedirFullscreen, { once: true });
+        }
+    });
+}());
