@@ -142,11 +142,8 @@ export function esperarVideo() {
 
 export function playVideo(config) {
     if (config?.id === 'video-shutdown') {
-        document.getElementById('video-shutdown')?.play().catch(() => {});
-    }
-}
-
-export function showElementById(elementId) {
-    const el = document.getElementById(elementId);
-    if (el) el.style.display = 'block';
-}
+        const video = document.getElementById('video-shutdown');
+        if (!video) return;
+        const promise = video.play();
+        if (promise !== undefined) {
+            // Se autoplay for bloqueado pelo browser, dis
