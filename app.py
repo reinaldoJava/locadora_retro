@@ -28,6 +28,20 @@ from src.agents import gerar_fala_stream, adicionar_ao_pool, preaquecer_replicas
 import random
 
 # ---------------------------------------------------------------------------
+# Firestore — cliente compartilhado (mesmo padrão de agents.py)
+# Em dev local (sem credenciais GCP) cai no fallback gracioso.
+# ---------------------------------------------------------------------------
+try:
+    from google.cloud import firestore as _fs
+    _db_placar = _fs.Client()
+    _PLACAR_OK = True
+    print("[app] Firestore placar: conectado")
+except Exception as _fs_err:
+    _db_placar = None
+    _PLACAR_OK = False
+    print(f"[app] Firestore placar: indisponível ({_fs_err}) — placar desativado")
+
+# ---------------------------------------------------------------------------
 # Dados estaticos: game_over events indexados por id
 # ---------------------------------------------------------------------------
 _BASE_DATA = Path(__file__).resolve().parent / "data"
@@ -312,21 +326,20 @@ def fala_stream_api():
 @app.route('/api/salvar_placar', methods=['POST'])
 def salvar_placar_api():
     """Salva iniciais e pontuacao no Firestore e retorna o placar atualizado."""
-    iniciais  = request.form.get('iniciais', 'AAA').upper()[:3].strip() or 'AAA'
-    score     = request.form.get('score', type=int, default=0)
+    iniciais    = request.form.get('iniciais', 'AAA').upper()[:3].strip() or 'AAA'
+    score       = request.form.get('score', type=int, default=0)
     dificuldade = session.get('dificuldade', 'beta').upper()
 
-    try:
-        from google.cloud import firestore as _fs
-        db = _fs.Client()
-        db.collection('placar').add({
-            'iniciais':   iniciais,
-            'score':      score,
-            'dificuldade': dificuldade,
-            'timestamp':  datetime.utcnow(),
-        })
-    except Exception:
-        pass  # Firestore indisponivel (dev local) — ignora silenciosamente
+    if _PLACAR_OK:
+        try:
+            _db_placar.collection('placar').add({
+                'iniciais':    iniciais,
+                'score':       score,
+                'dificuldade': dificuldade,
+                'timestamp':   datetime.utcnow(),
+            })
+        except Exception as e:
+            print(f"[app] salvar_placar erro: {e}", flush=True)
 
     return _render_placar_html(score)
 
@@ -340,22 +353,23 @@ def placar_api():
 def _render_placar_html(score_atual=None):
     """Busca top-10 do Firestore e renderiza fragmento HTML do placar."""
     entradas = []
-    try:
-        from google.cloud import firestore as _fs
-        db = _fs.Client()
-        docs = (db.collection('placar')
-                  .order_by('score', direction=_fs.Query.DESCENDING)
-                  .limit(10)
-                  .stream())
-        for doc in docs:
-            d = doc.to_dict()
-            entradas.append({
-                'iniciais':   d.get('iniciais', '???'),
-                'score':      d.get('score', 0),
-                'dificuldade': d.get('dificuldade', ''),
-            })
-    except Exception:
-        pass
+    if _PLACAR_OK:
+        try:
+            docs = (
+                _db_placar.collection('placar')
+                .order_by('score', direction=_fs.Query.DESCENDING)
+                .limit(10)
+                .stream()
+            )
+            for doc in docs:
+                d = doc.to_dict()
+                entradas.append({
+                    'iniciais':    d.get('iniciais', '???'),
+                    'score':       d.get('score', 0),
+                    'dificuldade': d.get('dificuldade', ''),
+                })
+        except Exception as e:
+            print(f"[app] render_placar erro: {e}", flush=True)
 
     return render_template('placar_fragment.html',
                            entradas=entradas,
