@@ -142,7 +142,16 @@ export function esperarVideo() {
 
 export function playVideo(config) {
     if (config?.id === 'video-shutdown') {
-        document.getElementById('video-shutdown')?.play().catch(() => {});
+        const video = document.getElementById('video-shutdown');
+        if (!video) return;
+        const promise = video.play();
+        if (promise !== undefined) {
+            // Se autoplay for bloqueado pelo browser, dispara 'ended' imediatamente
+            // para não esperar os 10s do fallback em esperarVideo()
+            promise.catch(() => {
+                video.dispatchEvent(new Event('ended'));
+            });
+        }
     }
 }
 

@@ -20,7 +20,8 @@
 import os
 import random
 import threading
-from openai import OpenAI
+import time
+from openai import OpenAI, RateLimitError
 
 try:
     from google.cloud import firestore as _firestore
@@ -58,6 +59,20 @@ else:
 # Pool in-memory usado como fallback quando Firestore não está disponível (dev local).
 _pool: dict[str, list[str]] = {}
 POOL_MAX = 15  # Máximo de variações armazenadas por evento
+
+# Frases de fallback por personagem — exibidas quando a API falha após todas as tentativas.
+# Devem soar naturais para não quebrar a imersão.
+_FALLBACK: dict[str, str] = {
+    "ID_Leila":      "Chefe, me dá um segundo... tô processando tudo isso.",
+    "ID_Mauricio":   "Preciso de um instante para organizar meus pensamentos.",
+    "ID_Vagner":     "Espera aí, deixa eu calcular direito antes de falar.",
+    "ID_Financeiro": "...",
+}
+_FALLBACK_DEFAULT = "..."
+
+# Configuração de retry para erros 429 (rate limit da API).
+# 2 retentativas = 3 chamadas total. Delays: 5s e 10s.
+_RETRY_DELAYS = [5, 10]
 
 # Guardrail mínimo compartilhado: ancora o personagem como funcionário falando COM o Gerente.
 # Prompt curto é intencional — modelos pequenos (1.5B) obedecem melhor a poucas regras claras.
@@ -255,51 +270,74 @@ def gerar_fala(agente_id: str, contexto_dia: str, ano: int,
     """Geração síncrona completa. Usada para réplica, tréplica e fallback.
     temperatura sobrescreve o default do personagem quando informada.
     argumento = o que o Gerente disse (fala_gerente / argumento_gerente).
+    Retry com Exponential Backoff em caso de 429 (rate limit).
     """
     cfg = _config(agente_id)
     prompt_usuario = _montar_prompt_usuario(contexto_dia, ano, cfg["nome"], argumento)
     temp = temperatura if temperatura is not None else cfg["temperature"]
-    try:
-        resposta = client.chat.completions.create(
-            model=_MODEL,
-            messages=[
-                {"role": "system", "content": cfg["system"]},
-                {"role": "user",   "content": prompt_usuario}
-            ],
-            temperature=temp,
-            max_tokens=cfg["max_tokens"],
-            stop=['\n'],
-            timeout=30.0
-        )
-        return resposta.choices[0].message.content or ""
-    except Exception as e:
-        return f"Chefe, estou meio sem voz agora. (Erro: {e})"
+    mensagens = [
+        {"role": "system", "content": cfg["system"]},
+        {"role": "user",   "content": prompt_usuario},
+    ]
+    for tentativa, delay in enumerate([0] + _RETRY_DELAYS):
+        if delay:
+            time.sleep(delay)
+        try:
+            resposta = client.chat.completions.create(
+                model=_MODEL,
+                messages=mensagens,
+                temperature=temp,
+                max_tokens=cfg["max_tokens"],
+                stop=['\n'],
+                timeout=30.0
+            )
+            return resposta.choices[0].message.content or ""
+        except RateLimitError:
+            if tentativa < len(_RETRY_DELAYS):
+                continue
+            return _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
+        except Exception:
+            return _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
+    return _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
 
 
 def gerar_fala_stream(agente_id: str, contexto_dia: str, ano: int,
                       temperatura: float | None = None, argumento: str = ""):
     """Generator de tokens para streaming SSE (situação inicial — sem argumento).
     temperatura sobrescreve o default do personagem quando informada.
+    Retry com Exponential Backoff em caso de 429 (rate limit).
+    O sleep entre tentativas apenas atrasa o primeiro token — conexão SSE permanece aberta.
     """
     cfg = _config(agente_id)
     prompt_usuario = _montar_prompt_usuario(contexto_dia, ano, cfg["nome"], argumento)
     temp = temperatura if temperatura is not None else cfg["temperature"]
-    try:
-        stream = client.chat.completions.create(
-            model=_MODEL,
-            messages=[
-                {"role": "system", "content": cfg["system"]},
-                {"role": "user",   "content": prompt_usuario}
-            ],
-            temperature=temp,
-            max_tokens=cfg["max_tokens"],
-            stop=['\n'],
-            stream=True,
-            timeout=30.0
-        )
-        for chunk in stream:
-            token = chunk.choices[0].delta.content or ""
-            if token:
-                yield token
-    except Exception as e:
-        yield f"Chefe, estou meio sem voz agora. (Erro: {e})"
+    mensagens = [
+        {"role": "system", "content": cfg["system"]},
+        {"role": "user",   "content": prompt_usuario},
+    ]
+    for tentativa, delay in enumerate([0] + _RETRY_DELAYS):
+        if delay:
+            time.sleep(delay)
+        try:
+            stream = client.chat.completions.create(
+                model=_MODEL,
+                messages=mensagens,
+                temperature=temp,
+                max_tokens=cfg["max_tokens"],
+                stop=['\n'],
+                stream=True,
+                timeout=30.0
+            )
+            for chunk in stream:
+                token = chunk.choices[0].delta.content or ""
+                if token:
+                    yield token
+            return  # stream concluído com sucesso
+        except RateLimitError:
+            if tentativa < len(_RETRY_DELAYS):
+                continue
+            yield _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
+            return
+        except Exception:
+            yield _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
+            return

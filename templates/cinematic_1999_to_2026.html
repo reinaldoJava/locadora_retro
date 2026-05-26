@@ -29,7 +29,7 @@
     display: {% if container_shutdown_display %}{{ container_shutdown_display }}{% else %}none{% endif %};
     background-color: black; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; z-index: 10001; justify-content: center; align-items: center;
 ">
-    <video id="video-shutdown" playsinline preload="auto" style="
+    <video id="video-shutdown" playsinline muted preload="auto" style="
         display: {% if video_shutdown_display %}{{ video_shutdown_display }}{% else %}none{% endif %};
         max-width: 100%; max-height: 100%;
     ">
