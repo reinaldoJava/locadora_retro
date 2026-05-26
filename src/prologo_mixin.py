@@ -180,4 +180,8 @@ class PrologoMixin:
             self.passo_prologo_2026 = 0
             dados_novos = self.motor.formatar_para_frontend()
             response_data = self._renderizar_gameplay(dados_novos)
-
+
+        response = make_response(response_data)
+        if ui_commands:
+            response.headers["HX-Trigger"] = json.dumps({"ui_commands": ui_commands})
+        return response

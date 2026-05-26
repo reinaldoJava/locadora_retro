@@ -250,7 +250,7 @@
             "impacto": {
               "caixa": -30,
               "tracao": 25,
-              "acervo": 0,
+              "acervo": -5,
               "stress": 20
             }
           },
@@ -561,7 +561,7 @@
             "impacto": {
               "caixa": 15,
               "tracao": -20,
-              "acervo": 0,
+              "acervo": -10,
               "stress": -10
             }
           }

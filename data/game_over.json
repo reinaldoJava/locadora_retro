@@ -3,7 +3,7 @@
     "id": "ultimato_leila_tracao",
     "ano": 2026,
     "agente_foco": "ID_Leila",
-    "contexto_ia": "A barra de Tração e Escalabilidade atingiu 5 pontos negativos. A locadora está perigosamente silenciosa. O telefone não toca. A calçada está vazia. O modelo de negócios secou porque a loja parou de se comunicar com o mundo lá fora. Leila está apática, guardando suas coisas na mochila, prestes a aceitar uma proposta em uma agência de marketing.",
+    "contexto_ia": "A barra de Tração e Escalabilidade caiu abaixo do limiar crítico de 10 pontos. A locadora está perigosamente silenciosa. O telefone não toca. A calçada está vazia. O modelo de negócios secou porque a loja parou de se comunicar com o mundo lá fora. Leila está apática, guardando suas coisas na mochila, prestes a aceitar uma proposta em uma agência de marketing.",
     "rotas_principais": [
       {
         "id_rota": "Crise_Tracao",
@@ -40,7 +40,7 @@
     "id": "ultimato_mauricio_acervo",
     "ano": 2026,
     "agente_foco": "ID_Mauricio",
-    "contexto_ia": "A barra de Integridade do Acervo atingiu 5 pontos negativos. A busca desenfreada por lucro e fluxo de pessoas transformou a locadora em um ambiente caótico. Maurício está no chão, empacotando suas fitas de diretores europeus e japoneses para ir embora.",
+    "contexto_ia": "A barra de Integridade do Acervo caiu abaixo do limiar crítico de 20 pontos. A busca desenfreada por lucro e fluxo de pessoas transformou a locadora em um ambiente caótico. Maurício está no chão, empacotando suas fitas de diretores europeus e japoneses para ir embora.",
     "rotas_principais": [
       {
         "id_rota": "Crise_Acervo",
