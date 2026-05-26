@@ -128,6 +128,9 @@ function iniciarFalaStream() {
 }
 
 document.body.addEventListener('htmx:afterSwap', (evt) => {
+    // Rola a janela ao topo para o novo conteúdo aparecer sempre de cima pra baixo
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     // Retorna ao topo da caixa de dialogo apos cada swap de conteudo
     const scrollBox = document.getElementById('scroll-box');
     if (scrollBox) scrollBox.scrollTop = 0;

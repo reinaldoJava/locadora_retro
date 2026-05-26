@@ -208,9 +208,17 @@ class Engine:
                 self._aplicar_impacto_dinamico(escolha)
                 if escolha.get("argumento_gerente"):
                     self.estado["texto_gerente_pendente"] = escolha["argumento_gerente"]
+                    self.estado["llm_argumento"] = escolha["argumento_gerente"]
                 if escolha.get("treplica"):
                     self.estado["texto_treplica_pendente"] = escolha["treplica"]
-                    self.estado["agente_atual"] = "Sistema"
+                    agente_foco = evt.get("agente_foco")
+                    if agente_foco:
+                        self.estado["agente_atual"] = agente_foco.replace("ID_", "")
+                        self.estado["pool_key_treplica"] = (
+                            f"{evt.get('id', '')}:treplica:{indice_opcao}"
+                        )
+                    else:
+                        self.estado["agente_atual"] = "Sistema"
                 self.estado["ano_buffer"] = evt.get("ano", 1999)
                 return self.estado
 

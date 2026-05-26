@@ -6,7 +6,7 @@
 ">
     <h3 style="margin:0 0 0.8rem 0; text-align:center; letter-spacing:3px;
                color: var(--text-speaker, #e8a060); font-size:0.9rem;">
-        ★ TOP 10 ★
+        ★ TOP 5 ★
     </h3>
     {% if entradas %}
     <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
@@ -32,6 +32,22 @@
                            font-size:0.75rem; opacity:0.7;">{{ e.dificuldade }}</td>
             </tr>
         {% endfor %}
+        {% if entrada_jogador %}
+        {# Jogador fora do top 5: exibe posição real abaixo com separador #}
+        <tr>
+            <td colspan="4" style="padding:0.3rem 0;">
+                <div style="border-top:1px dashed var(--dialog-border, #c8692a);
+                            opacity:0.4; margin:0.2rem 0;"></div>
+            </td>
+        </tr>
+        <tr style="color: var(--text-speaker, #e8a060); font-weight: bold;">
+            <td style="padding:0.2rem 0.3rem;">{{ entrada_jogador.posicao }}</td>
+            <td style="padding:0.2rem 0.3rem; letter-spacing:3px;">{{ entrada_jogador.iniciais }}</td>
+            <td style="padding:0.2rem 0.3rem; text-align:right;">{{ entrada_jogador.score }}</td>
+            <td style="padding:0.2rem 0 0.2rem 0.3rem; text-align:right;
+                       font-size:0.75rem; opacity:0.7;">{{ entrada_jogador.dificuldade }}</td>
+        </tr>
+        {% endif %}
         </tbody>
     </table>
     {% else %}

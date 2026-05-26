@@ -225,8 +225,12 @@ def iniciar_game_1999_sequence_api():
 
 def _verificar_e_injetar_crise(diretor):
     """Verifica limiares de metricas e injeta evento de crise se necessario.
-    Chamado apos cada processamento de escolha. Nao age se uma crise ja esta ativa."""
+    Chamado apos cada processamento de escolha. Nao age se uma crise ja esta ativa.
+    Pula o request imediatamente após a escolha de rota 2026 (_skip_crise_2026)
+    para evitar que a crise dispare antes do primeiro evento da rota ser exibido."""
     estado = diretor.motor.estado
+    if estado.pop("_skip_crise_2026", False):
+        return  # Impactos da rota 2026 recém aplicados — aguarda próxima interação
     if estado.get("crise_ativa_evento"):
         return  # Crise ja ativa; aguarda resolucao
 
@@ -350,15 +354,19 @@ def placar_api():
     return _render_placar_html()
 
 
+
 def _render_placar_html(score_atual=None):
-    """Busca top-10 do Firestore e renderiza fragmento HTML do placar."""
+    """Busca top-5 do Firestore e renderiza fragmento HTML do placar.
+    Se score_atual não está no top-5, busca a posição real do jogador e
+    passa para o template exibi-la separadamente abaixo do ranking."""
     entradas = []
+    entrada_jogador = None  # posição real se fora do top-5
     if _PLACAR_OK:
         try:
             docs = (
                 _db_placar.collection('placar')
                 .order_by('score', direction=_fs.Query.DESCENDING)
-                .limit(10)
+                .limit(5)
                 .stream()
             )
             for doc in docs:
@@ -368,12 +376,33 @@ def _render_placar_html(score_atual=None):
                     'score':       d.get('score', 0),
                     'dificuldade': d.get('dificuldade', ''),
                 })
+
+            # Verifica se score_atual está no top-5; se não, busca posição real
+            if score_atual is not None:
+                no_top = any(e['score'] == score_atual for e in entradas)
+                if not no_top:
+                    todos = (
+                        _db_placar.collection('placar')
+                        .order_by('score', direction=_fs.Query.DESCENDING)
+                        .stream()
+                    )
+                    for pos, doc in enumerate(todos, start=1):
+                        d = doc.to_dict()
+                        if d.get('score', 0) == score_atual:
+                            entrada_jogador = {
+                                'posicao':     pos,
+                                'iniciais':    d.get('iniciais', '???'),
+                                'score':       score_atual,
+                                'dificuldade': d.get('dificuldade', ''),
+                            }
+                            break
         except Exception as e:
             print(f"[app] render_placar erro: {e}", flush=True)
 
     return render_template('placar_fragment.html',
                            entradas=entradas,
-                           score_atual=score_atual)
+                           score_atual=score_atual,
+                           entrada_jogador=entrada_jogador)
 
 
 if __name__ == '__main__':

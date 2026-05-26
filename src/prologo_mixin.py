@@ -71,6 +71,10 @@ class PrologoMixin:
             self.motor.indice_arquivo_atual = 1
             self.motor.estado["indice_evento"] = 0
             self.motor._carregar_arquivo_atual()
+            # Sinaliza que a verificação de crise deve ser pulada neste request:
+            # os impactos da rota 2026 acabam de ser aplicados e o primeiro evento
+            # ainda não foi exibido — injetar uma crise aqui causaria repetição do evento.
+            self.motor.estado["_skip_crise_2026"] = True
             dados_novos = self.motor.formatar_para_frontend()
             return make_response(self._renderizar_gameplay(dados_novos))
 

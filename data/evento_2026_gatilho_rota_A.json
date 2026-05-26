@@ -60,7 +60,8 @@
           "tracao": 10
         }
       }
-    ]
+    ],
+    "agente_foco": "ID_Mauricio"
   },
   {
     "id": "evento_feira_geek_2026",
@@ -119,6 +120,7 @@
           "tracao": 60
         }
       }
-    ]
+    ],
+    "agente_foco": "ID_Vagner"
   }
 ]
