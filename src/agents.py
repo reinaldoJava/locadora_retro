@@ -57,7 +57,7 @@ else:
 
 # Pool in-memory usado como fallback quando Firestore não está disponível (dev local).
 _pool: dict[str, list[str]] = {}
-POOL_MAX = 5  # Máximo de variações armazenadas por evento
+POOL_MAX = 15  # Máximo de variações armazenadas por evento
 
 # Guardrail mínimo compartilhado: ancora o personagem como funcionário falando COM o Gerente.
 # Prompt curto é intencional — modelos pequenos (1.5B) obedecem melhor a poucas regras claras.
@@ -87,7 +87,7 @@ PROMPTS: dict[str, dict] = {
             "Use no máximo 1 gíria dos anos 90, só se vier naturalmente."
         ),
         "temperature": 0.4,
-        "max_tokens": 80,
+        "max_tokens": 140,
     },
     "ID_Mauricio": {
         "nome": "Maurício",
@@ -101,7 +101,7 @@ PROMPTS: dict[str, dict] = {
             "Permite-se ironia leve quando o momento pede."
         ),
         "temperature": 0.35,
-        "max_tokens": 80,
+        "max_tokens": 140,
     },
     "ID_Vagner": {
         "nome": "Vagner",
