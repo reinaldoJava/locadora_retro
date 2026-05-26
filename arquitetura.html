@@ -622,4 +622,22 @@
       <tr><td><code>game_ui.html</code></td><td>Fragmento</td><td>#ui-jogo</td></tr>
       <tr><td><code>cinematic_transition_placeholder.html</code></td><td>Fragmento</td><td>#ui-jogo</td></tr>
       <tr><td><code>cinematic_transition_animation_placeholder.html</code></td><td>Fragmento</td><td>#ui-jogo</td></tr>
-      <tr><td><code>cin
+      <tr><td><code>cinematic_1999_to_2026.html</code></td><td>Fragmento</td><td>#ui-jogo</td></tr>
+      <tr><td><code>fim_de_jogo.html</code></td><td>Fragmento</td><td>#ui-jogo</td></tr>
+      <tr><td><code>game_over.html</code></td><td>Fragmento</td><td>#ui-jogo</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</main>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

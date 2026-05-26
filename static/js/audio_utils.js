@@ -135,4 +135,7 @@ export let audioContextUnmuted = false;
 
 export function destravarAudioGlobal() {
     if (audioContextUnmuted) return;
-    document.querySelectorAll('audio').forEach(a => { a.muted = false; a.pla
+    document.querySelectorAll('audio').forEach(a => { a.muted = false; a.play().catch(() => {}); });
+    sonsTeclado.forEach(a => { a.muted = false; a.play().catch(() => {}); });
+    audioContextUnmuted = true;
+}

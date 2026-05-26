@@ -26,4 +26,7 @@ requirements-dev.txt
 infra/
 
 # Docker local
-docker-compo
+docker-compose.yml
+
+# Testes
+src/tests/

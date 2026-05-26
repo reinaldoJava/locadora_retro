@@ -58,4 +58,7 @@ steps:
       - --set-secrets=GEMINI_API_KEY=gemini-api-key:latest,SECRET_KEY=flask-secret-key:latest
 
 images:
-  - $_REGION-docker.pkg.dev/$PROJECT_ID/locadora-retro/$
+  - $_REGION-docker.pkg.dev/$PROJECT_ID/locadora-retro/$_SERVICE:$SHORT_SHA
+
+options:
+  logging: CLOUD_LOGGING_ONLY

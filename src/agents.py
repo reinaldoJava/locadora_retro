@@ -293,4 +293,13 @@ def gerar_fala_stream(agente_id: str, contexto_dia: str, ano: int,
             ],
             temperature=temp,
             max_tokens=cfg["max_tokens"],
-            sto
+            stop=['\n'],
+            stream=True,
+            timeout=30.0
+        )
+        for chunk in stream:
+            token = chunk.choices[0].delta.content or ""
+            if token:
+                yield token
+    except Exception as e:
+        yield f"Chefe, estou meio sem voz agora. (Erro: {e})"

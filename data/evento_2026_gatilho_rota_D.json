@@ -109,4 +109,12 @@
         "argumento_gerente": "Cancela os dois. Maurício, você vai sentar na frente da tela, ligar o toca-disco e narrar a sessão ao vivo. Cine-Clube de emergência. Transforma o problema em conteúdo: 'A noite em que a banda não veio e foi a melhor noite da história.'",
         "treplica": "(Maurício endireita a postura) 'Um comentarista cinematográfico ao vivo. Sempre sonhei.' (Vagner sussurra pra Leila) 'Filma tudo. Isso vai virar série.'",
         "impactos": {
-          "cai
+          "caixa": 600,
+          "acervo": 20,
+          "stress": -20,
+          "tracao": 30
+        }
+      }
+    ]
+  }
+]

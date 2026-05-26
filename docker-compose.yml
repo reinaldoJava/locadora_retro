@@ -42,4 +42,5 @@ services:
     restart: "no"
 
 volumes:
-  
+  ollama_data:
+    name: locadora_ollama_data

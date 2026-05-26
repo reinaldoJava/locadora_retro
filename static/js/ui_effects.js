@@ -137,3 +137,8 @@ export function playVideo(config) {
         document.getElementById('video-shutdown')?.play().catch(() => {});
     }
 }
+
+export function showElementById(elementId) {
+    const el = document.getElementById(elementId);
+    if (el) el.style.display = 'block';
+}

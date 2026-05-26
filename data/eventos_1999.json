@@ -782,4 +782,19 @@
           },
           {
             "id_sub": "C2",
-            "foco": "Uso do Fundo de 
+            "foco": "Uso do Fundo de Provisão para Quebras",
+            "temp_treplica": 0.33,
+            "argumento_gerente": "Nós temos uma verba mensal de 3% reservada exatamente para depreciação e quebra de estoque no orçamento. Dê baixa contábil nesta fita como perda operacional, use o fundo para comprar uma cópia nova com o fornecedor local hoje mesmo e encerre o caso.",
+            "resolucao_leila": "Liguei para o nosso fornecedor do centro e a fita nova já está a caminho usando o fundo de quebras. O Vagner não vai poder reclamar porque a contabilidade da loja já previa essa margem de perda acidental.",
+            "impacto": {
+              "caixa": 0,
+              "tracao": 5,
+              "acervo": 20,
+              "stress": -5
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

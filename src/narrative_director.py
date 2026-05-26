@@ -105,3 +105,6 @@ class DiretorNarrativo(RendererMixin, CinematicMixin, PrologoMixin, IntroMixin):
             return self._orquestrar_virada_2026(dados_motor)
 
         if dados_motor.get("fim"):
+            return self._renderizar_fim_de_jogo()
+
+        return self._renderizar_gameplay(dados_motor)
