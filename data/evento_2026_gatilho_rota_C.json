@@ -56,7 +56,8 @@
           "tracao": -10
         }
       }
-    ]
+    ],
+    "agente_foco": "ID_Vagner"
   },
   {
     "id": "evento_games_retro_2026",
@@ -115,6 +116,7 @@
           "tracao": 20
         }
       }
-    ]
+    ],
+    "agente_foco": "ID_Vagner"
   }
 ]
