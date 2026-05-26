@@ -123,13 +123,21 @@ export function loopAutomatico(config) {
 
 export function esperarVideo() {
     const video = document.getElementById('video-shutdown');
-    if (video) {
-        video.onended = () => htmx.ajax('POST', '/api/interagir', {
+    if (!video) return;
+
+    function avancar() {
+        htmx.ajax('POST', '/api/interagir', {
             values: { choice: null },
             target: '#ui-jogo',
             swap: 'innerHTML'
         });
     }
+
+    // Fallback: se o vídeo não terminar em 10s (mobile sem autoplay), avança mesmo assim
+    const fallback = setTimeout(avancar, 10000);
+
+    video.onended = () => { clearTimeout(fallback); avancar(); };
+    video.onerror = () => { clearTimeout(fallback); avancar(); };
 }
 
 export function playVideo(config) {

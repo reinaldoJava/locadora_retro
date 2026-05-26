@@ -319,10 +319,22 @@ body, html {
     justify-content: center;
     align-items: flex-end;
     width: 100%;
-    padding: 0 1px;
+    padding: 0 4px;
 }
 
-#imagens-personagens img { height: 240px; }
+#imagens-personagens img {
+    height: 240px;
+    width: auto;
+    flex-shrink: 1;
+}
+
+@media (max-width: 600px) {
+    #imagens-personagens img {
+        height: auto;
+        width: calc(25% - 5px);
+        object-fit: contain;
+    }
+}
 
 
 /* =========================================
