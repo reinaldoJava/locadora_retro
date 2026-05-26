@@ -112,9 +112,11 @@ class RendererMixin:
             # Exibe contexto_ia como frame Sistema antes de iniciar os dialogos do evento
             if (evt_atual.get("contexto_ia") and
                     self.motor.estado.get("_contexto_exibido_id") != evt_atual.get("id")):
-                texto_html = ("<p class='fala-dialogo'>" +
+                texto_html = ("<p class='nome-personagem'>Sistema</p>"
+                              "<p class='fala-dialogo'>" +
                               evt_atual["contexto_ia"].replace(chr(10), "<br>") + "</p>")
                 opcoes_html = ("<button class='btn-opcao' hx-post='/api/interagir' "
+                               "hx-vals='{\"choice\": 0}' "
                                "hx-target='#ui-jogo' hx-swap='innerHTML'>Continuar</button>")
                 spotlight = dict(personagem_foco="Sistema",
                                  img_esq_src="/static/img/vagner.png", ator_esq_foco=False,
@@ -156,7 +158,8 @@ class RendererMixin:
         elif _contexto_ia_pendente:
             # Contexto IA: exibe premissa da situação como frame SISTEMA sem chamar LLM
             texto_raw  = dados.get("texto") or ""
-            texto_html = "<p class='fala-dialogo'>" + texto_raw.replace(chr(10), "<br>") + "</p>"
+            texto_html = ("<p class='nome-personagem'>Sistema</p>"
+                          "<p class='fala-dialogo'>" + texto_raw.replace(chr(10), "<br>") + "</p>")
         elif self.motor.estado.get("texto_gerente_pendente"):
             # Fala do Gerente: exibe fala_gerente ou argumento_gerente sem chamar LLM
             texto_raw  = dados.get("texto") or ""
