@@ -25,5 +25,4 @@ def formatar_dialogo(dialogo):
     fala = dialogo["fala"].replace("DATA_DE_HOJE", data_hoje_ptbr())
     return (
         f"<p class='nome-personagem'>{agente}</p>"
-        f"<p class='fala-dialogo'>{fala}</p>"
-    )
+        f"<p class='fala-

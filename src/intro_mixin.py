@@ -66,5 +66,4 @@ class IntroMixin:
             is_last_slide=(self.slide_atual == len(self.roteiro_intro) - 1)
         ))
         if ui_commands:
-            response.headers["HX-Trigger"] = json.dumps({"ui_commands": ui_commands})
-        return response
+            response.headers["HX-Trigger"]

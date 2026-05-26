@@ -29,5 +29,4 @@ CMD exec gunicorn \
         --workers 1 \
         --threads 8 \
         --timeout 0 \
-        --log-level info \
-        app:app
+        --lo

@@ -50,5 +50,4 @@ resource "google_secret_manager_secret_version" "github_pat" {
 resource "google_secret_manager_secret_iam_member" "cloudbuild_github_pat" {
   secret_id = google_secret_manager_secret.github_pat.secret_id
   role      = "roles/secretmanager.secretAccessor"
-  member    = "serviceAccount:${google_service_account.cloudbuild.email}"
-}
+  member    = "serviceAc

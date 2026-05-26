@@ -222,12 +222,4 @@ http://localhost:5000
 ### Sem Docker
 
 ```bash
-pip install -r requirements.txt
-
-# Ollama deve estar rodando localmente na porta 11434
-ollama pull qwen2.5
-
-python app.py
-```
-
-> `src/main.py` é um protótipo CLI para testar a Engine sem o Flask. Não faz parte do servidor web.
+pip in

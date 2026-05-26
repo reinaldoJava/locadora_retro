@@ -110,8 +110,4 @@ resource "google_secret_manager_secret_iam_member" "cloudbuild_agent_github_pat"
 # e rode terraform apply novamente.
 resource "google_cloud_run_service_iam_member" "public" {
   count    = var.first_deploy_done ? 1 : 0
-  location = var.region
-  service  = var.service_name
-  role     = "roles/run.invoker"
-  member   = "allUsers"
-}
+ 

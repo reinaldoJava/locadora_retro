@@ -179,8 +179,4 @@ class CinematicMixin:
         response = make_response(response_data)
         triggers = {}
         if ui_commands:
-            triggers["ui_commands"] = ui_commands
-        triggers.update(extra_triggers)
-        if triggers:
-            response.headers["HX-Trigger"] = json.dumps(triggers)
-        return response
+            triggers

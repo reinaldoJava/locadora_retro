@@ -66,7 +66,4 @@ resource "google_cloudbuild_trigger" "deploy_on_push" {
   service_account = google_service_account.cloudbuild.id
 
   depends_on = [
-    google_project_iam_member.cloudbuild_roles,
-    google_cloudbuildv2_repository.locadora_retro,
-  ]
-}
+    google_project_iam_member.cloudbu

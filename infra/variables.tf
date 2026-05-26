@@ -71,7 +71,4 @@ variable "gemini_api_key" {
 }
 
 variable "flask_secret_key" {
-  description = "Chave secreta do Flask para assinar sessões. Gere com: python3 -c 'import secrets; print(secrets.token_hex(32))'"
-  type        = string
-  sensitive   = true
-}
+  description = "Chave secreta do Flask para assinar sessões. Gere com: python3 -c 'import secrets; prin

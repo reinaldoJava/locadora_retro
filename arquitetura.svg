@@ -288,8 +288,4 @@
   <!-- Bottom note -->
   <text x="550" y="698" text-anchor="middle" class="box-sub">Stack: Flask · HTMX · Jinja2 · ES Modules · Web Audio API</text>
   <text x="550" y="716" text-anchor="middle" class="box-sub">Padrão: SPA com fragment swapping · Mixins Python · HX-Trigger para comandos UI</text>
-  <text x="550" y="734" text-anchor="middle" class="box-sub">Estado: Flask Session (cookie) serializa DiretorNarrativo por requisição · Engine JSON puro</text>
-
-  <!-- Version stamp -->
-  <text x="1030" y="810" text-anchor="end" font-size="9" fill="#555">Locadora Retro © 2026</text>
-</svg>
+  <te

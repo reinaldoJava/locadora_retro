@@ -41,6 +41,4 @@ output "next_steps" {
        (para garantir o IAM público do Cloud Run)
 
     3. A partir daí, qualquer push na branch master dispara o pipeline automaticamente.
-    ─────────────────────────────────────────────────────────────
-  EOT
-}
+    ─────────────────────────────────────────────────�

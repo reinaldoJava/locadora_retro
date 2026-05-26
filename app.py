@@ -43,6 +43,14 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'chave_secreta_super_segura_1999_dev')
 
 
+@app.after_request
+def add_cache_headers(response):
+    if request.path.startswith('/static/'):
+        response.cache_control.max_age = 31536000  # 1 ano
+        response.cache_control.public = True
+    return response
+
+
 # ---------------------------------------------------------------------------
 # Gerenciamento de estado de sessao
 # ---------------------------------------------------------------------------
@@ -335,23 +343,4 @@ def _render_placar_html(score_atual=None):
         from google.cloud import firestore as _fs
         db = _fs.Client()
         docs = (db.collection('placar')
-                  .order_by('score', direction=_fs.Query.DESCENDING)
-                  .limit(10)
-                  .stream())
-        for doc in docs:
-            d = doc.to_dict()
-            entradas.append({
-                'iniciais':   d.get('iniciais', '???'),
-                'score':      d.get('score', 0),
-                'dificuldade': d.get('dificuldade', ''),
-            })
-    except Exception:
-        pass
-
-    return render_template('placar_fragment.html',
-                           entradas=entradas,
-                           score_atual=score_atual)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+                  .order_by('score', direction=_fs.Query.DES

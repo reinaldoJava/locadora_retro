@@ -117,4 +117,4 @@ Nenhum código JS ou Python foi alterado.
 - Validar visualmente o fix do GIF no navegador.
 - Continuar implementação/balanceamento das tasks de 1999.
 - Definir os itens da seção 12 do `DEEP_DIVE.md`.
-- Investigar se existem bugs semelhantes em `#video-wormhole.layout-oculto` (style.css linha ~282) que também tem `opacity: 10`. Pode estar quebrando a transição do wormhole na virada para 2026 — pendente de inspeção.
+- Investigar se existem bugs semelhantes em `#video-wormhole.layout-oculto` (style.css linha ~282) que tam

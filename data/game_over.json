@@ -126,11 +126,4 @@
             "id_sub": "Falha_Condicional",
             "foco": "Ameaça Jurídica ou Apelo Emocional",
             "argumento_gerente": "Doutor, por favor, tenha um pouco de empatia! Essa locadora é a vida de quatro pessoas. Me dê apenas mais dez dias. A gente faz uma liquidação, eu peço um empréstimo no banco...",
-            "resolucao_agente": "(O advogado sorri com pena e entrega uma caneta de metal.) \"O mercado não tem coração, gerente. E banco nenhum dá empréstimo para CNPJ negativado. Foi uma bela história, mas acabou. Assine.\"",
-            "resultado": "game_over"
-          }
-        ]
-      }
-    ]
-  }
-]
+            "resolucao_agente": "(O advogado sorri com pena e entrega uma caneta de metal.) \"O mercado não tem coração, gerente. E banco nenhum dá empréstimo para CNPJ negativado.

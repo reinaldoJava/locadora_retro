@@ -39,5 +39,4 @@ AUDIO_SETTINGS = {
         "loop": True
     },
     "countdown_bip_normal": "/static/audio/bip_normal.mp3",
-    "countdown_bip_final": "/static/audio/bip_final.mp3",
-}
+    "countdown_bip_

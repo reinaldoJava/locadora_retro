@@ -173,9 +173,4 @@ document.body.addEventListener('htmx:beforeRequest', (evt) => {
 // Som de teclado no input de nome da intro
 document.addEventListener('DOMContentLoaded', () => {
     const inputNome = document.getElementById('nome-jogador');
-    if (inputNome) {
-        import('./audio_utils.js').then(({ tocarSomDeTecla }) => {
-            inputNome.addEventListener('input', tocarSomDeTecla);
-        });
-    }
-});
+ 

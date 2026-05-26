@@ -265,11 +265,4 @@ class Engine:
             "acervo": 50,
             "stress": 0,
             # --- Sistema de crise e dificuldade ---
-            "dificuldade_mult": 1.0,
-            "dificuldade_nome": "BETA",
-            "crises_usadas": [],
-            "crise_ativa_evento": None,
-            "crise_ativa_id": None,
-            "crise_resultado": None,
-            "game_over_forcado": False,
-        }
+      

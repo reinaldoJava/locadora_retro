@@ -109,12 +109,4 @@
         "argumento_gerente": "Bloqueamos qualquer revenda. Cada comprador se cadastra com CPF e assina termo proibindo revenda com lucro por 12 meses. Os scalpers saem do jogo. Vendemos mais devagar, mas para quem realmente ama o cinema. Isso é reputação que não tem preço.",
         "treplica": "(Maurício aplaude) 'Proteção cultural. Finalmente alguém pensando no legado.' (Leila) 'Os fóruns já estão nos chamando de guardiões do VHS. Isso vale ouro em tração.'",
         "impactos": {
-          "caixa": 800,
-          "acervo": 10,
-          "stress": -10,
-          "tracao": 40
-        }
-      }
-    ]
-  }
-]
+          "cai
