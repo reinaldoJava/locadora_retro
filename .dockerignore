@@ -22,13 +22,8 @@ __pycache__/
 # Dependências de dev (não precisam no container)
 requirements-dev.txt
 
-# Documentação e análises (não precisam no container)
-*.md
-*.html
-*.svg
-HANDOFF.md
-analise_narrativa.md
-arquitetura.*
+# Infraestrutura (não precisa no container)
+infra/
 
 # Docker local
 docker-compose.yml
