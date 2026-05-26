@@ -35,11 +35,11 @@ class PrologoMixin:
             texto = f"<p class='texto-narrador'><em>{evt['fala_narrativa']}</em></p>"
             self.passo_encruzilhada_2026 = 2
             spotlight = dict(personagem_foco="Sistema",
-                             img_esq_src="/static/img/vagner.png", ator_esq_foco=False,
+                             img_esq_src="/static/img/vagner.webp", ator_esq_foco=False,
                              mostra_npc=False, npc_eh_foco=False, img_npc_src="")
             return make_response(self._render_game_ui(
                 texto, btn_continuar, spotlight, ano=2026,
-                bg_src="/static/img/bg_2026.png", estado=est))
+                bg_src="/static/img/bg_2026.webp", estado=est))
 
         # Passo 2: Discurso do Gerente + 4 opcoes
         elif self.passo_encruzilhada_2026 == 2:
@@ -53,12 +53,12 @@ class PrologoMixin:
             )
             self.passo_encruzilhada_2026 = 3
             spotlight = dict(personagem_foco="Gerente",
-                             img_esq_src="/static/img/vagner.png", ator_esq_foco=False,
+                             img_esq_src="/static/img/vagner.webp", ator_esq_foco=False,
                              mostra_npc=True, npc_eh_foco=True,
-                             img_npc_src="/static/img/gerente.png")
+                             img_npc_src="/static/img/gerente.webp")
             return make_response(self._render_game_ui(
                 texto, opcoes_html, spotlight, ano=2026,
-                bg_src="/static/img/bg_2026.png", estado=est))
+                bg_src="/static/img/bg_2026.webp", estado=est))
 
         # Passo 3+: rota escolhida
         else:
@@ -104,66 +104,66 @@ class PrologoMixin:
             texto = f"<p class='texto-narrador'><em>{cenas[1]['narracao']}</em></p>"
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, npc_visivel=True,
-                npc_img="/static/img/jovem_genZ.png")
+                npc_img="/static/img/jovem_genZ.webp")
 
         elif self.passo_prologo_2026 == 3:
             texto = formatar_dialogo(cenas[1]["dialogos"][0])
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True,
-                npc_visivel=True, npc_img="/static/img/jovem_genZ.png",
-                img_esq_src="/static/img/leila.png", ator_esq_foco=True)
+                npc_visivel=True, npc_img="/static/img/jovem_genZ.webp",
+                img_esq_src="/static/img/leila.webp", ator_esq_foco=True)
 
         elif self.passo_prologo_2026 == 4:
             texto = formatar_dialogo(cenas[1]["dialogos"][1])
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True,
-                npc_visivel=True, npc_foco=True, npc_img="/static/img/jovem_genZ.png",
-                img_esq_src="/static/img/leila.png", ator_esq_foco=False)
+                npc_visivel=True, npc_foco=True, npc_img="/static/img/jovem_genZ.webp",
+                img_esq_src="/static/img/leila.webp", ator_esq_foco=False)
 
         elif self.passo_prologo_2026 == 5:
             texto = formatar_dialogo(cenas[1]["dialogos"][2])
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True,
-                npc_visivel=True, npc_img="/static/img/jovem_genZ.png",
-                img_esq_src="/static/img/leila.png", ator_esq_foco=True)
+                npc_visivel=True, npc_img="/static/img/jovem_genZ.webp",
+                img_esq_src="/static/img/leila.webp", ator_esq_foco=True)
 
         elif self.passo_prologo_2026 == 6:
             texto = formatar_dialogo(cenas[1]["dialogos"][3])
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True,
-                npc_visivel=True, npc_img="/static/img/jovem_genZ.png",
-                img_esq_src="/static/img/mauricio.png", ator_esq_foco=True)
+                npc_visivel=True, npc_img="/static/img/jovem_genZ.webp",
+                img_esq_src="/static/img/mauricio.webp", ator_esq_foco=True)
 
         elif self.passo_prologo_2026 == 7:
             texto = formatar_dialogo(cenas[1]["dialogos"][4])
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True,
-                npc_visivel=True, npc_foco=True, npc_img="/static/img/jovem_genZ.png",
-                img_esq_src="/static/img/mauricio.png", ator_esq_foco=False)
+                npc_visivel=True, npc_foco=True, npc_img="/static/img/jovem_genZ.webp",
+                img_esq_src="/static/img/mauricio.webp", ator_esq_foco=False)
 
         elif self.passo_prologo_2026 == 8:
             texto = formatar_dialogo(cenas[2]["dialogos"][0])
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True, vagner_foco=True,
-                npc_visivel=True, npc_img="/static/img/gerente.png")
+                npc_visivel=True, npc_img="/static/img/gerente.webp")
 
         elif self.passo_prologo_2026 == 9:
             texto = formatar_dialogo(cenas[2]["dialogos"][1])
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True,
-                npc_visivel=True, npc_foco=True, npc_img="/static/img/mauricio.png")
+                npc_visivel=True, npc_foco=True, npc_img="/static/img/mauricio.webp")
 
         elif self.passo_prologo_2026 == 10:
             texto = formatar_dialogo(cenas[2]["dialogos"][2])
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True,
-                npc_visivel=True, npc_foco=True, npc_img="/static/img/gerente.png")
+                npc_visivel=True, npc_foco=True, npc_img="/static/img/gerente.webp")
 
         elif self.passo_prologo_2026 == 11:
             texto = formatar_dialogo(cenas[2]["dialogos"][3])
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True,
-                npc_visivel=True, npc_foco=True, npc_img="/static/img/leila.png")
+                npc_visivel=True, npc_foco=True, npc_img="/static/img/leila.webp")
 
         elif self.passo_prologo_2026 == 12:
             texto = f"<p class='texto-narrador'><em>{cenas[3]['narracao']}</em></p>"
@@ -174,14 +174,10 @@ class PrologoMixin:
                      f"<p class='fala-dialogo'>{cenas[3]['fala_agente']}</p>")
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True, vagner_foco=True,
-                npc_visivel=True, npc_img="/static/img/gerente.png")
+                npc_visivel=True, npc_img="/static/img/gerente.webp")
 
         else:
             self.passo_prologo_2026 = 0
             dados_novos = self.motor.formatar_para_frontend()
             response_data = self._renderizar_gameplay(dados_novos)
-
-        response = make_response(response_data)
-        if ui_commands:
-            response.headers["HX-Trigger"] = json.dumps({"ui_commands": ui_commands})
-        return response
+

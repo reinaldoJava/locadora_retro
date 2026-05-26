@@ -23,21 +23,21 @@ class RendererMixin:
         if ano == 2026:
             historico = self.motor.estado.get("historico_rotas", [])
             rota = next((r for r in reversed(historico) if r in ROTA_BG_2026), None)
-            return f"/static/img/{ROTA_BG_2026.get(rota, 'bg_2026')}.png"
-        return f"/static/img/bg_{ano}.png"
+            return f"/static/img/{ROTA_BG_2026.get(rota, 'bg_2026')}.webp"
+        return f"/static/img/bg_{ano}.webp"
 
     def _spotlight_for_agente(self, agente_raw):
         agente = agente_raw.replace("ID_", "")
         if agente == "Vagner":
             return dict(personagem_foco="Vagner",
-                        img_esq_src="/static/img/vagner.png", ator_esq_foco=True,
+                        img_esq_src="/static/img/vagner.webp", ator_esq_foco=True,
                         mostra_npc=True, npc_eh_foco=False,
-                        img_npc_src="/static/img/gerente.png")
+                        img_npc_src="/static/img/gerente.webp")
         nome_img = IMG_PERSONS.get(agente, agente.lower())
         return dict(personagem_foco=agente,
-                    img_esq_src="/static/img/vagner.png", ator_esq_foco=False,
+                    img_esq_src="/static/img/vagner.webp", ator_esq_foco=False,
                     mostra_npc=True, npc_eh_foco=True,
-                    img_npc_src=f"/static/img/{nome_img}.png")
+                    img_npc_src=f"/static/img/{nome_img}.webp")
 
     def _tema_atual(self):
         return "tema-" + flask_session.get("tema_visual", "a")
@@ -118,7 +118,7 @@ class RendererMixin:
                                "hx-vals='{\"choice\": 0}' "
                                "hx-target='#ui-jogo' hx-swap='innerHTML'>Continuar</button>")
                 spotlight = dict(personagem_foco="Sistema",
-                                 img_esq_src="/static/img/vagner.png", ator_esq_foco=False,
+                                 img_esq_src="/static/img/vagner.webp", ator_esq_foco=False,
                                  mostra_npc=False, npc_eh_foco=False, img_npc_src="")
                 return self._render_game_ui(texto_html, opcoes_html, spotlight,
                                             ano=evt_atual.get("ano", 2026),
@@ -217,18 +217,18 @@ class RendererMixin:
         personagem_foco = dados.get("personagem", "Sistema")
         if personagem_foco == "Sistema":
             spotlight = dict(personagem_foco="Sistema",
-                             img_esq_src="/static/img/vagner.png", ator_esq_foco=False,
+                             img_esq_src="/static/img/vagner.webp", ator_esq_foco=False,
                              mostra_npc=False, npc_eh_foco=False, img_npc_src="")
         elif personagem_foco == "Vagner":
             spotlight = dict(personagem_foco="Vagner",
-                             img_esq_src="/static/img/vagner.png", ator_esq_foco=True,
+                             img_esq_src="/static/img/vagner.webp", ator_esq_foco=True,
                              mostra_npc=True, npc_eh_foco=False,
-                             img_npc_src="/static/img/gerente.png")
+                             img_npc_src="/static/img/gerente.webp")
         else:
             spotlight = dict(personagem_foco=personagem_foco,
-                             img_esq_src="/static/img/vagner.png", ator_esq_foco=False,
+                             img_esq_src="/static/img/vagner.webp", ator_esq_foco=False,
                              mostra_npc=True, npc_eh_foco=True,
-                             img_npc_src=f"/static/img/{personagem_foco.lower()}.png")
+                             img_npc_src=f"/static/img/{personagem_foco.lower()}.webp")
 
         ano = dados.get("ano", 1999)
         return self._render_game_ui(texto_html, opcoes_html, spotlight, ano,
@@ -267,7 +267,7 @@ class RendererMixin:
                 for idx, opcao_txt in enumerate(dados["opcoes"])
             )
             spotlight = dict(personagem_foco="Sistema",
-                             img_esq_src="/static/img/vagner.png", ator_esq_foco=False,
+                             img_esq_src="/static/img/vagner.webp", ator_esq_foco=False,
                              mostra_npc=False, npc_eh_foco=False, img_npc_src="")
 
         return self._render_game_ui(texto_html, opcoes_html, spotlight, ano,
@@ -328,7 +328,7 @@ class RendererMixin:
         else:
             personagem_foco = "Outro"
 
-        _img_esq = img_esq_src if img_esq_src is not None else "/static/img/vagner.png"
+        _img_esq = img_esq_src if img_esq_src is not None else "/static/img/vagner.webp"
         _ator_esq = ator_esq_foco if ator_esq_foco is not None else vagner_foco
 
         spotlight = dict(personagem_foco=personagem_foco,
@@ -336,4 +336,4 @@ class RendererMixin:
                          mostra_npc=npc_visivel, npc_eh_foco=npc_foco,
                          img_npc_src=npc_img)
         return self._render_game_ui(texto_html, opcoes_html, spotlight, ano=2026,
-                                    bg_src="/static/img/bg_2026.png")
+                                    bg_src="/static/img/bg_2026.webp")

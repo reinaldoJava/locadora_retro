@@ -43,6 +43,14 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'chave_secreta_super_segura_1999_dev')
 
 
+@app.after_request
+def add_cache_headers(response):
+    if request.path.startswith('/static/'):
+        response.cache_control.max_age = 31536000  # 1 ano
+        response.cache_control.public = True
+    return response
+
+
 # ---------------------------------------------------------------------------
 # Gerenciamento de estado de sessao
 # ---------------------------------------------------------------------------
