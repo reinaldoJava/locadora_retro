@@ -65,9 +65,9 @@ class DiretorNarrativo(RendererMixin, CinematicMixin, PrologoMixin, IntroMixin):
             est["stress"] = max(0, est.get("stress", 0) - 10)
         elif crise_id == "ultimato_vagner_operacional":
             est["stress"] = max(0, est.get("stress", 0) - 60)
-            est["caixa"]  = max(0, est.get("caixa", 0) - 3000)
+            est["caixa"]  = max(0, est.get("caixa", 0) - 20)
         elif crise_id == "ultimato_advogado_caixa":
-            est["caixa"]  = max(0, est.get("caixa", 0) + 2000)
+            est["caixa"]  = max(0, est.get("caixa", 0) + 40)
             est["tracao"] = max(0, est.get("tracao", 0) - 15)
         est["crise_ativa_id"] = None
 
