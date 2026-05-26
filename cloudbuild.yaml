@@ -1,7 +1,12 @@
 # ─────────────────────────────────────────────────────────────
 # Locadora Retrô — Cloud Build CI/CD
 # Dispara: push na branch main (configure no console do Cloud Build)
-# URL gerada automaticamente: https://locadora-retro-****-uc.a.run.app
+# Pré-requisito (executar uma vez no terminal):
+#   gcloud artifacts repositories create locadora-retro \
+#     --repository-format=docker --location=us-central1
+#   gcloud projects add-iam-policy-binding PROJECT_ID \
+#     --member="serviceAccount:sa-cloudbuild@PROJECT_ID.iam.gserviceaccount.com" \
+#     --role="roles/artifactregistry.writer"
 # ─────────────────────────────────────────────────────────────
 
 substitutions:
@@ -10,25 +15,9 @@ substitutions:
   _LLM_MODEL: gemini-3.1-flash-lite
 
 steps:
-  # ── 0. Garante que o repositório Artifact Registry existe ─
-  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
-    id: ensure-repo
-    entrypoint: bash
-    args:
-      - -c
-      - |
-        gcloud artifacts repositories describe locadora-retro \
-          --location=$_REGION --project=$PROJECT_ID 2>/dev/null \
-        || gcloud artifacts repositories create locadora-retro \
-             --repository-format=docker \
-             --location=$_REGION \
-             --project=$PROJECT_ID \
-             --description="Locadora Retro Docker images"
-
   # ── 1. Build da imagem Docker ──────────────────────────────
   - name: gcr.io/cloud-builders/docker
     id: build
-    waitFor: [ensure-repo]
     args:
       - build
       - -t
@@ -58,15 +47,14 @@ steps:
       - --image=$_REGION-docker.pkg.dev/$PROJECT_ID/locadora-retro/$_SERVICE:$SHORT_SHA
       - --region=$_REGION
       - --platform=managed
-      - --allow-unauthenticated          # URL pública sem autenticação
-      - --min-instances=0               # Scale-to-zero (grátis quando inativo)
-      - --max-instances=3               # Limite de escala (controla custo)
-      - --memory=512Mi                  # Suficiente para Flask + in-memory pool
+      - --allow-unauthenticated
+      - --min-instances=0
+      - --max-instances=3
+      - --memory=512Mi
       - --cpu=1
-      - --timeout=300                   # 5 min por request (SSE Gemini demora ~3s)
-      - --concurrency=80                # Requests simultâneos por instância
+      - --timeout=300
+      - --concurrency=80
       - --set-env-vars=LLM_PROVIDER=gemini,LLM_MODEL=$_LLM_MODEL
-      # Segredos criados via: gcloud secrets create gemini-api-key --data-file=-
       - --set-secrets=GEMINI_API_KEY=gemini-api-key:latest,SECRET_KEY=flask-secret-key:latest
 
 images:
