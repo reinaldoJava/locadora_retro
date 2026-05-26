@@ -146,4 +146,16 @@ export function playVideo(config) {
         if (!video) return;
         const promise = video.play();
         if (promise !== undefined) {
-            // Se autoplay for bloqueado pelo browser, dis
+            // Se autoplay for bloqueado pelo browser, dispara 'ended' imediatamente
+            // para não esperar os 10s do fallback em esperarVideo()
+            promise.catch(() => {
+                video.dispatchEvent(new Event('ended'));
+            });
+        }
+    }
+}
+
+export function showElementById(elementId) {
+    const el = document.getElementById(elementId);
+    if (el) el.style.display = 'block';
+}
