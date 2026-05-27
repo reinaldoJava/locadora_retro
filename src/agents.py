@@ -159,9 +159,10 @@ def _montar_prompt_usuario(contexto_dia: str, ano: int, nome_personagem: str,
     'Gerente' é placeholder — substituído pelo nome real no renderer/JS (pool-safety).
 
     Sem argumento (situação inicial):
-        Vagner reage ao cenário da locadora com sua opinião.
+        Personagem apresenta o dilema/desafio ao Gerente SEM recomendar solução.
+        Isso evita contradição quando o LLM gerar o pushback na réplica.
     Com argumento (réplica/tréplica):
-        Vagner reage DIRETAMENTE ao que o Gerente acabou de dizer.
+        Personagem reage DIRETAMENTE ao que o Gerente acabou de dizer.
     """
     base = f"[ANO {ano}] {contexto_dia}\n\n"
     if argumento:
@@ -173,7 +174,8 @@ def _montar_prompt_usuario(contexto_dia: str, ano: int, nome_personagem: str,
         )
     return (
         base +
-        f"O Gerente aguarda sua opinião sobre a situação. "
+        f"Apresente ao Gerente a situação e o que está em jogo. "
+        f"Não recomende solução — descreva o desafio e deixe a decisão com o Gerente. "
         f"{nome_personagem} disse:"
     )
 

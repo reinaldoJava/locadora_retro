@@ -266,13 +266,22 @@ def _verificar_e_injetar_crise(diretor):
 def interagir():
     """Processa escolha do jogador e avanca o estado narrativo."""
     escolha = request.form.get("choice", type=int)
-    diretor = _get_diretor()
-    response = diretor.proximo_passo(escolha)
-    # Verifica crise apos cada escolha efetiva do jogador
-    if escolha is not None:
-        _verificar_e_injetar_crise(diretor)
-    _save_diretor(diretor)
-    return response
+    try:
+        diretor = _get_diretor()
+        response = diretor.proximo_passo(escolha)
+        if escolha is not None:
+            _verificar_e_injetar_crise(diretor)
+        _save_diretor(diretor)
+        return response
+    except Exception as e:
+        print(f"[interagir] ERRO: {e}", flush=True)
+        # Retorna o estado atual sem avançar — evita UI congelada por 500 silencioso
+        try:
+            diretor = _get_diretor()
+            dados = diretor.motor.formatar_para_frontend()
+            return make_response(diretor._renderizar_gameplay(dados))
+        except Exception:
+            return make_response("<p style='color:red'>Erro interno. Recarregue a página.</p>", 500)
 
 @app.route('/api/reset', methods=['POST'])
 def reset_jogo():

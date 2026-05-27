@@ -144,13 +144,29 @@ export function playVideo(config) {
     if (config?.id === 'video-shutdown') {
         const video = document.getElementById('video-shutdown');
         if (!video) return;
-        const promise = video.play();
-        if (promise !== undefined) {
-            // Se autoplay for bloqueado pelo browser, dispara 'ended' imediatamente
-            // para não esperar os 10s do fallback em esperarVideo()
-            promise.catch(() => {
-                video.dispatchEvent(new Event('ended'));
-            });
+
+        function doPlay() {
+            const promise = video.play();
+            if (promise !== undefined) {
+                promise.catch((err) => {
+                    // Só pula o vídeo se o autoplay for explicitamente bloqueado pelo browser.
+                    // AbortError (vídeo ainda carregando) NÃO deve pular — o fallback de 10s
+                    // em esperarVideo() cobre esse caso.
+                    if (err.name === 'NotAllowedError') {
+                        video.dispatchEvent(new Event('ended'));
+                    }
+                    // Outros erros: deixa o fallback de 10s agir.
+                });
+            }
+        }
+
+        // O HTMX recria o <video> a cada swap -- arquivo carrega do zero.
+        // Aguarda dados suficientes antes de play() para evitar AbortError.
+        if (video.readyState >= 3) {  // HAVE_FUTURE_DATA
+            doPlay();
+        } else {
+            video.load();  // forca inicio do download
+            video.addEventListener('canplay', doPlay, { once: true });
         }
     }
 }
