@@ -11,6 +11,8 @@
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 <body data-tema="tema-{{ tema_visual }}">
+
+
 <script type="module" src="/static/js/motor_shell.js"></script>
 
 <!-- Áudio fora do #ui-jogo para sobreviver aos swaps de innerHTML -->
@@ -24,6 +26,9 @@
     {% if initial_gameplay_content %}
     {{ initial_gameplay_content | safe }}
     {% endif %}
+</div>
+<div id="audio-toggle" class="btn-audio-control" onclick="toggleMute()" title="Alternar Som">
+    🔊
 </div>
 </body>
 </html>

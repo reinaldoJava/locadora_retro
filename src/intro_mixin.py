@@ -55,7 +55,12 @@ class IntroMixin:
 
         ui_commands.append({
             "action": "typeText",
-            "args": {"elementId": "elenco-texto", "fullText": texto_formatado, "speed": 60}
+            "args": {
+                "elementId": "elenco-texto", 
+                "fullText": texto_formatado, 
+                "speed": 40,
+                "typingVolume": AUDIO_SETTINGS.get("keyboard_volume", 0.10)
+            }
         })
 
         response = make_response(render_template(

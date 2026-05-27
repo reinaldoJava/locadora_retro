@@ -53,7 +53,7 @@ class CinematicMixin:
                     "elementId": "system-message",
                     "fullText": "SISTEMA CARREGADO",
                     "speed": 60,
-                    "playTypingSounds": False,
+                    "typingVolume": AUDIO_SETTINGS.get("keyboard_volume", 0.15),
                     "postTypingCommand": {
                         "action": "showElementById",
                         "args": {"elementId": "btn-iniciar-sistema"}

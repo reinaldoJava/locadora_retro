@@ -247,3 +247,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 }());
+function toggleMute() {
+    const btn = document.getElementById('audio-toggle');
+    const isMuted = btn.getAttribute('data-muted') === 'true';
+    const newState = !isMuted;
+
+    // Atualiza o estado no atributo e o ícone
+    btn.setAttribute('data-muted', newState);
+    btn.innerHTML = newState ? '🔇' : '🔊';
+
+    // Silencia todos os elementos de áudio e vídeo existentes no DOM
+    document.querySelectorAll('audio, video').forEach(el => {
+        el.muted = newState;
+    });
+
+    // Salva a preferência para novos elementos que forem criados dinamicamente
+    window.gameMuted = newState;
+}
+
+// Observador para mutar novos áudios que entrarem via HTMX
+document.body.addEventListener('htmx:afterSwap', function(evt) {
+    if (window.gameMuted) {
+        evt.detail.target.querySelectorAll('audio, video').forEach(el => {
+            el.muted = true;
+        });
+    }
+});

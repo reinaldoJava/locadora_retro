@@ -431,7 +431,7 @@
             "id_sub": "C1",
             "foco": "Data Gathering / Pesquisa de Mercado",
             "temp_treplica": 0.3,
-            "argumento_gerente": "Maurício, é uma pesquisa de mercado disfarçada. Quando o cliente reclamar, você pega seu caderninho e anota o nome dele. Quando tivermos 50 nomes na lista, significa que o bairro tem aparelho suficiente pra gente justificar a compra. Estamos comprando informação por R$ 400.",
+            "argumento_gerente": "Vagner, é uma pesquisa de mercado disfarçada. Quando o cliente reclamar, você pega seu caderninho e anota o nome dele. Quando tivermos 50 nomes na lista, significa que o bairro tem aparelho suficiente pra gente justificar a compra. Estamos comprando informação por R$ 400.",
             "resolucao_vagner": "(Suspira) \"Você quer que eu seja pesquisador do IBGE no meio do expediente... Tá bom. Eu anoto. Pelo menos a gente não toma prejuízo de R$ 1.500 de uma vez.\"",
             "impacto": {
               "caixa": -8,

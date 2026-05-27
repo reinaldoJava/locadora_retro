@@ -8,8 +8,10 @@
 # _render_prologo_slide() — slide do prologo 2026 (compartilhado com PrologoMixin)
 
 import threading
-from flask import render_template, session as flask_session
+import json
+from flask import render_template, session as flask_session, make_response
 from src.Maps import ROTA_BG_2026, IMG_PERSONS
+from src.audio_config import AUDIO_SETTINGS
 from src.agents import obter_do_pool, adicionar_ao_pool, gerar_fala, preaquecer_replicas
 
 
@@ -40,6 +42,20 @@ class RendererMixin:
                     mostra_npc=True, npc_eh_foco=True,
                     img_npc_src=f"/static/img/{nome_img}.webp")
 
+    def _preparar_fala_com_typing(self, texto_html, nome_personagem=None):
+        """Helper cirúrgico para formatar o HTML com alvo de digitação e registrar o comando UI."""
+        self._ui_commands.append({
+            "action": "typeText",
+            "args": {
+                "elementId": "fala-typing-target",
+                "fullText": texto_html,
+                "speed": 25,
+                "typingVolume": None
+            }
+        })
+        nome_html = f"<p class='nome-personagem'>{nome_personagem}</p>" if nome_personagem else ""
+        return f"{nome_html}<p class='fala-dialogo' id='fala-typing-target'></p>"
+
     def _tema_atual(self):
         return "tema-" + flask_session.get("tema_visual", "a")
 
@@ -59,16 +75,15 @@ class RendererMixin:
             adicionar_ao_pool(pool_key, fala)
         fala_personalizada = fala.replace("Gerente", self.nome_jogador)
         fala_html = fala_personalizada.replace(chr(10), "<br>")
-        return ("<p class='nome-personagem'>" + agente_nome + "</p>"
-                "<p class='fala-dialogo'>" + fala_html + "</p>")
+        return self._preparar_fala_com_typing(fala_html, agente_nome)
 
     def _render_game_ui(self, texto_html, opcoes_html, spotlight, ano,
                         bg_src=None, estado=None):
-        """Wrapper unico para render_template('game_ui.html')."""
+        """Wrapper único para render_template('game_ui.html') retornando Response com comandos UI."""
         if bg_src is None:
             bg_src = self._calcular_bg_src(ano)
         est = estado if estado is not None else self.motor.estado
-        return render_template(
+        html = render_template(
             "game_ui.html",
             tema_escolhido=self._tema_atual(),
             ano=ano,
@@ -87,6 +102,17 @@ class RendererMixin:
             tracao=est.get("tracao", 0),
             moral_equipe=est.get("moral_equipe", 70),
         )
+        response = make_response(html)
+        if hasattr(self, '_ui_commands') and self._ui_commands:
+            triggers = {}
+            # Preserva triggers existentes no header HX-Trigger se houver
+            if "HX-Trigger" in response.headers:
+                try: triggers = json.loads(response.headers["HX-Trigger"])
+                except: pass
+            triggers["ui_commands"] = self._ui_commands
+            response.headers["HX-Trigger"] = json.dumps(triggers)
+            self._ui_commands = [] # Limpa o buffer para a próxima interação
+        return response
 
     # ------------------------------------------------------------------ #
     # RENDERIZACAO GAMEPLAY PADRAO                                         #
@@ -113,9 +139,8 @@ class RendererMixin:
             # Exibe contexto_ia como frame Sistema antes de iniciar os dialogos do evento
             if (evt_atual.get("contexto_ia") and
                     self.motor.estado.get("_contexto_exibido_id") != evt_atual.get("id")):
-                texto_html = ("<p class='nome-personagem'>Sistema</p>"
-                              "<p class='fala-dialogo'>" +
-                              evt_atual["contexto_ia"].replace(chr(10), "<br>") + "</p>")
+                texto_html = self._preparar_fala_com_typing(
+                    evt_atual["contexto_ia"].replace(chr(10), "<br>"), "Sistema")
                 opcoes_html = ("<button class='btn-opcao' hx-post='/api/interagir' "
                                "hx-vals='{\"choice\": 0}' "
                                "hx-target='#ui-jogo' hx-swap='innerHTML'>Continuar</button>")
@@ -146,8 +171,7 @@ class RendererMixin:
                 # Pool hit: renderização instantânea; substitui placeholder pelo nome real.
                 fala_personalizada = fala.replace("Gerente", self.nome_jogador)
                 fala_html  = fala_personalizada.replace(chr(10), "<br>")
-                texto_html = ("<p class='nome-personagem'>" + agente_nome + "</p>"
-                              "<p class='fala-dialogo'>" + fala_html + "</p>")
+                texto_html = self._preparar_fala_com_typing(fala_html, agente_nome)
                 # Pré-aquece réplicas em background — SSE não é disparado no pool hit,
                 # então o warming nunca aconteceria sem este disparo explícito.
                 threading.Thread(
@@ -164,19 +188,18 @@ class RendererMixin:
         elif _contexto_ia_pendente:
             # Contexto IA: exibe premissa da situação como frame SISTEMA sem chamar LLM
             texto_raw  = dados.get("texto") or ""
-            texto_html = ("<p class='nome-personagem'>Sistema</p>"
-                          "<p class='fala-dialogo'>" + texto_raw.replace(chr(10), "<br>") + "</p>")
+            texto_html = self._preparar_fala_com_typing(texto_raw.replace(chr(10), "<br>"), "Sistema")
         elif self.motor.estado.get("texto_gerente_pendente"):
             # Fala do Gerente: exibe fala_gerente ou argumento_gerente sem chamar LLM
             texto_raw  = dados.get("texto") or ""
-            texto_html = ("<p class='nome-personagem'>" + self.nome_jogador + "</p>"
-                          "<p class='fala-dialogo'>" + texto_raw.replace(chr(10), "<br>") + "</p>")
+            texto_html = self._preparar_fala_com_typing(
+                texto_raw.replace(chr(10), "<br>"), self.nome_jogador)
         elif self.motor.estado.get("texto_treplica_pendente"):
             agente_atual = self.motor.estado.get("agente_atual", "Vagner")
             if agente_atual == "Sistema":
                 # 2026: tréplica é texto estático com múltiplos personagens — exibe diretamente
                 texto_raw  = dados.get("texto") or ""
-                texto_html = "<p class='fala-dialogo'>" + texto_raw.replace(chr(10), "<br>") + "</p>"
+                texto_html = self._preparar_fala_com_typing(texto_raw.replace(chr(10), "<br>"))
             else:
                 # 1999: tréplica gera via LLM usando contexto_ia + argumento_gerente
                 texto_html = self._renderizar_fala_llm(
@@ -193,8 +216,7 @@ class RendererMixin:
                 texto_raw  = dados.get("texto", "")
                 agente_nome = (evt_atual.get("agente_foco", "Sistema").replace("ID_", "")
                                if evt_atual else "Sistema")
-                texto_html = ("<p class='nome-personagem'>" + agente_nome + "</p>"
-                              "<p class='fala-dialogo'>" + texto_raw.replace(chr(10), "<br>") + "</p>")
+                texto_html = self._preparar_fala_com_typing(texto_raw.replace(chr(10), "<br>"), agente_nome)
             else:
                 # Réplica 1999: contexto_ia como cena + fala_gerente como gatilho → gerar_fala síncrono com pool
                 evt_id    = evt_atual.get("id", "") if evt_atual else ""
@@ -213,7 +235,7 @@ class RendererMixin:
                 )
         else:
             texto_raw  = dados.get("texto") or ""
-            texto_html = "<p class='fala-dialogo'>" + texto_raw.replace(chr(10), "<br>") + "</p>"
+            texto_html = self._preparar_fala_com_typing(texto_raw.replace(chr(10), "<br>"))
         opcoes_html = "".join(
             f"<button class='btn-opcao' hx-post='/api/interagir' "
             f"hx-vals='{{\"choice\": {idx}}}' "
@@ -260,8 +282,7 @@ class RendererMixin:
         if self._passo_dialogo_evento < len(dialogos):
             d = dialogos[self._passo_dialogo_evento]
             agente = d["agente"].replace("ID_", "")
-            texto_html = (f"<p class='nome-personagem'>{agente}</p>"
-                          f"<p class='fala-dialogo'>{d['fala']}</p>")
+            texto_html = self._preparar_fala_com_typing(d['fala'], agente)
             self._passo_dialogo_evento += 1
             opcoes_html = btn_continuar
             spotlight = self._spotlight_for_agente(d["agente"])

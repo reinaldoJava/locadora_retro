@@ -23,6 +23,7 @@ class DiretorNarrativo(RendererMixin, CinematicMixin, PrologoMixin, IntroMixin):
 
     def __init__(self, engine_instance):
         self.motor = engine_instance
+        self._ui_commands = []
 
         # --- Estado cinematico ---
         self._initial_game_transition_step = 0
