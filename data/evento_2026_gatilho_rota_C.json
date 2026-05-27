@@ -26,10 +26,11 @@
         "argumento_gerente": "Nós cobramos R$ 1.500 pelo fim de semana. O Maurício vai na van do frete terceirizado, faz a instalação cerimonial dos cabos na sala do cliente e tranca os celulares da família num cofre. Vendemos a terapia completa.",
         "treplica": "(Maurício sorri) 'Instalar o sistema como um sacerdote da tecnologia antiga... Eu topo.' (Vagner faz contas) '1.500 paga o risco. Aprovado.'",
         "impactos": {
-          "caixa": 1500,
+          "caixa": 6,
           "acervo": -20,
           "stress": 40,
-          "tracao": 10
+          "tracao": 10,
+          "moral_equipe": 5
         }
       },
       {
@@ -38,10 +39,11 @@
         "argumento_gerente": "A TV não sai da loja. Vamos montar quatro 'Cabines de Isolamento' escuras nos fundos. O cliente paga R$ 200, deixa o celular no armário e assiste aqui dentro, no escuro. Sem risco logístico.",
         "treplica": "(Vagner cruza os braços) 'Isso é inteligência! A TV fica imóvel, minhas costas agradecem.' (Maurício concorda) 'A locadora vira um santuário de paz.'",
         "impactos": {
-          "caixa": 200,
+          "caixa": 1,
           "acervo": 30,
           "stress": -20,
-          "tracao": 10
+          "tracao": 10,
+          "moral_equipe": 10
         }
       },
       {
@@ -50,10 +52,11 @@
         "argumento_gerente": "Oferecemos a 'Noite Retrô' para diretores de RH como benefício de saúde mental corporativa. A empresa paga R$ 3.000/mês, assina um seguro e manda o motorista retirar a TV aqui.",
         "treplica": "(Leila comemora) 'Isso é Growth Hacking! Um contrato fecha a meta do mês.' (Vagner bate na mesa) 'Contrato e seguro corporativo. Gerente, você é um gênio.'",
         "impactos": {
-          "caixa": 3000,
+          "caixa": 12,
           "acervo": 10,
           "stress": 10,
-          "tracao": -10
+          "tracao": -10,
+          "moral_equipe": 0
         }
       }
     ],
@@ -86,22 +89,24 @@
         "argumento_gerente": "Vagner, fecha com o Carlos. Ele entra com o hardware, a gente entra com o espaço e o público. Dividimos 50/50 na receita. Se não funcionar em 90 dias, ele leva os consoles de volta. Custo zero, teste real de mercado.",
         "treplica": "(Vagner) 'Parceria sem desembolso? Isso é negócio.' (Maurício torce o nariz mas aceita) 'Pelo menos o Carlos conhece o valor do que tem. Ele não vai misturar o Zelda com o Godard.'",
         "impactos": {
-          "caixa": 1200,
+          "caixa": 5,
           "acervo": 10,
           "stress": 10,
-          "tracao": 30
+          "tracao": 30,
+          "moral_equipe": 5
         }
       },
       {
         "id_opcao": "C5",
         "foco": "Área Própria de Games / Investimento Direto",
         "argumento_gerente": "A gente monta a área com hardware próprio. R$ 8.000 em consoles e cartuchos curados pelo Maurício — só clássicos com valor cultural, sem shovelware. A locadora vira referência total dos anos 90: filmes E jogos. Quem domina os dois lados, domina a nostalgia.",
-        "treplica": "(Maurício) 'Se eu curaro o acervo de games como curei as fitas, pode ser arte.' (Vagner) 'R$ 8 mil é alto, mas se a Leila tiver certa sobre a demanda, pagamos em dois meses.'",
+        "treplica": "(Maurício) 'Se eu curar o acervo de games como curei as fitas, pode ser arte.' (Vagner) 'R$ 8 mil é alto, mas se a Leila tiver certa sobre a demanda, pagamos em dois meses.'",
         "impactos": {
-          "caixa": -5000,
+          "caixa": -20,
           "acervo": 20,
           "stress": 30,
-          "tracao": 50
+          "tracao": 50,
+          "moral_equipe": 5
         }
       },
       {
@@ -113,7 +118,8 @@
           "caixa": 0,
           "acervo": 0,
           "stress": -10,
-          "tracao": 20
+          "tracao": 20,
+          "moral_equipe": 5
         }
       }
     ],

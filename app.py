@@ -7,6 +7,11 @@
 #   - _load_diretor_from_data     → reconstroi o objeto a partir desse dict.
 #   - _reset_game_state           → limpa a sessao e inicializa estado zerado.
 #
+# Pipeline de gameplay (GamePipeline):
+#   Cada requisicao de gameplay passa pelas etapas explicitas:
+#   Hydrate → FSM → Rules → AI → Crisis → Render → Commit
+#   Ver src/decision_pipeline.py para detalhes.
+#
 # Fluxo de navegacao:
 #   GET /          → intro (reseta estado)
 #   GET /jogo      → pagina principal (dispara /api/iniciar-game-transition via hx-trigger="load")
@@ -25,6 +30,7 @@ from flask import Flask, render_template, request, session, make_response, Respo
 from src.narrative_director import DiretorNarrativo
 from src.engine import Engine
 from src.agents import gerar_fala_stream, adicionar_ao_pool, preaquecer_replicas
+from src.decision_pipeline import GamePipeline
 import random
 
 # ---------------------------------------------------------------------------
@@ -168,26 +174,24 @@ def index_jogo():
 @app.route('/api/iniciar-intro', methods=['POST'])
 def iniciar_intro_api():
     """Recebe o nome e a dificuldade do jogador; retorna o primeiro slide da intro."""
-    _nome = (request.form.get('nome', 'Gerente').strip() or 'Gerente')[:15]
+    _nome        = (request.form.get('nome', 'Gerente').strip() or 'Gerente')[:15]
     nome_jogador = _nome[0].upper() + _nome[1:] if _nome else 'Gerente'
     dificuldade  = request.form.get('dificuldade', 'beta').lower()
     if dificuldade not in _DIFICULDADE_MULT:
         dificuldade = 'beta'
-    diretor = _get_diretor()
-    diretor.motor.estado['dificuldade_mult'] = _DIFICULDADE_MULT[dificuldade]
-    diretor.motor.estado['dificuldade_nome'] = _DIFICULDADE_NOME[dificuldade]
     session['dificuldade'] = dificuldade
-    response = diretor.iniciar_intro(nome_jogador)
-    _save_diretor(diretor)
-    return response
+
+    def _setup(d):
+        d.motor.estado['dificuldade_mult'] = _DIFICULDADE_MULT[dificuldade]
+        d.motor.estado['dificuldade_nome'] = _DIFICULDADE_NOME[dificuldade]
+        return d.iniciar_intro(nome_jogador)
+
+    return _pipeline.run_action(_setup)
 
 @app.route('/api/avancar-intro-slide', methods=['POST'])
 def avancar_intro_slide_api():
     """Avanca para o proximo slide. No ultimo slide, emite HX-Redirect para /jogo."""
-    diretor = _get_diretor()
-    response = diretor.avancar_intro_slide()
-    _save_diretor(diretor)
-    return response
+    return _pipeline.run_action(lambda d: d.avancar_intro_slide())
 
 
 # ---------------------------------------------------------------------------
@@ -197,26 +201,17 @@ def avancar_intro_slide_api():
 @app.route('/api/animacao-concluida', methods=['POST'])
 def animacao_concluida_api():
     """Notificacao do frontend quando uma animacao de terminal termina."""
-    diretor = _get_diretor()
-    response = diretor.handle_animacao_concluida()
-    _save_diretor(diretor)
-    return response
+    return _pipeline.run_action(lambda d: d.handle_animacao_concluida())
 
 @app.route('/api/iniciar-game-transition', methods=['POST'])
 def iniciar_game_transition_api():
     """Passo 1 da transicao inicial: exibe 'SISTEMA CARREGADO' + botao INICIAR SISTEMA."""
-    diretor = _get_diretor()
-    response = diretor.start_game_transition()
-    _save_diretor(diretor)
-    return response
+    return _pipeline.run_action(lambda d: d.start_game_transition())
 
 @app.route('/api/transicao-para-game-1999', methods=['POST'])
 def iniciar_game_1999_sequence_api():
     """Passo 2: exibe animacao do terminal GIF e inicia musica de 1999."""
-    diretor = _get_diretor()
-    response = diretor.start_game_1999_sequence()
-    _save_diretor(diretor)
-    return response
+    return _pipeline.run_action(lambda d: d.start_game_1999_sequence())
 
 
 # ---------------------------------------------------------------------------
@@ -246,6 +241,8 @@ def _verificar_e_injetar_crise(diretor):
         crise_id = "ultimato_mauricio_acervo"
     elif estado.get("tracao", 50) <= 10:
         crise_id = "ultimato_leila_tracao"
+    elif estado.get("moral_equipe", 70) <= 20:
+        crise_id = "ultimato_moral_equipe"
 
     if not crise_id:
         return  # Sem crise
@@ -262,26 +259,25 @@ def _verificar_e_injetar_crise(diretor):
     estado["crise_ativa_evento"] = _GAME_OVER_EVENTOS[crise_id]
 
 
+# ---------------------------------------------------------------------------
+# Pipeline de gameplay — instancia unica por processo (stateless entre requests)
+# Etapas explicitas: Hydrate → FSM → Rules → AI → Crisis → Render → Commit
+# Definido aqui para garantir que _verificar_e_injetar_crise ja esteja no escopo.
+# ---------------------------------------------------------------------------
+_pipeline = GamePipeline(
+    hydrate_fn=_get_diretor,
+    commit_fn=_save_diretor,
+    crisis_fn=_verificar_e_injetar_crise,
+)
+
+
 @app.route('/api/interagir', methods=['POST'])
 def interagir():
-    """Processa escolha do jogador e avanca o estado narrativo."""
+    """Processa escolha do jogador e avanca o estado narrativo.
+    Pipeline: Hydrate → FSM → Rules → AI → Crisis → Render → Commit
+    """
     escolha = request.form.get("choice", type=int)
-    try:
-        diretor = _get_diretor()
-        response = diretor.proximo_passo(escolha)
-        if escolha is not None:
-            _verificar_e_injetar_crise(diretor)
-        _save_diretor(diretor)
-        return response
-    except Exception as e:
-        print(f"[interagir] ERRO: {e}", flush=True)
-        # Retorna o estado atual sem avançar — evita UI congelada por 500 silencioso
-        try:
-            diretor = _get_diretor()
-            dados = diretor.motor.formatar_para_frontend()
-            return make_response(diretor._renderizar_gameplay(dados))
-        except Exception:
-            return make_response("<p style='color:red'>Erro interno. Recarregue a página.</p>", 500)
+    return _pipeline.run_safe(escolha)
 
 @app.route('/api/reset', methods=['POST'])
 def reset_jogo():

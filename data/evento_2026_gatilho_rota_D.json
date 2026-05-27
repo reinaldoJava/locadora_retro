@@ -26,10 +26,11 @@
         "argumento_gerente": "Pub intimista, trilha sonora só no vinil. Vamos vender ingressos premium para debates com críticos de cinema. Custo de reforma baixo, lucramos na bilheteria de alto ticket.",
         "treplica": "(Maurício se emociona) 'Um oásis intelectual. Isso é a consagração.' (Vagner anota) 'Ticket alto, público que não quebra copos. Perfeito.'",
         "impactos": {
-          "caixa": 500,
+          "caixa": 2,
           "acervo": 40,
           "stress": -10,
-          "tracao": 10
+          "tracao": 10,
+          "moral_equipe": 10
         }
       },
       {
@@ -38,10 +39,11 @@
         "argumento_gerente": "O foco é na banda. Sexta acústica com filmes clássicos mudos nas TVs. A gente ganha na cerveja artesanal para muita gente. Vagner, a gente faz vaquinha na internet vendendo ingresso antes pra bancar a reforma.",
         "treplica": "(Vagner coça o queixo) 'Arriscado, mas recupera o caixa na primeira noite.' (Leila vibra) 'Vou lotar essa rua postando a programação!'",
         "impactos": {
-          "caixa": 2000,
+          "caixa": 8,
           "acervo": -30,
           "stress": 40,
-          "tracao": 40
+          "tracao": 40,
+          "moral_equipe": -5
         }
       },
       {
@@ -50,10 +52,11 @@
         "argumento_gerente": "Alugamos o Cine-Pub de segunda a quinta como cenário para podcasters. Eles pagam a diária. Fim de semana, abrimos para o 'Clube de Membros' com ingressos fixos.",
         "treplica": "(Leila concorda) 'B2B garante o dinheiro fixo e faz propaganda de graça!' (Maurício pontua) 'E os tesouros ficam guardados para os verdadeiros assinantes.'",
         "impactos": {
-          "caixa": 1200,
+          "caixa": 5,
           "acervo": 10,
           "stress": 10,
-          "tracao": 20
+          "tracao": 20,
+          "moral_equipe": 5
         }
       }
     ],
@@ -86,10 +89,11 @@
         "argumento_gerente": "Leila, chama o Trash 80. R$ 400 contra R$ 1.800 é uma escolha fácil com a casa lotada. A gente usa a economia para abrir barra livre na primeira hora e cria o buzz na internet. O público vem pelo Cine-Pub, não pela banda.",
         "treplica": "(Vagner respira) 'Barra livre na primeira hora vai virar post. Decisão certa.' (Maurício torce o nariz) 'Desde que o volume não passe de 70 decibéis perto do acervo.'",
         "impactos": {
-          "caixa": 1200,
+          "caixa": 5,
           "acervo": 0,
           "stress": -10,
-          "tracao": 20
+          "tracao": 20,
+          "moral_equipe": 0
         }
       },
       {
@@ -98,10 +102,11 @@
         "argumento_gerente": "Maurício, fecha com o The Sluggs. R$ 1.800 é o preço de ter credibilidade. Rock alternativo dos anos 90 é exatamente a proposta do Cine-Pub. Se a casa vier abaixo, vira lenda. Isso não tem preço em marketing.",
         "treplica": "(Leila filma tudo) 'Já tô postando o line-up. A fila vai dobrar o quarteirão.' (Maurício) 'Finalmente, música com intenção. Trago meus LPs para tocar no intervalo.'",
         "impactos": {
-          "caixa": -400,
+          "caixa": -2,
           "acervo": 0,
           "stress": 30,
-          "tracao": 50
+          "tracao": 50,
+          "moral_equipe": 10
         }
       },
       {
@@ -110,10 +115,11 @@
         "argumento_gerente": "Cancela os dois. Maurício, você vai sentar na frente da tela, ligar o toca-disco e narrar a sessão ao vivo. Cine-Clube de emergência. Transforma o problema em conteúdo: 'A noite em que a banda não veio e foi a melhor noite da história.'",
         "treplica": "(Maurício endireita a postura) 'Um comentarista cinematográfico ao vivo. Sempre sonhei.' (Vagner sussurra pra Leila) 'Filma tudo. Isso vai virar série.'",
         "impactos": {
-          "caixa": 600,
+          "caixa": 2,
           "acervo": 20,
           "stress": -20,
-          "tracao": 30
+          "tracao": 30,
+          "moral_equipe": 15
         }
       }
     ],

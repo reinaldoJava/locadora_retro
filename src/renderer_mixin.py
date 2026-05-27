@@ -8,7 +8,7 @@
 # _render_prologo_slide() — slide do prologo 2026 (compartilhado com PrologoMixin)
 
 import threading
-from flask import render_template, make_response, session as flask_session
+from flask import render_template, session as flask_session
 from src.Maps import ROTA_BG_2026, IMG_PERSONS
 from src.agents import obter_do_pool, adicionar_ao_pool, gerar_fala, preaquecer_replicas
 
@@ -85,6 +85,7 @@ class RendererMixin:
             stress=est.get("stress", 0),
             acervo=est.get("acervo", 0),
             tracao=est.get("tracao", 0),
+            moral_equipe=est.get("moral_equipe", 70),
         )
 
     # ------------------------------------------------------------------ #
@@ -292,22 +293,23 @@ class RendererMixin:
 
     def _renderizar_fim_de_jogo(self):
         est = self.motor.estado
-        caixa       = est.get("caixa",  0)
-        tracao      = est.get("tracao", 0)
-        acervo      = est.get("acervo", 0)
-        stress      = est.get("stress", 0)
-        mult        = est.get("dificuldade_mult", 1.0)
-        dificuldade = est.get("dificuldade_nome", "BETA")
-        score_base  = caixa + tracao + acervo - stress
-        score_total = int(score_base * mult)
+        caixa        = est.get("caixa",  0)
+        tracao       = est.get("tracao", 0)
+        acervo       = est.get("acervo", 0)
+        stress       = est.get("stress", 0)
+        moral_equipe = est.get("moral_equipe", 70)
+        mult         = est.get("dificuldade_mult", 1.0)
+        dificuldade  = est.get("dificuldade_nome", "BETA")
+        score_base   = caixa + tracao + acervo - stress + moral_equipe
+        score_total  = int(score_base * mult)
 
-        if score_total >= 300:
+        if score_total >= 400:
             classificacao = "LENDARIO - A locadora entrou para a historia!"
-        elif score_total >= 200:
+        elif score_total >= 300:
             classificacao = "EXCELENTE - Uma gestao de mao cheia!"
-        elif score_total >= 120:
+        elif score_total >= 200:
             classificacao = "BOM - Sobrevivemos a virada do milenio."
-        elif score_total >= 60:
+        elif score_total >= 130:
             classificacao = "REGULAR - Deu pra segurar as pontas."
         else:
             classificacao = "DIFICIL - Mal chegamos ao fim."
@@ -315,6 +317,7 @@ class RendererMixin:
         return render_template(
             "fim_de_jogo.html",
             caixa=caixa, tracao=tracao, acervo=acervo, stress=stress,
+            moral_equipe=moral_equipe,
             score_total=score_total, classificacao=classificacao,
             dificuldade=dificuldade
         )

@@ -104,6 +104,36 @@
     ]
   },
   {
+    "id": "ultimato_moral_equipe",
+    "ano": 2026,
+    "agente_foco": "ID_Vagner",
+    "contexto_ia": "O moral da equipe atingiu o ponto de ruptura. Vagner, Leila e Maurício convocaram uma reunião e estão na sala com expressões fechadas. Vagner tem uma pilha de contas na mão, Maurício abraça as últimas fitas de arte que ainda restam e Leila tem o celular virado com uma proposta de emprego. Ninguém fala. Ninguém sorri.",
+    "rotas_principais": [
+      {
+        "id_rota": "Crise_Moral",
+        "nome": "O Colapso do Moral da Equipe",
+        "fala_agente": "A gente precisa ser honesto, chefe. Vagner: 'Não consigo dormir mais — a empresa me consome por dentro.' Leila: 'Eu amo esse lugar, mas não tenho mais razão pra acordar empolgada.' Maurício: 'Trabalhamos duro e o ambiente virou uma guerra. Não dá mais.' [Vagner fala pelos três] Ou você muda alguma coisa de verdade agora, ou a gente sai junto.",
+        "pushback_vagner": "A gente precisa ser honesto, chefe. Vagner: 'Não consigo dormir mais — a empresa me consome por dentro.' Leila: 'Eu amo esse lugar, mas não tenho mais razão pra acordar empolgada.' Maurício: 'Trabalhamos duro e o ambiente virou uma guerra. Não dá mais.' [Vagner fala pelos três] Ou você muda alguma coisa de verdade agora, ou a gente sai junto.",
+        "sub_opcoes": [
+          {
+            "id_sub": "Vitoria_Condicional",
+            "foco": "Escuta Ativa / Plano de Ação Real",
+            "argumento_gerente": "Fecha a porta. Cada um fala o que precisa. Eu anoto tudo e apresento um plano de ação até sexta com metas concretas — sem promessa vaga, com número e data.",
+            "resolucao_agente": "(Vagner olha para Leila e Maurício antes de responder) \"Tá bom. Mas se na sexta não tiver plano de verdade, a gente sai junto, chefe. A gente ainda acredita em você — por isso ainda tá aqui.\"",
+            "resultado": "vitoria"
+          },
+          {
+            "id_sub": "Falha_Condicional",
+            "foco": "Pressão Inversa / Ameaça de Demissão",
+            "argumento_gerente": "Se vocês não gostam do clima, a porta é essa. Empreendedorismo exige sacrifício. Eu não vou ser refém de funcionário que não entende a pressão de manter um negócio vivo.",
+            "resolucao_agente": "(Silêncio. Leila fecha o celular. Vagner coloca o crachá em cima da mesa. Maurício empacota as últimas fitas sem dizer uma palavra.) \"Entendemos, chefe. Boa sorte.\"",
+            "resultado": "game_over"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "ultimato_advogado_caixa",
     "ano": 2026,
     "agente_foco": "ID_Advogado_Imobiliaria",
