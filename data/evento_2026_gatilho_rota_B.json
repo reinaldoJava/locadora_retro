@@ -124,5 +124,131 @@
       }
     ],
     "agente_foco": "ID_Mauricio"
+  },
+  {
+    "id": "evento_cinemateca_2026",
+    "gatilho_rota": "B",
+    "ano": 2026,
+    "titulo": "O Guardião Cultural Chegou",
+    "contexto_ia": "A Cinemateca Brasileira enviou um representante com proposta formal: R$45.000 pelos 200 títulos raros catalogados pelo Maurício. Para o governo, é preservação cultural. Para a equipe, é uma encruzilhada entre legado e controle.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Mauricio",
+        "fala": "Gerente, a Cinemateca é a maior instituição de preservação audiovisual do Brasil. Eles têm clima controlado, restauração técnica... parte de mim quer chorar de alegria ao pensar nas fitas indo para o melhor lugar possível."
+      },
+      {
+        "agente": "ID_Vagner",
+        "fala": "R$45.000 pelo lote inteiro é R$225 por título. Qualquer um desses vale o dobro sozinho no mercado de colecionadores. A oferta é honesta, mas não é generosa. A gente pode fazer melhor."
+      },
+      {
+        "agente": "ID_Leila",
+        "fala": "Se a gente aceita e vai pro site da Cinemateca, viramos notícia em todo portal de cultura do país. Sabe quanto vale essa cobertura de imprensa? Porque eu não consigo calcular."
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "B7",
+        "foco": "Aceitar a Oferta / Preservação Garantida",
+        "argumento_gerente": "Maurício, aceita. R$45k garante o caixa e as fitas ficam nas melhores mãos possíveis — melhor lugar do mundo para elas. A locadora não é um museu, somos um negócio. Com o caixa, abrimos a próxima fase.",
+        "treplica": "(Maurício assina com os olhos marejados) 'Vão para onde merecem.' (Vagner) 'Caixa sólido para o próximo trimestre.' (Leila já está escrevendo o press release.)",
+        "impactos": {
+          "caixa": 40,
+          "tracao": 15,
+          "acervo": -40,
+          "stress": -10,
+          "moral_equipe": 5
+        }
+      },
+      {
+        "id_opcao": "B8",
+        "foco": "Venda Parcial / Preservar o Núcleo",
+        "argumento_gerente": "Vagner, contra-proposta: vendemos o segundo exemplar de cada título e as obras sem raridade por R$20k. Os 80 títulos únicos ficam aqui como âncora do acervo. A Cinemateca fica com o que precisa para o arquivo, a gente fica com a alma do negócio.",
+        "treplica": "(Maurício alivia) 'Salvar o núcleo. Sabedoria.' (Vagner calcula) 'R$20k imediato e mantemos os ativos mais valiosos. A lógica fecha.'",
+        "impactos": {
+          "caixa": 20,
+          "tracao": 10,
+          "acervo": 10,
+          "stress": 0,
+          "moral_equipe": 10
+        }
+      },
+      {
+        "id_opcao": "B9",
+        "foco": "Comodato Cultural / Parceria de Longo Prazo",
+        "argumento_gerente": "Eu não vendo: proponho comodato por 5 anos. As fitas ficam com a Cinemateca para exibição e preservação, mas o acervo continua sendo nosso. A gente ganha o selo de 'Parceiro Oficial da Cinemateca' e toda cobertura de imprensa sem ceder nada definitivamente.",
+        "treplica": "(Leila já está redigindo o comunicado) 'Parceiro oficial da Cinemateca Brasileira — isso é nosso currículo para sempre!' (Maurício concorda) 'As fitas preservadas e o nome na história. Perfeito.' (Vagner) 'Sem caixa imediato, mas o retorno em marca é real.'",
+        "impactos": {
+          "caixa": 0,
+          "tracao": 25,
+          "acervo": 20,
+          "stress": 10,
+          "moral_equipe": 15
+        }
+      }
+    ],
+    "agente_foco": "ID_Mauricio"
+  },
+  {
+    "id": "evento_receita_federal_2026",
+    "gatilho_rota": "B",
+    "ano": 2026,
+    "titulo": "O Leão Bateu na Porta",
+    "contexto_ia": "Uma carta da Receita Federal chegou. Os R$280.000 em vendas de mídias analógicas do último ano nunca não conseguimos declarar a tempo como receita empresarial. O contador contratado às pressas descobriu que a locadora deve R$18.000 entre IR e contribuições. Vagner está Roxo.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Vagner",
+        "fala": "DEZOITO MIL REAIS. Gerente, não tivemos tempo hábil para a declaração da forma correta devido o sucesso. O Leão nos notificou. Se não resolvermos em 30 dias, vira multa em cima de multa."
+      },
+      {
+        "agente": "ID_Leila",
+        "fala": "O contador disse que se a gente formalizar tudo como Pessoa Jurídica agora e aderir ao Simples Nacional, a alíquota cai e o débito pode baixar para R$9.000. É burocrático, mas é a metade do valor."
+      },
+      {
+        "agente": "ID_Mauricio",
+        "fala": "Vocês venderam minha coleção em leilão global e não conseguimos pagar impostos a tempo? Gerente, me diz que a gente não vai ser presa por causa de uma fita do Fellini."
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "B10",
+        "foco": "Pagar Tudo / Compliance Total",
+        "argumento_gerente": "Vagner, paga os R$18k e a empresa entra no Simples Nacional agora. Custo alto, mas dormimos tranquilos. Nenhum outro problema fiscal em cima desse.",
+        "treplica": "(Vagner faz o boleto com expressão de dor) 'Pronto. R$18k voaram. Mas estamos limpos, como sempre fomos.' (Leila) 'Pelo menos agora temos CNPJ. Posso emitir nota fiscal para as marcas?' (Vagner) 'Pode. E vai fazer isso de hoje em diante.'",
+        "impactos": {
+          "caixa": -18,
+          "tracao": 5,
+          "acervo": 0,
+          "stress": -15,
+          "moral_equipe": 5
+        }
+      },
+      {
+        "id_opcao": "B11",
+        "foco": "Simples Nacional Retroativo / Reduzir o Débito",
+        "argumento_gerente": "Leila, liga pra esse contador. Se o Simples retroativo reduz o débito para R$9.000, a diferença de R$9.000 paga o trabalho dele com sobra. Às vezes a burocracia existe para nos proteger dela mesma.",
+        "treplica": "(Leila fecha o acordo no telefone) 'Contador confirmou R$8.700 de débito total.' (Vagner) 'Economizamos R$9k com uma telefonada. E agora temos uma empresa de verdade.' (Maurício) 'Burocracia com propósito. Uma novidade.'",
+        "impactos": {
+          "caixa": -9,
+          "tracao": 5,
+          "acervo": 0,
+          "stress": -5,
+          "moral_equipe": 5
+        }
+      },
+      {
+        "id_opcao": "B12",
+        "foco": "Parcelamento REFIS / Reestruturação Completa",
+        "argumento_gerente": "Não vamos pagar de uma vez — parcelamos os R$18k em 12 meses pelo REFIS. Usamos o tempo para estruturar a empresa com CNPJ, regime tributário correto e emissão de nota. O que era informalidade vira empresa de verdade, com custo diluído.",
+        "treplica": "(Vagner respira) 'REFIS. 12 parcelas de R$1.500. Dói menos.' (Leila já pesquisa) 'Com CNPJ aberto, posso fechar parceria com marcas de verdade. Isso mais que paga as parcelas.' (Maurício) 'Finalmente crescemos como adultos.'",
+        "impactos": {
+          "caixa": -2,
+          "tracao": 15,
+          "acervo": 0,
+          "stress": 20,
+          "moral_equipe": 10
+        }
+      }
+    ],
+    "agente_foco": "ID_Vagner"
   }
 ]

@@ -124,5 +124,131 @@
       }
     ],
     "agente_foco": "ID_Leila"
+  },
+  {
+    "id": "evento_licenca_prefeitura_2026",
+    "gatilho_rota": "D",
+    "ano": 2026,
+    "titulo": "Alvará em Risco",
+    "contexto_ia": "O cartório vizinho formalizou queixa na prefeitura por perturbação do sossego. O fiscal veio na segunda-feira, mediu o som e emitiu notificação: se houver mais de 75 decibéis no próximo evento, o alvará do Cine-Pub é suspenso por 30 dias. The Sluggs está confirmado para sexta.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Vagner",
+        "fala": "A notificação diz 75 decibéis máximo. O Sluggs toca a 90 facilmente. Se o fiscal vier sexta e medir o som, a gente fecha por um mês. Um mês de fechamento fecha a conta do aluguel também."
+      },
+      {
+        "agente": "ID_Mauricio",
+        "fala": "O cartório ficou irritado desde a noite de abertura. A verdade é que fizemos barulho até meia-noite. Mas cancelar o Sluggs agora nos faz parecer amadores que não mantêm compromisso com o público."
+      },
+      {
+        "agente": "ID_Leila",
+        "fala": "Tenho o contato do Dr. Hélio, dono do cartório. É um homem de 55 anos — vi o perfil dele no Zinta, ele posta foto em sarau de poesia toda semana. Ele não é inimigo do Cine-Pub, ele é inimigo do barulho."
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "D7",
+        "foco": "Isolamento Acústico Emergencial",
+        "argumento_gerente": "Vagner, contrata o instalador de painel acústico hoje. R$4.000 para cobrir paredes do fundo e o teto. Não resolve tudo, mas baixa de 90 para 78 decibéis. Dentro do limite. O Sluggs toca sexta e o fiscal pode vir quando quiser.",
+        "treplica": "(Vagner) 'R$4k agora para não perder 30 dias de receita. A conta fecha a favor do isolamento.' (Maurício) 'E com o acústico melhor, o som nas sessões de filme também vai melhorar. Aprovado.'",
+        "impactos": {
+          "caixa": -8,
+          "tracao": 20,
+          "acervo": 0,
+          "stress": 15,
+          "moral_equipe": 5
+        }
+      },
+      {
+        "id_opcao": "D8",
+        "foco": "Diplomacia com o Vizinho / Sarau Privado",
+        "argumento_gerente": "Leila estava certa. Convida o Dr. Hélio para uma noite privada antes da sexta — sarau com poesia e jazz baixinho. Ele conhece o espaço, vê que somos culturais e não baderneiros. Talvez retire a queixa antes do evento.",
+        "treplica": "(Leila já está no celular) 'Dr. Hélio confirmou. Vai quinta às 19h com a esposa.' (Maurício sorri) 'Conquistamos o inimigo com cultura. Isso sim é estratégia elegante.'",
+        "impactos": {
+          "caixa": -2,
+          "tracao": 15,
+          "acervo": 5,
+          "stress": -15,
+          "moral_equipe": 15
+        }
+      },
+      {
+        "id_opcao": "D9",
+        "foco": "Temporada Intimista / Redução Preventiva",
+        "argumento_gerente": "Por este mês, eventos acústicos. Leila, posta como 'Temporada Intimista do Cine-Pub'. Sem banda — sessão comentada com trilha sonora no vinil. Quando o alvará estiver seguro, retomamos o formato original. Prudência não é derrota.",
+        "treplica": "(Leila redesenha o post) 'Temporada Intimista — o Cine-Pub em modo silencioso.' (Maurício) 'Honestamente? Vinil e filme é melhor do que banda às vezes.' (Vagner) 'Menos receita agora, alvará garantido. Aceito.'",
+        "impactos": {
+          "caixa": -5,
+          "tracao": 5,
+          "acervo": 10,
+          "stress": -20,
+          "moral_equipe": 0
+        }
+      }
+    ],
+    "agente_foco": "ID_Vagner"
+  },
+  {
+    "id": "evento_diretora_cinepub_2026",
+    "gatilho_rota": "D",
+    "ano": 2026,
+    "titulo": "A Premiere que Ninguém Esperava",
+    "contexto_ia": "Karla Aiala, diretora que acaba de ganhar o Kikito no Festival de Gramado, quer o Cine-Pub para a premiere do seu novo curta-metragem. R$8.000 por uma noite exclusiva. Condição: 'Preciso do espaço limpo. As prateleiras de VHS na parede atrapalham o conceito visual da minha obra.'",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Vagner",
+        "fala": "R$8.000 por uma noite. Isso é o equivalente a um mês de sextas cheias. E a assessora dela disse que todo o time de imprensa de cinema de SP vai estar presente. Financeiramente, não consigo encontrar motivo para recusar."
+      },
+      {
+        "agente": "ID_Mauricio",
+        "fala": "Tirar as prateleiras! AS PRATELEIRAS! É como pedir pra Rainha da Inglaterra tirar a coroa porque atrapalha a foto. O VHS É a identidade do Cine-Pub. Sem as fitas, isso é um bar vazio em São Paulo como qualquer outro."
+      },
+      {
+        "agente": "ID_Leila",
+        "fala": "Chefe, a Karla é a diretora mais falada do Brasil agora. Se a premiere acontecer aqui, cada matéria de cinema do país vai ter o nosso endereço. Só precisamos resolver a questão das prateleiras de um jeito inteligente."
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "D10",
+        "foco": "Aceitar as Condições / Desmonte Temporário",
+        "argumento_gerente": "Maurício, as prateleiras voltam no dia seguinte. São móveis, não são paredes. R$8.000 e cobertura nacional por uma noite de adaptação. Corações não param de bater quando a gente tira uma tapeçaria temporária.",
+        "treplica": "(Vagner assina rindo) 'Oito mil. Eu mesmo ajudo a mover as prateleiras.' (Maurício fica parado) 'Eu vou supervisionar o desmonte. Pessoalmente. E a remontagem. Também pessoalmente.'",
+        "impactos": {
+          "caixa": 8,
+          "tracao": 25,
+          "acervo": -5,
+          "stress": 20,
+          "moral_equipe": -5
+        }
+      },
+      {
+        "id_opcao": "D11",
+        "foco": "Negociar / As Prateleiras Ficam e Viram Cenografia",
+        "argumento_gerente": "Leila, fala pra Karla que não retiramos, mas resignificamos. As prateleiras de VHS ficam e se tornam parte da cenografia da premiere — a maior diretora do cinema brasileiro homenageando as fitas que formaram uma geração. Isso é narrativa melhor do que um espaço vazio.",
+        "treplica": "(Leila negocia) 'Ela adorou a ideia. Quer botar um texto de parede: Cinema que formou uma geração.' (Maurício chora discretamente) 'Você ganhou R$8.000 e me fez chorar. Gerente, você é extraordinário.'",
+        "impactos": {
+          "caixa": 8,
+          "tracao": 30,
+          "acervo": 10,
+          "stress": 10,
+          "moral_equipe": 15
+        }
+      },
+      {
+        "id_opcao": "D12",
+        "foco": "Recusar e Propor Co-Autoria",
+        "argumento_gerente": "Não abrimos mão da identidade por aluguel, nem por R$8.000. Leila, propõe uma noite co-assinada — 'Cine-Pub convida Karla Aiala'. Ela apresenta o curta, a gente faz a curadoria do programa, dividimos a bilheteria. Parceria com autoria, não cessão de espaço.",
+        "treplica": "(Leila manda a mensagem) 'Ela quer saber quanto fica a bilheteria dela.' (Vagner) 'Se encher a casa: R$5k para ela, R$3k pra gente mais o bar. Todos ganham.' (Maurício) 'E o VHS fica. Aceito com honra.'",
+        "impactos": {
+          "caixa": 5,
+          "tracao": 20,
+          "acervo": 10,
+          "stress": 5,
+          "moral_equipe": 10
+        }
+      }
+    ],
+    "agente_foco": "ID_Mauricio"
   }
 ]

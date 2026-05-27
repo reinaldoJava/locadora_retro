@@ -50,8 +50,8 @@ body, html {
 
 .actor-layer {
     position: absolute;
-    bottom: 44%;
-    width: 100%; height: 63%;
+    bottom: 41%;
+    width: 100%; height: 59%;
     display: flex;
     align-items: flex-end;
 }
@@ -160,7 +160,7 @@ body, html {
 
 .vn-window {
     width: 110%;
-    height: 110%;
+    height: 112%;
     background-color: var(--dialog-bg);
     border-top: 3px solid var(--dialog-border);
     display: flex;
@@ -412,7 +412,7 @@ body, html {
 
 .ui-layer-intro {
     position: absolute; bottom: 0; left: 0;
-    width: 100%; height: 42%;
+    width: 100%; height: 44%;
     background-color: var(--dialog-bg);
     border-top: 4px solid var(--dialog-border);
     display: flex; flex-direction: column; padding: 20px;
