@@ -82,6 +82,7 @@ class Engine:
         if self.estado.get("rota_pendente_idx") is not None:
             rota = evt["rotas_principais"][self.estado["rota_pendente_idx"]]
             return {
+                "ano": evt.get("ano", self.estado.get("ano_buffer", 1999)),
                 "personagem": self.estado.get("agente_atual", "Vagner"),
                 "texto": rota.get('pushback_vagner', ''),
                 "opcoes": [sub.get("foco", "Opcao") for sub in rota.get("sub_opcoes", [])],

@@ -77,7 +77,7 @@
     "id": "ultimato_vagner_operacional",
     "ano": 2026,
     "agente_foco": "ID_Vagner",
-    "contexto_ia": "A barra de Stress e Burocracia bate o limite. Operações ilegais, risco de fiscalização, carregar peso demais ou falta de estrutura de trabalho levaram Vagner ao limite físico e mental. Ele respira em um saco de papel no escritório, cercado por multas.",
+    "contexto_ia": "A barra de Stress e Burocracia bate o limite. Estou carregando peso demais ou falta de estrutura de trabalho levaram Vagner ao limite físico e mental. Ele respira em um saco de papel no escritório, cercado de contas sem ter como pagar.",
     "rotas_principais": [
       {
         "id_rota": "Crise_Operacional",

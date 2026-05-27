@@ -245,6 +245,14 @@ body, html {
     font-weight: bold;
 }
 
+/* Feedback visual durante request HTMX — botões ficam semi-opacos e não clicáveis */
+.htmx-request .btn-opcao,
+.htmx-request.btn-opcao {
+    opacity: 0.45;
+    pointer-events: none;
+    cursor: default;
+}
+
 /* Cursor piscante do typewriter SSE */
 .cursor-blink {
     color: var(--text-speaker);

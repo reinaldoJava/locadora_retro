@@ -7,9 +7,10 @@
 # _orquestrar_dialogo_evento() — exibe dialogos_iniciais um por vez antes das opcoes
 # _render_prologo_slide() — slide do prologo 2026 (compartilhado com PrologoMixin)
 
+import threading
 from flask import render_template, make_response, session as flask_session
 from src.Maps import ROTA_BG_2026, IMG_PERSONS
-from src.agents import obter_do_pool, adicionar_ao_pool, gerar_fala
+from src.agents import obter_do_pool, adicionar_ao_pool, gerar_fala, preaquecer_replicas
 
 
 class RendererMixin:
@@ -146,6 +147,11 @@ class RendererMixin:
                 fala_html  = fala_personalizada.replace(chr(10), "<br>")
                 texto_html = ("<p class='nome-personagem'>" + agente_nome + "</p>"
                               "<p class='fala-dialogo'>" + fala_html + "</p>")
+                # Pré-aquece réplicas em background — SSE não é disparado no pool hit,
+                # então o warming nunca aconteceria sem este disparo explícito.
+                threading.Thread(
+                    target=preaquecer_replicas, args=(evt_atual,), daemon=True
+                ).start()
             else:
                 # Pool miss: placeholder com trigger para o handler SSE no motor_shell.js.
                 texto_html = (

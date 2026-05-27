@@ -346,7 +346,7 @@
     "ano": 1999,
     "agente_foco": "ID_Vagner",
     "temp_situacao": 0.2,
-    "contexto_ia": "O representante comercial deixa a caixa do aparelho de DVD e o disco do Matrix no balcão de testes e vai tomar um café. Maurício alerta que a mídia é frágil e risca fácil. O kit custa R$ 1.500 e a decisão precisa ser tomada agora.",
+    "contexto_ia": "O representante comercial deixa a caixa do aparelho de DVD e o disco do Matrix no balcão de testes e vai tomar um café. Maurício e Leila ficam maravilhados com a qualidade da imagem mas alerta que a mídia é frágil e risca fácil. O kit custa R$ 1.500 e a decisão precisa ser tomada agora.",
     "rotas_principais": [
       {
         "id_rota": "A",
@@ -688,7 +688,7 @@
     "ano": 1999,
     "agente_foco": "ID_Leila",
     "temp_situacao": 0.3,
-    "contexto_ia": "O Seu Roberto trouxe a fita do filme 'O Sexto Sentido' com um pedaço mastigado. Ele está bolado no balcão dizendo que a culpa não é dele. R$ 500 reais de faturamento que esse homem traz por mês vão sumir se ele fechar a ficha. Leila está sob pressão para resolver o impasse sem causar prejuízos.",
+    "contexto_ia": "O Seu Roberto trouxe a fita do filme 'O Sexto Sentido' com um pedaço mastigado. Ele está bolado no balcão dizendo que a culpa não é dele. R$ 230 reais de faturamento que esse homem traz por mês vão sumir se ele fechar a ficha. Leila está sob pressão para resolver o impasse sem causar prejuízos.",
     "rotas_principais": [
       {
         "id_rota": "A",
@@ -771,7 +771,7 @@
             "id_sub": "C1",
             "foco": "Acionamento de Garantia com a Distribuidora",
             "temp_treplica": 0.29,
-            "argumento_gerente": "A Warner Home Video nos vendeu essa fita com selo de garantia contratual contra defeitos de lote. Como o Roberto jura que o filme travou sozinho, vamos formalizar o chamado técnico alegando falha física na bobina plástica original para recebermos uma cópia nova sem custo.",
+            "argumento_gerente": "A Buena Vista International nos vendeu essa fita com selo de garantia contratual contra defeitos de lote. Como o Roberto jura que o filme travou sozinho, vamos formalizar o chamado técnico alegando falha física na bobina plástica original para recebermos uma cópia nova sem custo.",
             "resolucao_leila": "Perfeito! Preenchi o formulário da distribuidora e eles já aprovaram o envio da nova cópia pelo motoboy amanhã. O Seu Roberto saiu impressionado com o nosso nível de profissionalismo e atendimento corporativo.",
             "impacto": {
               "caixa": 0,
