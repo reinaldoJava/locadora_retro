@@ -124,5 +124,131 @@
       }
     ],
     "agente_foco": "ID_Vagner"
+  },
+  {
+    "id": "evento_clone_retro_2026",
+    "gatilho_rota": "C",
+    "ano": 2026,
+    "titulo": "Copiaram Nossa Alma",
+    "contexto_ia": "Leila descobriu que o 'RetroZone' abriu a dois quilômetros. Mesma estética analógica, mesma proposta de detox digital, preços 30% mais baratos. A página no Zinta cresceu 15.000 seguidores em um mês. Eles até compraram TVs de tubo.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Leila",
+        "fala": "Chefe, eles copiaram TUDO. O layout, a paleta de cores, a descrição do serviço. Até o slogan é parecido com o nosso. Seis meses de trabalho e algum 'ser humaninho' fotografou nosso espaço e abriu concorrência."
+      },
+      {
+        "agente": "ID_Mauricio",
+        "fala": "Imitadores. É o que acontece quando você tem sucesso — os medíocres aparecem. Mas uma coisa eles nunca vão ter: 27 anos de história e 3.000 fitas originais. Cópias sempre revelam a ausência do original."
+      },
+      {
+        "agente": "ID_Vagner",
+        "fala": "A história não paga boleto. Eles são 30% mais baratos. Em seis meses, se a gente não reagir, perdemos metade dos clientes novos que a Leila trouxe. Precisamos de uma resposta concreta."
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "C7",
+        "foco": "Guerra de Preços / Dumping Temporário",
+        "argumento_gerente": "Vagner, baixamos o preço das cabines 25% por 60 dias. Vamos fazer o clone sangrar. Com o histórico que temos, eles não aguentam uma guerra de preços com a gente.",
+        "treplica": "(Vagner) 'Comprimimos a margem por dois meses. Doloroso, mas controlado.' (Leila) 'E eu aumento a frequência de posts para lembrar todo mundo de quem é o original aqui.'",
+        "impactos": {
+          "caixa": -10,
+          "tracao": 20,
+          "acervo": 0,
+          "stress": 25,
+          "moral_equipe": -5
+        }
+      },
+      {
+        "id_opcao": "C8",
+        "foco": "Inovar / Criar o Que Não Pode Ser Copiado",
+        "argumento_gerente": "A gente não compete com imitador por preço. A gente inova. Maurício, a nossa vantagem é o acervo e a curadoria. Lançamos o 'Clube do Diretor' — sessões semanais com tema, curadoria assinada e material de análise. Eles têm TV de tubo. A gente tem alma.",
+        "treplica": "(Maurício levanta da cadeira) 'O Clube do Diretor. Finalmente um projeto digno do acervo.' (Leila) 'Conteúdo diferenciado que não dá pra copiar em seis meses? Isso sim é estratégia.' (Vagner) 'Aprovado.'",
+        "impactos": {
+          "caixa": -5,
+          "tracao": 30,
+          "acervo": 15,
+          "stress": 10,
+          "moral_equipe": 15
+        }
+      },
+      {
+        "id_opcao": "C9",
+        "foco": "Contato Direto / Parceria ou Divisão de Território",
+        "argumento_gerente": "Leila, encontra o dono. Antes de gastar um real em guerra, quero saber quem é esse cara. Se eles copiaram a gente, eles admiram o conceito. Talvez seja mais inteligente propor parceria do que destruição — dividimos a cidade: eles ficam com o lado leste, a gente com o oeste.",
+        "treplica": "(Leila pesquisa) 'Cara de 28 anos. Claramente fã da locadora. Dá pra conversar.' (Vagner) 'Se não dá pra comprar, pelo menos marcamos território. Melhor do que guerra.'",
+        "impactos": {
+          "caixa": 5,
+          "tracao": 10,
+          "acervo": 0,
+          "stress": -10,
+          "moral_equipe": 5
+        }
+      }
+    ],
+    "agente_foco": "ID_Leila"
+  },
+  {
+    "id": "evento_escola_retro_2026",
+    "gatilho_rota": "C",
+    "ano": 2026,
+    "titulo": "A Geração que Não Conhece o Rebobinar",
+    "contexto_ia": "O Colégio Dom Bosco quer realizar uma 'Semana de História Digital' usando o acervo — videocassetes, consoles e câmeras analógicas. 120 alunos do ensino médio, cinco dias. A diretora ofereceu R$6.000 pelo uso do material. O problema: os equipamentos teriam que sair da loja.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Mauricio",
+        "fala": "120 adolescentes. Nas fitas. Chefe, com o maior respeito à educação brasileira, um aluno do ensino médio não sabe o que é rebobinar. Isso é uma sentença de morte para o acervo."
+      },
+      {
+        "agente": "ID_Leila",
+        "fala": "O Colégio Dom Bosco posta tudo no Zinta. São 3.000 alunos e pais com celular na mão. Cada foto deles com as fitas é conteúdo orgânico. Isso não tem preço em tração."
+      },
+      {
+        "agente": "ID_Vagner",
+        "fala": "R$6.000 por cinco dias de aluguel. Mas se quebrar qualquer coisa, quem paga? A diretora tem seguro escolar, mas seguro escolar não cobre fita do Akira Kurosawa."
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "C10",
+        "foco": "Aceitar com Maurício como Curador/Monitor",
+        "argumento_gerente": "Aceitamos com uma condição: o Maurício vai como curador dos equipamentos. Ele dá a oficina, supervisiona o manuseio e garante que nada seja danificado. R$6.000 mais a presença dele como palestrante — isso aparece no currículo do Maurício e no site da locadora.",
+        "treplica": "(Maurício para de reclamar) 'Eu... como palestrante? Em uma escola?' (Vagner) 'R$6k pagos pelo Estado, Maurício como guarda das fitas. Aprovado.' (Leila) 'Já tô escrevendo o press release.'",
+        "impactos": {
+          "caixa": 6,
+          "tracao": 20,
+          "acervo": 5,
+          "stress": 15,
+          "moral_equipe": 10
+        }
+      },
+      {
+        "id_opcao": "C11",
+        "foco": "Trazer a Escola até a Locadora",
+        "argumento_gerente": "Os equipamentos não saem. A escola vem até nós. Dividimos os 120 alunos em grupos de 20, duas horas cada turno, ao longo de cinco dias. R$4.000 para usar o espaço, mas as fitas ficam no lugar delas. A locadora vira sala de aula.",
+        "treplica": "(Vagner) 'Menos dinheiro, zero risco de transporte.' (Maurício) 'A locadora como sala de aula... Hitchcock olhando para cima, orgulhoso.' (Leila) 'Faço a grade de horários hoje mesmo.'",
+        "impactos": {
+          "caixa": 4,
+          "tracao": 25,
+          "acervo": 0,
+          "stress": 10,
+          "moral_equipe": 10
+        }
+      },
+      {
+        "id_opcao": "C12",
+        "foco": "Kit Educativo Mensal / Receita Recorrente",
+        "argumento_gerente": "Não para uma semana: para o ano inteiro. Vamos criar o 'Kit Locadora na Escola' — TV, videocassete e 10 fitas temáticas em caixa de transporte. A escola assina um contrato mensal de R$800 e usa quando quiser. Criamos uma nova linha de receita recorrente.",
+        "treplica": "(Vagner abre a planilha) 'R$800 por mês por escola. Se fecharmos cinco, são R$4.000 fixos todo mês.' (Leila) 'Posso vender isso no LinkedIn para coordenadores pedagógicos.' (Maurício) 'Educação analógica em escala. Eu cuido da curadoria dos kits.'",
+        "impactos": {
+          "caixa": 3,
+          "tracao": 15,
+          "acervo": -10,
+          "stress": 10,
+          "moral_equipe": 5
+        }
+      }
+    ],
+    "agente_foco": "ID_Mauricio"
   }
 ]

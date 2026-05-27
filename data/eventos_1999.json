@@ -807,5 +807,331 @@
         ]
       }
     ]
-  }
+  },
+  {
+    "id": "1999_diaX_curadoria_acervo_mauricio",
+    "ano": 1999,
+    "agente_foco": "ID_Mauricio",
+    "temp_situacao": 0.3,
+    "contexto_ia": "Maurício (curador cinéfilo) entra na sala com um catálogo de um colecionador local que está vendendo um lote raro de fitas de diretores clássicos (Stanley Kubrick, Akira Kurosawa, Alfred Hitchcock) por R$ 100. O orçamento do mês está apertado e o dono, Vagner, exige foco total em blockbusters comerciais de ação.",
+    "rotas_principais": [
+      {
+        "id_rota": "A",
+        "nome": "Investimento Cultural (Comprar o Lote)",
+        "temp_replica": 0.35,
+        "fala_gerente": "Maurício, vamos comprar o lote. Esse tipo de filme traz prestígio e diferencia a nossa marca.",
+        "pushback_mauricio": "Prestígio é excelente, gerente, mas o cliente médio do bairro prefere ver o Schwarzenegger explodindo coisas a encarar as três horas de calmaria de 'Os Sete Samurais'. Esse dinheiro não vai fazer falta para os lançamentos de Hollywood?",
+        "sub_opcoes": [
+          {
+            "id_sub": "A1",
+            "foco": "Nicho Premium",
+            "temp_treplica": 0.25,
+            "argumento_gerente": "Criaremos uma prateleira destacada de 'Acervo Cult' e cobraremos uma taxa de locação mais alta por serem fitas raras. O público cinéfilo paga pela exclusividade de achar esses títulos aqui.",
+            "resolucao_mauricio": "Uma prateleira premium baseada na escassez. Justo. Vai elevar o nível visual da loja. Vou catalogar as fitas imediatamente.",
+            "impacto": {
+              "caixa": -20,
+              "tracao": 5,
+              "acervo": 20,
+              "stress": 0,
+              "moral_equipe": 10
+            }
+          },
+          {
+            "id_sub": "A2",
+            "foco": "Parceria com Universitários",
+            "temp_treplica": 0.3,
+            "argumento_gerente": "A faculdade de cinema local abriu turmas novas. Se tivermos esse acervo, garantimos o cadastro e a fidelidade de dezenas de estudantes que vão consumir o balcão toda semana.",
+            "resolucao_mauricio": "Eles vêm pelo Kubrick e saem levando a pipoca e o refrigerante. Uma bela jogada de xadrez comercial. Vamos fechar o lote com o colecionador.",
+            "impacto": {
+              "caixa": -20,
+              "tracao": 15,
+              "acervo": 15,
+              "stress": 0,
+              "moral_equipe": 5
+            }
+          }
+        ]
+      },
+      {
+        "id_rota": "B",
+        "nome": "Recusa Comercial (Foco Estrito em Volume)",
+        "temp_replica": 0.35,
+        "fala_gerente": "Maurício, sem chance. Cinema de arte não paga as contas da locadora. Vamos passar.",
+        "pushback_mauricio": "Compreensível. No fim das contas, o fluxo de caixa é o roteiro da nossa sobrevivência. Mas virar um depósito de fitas de ação genéricas que envelhecem mal em seis meses não destrói nossa identidade?",
+        "sub_opcoes": [
+          {
+            "id_sub": "B1",
+            "foco": "Custo de Oportunidade",
+            "temp_treplica": 0.25,
+            "argumento_gerente": "Com os mesmos R$ 100, nós compramos mais duas cópias de 'O Sexto Sentido'. A velocidade de giro dessas duas fitas no final de semana humilha o faturamento anual do lote raro.",
+            "resolucao_mauricio": "Contra a matemática implacável das bilheterias, não há argumento cinematográfico que resista. Focaremos no suspense do Bruce Willis.",
+            "impacto": {
+              "caixa": 0,
+              "tracao": 10,
+              "acervo": -5,
+              "stress": 0,
+              "moral_equipe": -10
+            }
+          },
+          {
+            "id_sub": "B2",
+            "foco": "Ciclo de Vida do Produto",
+            "temp_treplica": 0.3,
+            "argumento_gerente": "Fitas cult duram muito na prateleira, mas o retorno é lento. Precisamos de liquidez rápida neste trimestre para estabilizar as contas operacionais.",
+            "resolucao_mauricio": "O pragmatismo financeiro venceu o idealismo artístico de lavada nesta cena. O senhor está certo, o caixa precisa respirar.",
+            "impacto": {
+              "caixa": 0,
+              "tracao": 0,
+              "acervo": 0,
+              "stress": 0,
+              "moral_equipe": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "1999_diaY_impasse_matrix_leila",
+    "ano": 1999,
+    "agente_foco": "ID_Leila",
+    "temp_situacao": 0.35,
+    "contexto_ia": "O sistema falhou. Leila (atendente) prometeu a última cópia disponível de 'Matrix' para dois clientes VIPs no mesmo horário: Dr. Armando (médico, ticket alto) e Marcos (líder do grêmio escolar). Os dois estão sérios no balcão encarando a atendente. Leila entra na sala contida e direta para relatar o problema.",
+    "rotas_principais": [
+      {
+        "id_rota": "A",
+        "nome": "Priorizar o Maior Faturamento (Dr. Armando)",
+        "temp_replica": 0.4,
+        "fala_gerente": "Leila, entrega a fita pro Dr. Armando. O peso financeiro da ficha dele é maior.",
+        "pushback_leila": "Entendo o lado do caixa, gerente. O Doutor gasta muito. Mas o Marcos traz a galera da escola inteira toda sexta para alugar filmes de terror e comédia. Se ele sair queimando nosso filme no grêmio, o prejuízo de tração vai ser grande.",
+        "sub_opcoes": [
+          {
+            "id_sub": "A1",
+            "foco": "Proporção de Receita / LTV",
+            "temp_treplica": 0.25,
+            "argumento_gerente": "O ticket mensal fixo do médico cobre o ano inteiro desses adolescentes. No mercado corporativo, priorizamos o cliente que sustenta a margem líquida.",
+            "resolucao_leila": "Olhando os números friamente, a conta fecha a favor dele mesmo. Vou dar a real pro Marcos e tentar segurar a bronca de forma profissional.",
+            "impacto": {
+              "caixa": 0,
+              "tracao": -15,
+              "stress": 5,
+              "moral_equipe": -5
+            }
+          },
+          {
+            "id_sub": "A2",
+            "foco": "Compensação Imediata",
+            "temp_treplica": 0.3,
+            "argumento_gerente": "Diga ao Marcos que o sistema travou, mas dê a ele duas cortesias de fitas de catálogo para compensar o erro da loja. Resolvemos o problema sem perder o cliente rico.",
+            "resolucao_leila": "Boa. O Marcos vai achar irado ganhar cortesia e o Doutor sai com a fita sem nem perceber a falha. Vamos fechar assim.",
+            "impacto": {
+              "caixa": -10,
+              "acervo": -5,
+              "stress": -5,
+              "moral_equipe": 10
+            }
+          }
+        ]
+      },
+      {
+        "id_rota": "B",
+        "nome": "Priorizar o Volume de Clientes (Marcos)",
+        "temp_replica": 0.4,
+        "fala_gerente": "Entrega pro Marcos, Leila. O público jovem é o motor de volume da nossa loja.",
+        "pushback_leila": "O Dr. Armando é cliente antigo. Se ele se sentir desprestigiado perdendo a fita para um garoto que chegou depois, ele pode simplesmente parar de alugar com a gente e ir para a concorrência.",
+        "sub_opcoes": [
+          {
+            "id_sub": "B1",
+            "foco": "Marketing de Defensores",
+            "temp_treplica": 0.28,
+            "argumento_gerente": "A insatisfação do garoto gera propaganda negativa em massa no colégio. O médico reclama da falha, mas a rotina dele não permite ficar trocando de locadora toda semana.",
+            "resolucao_leila": "Certo, o volume da molecada compensa o risco da ficha dele. Vou entregar a fita pro Marcos antes que o clima azede de vez.",
+            "impacto": {
+              "caixa": 0,
+              "tracao": 15,
+              "stress": 5,
+              "moral_equipe": -5
+            }
+          },
+          {
+            "id_sub": "B2",
+            "foco": "Valorização Alternativa",
+            "temp_treplica": 0.32,
+            "argumento_gerente": "Entregue ao Marcos. Depois, compense a falha no atendimento oferecendo ao Dr. Armando a reserva garantida do próximo grande lançamento de suspense na terça-feira, sem custo de locação.",
+            "resolucao_leila": "Garantir a reserva mostra que a gente se importa. Ele vai se sentir valorizado de novo. Vou lá resolver a situação.",
+            "impacto": {
+              "caixa": -5,
+              "tracao": 10,
+              "stress": -5,
+              "moral_equipe": 15
+            }
+          }
+        ]
+      }
+    ]
+  },{
+  "id": "1999_diaW_golpe_fita_trocada_leila",
+  "ano": 1999,
+  "agente_foco": "ID_Leila",
+  "temp_situacao": 0.35,
+  "contexto_ia": "Um cliente de classe média do bairro acabou de devolver a caixinha do grande lançamento 'Star Wars: Episódio I - A Ameaça Fantasma'. Ao abrir para conferir, Leila percebe que a fita original foi levada e, no lugar, deixaram uma fita virgem barata com uma etiqueta manuscrita. O cliente ainda está na loja e jura que 'já alugou o filme assim'. Leila entra na sala do gerente com uma postura séria e contida.",
+  "rotas_principais": [
+    {
+      "id_rota": "A",
+      "nome": "Confrontar o Cliente (Exigir o Valor da Fita)",
+      "temp_replica": 0.4,
+      "fala_gerente": "Leila, não caia nessa conversa. O cliente é o responsável pelo que devolve. Pode cobrar o valor de reposição da fita original direto dele.",
+      "pushback_leila": "Gerente, se a gente bater o martelo dizendo que ele tá mentindo, vai ser o maior caô no balcão. Ele é conhecido aqui na rua. Se ele decidir espalhar no bairro que a locadora acusa os clientes de roubo sem prova absoluta, o prejuízo de tração vai ser feio.",
+      "sub_opcoes": [
+        {
+          "id_sub": "A1",
+          "foco": "Rastreabilidade por Auditoria",
+          "temp_treplica": 0.25,
+          "argumento_gerente": "Não acuse diretamente ainda. Peça para ele aguardar no balcão enquanto você puxa no sistema o histórico dos últimos três clientes que levaram essa fita. Se o histórico deles for perfeito, a responsabilidade cai sobre o cliente atual com base em probabilidade.",
+          "resolucao_leila": "Puxei aqui e o cliente anterior era o Dr. Armando, que nunca faria isso. Mostrei o relatório pro cara de forma profissional e ele desabou: confessou que o filho adolescente trocou as fitas em casa sem ele saber. Ele vai pagar a reposição.",
+          "impacto": {
+            "caixa": 50,
+            "fidelidade": 0,
+            "tracao": 5,
+            "stress": 5,
+            "moral_equipe": 15
+          }
+        },
+        {
+          "id_sub": "A2",
+          "foco": "Termo de Ocorrência Interna",
+          "temp_treplica": 0.3,
+          "argumento_gerente": "Diga que o sistema exige a abertura de um 'Termo de Divergência de Acervo'. Não cobraremos os R$ 50 da fita hoje, mas ele precisará assinar o canhoto assumindo que a fita devolvida era paralela para o Vagner auditar depois.",
+          "resolucao_leila": "O papel assinado assustou o cliente. Ele preferiu levar a fita falsificada de volta para 'procurar a certa em casa' e prometeu trazer a original até amanhã. Seguramos a bronca sem quebrar o clima.",
+          "impacto": {
+            "caixa": 0,
+            "fidelidade": 5,
+            "tracao": 0,
+            "stress": 0,
+            "moral_equipe": 10
+          }
+        }
+      ]
+    },
+    {
+      "id_rota": "B",
+      "nome": "Absorver o Prejuízo (Preservar o Relacionamento)",
+      "temp_replica": 0.4,
+      "fala_gerente": "Leila, engole o sapo. Diga que acreditamos nele, dê baixa na fita como perda operacional e peça outra cópia com o distribuidor. O cliente vale mais.",
+      "pushback_leila": "Zerar a perda assim direto? Se a gente aliviar sem investigar, a notícia corre entre a molecada da região e o pessoal vai começar a passar a perna na gente, trocando fita original por pirata sabendo que não dá em nada.",
+      "sub_opcoes": [
+        {
+          "id_sub": "B1",
+          "foco": "Alocação de Margem de Perda",
+          "temp_treplica": 0.28,
+          "argumento_gerente": "Temos uma margin mensalizada de 2% para quebras e perdas no orçamento do Vagner. Essa cópia entra nessa cota. Mas registre um aviso restrito no perfil dele para que a próxima devolução seja aberta na cara dele.",
+          "resolucao_leila": "Entendi. O caixa absorve agora, mas o sistema fica de olho. Vou liberar o cliente e colocar a tarja de observação interna no cadastro dele para o próximo plantão ficar esperto.",
+          "impacto": {
+            "caixa": -40,
+            "fidelidade": 10,
+            "tracao": 0,
+            "stress": 0,
+            "moral_equipe": 5
+          }
+        },
+        {
+          "id_sub": "B2",
+          "foco": "Inspeção Obrigatória de Balcão",
+          "temp_treplica": 0.32,
+          "argumento_gerente": "Aceite a justificativa dele hoje, mas avise que, devido a esse incidente, a ficha dele passará pelo protocolo de 'Inspeção Visual Obrigatória' tanto na retirada quanto na entrega de qualquer filme a partir de agora.",
+          "resolucao_leila": "Colocar o protocolo de inspeção na ficha dele resolve. Ele vê que ganhou o benefício da dúvida, mas entende que a mamata acabou e que estamos fiscalizando tudo. Vou avisar o Maurício sobre a nova regra.",
+          "impacto": {
+            "caixa": -40,
+            "fidelidade": 5,
+            "tracao": 5,
+            "stress": 5,
+            "moral_equipe": 5
+          }
+        }
+      ]
+    }
+  ]
+},{
+  "id": "1999_diaV_dilema_audio_mauricio",
+  "ano": 1999,
+  "agente_foco": "ID_Mauricio",
+  "temp_situacao": 0.3,
+  "contexto_ia": "Maurício entra na sala com a folha de pedido dos grandes lançamentos do mês ('O Sexto Sentido' e 'Clube da Luta'). Ele quer que 70% das cópias compradas sejam na versão Legendada, argumentando que a dublagem destrói a atuação original dos atores e desvaloriza a experiência cinematográfica. No entanto, o histórico mostra que as fitas Dubladas giram três vezes mais rápido no meio da semana, e o público médio do bairro costuma chiar muito no balcão quando leva fita legendada por distração.",
+  "rotas_principais": [
+    {
+      "id_rota": "A",
+      "nome": "Priorizar o Giro Comercial (Focar em Cópias Dubladas)",
+      "temp_replica": 0.35,
+      "fala_gerente": "Maurício, vamos comprar 80% do estoque na versão Dublada. O cliente comum quer chegar em casa cansado do trabalho, deitar no sofá e assistir ao filme sem ter que ler a tela.",
+      "pushback_mauricio": "O conforto da passividade auditiva... Compreendo o apelo de massa, gerente. Mas o público universitário e os clientes mais exigentes da região vão simplesmente migrar para as locadoras do centro se só encontrarem o pipocão dublado aqui. Não estamos sacrificando o nosso prestígio a longo prazo por causa de um giro rápido?",
+      "sub_opcoes": [
+        {
+          "id_sub": "A1",
+          "foco": "Demanda Real por Cluster",
+          "temp_treplica": 0.25,
+          "argumento_gerente": "Nossa demografia principal aqui são famílias e trabalhadores comerciais. A matemática não mente: fita legendada passa a segunda e a terça-feira pegando poeira na prateleira, enquanto o dublado paga o custo de aquisição da fita em duas semanas.",
+          "resolucao_mauricio": "A implacável realidade demográfica do varejo de bairro. Contra os dados brutos de faturamento, a estética cinematográfica precisa recuar. Vou ajustar o pedido para o padrão de massa.",
+          "impacto": {
+            "caixa": 0,
+            "tracao": 15,
+            "acervo": -5,
+            "stress": 0,
+            "moral_equipe": -10
+          }
+        },
+        {
+          "id_sub": "A2",
+          "foco": "Compensação por Pedido Especial",
+          "temp_treplica": 0.3,
+          "argumento_gerente": "Manteremos o foco no dublado para a prateleira geral, mas criaremos uma pasta de 'Pedidos Especiais' no balcão. Se o cinéfilo quiser a versão legendada de um lançamento, nós encomendamos uma cópia exclusiva com o distribuidor com entrega garantida.",
+          "resolucao_mauricio": "O sistema de encomenda sob demanda. Uma solução justa: protege o fluxo de caixa regular e oferece uma saída elegante para o público nichado. Vou estruturar o protocolo de reservas.",
+          "impacto": {
+            "caixa": -10,
+            "tracao": 10,
+            "acervo": 5,
+            "stress": 0,
+            "moral_equipe": 5
+          }
+        }
+      ]
+    },
+    {
+      "id_rota": "B",
+      "nome": "Apoiar o Formato Original (Focar em Cópias Legendadas)",
+      "temp_replica": 0.35,
+      "fala_gerente": "Maurício, concordo com você. Vamos investir forte nas versões Legendadas. O cinema de verdade precisa ser apreciado com o áudio e a interpretação originais.",
+      "pushback_mauricio": "Fico lisonjeado com o voto de confiança na sétima arte, gerente. Porém, jogando o advogado do diabo: quando o cliente comum levar a fita legendada para casa por distração e tiver que voltar aqui no sábado à noite, furioso, para exigir a troca, como a Leila vai gerenciar esse estresse operacional no balcão lotado?",
+      "sub_opcoes": [
+        {
+          "id_sub": "B1",
+          "foco": "Sinalização Cromática de Layout",
+          "temp_treplica": 0.25,
+          "argumento_gerente": "Vamos criar uma identidade visual agressiva nas caixas. Fitas legendadas usarão uma capa com uma tarja Amarela vibrante e as dubladas, tarja Azul. O cliente só erra se quiser, e nós eliminamos o problema operacional.",
+          "resolucao_mauricio": "A diferenciação cromática direta no balcão. Uma excelente resposta de design de serviços. Reduz o erro operacional a zero e mantém o acervo íntegro. Vou providenciar as etiquetas de sinalização.",
+          "impacto": {
+            "caixa": -15,
+            "tracao": 5,
+            "acervo": 15,
+            "stress": 0,
+            "moral_equipe": 10
+          }
+        },
+        {
+          "id_sub": "B2",
+          "foco": "Segmentação por Dias de Desconto",
+          "temp_treplica": 0.3,
+          "argumento_gerente": "Apostaremos no legendado, mas criaremos a 'Terça Cult'. Nesse dia, a locação das fitas legendadas terá 30% de desconto. Usamos o público universitário para fazer girar o estoque justamente nos dias mais mortos da semana.",
+          "resolucao_mauricio": "Promover o giro de acervo no início da semana através de um gancho cultural. Uma jogada tática brilhante para combater a ociosidade da prateleira. Vamos rodar essa campanha promocional.",
+          "impacto": {
+            "caixa": -5,
+            "tracao": 20,
+            "acervo": 10,
+            "stress": 0,
+            "moral_equipe": 15
+          }
+        }
+      ]
+    }
+  ]
+}
 ]

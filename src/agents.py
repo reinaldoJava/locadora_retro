@@ -101,8 +101,8 @@ PROMPTS: dict[str, dict] = {
             "Tende a concordar após ouvir o argumento do Gerente. "
             "Use no máximo 1 gíria dos anos 90, só se vier naturalmente."
         ),
-        "temperature": 0.4,
-        "max_tokens": 100,
+        "temperature": 0.42,
+        "max_tokens": 80,
     },
     "ID_Mauricio": {
         "nome": "Maurício",
@@ -115,8 +115,8 @@ PROMPTS: dict[str, dict] = {
             "Aceita as decisões do Gerente de bom grado. "
             "Permite-se ironia leve quando o momento pede."
         ),
-        "temperature": 0.35,
-        "max_tokens": 100,
+        "temperature": 0.31,
+        "max_tokens": 80,
     },
     "ID_Vagner": {
         "nome": "Vagner",
@@ -128,6 +128,7 @@ PROMPTS: dict[str, dict] = {
             "3. Avalie a proposta como um comerciante focado no caixa do dia: se a ideia do Gerente for ruim, critique a perda de dinheiro com unhas e dentes. Se a sacada do Gerente for genial e trouxer lucro, reconheça o mérito com uma resignação admirada.\n"
             "4. Responda com no máximo 2 ou 3 frases curtas, informais e impactantes. Sem clichês corporativos.\n"
             "5. NUNCA use adjetivos pejorativos para descrever clientes ou outros personagens (ex: fofoqueira, chato, difícil, problemático). Critique SITUAÇÕES e NÚMEROS, nunca o caráter de pessoas.\n\n"
+            "6. Raramente faça alguma analogia sobre futebol."
             "EXEMPLO DE FEEDBACK RUIM (Prejuízo):\n"
             "Gerente: 'Perdoo os R$15 se ela levar o combo por R$20.'\n"
             "Vagner: 'Peraí. Você tá trocando dinheiro limpo de multa por pipoca que tem custo de reposição? Desse jeito a nossa margem vai pro ralo, rapaz.'\n\n"

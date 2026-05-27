@@ -128,5 +128,131 @@
       }
     ],
     "agente_foco": "ID_Vagner"
+  },
+  {
+    "id": "evento_streaming_oferta_2026",
+    "gatilho_rota": "A",
+    "ano": 2026,
+    "titulo": "A Alma à Venda",
+    "contexto_ia": "A plataforma ZetLix Originals oferece R$50.000 para licenciar a marca e a estética da locadora por 6 meses para uma série original. Seriam a grife do show. Mas o contrato de exclusividade proíbe qualquer produção própria durante o período. A equipe está dividida sobre vender a identidade que levaram anos para construir.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Leila",
+        "fala": "Chefe, são CINQUENTA MIL REAIS. A ZetLix tem 40 milhões de usuários. Se o nome da locadora aparecer nos créditos de uma série original, nunca mais a gente vai precisar pagar por publicidade na vida."
+      },
+      {
+        "agente": "ID_Mauricio",
+        "fala": "Licenciar nossa alma para uma plataforma de streaming?! Somos uma locadora que produz conteúdo, não uma grife descartável! Em seis meses eles pegam o que precisam e nos descartam como cenário usado."
+      },
+      {
+        "agente": "ID_Vagner",
+        "fala": "Cinquenta mil entram hoje, mas seis meses sem produzir é seis meses sem crescer. Preciso calcular quanto deixamos de ganhar parados antes de assinar qualquer coisa."
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "A9",
+        "foco": "Licenciar a Marca / Maximizar Caixa",
+        "argumento_gerente": "Vagner, assina. R$50k é capital para investir quando o contrato acabar. Seis meses parado é seis meses aprimorando equipamentos e formando equipe nova. Saímos mais fortes, não mais fracos.",
+        "treplica": "(Vagner assina) 'Dinheiro no caixa. Eu respiro.' (Maurício sai em silêncio) 'Quando vocês terminarem de vender nossa identidade, me avisem.'",
+        "impactos": {
+          "caixa": 50,
+          "tracao": 20,
+          "acervo": -10,
+          "stress": 10,
+          "moral_equipe": -15
+        }
+      },
+      {
+        "id_opcao": "A10",
+        "foco": "Contra-Proposta / Licença Não Exclusiva",
+        "argumento_gerente": "Leila, liga pra eles. Aceito R$28k pela licença, mas sem exclusividade. A gente segue produzindo pelo nosso canal enquanto somos a grife da série deles. Autenticidade não se vende com cláusula de servidão.",
+        "treplica": "(Leila negocia no celular) 'Eles aceitaram R$28k, sem exclusividade!' (Maurício respira fundo) 'Minha consciência sobreviveu ao capitalismo hoje.' (Vagner) 'Menos dinheiro, mas continuamos rodando. Inteligente.'",
+        "impactos": {
+          "caixa": 28,
+          "tracao": 10,
+          "acervo": 0,
+          "stress": 5,
+          "moral_equipe": 5
+        }
+      },
+      {
+        "id_opcao": "A11",
+        "foco": "Recusa / Produzir a Própria Série",
+        "argumento_gerente": "Recusa. Se a ZetLix quer a nossa estética para a série deles, significa que temos algo que eles não têm: autenticidade. Maurício, vamos produzir a nossa própria série — 8 episódios documentando a história da locadora. A gente não vira grife deles, a gente vira concorrente.",
+        "treplica": "(Leila surta de felicidade) 'A gente como CONCORRENTE da ZetLix?!' (Maurício levanta) 'Isso é loucura. Mas é a nossa loucura. Eu topo.' (Vagner pega o bloco) 'Me diz quanto isso custa.'",
+        "impactos": {
+          "caixa": -15,
+          "tracao": 30,
+          "acervo": 20,
+          "stress": 25,
+          "moral_equipe": 15
+        }
+      }
+    ],
+    "agente_foco": "ID_Leila"
+  },
+  {
+    "id": "evento_angel_investor_2026",
+    "gatilho_rota": "A",
+    "ano": 2026,
+    "titulo": "O Dinheiro com Endereço",
+    "contexto_ia": "Um empreendedor tech de 34 anos chegou com proposta formal: R$100.000 de investimento por 30% de equity. O plano dele: transformar a locadora em franquia e abrir dez unidades em cinco anos. A equipe está em choque — cada um processando o que 'escalar' significa para o que construíram.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Leila",
+        "fala": "Dez locadoras! Gerente, a gente pode ter uma em cada capital! Imagina o conteúdo, a tração, a comunidade. Eu já consigo ver o mapa de expansão na minha cabeça. Por que o Vagner tá fazendo essa cara?"
+      },
+      {
+        "agente": "ID_Vagner",
+        "fala": "Porque 30% de equity significa que ele vota em decisões estratégicas. Isso é um sócio, não um banco. Se ele discordar de algo que a gente quer fazer, ele tem poder de vetar. A gente perde autonomia junto com o cheque."
+      },
+      {
+        "agente": "ID_Mauricio",
+        "fala": "Franquia. Franquia! Como se locadora fosse McDonald's! Cada unidade vai ter um gerente que nunca assistiu Tarkovsky e vai colocar Rotação Máxima (The Chase) na sessão cult. Dinheiro de investidor não compra bom gosto."
+      }
+    ],
+    "opcoes": [
+      {
+        "id_opcao": "A12",
+        "foco": "Aceitar / Escala Agressiva",
+        "argumento_gerente": "Vagner, assina o cheque. R$100k e um sócio com expertise em expansão é exatamente o que precisamos para transformar o conceito em movimento nacional. Maurício, cada franquia vai ter um curador local. A alma escala se a gente cuida do processo.",
+        "treplica": "(Vagner assina com cautela) 'Dinheiro com endereço. Vamos ver.' (Maurício) 'Quando a primeira franquia colocar Transformers na sessão cult, me lembre desse momento.' (Leila já está desenhando o mapa.)",
+        "impactos": {
+          "caixa": 60,
+          "tracao": 30,
+          "acervo": -10,
+          "stress": 40,
+          "moral_equipe": -10
+        }
+      },
+      {
+        "id_opcao": "A13",
+        "foco": "Contra-Proposta / Menor Stake",
+        "argumento_gerente": "Vagner, contra-proposta: R$50k por 15% de equity e direito de voto apenas em decisões acima de R$30k. Ele entra como parceiro menor, não como co-fundador. Se quiser os 30%, que espere a próxima rodada quando a locadora tiver três unidades provadas.",
+        "treplica": "(Vagner) 'Diluição controlada. Gosto.' (O investidor aceita após negociação) 'Fechado em R$45k por 15%.' (Maurício) 'Pelo menos não perdemos o controle da programação. Por enquanto.'",
+        "impactos": {
+          "caixa": 30,
+          "tracao": 15,
+          "acervo": 0,
+          "stress": 20,
+          "moral_equipe": 5
+        }
+      },
+      {
+        "id_opcao": "A14",
+        "foco": "Recusa / Independência Total",
+        "argumento_gerente": "Agradeço a visita, mas não. O que temos não é um produto para franquear, é uma cultura que levamos 27 anos construindo. Com dinheiro externo vem agenda externa. Vamos crescer no nosso ritmo, com nosso dinheiro e nossa lógica.",
+        "treplica": "(Vagner fecha os olhos e respira) 'Recusar R$100k vai doer amanhã de manhã.' (Maurício fica de pé) 'A única decisão correta que tomamos hoje.' (Leila) 'Tudo bem. A gente faz sozinho. Sempre fizemos.'",
+        "impactos": {
+          "caixa": 0,
+          "tracao": 10,
+          "acervo": 20,
+          "stress": -15,
+          "moral_equipe": 15
+        }
+      }
+    ],
+    "agente_foco": "ID_Vagner"
   }
 ]
