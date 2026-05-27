@@ -102,7 +102,7 @@ PROMPTS: dict[str, dict] = {
             "Use no máximo 1 gíria dos anos 90, só se vier naturalmente."
         ),
         "temperature": 0.4,
-        "max_tokens": 140,
+        "max_tokens": 100,
     },
     "ID_Mauricio": {
         "nome": "Maurício",
@@ -116,7 +116,7 @@ PROMPTS: dict[str, dict] = {
             "Permite-se ironia leve quando o momento pede."
         ),
         "temperature": 0.35,
-        "max_tokens": 140,
+        "max_tokens": 100,
     },
     "ID_Vagner": {
         "nome": "Vagner",

@@ -21,7 +21,7 @@
             "resolucao_vagner": "Você tem um ponto. Ordem na casa. Vai lá e cobra, mas seja educado. Se ela não voltar mês que vem, a responsabilidade é sua.",
             "impacto": {
               "caixa": 15,
-              "tracao": -10,
+              "tracao": -15,
               "acervo": 0,
               "stress": -5
             }
@@ -34,9 +34,10 @@
             "resolucao_vagner": "Visão de curto prazo, mas não posso negar que a corda tá no pescoço. Pega o dinheiro. Mas temos que achar outro jeito de fazer caixa.",
             "impacto": {
               "caixa": 30,
-              "tracao": -20,
+              "tracao": -30,
               "acervo": 0,
-              "stress": 0
+              "stress": 0,
+              "moral_equipe": -5
             }
           }
         ]
@@ -52,13 +53,14 @@
             "id_sub": "B1",
             "foco": "LTV - Lifetime Value",
             "temp_treplica": 0.25,
-            "argumento_gerente": "O LTV dela é de R$ 1.200 ao ano. Perdoar R$ 15 é um Custo de Retenção de apenas 1,2%. É mais barato perdoar a multa do que gastar com panfleto pra atrair um cliente novo.",
+            "argumento_gerente": "O LTV dela é de R$ 600 ao ano. Perdoar R$ 15 é um Custo de Retenção de apenas 2,4%. É mais barato perdoar a multa do que gastar com panfleto pra atrair um cliente novo.",
             "resolucao_vagner": "Custo de retenção... gostei do termo técnico. Tá bom. Mas avisa a ela que é uma 'falha a favor dela no sistema', senão ela se acostuma mal.",
             "impacto": {
               "caixa": -15,
               "tracao": 25,
               "acervo": 0,
-              "stress": 0
+              "stress": 0,
+              "moral_equipe": 5
             }
           },
           {
@@ -136,8 +138,8 @@
             "impacto": {
               "caixa": 20,
               "tracao": 20,
-              "acervo": -10,
-              "stress": 10
+              "acervo": -15,
+              "stress": 15
             }
           },
           {
@@ -147,7 +149,7 @@
             "argumento_gerente": "Não é sobre a fita, é sobre a Blockbuster. Se o cliente for lá e achar o filme, ele faz o cadastro e a gente perde ele pra sempre. Comprar essas fitas é o nosso Custo de Aquisição de Clientes (CAC) pra blindar nosso território.",
             "resolucao_vagner": "Jogar na retranca para segurar o cliente. Custa caro, mas faz sentido. O Vitória também gasta para não deixar o rival levar o craque. Fechar o pedido.",
             "impacto": {
-              "caixa": -10,
+              "caixa": -15,
               "tracao": 25,
               "acervo": 10,
               "stress": -5
@@ -170,7 +172,7 @@
             "resolucao_vagner": "A famosa receita pingadinha... Você pensa como um investidor de renda fixa. É seguro. O Maurício vai gostar de organizar esse monte de fita velha. Pede aí.",
             "impacto": {
               "caixa": 0,
-              "tracao": -5,
+              "tracao": -8,
               "acervo": 30,
               "stress": -10
             }
@@ -183,9 +185,9 @@
             "resolucao_vagner": "Criar o problema pra vender a solução que a gente já tem. É maquiavélico, mas é rentável. Só espero que a Leila tenha lábia para acalmar o pessoal da fila.",
             "impacto": {
               "caixa": 10,
-              "tracao": -15,
+              "tracao": -20,
               "acervo": 20,
-              "stress": 15
+              "stress": 20
             }
           }
         ]
@@ -207,7 +209,7 @@
               "caixa": 15,
               "tracao": 20,
               "acervo": 25,
-              "stress": 20
+              "stress": 30
             }
           },
           {
@@ -218,7 +220,7 @@
             "resolucao_vagner": "Rapaz... economizar na marcenaria para focar no lucro líquido. Essa foi de mestre. Liga pro cara antes que a Blockbuster ofereça mais.",
             "impacto": {
               "caixa": 30,
-              "tracao": -10,
+              "tracao": -15,
               "acervo": 15,
               "stress": 0
             }
@@ -248,10 +250,10 @@
             "argumento_gerente": "Não é pra sempre, Vagner. É pra quebrar o ciclo de experimentação deles. O cliente vai lá ver a novidade, acha caro, e lembra que aqui é a metade do preço. A gente sangra a margem por 30 dias só pra manter o hábito do cliente de virar a nossa esquina.",
             "resolucao_vagner": "Jogar o jogo de quem tem mais oxigênio embaixo d'água... É arriscado, mas manter o hábito do cliente é lei. Reduz o preço. Mas reza pra esse mês passar rápido.",
             "impacto": {
-              "caixa": -30,
+              "caixa": -45,
               "tracao": 25,
-              "acervo": -5,
-              "stress": 20
+              "acervo": -8,
+              "stress": 30
             }
           },
           {
@@ -264,7 +266,7 @@
               "caixa": 15,
               "tracao": 15,
               "acervo": 0,
-              "stress": 10
+              "stress": 15
             }
           }
         ]
@@ -284,7 +286,7 @@
             "resolucao_vagner": "Diversificação de canais de receita. Parar de depender de quem entra pela porta. Gênio. Pega a pasta e vai fechar esses contratos na rua agora.",
             "impacto": {
               "caixa": 20,
-              "tracao": -10,
+              "tracao": -15,
               "acervo": 10,
               "stress": -5
             }
@@ -297,7 +299,7 @@
             "resolucao_vagner": "Tornar o Maurício nossa vantagem competitiva... Quem diria. Ele vai ficar insuportável de orgulhoso, mas pode funcionar. Vamos ser a locadora 'Cult'.",
             "impacto": {
               "caixa": 0,
-              "tracao": -5,
+              "tracao": -8,
               "acervo": 20,
               "stress": -5
             }
@@ -334,7 +336,7 @@
               "caixa": 10,
               "tracao": 30,
               "acervo": 0,
-              "stress": 15
+              "stress": 20
             }
           }
         ]
@@ -362,10 +364,10 @@
             "argumento_gerente": "Maurício, não vai pra prateleira comum. Vai pra uma redoma. Nós vamos alugar a máquina e o filme juntos por R$ 50 pro fim de semana, com nota promissória assinada de R$ 1.500. A gente filtra o cliente pelo risco. Só aluga quem tem cheque especial.",
             "resolucao_vagner": "(Vagner ri) \"Blindar o risco com burocracia. Maurício, tira a poeira do talão de notas promissórias. Vamos brincar de locadora de luxo.\"",
             "impacto": {
-              "caixa": -20,
+              "caixa": -30,
               "tracao": 20,
               "acervo": 0,
-              "stress": 10
+              "stress": 15
             }
           },
           {
@@ -375,7 +377,7 @@
             "argumento_gerente": "Não é pra dar lucro direto agora. É pra dar inveja. Maurício, você vai botar o Matrix rodando na TV da vitrine. Quem passar na rua vai entrar pra ver a imagem perfeita. Eles não vão ter o aparelho em casa, mas já que entraram na loja, você empurra o VHS.",
             "resolucao_vagner": "Usar o aparelho como vitrine pra atrair quem entra pela porta. O Maurício garante a pescaria no balcão. Não é receita direta, mas é custo de marketing embutido no estoque.",
             "impacto": {
-              "caixa": -10,
+              "caixa": -15,
               "tracao": 25,
               "acervo": 10,
               "stress": 0
@@ -398,7 +400,7 @@
             "resolucao_vagner": "Deixar o tubarão sangrar pra abrir caminho... Frio e calculista. O financeiro agradece. Maurício, devolve essa rodela de espelho.",
             "impacto": {
               "caixa": 0,
-              "tracao": -10,
+              "tracao": -15,
               "acervo": 0,
               "stress": -20
             }
@@ -411,7 +413,7 @@
             "resolucao_vagner": "Ouvir clientes reclamando da fila de espera é meu pior pesadelo. Você me comprou. Traz as 30 fitas que eu garanto o aluguel de todas até domingo.",
             "impacto": {
               "caixa": 15,
-              "tracao": -10,
+              "tracao": -15,
               "acervo": 20,
               "stress": -15
             }
@@ -432,10 +434,10 @@
             "argumento_gerente": "Maurício, é uma pesquisa de mercado disfarçada. Quando o cliente reclamar, você pega seu caderninho e anota o nome dele. Quando tivermos 50 nomes na lista, significa que o bairro tem aparelho suficiente pra gente justificar a compra. Estamos comprando informação por R$ 400.",
             "resolucao_vagner": "(Suspira) \"Você quer que eu seja pesquisador do IBGE no meio do expediente... Tá bom. Eu anoto. Pelo menos a gente não toma prejuízo de R$ 1.500 de uma vez.\"",
             "impacto": {
-              "caixa": -5,
+              "caixa": -8,
               "tracao": 15,
               "acervo": 0,
-              "stress": 10
+              "stress": 15
             }
           },
           {
@@ -445,7 +447,7 @@
             "argumento_gerente": "A gente bota a placa de 'Aluguel de DVD: R$ 15,00'. Ninguém vai levar. Mas quando o cliente olhar isso, os R$ 5,00 que ele te paga no VHS vão parecer de graça. Você não vai vender o DVD, Maurício, você vai usar o DVD pra vender o VHS.",
             "resolucao_vagner": "(Vagner bate na mesa) \"Usar o preço de um pra fazer o outro parecer barato! Maurício, bota as caixas lá na frente com etiqueta em neon. Vamos ver se essa psicologia funciona.\"",
             "impacto": {
-              "caixa": -5,
+              "caixa": -8,
               "tracao": 20,
               "acervo": 0,
               "stress": 0
@@ -476,10 +478,11 @@
             "argumento_gerente": "Vagner, calcula o Custo de Turnover. Se ele sair, a gente gasta com rescisão, gasta pra treinar alguém do zero, e até o novato aprender onde estão as fitas, os clientes vão reclamar e alugar menos. Dar os 30% agora é mais barato do que o buraco operacional de perder ele.",
             "resolucao_vagner": "Você tá me dizendo que segurar a batata assada agora sai mais barato que apagar o incêndio depois... Faz sentido. Eu corto o café expresso da loja pra compensar. Vou lá falar com ele.",
             "impacto": {
-              "caixa": -20,
+              "caixa": -30,
               "tracao": 20,
               "acervo": 0,
-              "stress": 10
+              "stress": 15,
+              "moral_equipe": 10
             }
           },
           {
@@ -489,10 +492,11 @@
             "argumento_gerente": "Nós não estamos pagando pelo tempo dele no balcão, Vagner. Estamos pagando para ele não levar nossa base de clientes VIP para a Blockbuster. É um pedágio de retenção de mercado. Se ele for, a Dona Sônia e o pessoal dos clássicos vão atrás dele.",
             "resolucao_vagner": "Pagar para blindar o território. É chantagem de mercado, mas é como o jogo funciona. O conhecimento dele é nosso maior ativo. Prepara o contrato novo.",
             "impacto": {
-              "caixa": -10,
+              "caixa": -15,
               "tracao": 20,
               "acervo": 0,
-              "stress": -20
+              "stress": -20,
+              "moral_equipe": 10
             }
           }
         ]
@@ -514,7 +518,8 @@
               "caixa": 0,
               "tracao": 10,
               "acervo": 20,
-              "stress": -20
+              "stress": -20,
+              "moral_equipe": 15
             }
           },
           {
@@ -524,10 +529,11 @@
             "argumento_gerente": "Você vai ter uma estante sua: 'As Escolhas do Maurício'. Eu te dou R$ 300 por mês do nosso orçamento pra você comprar os filmes cults que quiser, sem pedir permissão pro Vagner. Você vira gestor do seu próprio departamento.",
             "resolucao_vagner": "Autonomia orçamentária sem passar pelo financeiro vai me dar trabalho na contabilidade. Mas se manter o Maurício contente significa que a gente não perde a base de clientes VIP dele, o caixa agradece no fim do mês.",
             "impacto": {
-              "caixa": -10,
+              "caixa": -15,
               "tracao": 20,
               "acervo": 10,
-              "stress": -20
+              "stress": -20,
+              "moral_equipe": 10
             }
           }
         ]
@@ -547,9 +553,10 @@
             "resolucao_vagner": "Trocar o talento humano pelo processo engessado. Vai dar um trabalho infernal no começo e vamos perder cliente, mas a empresa fica mais segura. Que Deus nos ajude.",
             "impacto": {
               "caixa": 0,
-              "tracao": -20,
+              "tracao": -30,
               "acervo": 0,
-              "stress": 20
+              "stress": 30,
+              "moral_equipe": -10
             }
           },
           {
@@ -560,9 +567,10 @@
             "resolucao_vagner": "Mudar a cultura da empresa da noite pro dia. Sair do cinema de arte para focar no fast-food. A Leila vai adorar, mas o bairro vai chiar. Assina a demissão do rapaz.",
             "impacto": {
               "caixa": 15,
-              "tracao": -20,
-              "acervo": -10,
-              "stress": -10
+              "tracao": -30,
+              "acervo": -15,
+              "stress": -10,
+              "moral_equipe": -25
             }
           }
         ]
@@ -593,7 +601,8 @@
               "caixa": 20,
               "tracao": 10,
               "acervo": 0,
-              "stress": 10
+              "stress": 15,
+              "moral_equipe": 5
             }
           },
           {
@@ -604,9 +613,9 @@
             "resolucao_vagner": "Uma loja de conveniência que aluga filmes. Isso vai doer na alma, mas os números não mentem. Aceito, desde que a sessão de clássicos não vire depósito de paçoca.",
             "impacto": {
               "caixa": 25,
-              "tracao": -15,
-              "acervo": -10,
-              "stress": 10
+              "tracao": -20,
+              "acervo": -15,
+              "stress": 15
             }
           }
         ]
@@ -628,7 +637,7 @@
               "caixa": 0,
               "tracao": 0,
               "acervo": 10,
-              "stress": 15
+              "stress": 22
             }
           },
           {
@@ -638,10 +647,11 @@
             "argumento_gerente": "Leila, quem vende tudo misturado é feira. Nós queremos o cliente que paga caro sem reclamar. Para cobrar mais, o ambiente tem que passar percepção de alto valor. Prateleira limpa é posicionamento de marca.",
             "resolucao_vagner": "(Maurício estufa o peito) \"Exatamente! Nós somos a curadoria do bairro. A Leila tem que aprender a vender pela qualidade do atendimento, não pela bagunça.\"",
             "impacto": {
-              "caixa": -10,
+              "caixa": -15,
               "tracao": 20,
               "acervo": 0,
-              "stress": -10
+              "stress": -10,
+              "moral_equipe": 5
             }
           }
         ]
@@ -663,7 +673,8 @@
               "caixa": 20,
               "tracao": 10,
               "acervo": 0,
-              "stress": -20
+              "stress": -20,
+              "moral_equipe": 10
             }
           },
           {
@@ -676,7 +687,7 @@
               "caixa": 0,
               "tracao": 15,
               "acervo": 0,
-              "stress": 10
+              "stress": 15
             }
           }
         ]
@@ -705,9 +716,9 @@
             "resolucao_leila": "Olhar a fita de perto funcionou. Emendou que o videocassete dele está velho e pagou os R$ 50. Mas aposto que vai passar um mês sem pisar aqui por puro orgulho ferido.",
             "impacto": {
               "caixa": 50,
-              "tracao": -10,
+              "tracao": -15,
               "acervo": 20,
-              "stress": 10
+              "stress": 15
             }
           },
           {
@@ -741,7 +752,7 @@
             "impacto": {
               "caixa": 35,
               "tracao": 20,
-              "acervo": -10,
+              "acervo": -15,
               "stress": -5
             }
           },
@@ -754,7 +765,7 @@
             "impacto": {
               "caixa": 30,
               "tracao": 15,
-              "acervo": -10,
+              "acervo": -15,
               "stress": 0
             }
           }
@@ -777,7 +788,7 @@
               "caixa": 0,
               "tracao": 10,
               "acervo": 10,
-              "stress": 5
+              "stress": 8
             }
           },
           {

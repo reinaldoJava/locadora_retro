@@ -9,7 +9,7 @@
 #   _passo_dialogo_evento   — cursor para exibicao sequencial de dialogos_iniciais
 
 import json
-from flask import render_template, make_response, session as flask_session
+from flask import make_response
 from src.audio_config import AUDIO_SETTINGS
 from src.utils import formatar_dialogo
 

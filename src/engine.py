@@ -6,6 +6,23 @@ import json
 import os
 from pathlib import Path
 
+# ---------------------------------------------------------------------------
+# Blueprint cache — carrega cada JSON de missão uma única vez por processo.
+# Leitura de disco ocorre apenas na primeira chamada para cada filename;
+# todas as requisições subsequentes servem do dict in-memory sem I/O.
+# ---------------------------------------------------------------------------
+_BLUEPRINT_CACHE: dict[str, list] = {}
+
+
+def _load_blueprint(filename: str) -> list:
+    """Retorna a lista de eventos do arquivo JSON, usando cache em memória."""
+    if filename not in _BLUEPRINT_CACHE:
+        caminho = os.path.join(Path(__file__).resolve().parent.parent, "data", filename)
+        with open(caminho, "r", encoding="utf-8") as f:
+            dados = json.load(f)
+        _BLUEPRINT_CACHE[filename] = list(dados.values()) if isinstance(dados, dict) else dados
+    return _BLUEPRINT_CACHE[filename]
+
 
 class Engine:
 
@@ -33,10 +50,7 @@ class Engine:
             self.eventos = []
             return
         arquivo = self.arquivos_cenario[self.indice_arquivo_atual]
-        caminho = os.path.join(Path(__file__).resolve().parent.parent, "data", arquivo)
-        with open(caminho, 'r', encoding='utf-8') as f:
-            dados = json.load(f)
-        self.eventos = list(dados.values()) if isinstance(dados, dict) else dados
+        self.eventos = _load_blueprint(arquivo)
 
     def obter_evento_atual(self):
         # Crise ativa: retorna o evento de crise antes de qualquer outro
@@ -252,8 +266,8 @@ class Engine:
                 self.estado[k] = max(0, self.estado.get(k, 0) + delta)
 
     def verificar_game_over(self):
-        """Condicao de derrota: stress >= 1000 ou game_over_forcado."""
-        return (self.estado.get("stress", 0) >= 1000 or
+        """Condicao de derrota: stress >= 150 ou game_over_forcado."""
+        return (self.estado.get("stress", 0) >= 150 or
                 self.estado.get("game_over_forcado", False))
 
     def reset_completo(self):
@@ -273,6 +287,7 @@ class Engine:
             "tracao": 50,
             "acervo": 50,
             "stress": 0,
+            "moral_equipe": 70,
             # --- Sistema de crise e dificuldade ---
             "dificuldade_mult": 1.0,
             "dificuldade_nome": "BETA",

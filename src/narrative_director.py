@@ -69,6 +69,9 @@ class DiretorNarrativo(RendererMixin, CinematicMixin, PrologoMixin, IntroMixin):
         elif crise_id == "ultimato_advogado_caixa":
             est["caixa"]  = max(0, est.get("caixa", 0) + 40)
             est["tracao"] = max(0, est.get("tracao", 0) - 15)
+        elif crise_id == "ultimato_moral_equipe":
+            est["moral_equipe"] = min(100, est.get("moral_equipe", 0) + 30)
+            est["caixa"]  = max(0, est.get("caixa", 0) - 10)
         est["crise_ativa_id"] = None
 
     def proximo_passo(self, escolha_usuario=None):

@@ -26,10 +26,11 @@
         "argumento_gerente": "A Leila viu que os Correios buscam na porta. Nós vamos vender só para quem entende o valor. Coloca os clássicos num site de leilão global (eBay). Deixa os nerds do mundo brigarem em dólar. O resto, vai pro lixo.",
         "treplica": "(Maurício respira fundo) 'Se for pra um colecionador japonês, eu aceito.' (Vagner sorri) 'Ganhando em dólar? Eu ajudo a embalar.'",
         "impactos": {
-          "caixa": 800,
+          "caixa": 3,
           "acervo": -10,
           "stress": 30,
-          "tracao": 0
+          "tracao": 0,
+          "moral_equipe": 5
         }
       },
       {
@@ -38,10 +39,11 @@
         "argumento_gerente": "Vamos virar uma 'Galeria de Arte Y2K'. Maurício, você vai botar os melhores filmes numa moldura de acrílico com certificado de autenticidade. Vendemos a R$ 2.000 a peça para diretores na Faria Lima. Venda presencial, margem brutal.",
         "treplica": "(Maurício ajeita os óculos) 'Quadros de acrílico. Arte pura.' (Leila anota) 'Vou mandar mensagem no LinkedIn para os executivos.'",
         "impactos": {
-          "caixa": 2000,
+          "caixa": 8,
           "acervo": 20,
           "stress": -10,
-          "tracao": -10
+          "tracao": -10,
+          "moral_equipe": 15
         }
       },
       {
@@ -50,10 +52,11 @@
         "argumento_gerente": "Vamos surfar no Zinta. Maurício, monte caixas surpresa. Uma fita boa, três ruins, um pacote de pipoca vencida e um pôster. A Leila vende como 'Caixa Misteriosa' por R$ 300 pra jovens gravarem unboxing. Desovamos o estoque ruim.",
         "treplica": "(Vagner bate palmas) 'Vender tralha escondida em caixa surpresa?! Gerente, você nasceu pra enganar o mercado!' (Leila ri) 'O engajamento vai ser absurdo.'",
         "impactos": {
-          "caixa": 900,
+          "caixa": 4,
           "acervo": -30,
           "stress": 10,
-          "tracao": 40
+          "tracao": 40,
+          "moral_equipe": -10
         }
       }
     ],
@@ -86,10 +89,11 @@
         "argumento_gerente": "Leila, contrata o perito para auditar o acervo inteiro. Paramos as vendas e comunicamos publicamente que estamos certificando tudo. Isso transforma o escândalo em prova de seriedade. Fita com laudo vale três vezes mais no leilão.",
         "treplica": "(Maurício) 'Um laudo técnico é a única linguagem que colecionador sério respeita.' (Vagner) 'Caro e lento, mas quem tem laudo manda o preço. Aprovado.'",
         "impactos": {
-          "caixa": -2000,
+          "caixa": -8,
           "acervo": 40,
           "stress": 10,
-          "tracao": 20
+          "tracao": 20,
+          "moral_equipe": 10
         }
       },
       {
@@ -98,10 +102,11 @@
         "argumento_gerente": "A gente não para. Adicionamos aviso em cada anúncio: 'Acervo histórico vendido no estado original — autenticidade não certificada.' Baixamos 20% do preço e vendemos tudo antes que o barulho aumente. Disclaimer cobre a gente juridicamente.",
         "treplica": "(Vagner) 'Rápido, limpo e legal. Disclaimer cobre a gente.' (Maurício vira o rosto) 'Não me pergunte se eu concordo. Mas entendo a lógica do caixa.'",
         "impactos": {
-          "caixa": 2500,
+          "caixa": 10,
           "acervo": -20,
           "stress": 20,
-          "tracao": -20
+          "tracao": -20,
+          "moral_equipe": -10
         }
       },
       {
@@ -110,10 +115,11 @@
         "argumento_gerente": "Bloqueamos qualquer revenda. Cada comprador se cadastra com CPF e assina termo proibindo revenda com lucro por 12 meses. Os scalpers saem do jogo. Vendemos mais devagar, mas para quem realmente ama o cinema. Isso é reputação que não tem preço.",
         "treplica": "(Maurício aplaude) 'Proteção cultural. Finalmente alguém pensando no legado.' (Leila) 'Os fóruns já estão nos chamando de guardiões do VHS. Isso vale ouro em tração.'",
         "impactos": {
-          "caixa": 800,
+          "caixa": 3,
           "acervo": 10,
           "stress": -10,
-          "tracao": 40
+          "tracao": 40,
+          "moral_equipe": 10
         }
       }
     ],
