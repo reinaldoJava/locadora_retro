@@ -29,7 +29,7 @@
           },
           {
             "agente": "ID_Mauricio",
-            "fala": "(Esmagando o botão do computador conectado ao Wi-Fi) 'Moço... que dia é hoje?'"
+            "fala": "(Esmagando o botão do computador conectado ao Wi-Fi) '{curador_nome}... que dia é hoje?'"
           },
           {
             "agente": "ID_Jovem_GenZ",
@@ -46,7 +46,7 @@
           },
           {
             "agente": "ID_Mauricio",
-            "fala": "(Olhando para as mãos) 'Nós viajamos no tempo? Como? A física quântica... os buracos de minhoca... nós fomos engolidos por uma fenda temporal causada pelos disquetes do Vagner?!'"
+            "fala": "(Olhando para as mãos) 'Nós viajamos no tempo? Como? A física quântica... os buracos de minhoca... nós fomos engolidos por uma fenda temporal causada pelos disquetes do Vagner?!'" 
           },
           {
             "agente": "ID_Gerente",
@@ -74,7 +74,7 @@
       {
         "id_sub": "Rota_Acervo",
         "foco": "O Discurso do Museu (Foco em Maurício e Curadoria)",
-        "argumento_gerente": "A gente luta. Nós não somos mais uma locadora de filmes em fita. Nós somos um Museu de Arte Cinematográfica de Alta Renda. Maurício, separe as fitas originais. Nós vamos vender para colecionadores ricos que querem um pedaço do passado na parede.",
+        "argumento_gerente": "A gente luta. Nós não somos mais uma locadora de filmes em fita. Nós somos um Museu de Arte Cinematográfica de Alta Renda. {curador_nome}, separe as fitas originais. Nós vamos vender para colecionadores ricos que querem um pedaço do passado na parede.",
         "impacto": "Muda a era para 2026. Ganho imediato massivo de Acervo, mas risco iminente de colapso de Caixa. (Abre a Rota B)."
       },
       {

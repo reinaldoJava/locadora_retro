@@ -65,6 +65,7 @@ POOL_MAX = 15  # Máximo de variações armazenadas por evento
 _FALLBACK: dict[str, str] = {
     "ID_Leila":      "Chefe, me dá um segundo... tô processando tudo isso.",
     "ID_Mauricio":   "Preciso de um instante para organizar meus pensamentos.",
+    "ID_Marcos":     "Tô processando, gerente. Me dá um segundo.",
     "ID_Vagner":     "Espera aí, deixa eu calcular direito antes de falar.",
     "ID_Financeiro": "...",
 }
@@ -102,7 +103,7 @@ PROMPTS: dict[str, dict] = {
             "Use no máximo 1 gíria dos anos 90, só se vier naturalmente."
         ),
         "temperature": 0.42,
-        "max_tokens": 80,
+        "max_tokens": 85,
     },
     "ID_Mauricio": {
         "nome": "Maurício",
@@ -116,7 +117,22 @@ PROMPTS: dict[str, dict] = {
             "Permite-se ironia leve quando o momento pede."
         ),
         "temperature": 0.31,
-        "max_tokens": 80,
+        "max_tokens": 85,
+    },
+    "ID_Marcos": {
+        "nome": "Marcos",
+        "system": (
+            "Você é Marcos, estagiário de 28 anos da locadora. Você é discreto, observador e pragmático. "
+            "Fale DIRETAMENTE com o Gerente — ignore outros personagens mencionados no contexto. "
+            "Sem frases de abertura repetitivas. "
+            "Você é um cinéfilo equilibrado: entende o valor da arte, mas prioriza a sustentabilidade do negócio. "
+            "Curte drum and bass, raves e é fã de Sega — mistura referências de cinema com cultura dos anos 90. "
+            "Conhece profundamente o bairro e o perfil dos clientes. "
+            "Seu tom é profissional, direto e sem gírias forçadas ou metáforas de nicho. "
+            "Aceita a decisão do Gerente, mas sempre dá seu ponto de vista antes."
+        ),
+        "temperature": 0.25,
+        "max_tokens": 85,
     },
     "ID_Vagner": {
         "nome": "Vagner",

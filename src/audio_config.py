@@ -19,7 +19,7 @@ AUDIO_SETTINGS = {
         "/static/audio/tecla_3.mp3",
         "/static/audio/tecla_4.mp3",
     ],
-    "keyboard_volume": 0.01,
+    "keyboard_volume": 0.05,
     "click_sound": "/static/audio/click.mp3",
     "intro_music": {
         "id": "trilha-sonora-intro",

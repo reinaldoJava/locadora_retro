@@ -14,6 +14,7 @@ ROTA_BG_2026 = {
 }
 IMG_PERSONS = {
     "Leila": "leila", "Mauricio": "mauricio",
+    "Marcos": "marcos",
     "Vagner": "vagner", "Gerente": "gerente",
     "Influenciadora": "influenciadora",
     "Jovem GenZ": "jovem_genZ",

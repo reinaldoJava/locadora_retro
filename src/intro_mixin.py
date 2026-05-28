@@ -5,7 +5,7 @@
 
 import copy
 import json
-from flask import render_template, make_response, redirect
+from flask import render_template, make_response, redirect, session as flask_session
 from src.audio_config import AUDIO_SETTINGS
 
 
@@ -31,6 +31,8 @@ class IntroMixin:
         # Ultimo slide concluido: redireciona para a pagina principal do jogo.
         # HX-Redirect faz o browser navegar para /jogo (pagina completa),
         # onde #ui-jogo existe e o fluxo cinematico comeca corretamente.
+        flask_session['intro_concluida'] = True
+        flask_session.modified = True
         response = make_response("", 204)
         response.headers["HX-Redirect"] = "/jogo"
         return response

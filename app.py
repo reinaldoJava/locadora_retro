@@ -155,7 +155,9 @@ def tela_inicial():
 
 @app.route('/jogo')
 def index_jogo():
-    """Pagina principal do jogo. O #ui-jogo dispara /api/iniciar-game-transition via hx-trigger=load."""
+    """Pagina principal do jogo. Acessível apenas após conclusão da intro."""
+    if not session.get('intro_concluida'):
+        return redirect('/')
     diretor = _get_diretor()
     _save_diretor(diretor)
 
@@ -300,7 +302,7 @@ def fala_stream_api():
         return Response("data: [DONE]\n\n", mimetype='text/event-stream')
 
     evt_id    = evt.get("id", "")
-    agente_id = evt["agente_foco"]
+    agente_id = diretor.motor._resolver_agente(evt["agente_foco"])
     contexto  = evt.get("contexto_ia", "")
     ano       = diretor.motor.estado.get("ano", 1999)
 

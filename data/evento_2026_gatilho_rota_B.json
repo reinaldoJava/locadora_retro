@@ -12,17 +12,17 @@
       },
       {
         "agente": "ID_Mauricio",
-        "fala": "Vender? Para sempre?! Você quer entregar meu acervo nas mãos de um moleque rico que vai usar a fita do Godard como calço de porta?! É a morte do cinema!"
+        "fala": "Vender? Para sempre?! Você quer entregar meu acervo nas mãos de um moleque rico que vai usar a fita do Godard como calço de porta?! É a morte do cinema!" 
       },
       {
         "agente": "ID_Vagner",
         "fala": "Meu problema é outro. O cara paga R$ 800 na fita pela internet... e aí? A gente empacota 5.000 fitas e eu vou andando até os Correios com carrinho de feira todo dia? Vai ser um inferno!"
       }
     ],
-    "opcoes": [
+    "opcoes": [ 
       {
         "id_opcao": "B1",
-        "foco": "E-commerce Leilão / Colecionador Global",
+        "foco": "E-commerce Leilão / Colecionador Global", 
         "argumento_gerente": "A Leila viu que os Correios buscam na porta. Nós vamos vender só para quem entende o valor. Coloca os clássicos num site de leilão global (eBay). Deixa os nerds do mundo brigarem em dólar. O resto, vai pro lixo.",
         "treplica": "(Maurício respira fundo) 'Se for pra um colecionador japonês, eu aceito.' (Vagner sorri) 'Ganhando em dólar? Eu ajudo a embalar.'",
         "impactos": {
@@ -35,7 +35,7 @@
       },
       {
         "id_opcao": "B2",
-        "foco": "A Galeria de Arte / Foco B2B",
+        "foco": "A Galeria de Arte / Foco B2B", 
         "argumento_gerente": "Vamos virar uma 'Galeria de Arte Y2K'. Maurício, você vai botar os melhores filmes numa moldura de acrílico com certificado de autenticidade. Vendemos a R$ 2.000 a peça para diretores na Faria Lima. Venda presencial, margem brutal.",
         "treplica": "(Maurício ajeita os óculos) 'Quadros de acrílico. Arte pura.' (Leila anota) 'Vou mandar mensagem no LinkedIn para os executivos.'",
         "impactos": {
@@ -48,7 +48,7 @@
       },
       {
         "id_opcao": "B3",
-        "foco": "A Mystery Box / Foco nos Influenciadores",
+        "foco": "A Mystery Box / Foco nos Influenciadores", 
         "argumento_gerente": "Vamos surfar no Zinta. Maurício, monte caixas surpresa. Uma fita boa, três ruins, um pacote de pipoca vencida e um pôster. A Leila vende como 'Caixa Misteriosa' por R$ 300 pra jovens gravarem unboxing. Desovamos o estoque ruim.",
         "treplica": "(Vagner bate palmas) 'Vender tralha escondida em caixa surpresa?! Gerente, você nasceu pra enganar o mercado!' (Leila ri) 'O engajamento vai ser absurdo.'",
         "impactos": {
@@ -61,19 +61,23 @@
       }
     ],
     "agente_foco": "ID_Mauricio"
-  },
+  }, 
   {
     "id": "evento_autenticidade_2026",
-    "gatilho_rota": "B",
+    "gatilho_rota": "B", 
     "ano": 2026,
     "titulo": "Original ou Pirata? A Guerra da Autenticidade",
+    "memo_se_flags": {
+      "leila_absorveu_prejuizo": "Em 1999, quando um cliente trocou uma fita original por pirata, a locadora absorveu o prejuízo em silêncio para preservar o relacionamento. Dessa vez, o escândalo é público e o mundo está assistindo.",
+      "leila_puniu_cliente": "Em 1999, a locadora foi implacável com um cliente que tentou trocar fita — a reputação de rigor foi construída lá atrás. Os colecionadores que pesquisam o histórico da loja sabem disso."
+    },
     "contexto_ia": "Um comprador internacional contestou a autenticidade de três fitas vendidas no leilão. A notícia vazou nos fóruns de colecionadores e agora toda venda está sob suspeita. Os scalpers estão revendendo o que compraram com margem inflada antes que o escândalo cresça.",
     "dialogos_iniciais": [
       {
         "agente": "ID_Mauricio",
         "fala": "Eu sabia. EU SABIA. Aquele lote comprado em 1999 tinha duplicatas. Preciso de duas semanas para verificar fita por fita. Duas semanas, uma lupa e silêncio absoluto no depósito."
       },
-      {
+      { 
         "agente": "ID_Vagner",
         "fala": "Duas semanas?! O comprador quer reembolso e os scalpers já estão revendendo no dobro com a história do 'escândalo'. A gente tá perdendo dinheiro parado aqui discutindo lupa."
       },
@@ -83,7 +87,7 @@
       }
     ],
     "opcoes": [
-      {
+      { 
         "id_opcao": "B4",
         "foco": "Certificação Profissional / Transparência Total",
         "argumento_gerente": "Leila, contrata o perito para auditar o acervo inteiro. Paramos as vendas e comunicamos publicamente que estamos certificando tudo. Isso transforma o escândalo em prova de seriedade. Fita com laudo vale três vezes mais no leilão.",
@@ -98,7 +102,7 @@
       },
       {
         "id_opcao": "B5",
-        "foco": "Venda com Disclaimer / Velocidade Sobre Margem",
+        "foco": "Venda com Disclaimer / Velocidade Sobre Margem", 
         "argumento_gerente": "A gente não para. Adicionamos aviso em cada anúncio: 'Acervo histórico vendido no estado original — autenticidade não certificada.' Baixamos 20% do preço e vendemos tudo antes que o barulho aumente. Disclaimer cobre a gente juridicamente.",
         "treplica": "(Vagner) 'Rápido, limpo e legal. Disclaimer cobre a gente.' (Maurício vira o rosto) 'Não me pergunte se eu concordo. Mas entendo a lógica do caixa.'",
         "impactos": {
@@ -111,7 +115,7 @@
       },
       {
         "id_opcao": "B6",
-        "foco": "Anti-Scalper / Venda Direta para Colecionadores",
+        "foco": "Anti-Scalper / Venda Direta para Colecionadores", 
         "argumento_gerente": "Bloqueamos qualquer revenda. Cada comprador se cadastra com CPF e assina termo proibindo revenda com lucro por 12 meses. Os scalpers saem do jogo. Vendemos mais devagar, mas para quem realmente ama o cinema. Isso é reputação que não tem preço.",
         "treplica": "(Maurício aplaude) 'Proteção cultural. Finalmente alguém pensando no legado.' (Leila) 'Os fóruns já estão nos chamando de guardiões do VHS. Isso vale ouro em tração.'",
         "impactos": {
@@ -124,19 +128,23 @@
       }
     ],
     "agente_foco": "ID_Mauricio"
-  },
+  }, 
   {
     "id": "evento_cinemateca_2026",
-    "gatilho_rota": "B",
+    "gatilho_rota": "B", 
     "ano": 2026,
     "titulo": "O Guardião Cultural Chegou",
+    "memo_se_flags": {
+      "acervo_cult_comprado": "Entre os 200 títulos raros está parte do lote comprado em 1999 — as fitas de Kubrick, Kurosawa e Hitchcock que o Maurício catalogou com tanto cuidado. São justamente essas que a Cinemateca deseja.",
+      "acervo_cult_negado": "Em 1999, a locadora recusou o lote de clássicos. O acervo raro que chegou até 2026 foi construído por outros caminhos — mas a ausência dos títulos originais de 1999 é notada pelo representante da Cinemateca."
+    },
     "contexto_ia": "A Cinemateca Brasileira enviou um representante com proposta formal: R$45.000 pelos 200 títulos raros catalogados pelo Maurício. Para o governo, é preservação cultural. Para a equipe, é uma encruzilhada entre legado e controle.",
     "dialogos_iniciais": [
       {
         "agente": "ID_Mauricio",
         "fala": "Gerente, a Cinemateca é a maior instituição de preservação audiovisual do Brasil. Eles têm clima controlado, restauração técnica... parte de mim quer chorar de alegria ao pensar nas fitas indo para o melhor lugar possível."
       },
-      {
+      { 
         "agente": "ID_Vagner",
         "fala": "R$45.000 pelo lote inteiro é R$225 por título. Qualquer um desses vale o dobro sozinho no mercado de colecionadores. A oferta é honesta, mas não é generosa. A gente pode fazer melhor."
       },
@@ -146,7 +154,7 @@
       }
     ],
     "opcoes": [
-      {
+      { 
         "id_opcao": "B7",
         "foco": "Aceitar a Oferta / Preservação Garantida",
         "argumento_gerente": "Maurício, aceita. R$45k garante o caixa e as fitas ficam nas melhores mãos possíveis — melhor lugar do mundo para elas. A locadora não é um museu, somos um negócio. Com o caixa, abrimos a próxima fase.",
@@ -161,20 +169,20 @@
       },
       {
         "id_opcao": "B8",
-        "foco": "Venda Parcial / Preservar o Núcleo",
+        "foco": "Venda Parcial / Preservar o Núcleo", 
         "argumento_gerente": "Vagner, contra-proposta: vendemos o segundo exemplar de cada título e as obras sem raridade por R$20k. Os 80 títulos únicos ficam aqui como âncora do acervo. A Cinemateca fica com o que precisa para o arquivo, a gente fica com a alma do negócio.",
         "treplica": "(Maurício alivia) 'Salvar o núcleo. Sabedoria.' (Vagner calcula) 'R$20k imediato e mantemos os ativos mais valiosos. A lógica fecha.'",
         "impactos": {
           "caixa": 20,
           "tracao": 10,
           "acervo": 10,
-          "stress": 0,
+          "stress": 15,
           "moral_equipe": 10
         }
       },
       {
         "id_opcao": "B9",
-        "foco": "Comodato Cultural / Parceria de Longo Prazo",
+        "foco": "Comodato Cultural / Parceria de Longo Prazo", 
         "argumento_gerente": "Eu não vendo: proponho comodato por 5 anos. As fitas ficam com a Cinemateca para exibição e preservação, mas o acervo continua sendo nosso. A gente ganha o selo de 'Parceiro Oficial da Cinemateca' e toda cobertura de imprensa sem ceder nada definitivamente.",
         "treplica": "(Leila já está redigindo o comunicado) 'Parceiro oficial da Cinemateca Brasileira — isso é nosso currículo para sempre!' (Maurício concorda) 'As fitas preservadas e o nome na história. Perfeito.' (Vagner) 'Sem caixa imediato, mas o retorno em marca é real.'",
         "impactos": {
@@ -187,10 +195,10 @@
       }
     ],
     "agente_foco": "ID_Mauricio"
-  },
+  }, 
   {
     "id": "evento_receita_federal_2026",
-    "gatilho_rota": "B",
+    "gatilho_rota": "B", 
     "ano": 2026,
     "titulo": "O Leão Bateu na Porta",
     "contexto_ia": "Uma carta da Receita Federal chegou. Os R$280.000 em vendas de mídias analógicas do último ano nunca não conseguimos declarar a tempo como receita empresarial. O contador contratado às pressas descobriu que a locadora deve R$18.000 entre IR e contribuições. Vagner está Roxo.",
@@ -205,7 +213,7 @@
       },
       {
         "agente": "ID_Mauricio",
-        "fala": "Vocês venderam minha coleção em leilão global e não conseguimos pagar impostos a tempo? Gerente, me diz que a gente não vai ser presa por causa de uma fita do Fellini."
+        "fala": "Vocês venderam minha coleção em leilão global e não conseguimos pagar impostos a tempo? Gerente, me diz que a gente não vai ser presa por causa de uma fita do Fellini." 
       }
     ],
     "opcoes": [

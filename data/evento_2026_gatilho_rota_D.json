@@ -165,10 +165,10 @@
         "argumento_gerente": "Leila estava certa. Convida o Dr. Hélio para uma noite privada antes da sexta — sarau com poesia e jazz baixinho. Ele conhece o espaço, vê que somos culturais e não baderneiros. Talvez retire a queixa antes do evento.",
         "treplica": "(Leila já está no celular) 'Dr. Hélio confirmou. Vai quinta às 19h com a esposa.' (Maurício sorri) 'Conquistamos o inimigo com cultura. Isso sim é estratégia elegante.'",
         "impactos": {
-          "caixa": -2,
+          "caixa": -3,
           "tracao": 15,
           "acervo": 5,
-          "stress": -15,
+          "stress": 15,
           "moral_equipe": 15
         }
       },
@@ -228,10 +228,10 @@
         "argumento_gerente": "Leila, fala pra Karla que não retiramos, mas resignificamos. As prateleiras de VHS ficam e se tornam parte da cenografia da premiere — a maior diretora do cinema brasileiro homenageando as fitas que formaram uma geração. Isso é narrativa melhor do que um espaço vazio.",
         "treplica": "(Leila negocia) 'Ela adorou a ideia. Quer botar um texto de parede: Cinema que formou uma geração.' (Maurício chora discretamente) 'Você ganhou R$8.000 e me fez chorar. Gerente, você é extraordinário.'",
         "impactos": {
-          "caixa": 8,
+          "caixa": 6,
           "tracao": 30,
           "acervo": 10,
-          "stress": 10,
+          "stress": 25,
           "moral_equipe": 15
         }
       },

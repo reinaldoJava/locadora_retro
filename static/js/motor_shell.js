@@ -10,7 +10,7 @@
 //   window.fadeOutMusic, window.skipCurrentTyping
 
 import {
-    tocarClick, destravarAudioGlobal, playAudio, fadeOutMusic
+    tocarClick, destravarAudioGlobal, playAudio, fadeOutMusic, muteAllPlayers
 } from './audio_utils.js';
 
 import {
@@ -32,10 +32,11 @@ const uiActionMap = {
 // Injeta referencia reversa em ui_effects para postTypingCommand
 setUiActionMap(uiActionMap);
 
-// Expoe no escopo global para uso em hx-on:click dos templates HTML
+// Expoe no escopo global para uso em hx-on:click e onclick dos templates HTML
 // (ES modules nao expõem imports automaticamente ao window)
 window.fadeOutMusic      = fadeOutMusic;
 window.skipCurrentTyping = skipCurrentTyping;
+window.toggleMute        = toggleMute;
 
 // ---------------------------------------------------------------------------
 // Dispatcher central de HX-Trigger
@@ -154,7 +155,8 @@ document.body.addEventListener('htmx:afterSwap', (evt) => {
         // typeText e showElementById recebem args como objeto nomeado
         if (cmd.action === 'typeText' && cmd.args && !Array.isArray(cmd.args)) {
             fn(cmd.args.elementId, cmd.args.fullText, cmd.args.speed,
-               cmd.args.playTypingSounds, cmd.args.postTypingCommand);
+               cmd.args.playTypingSounds, cmd.args.postTypingCommand,
+               cmd.args.typingVolume ?? 0.4);
         } else if (cmd.action === 'showElementById' && cmd.args && !Array.isArray(cmd.args)) {
             fn(cmd.args.elementId);
         } else {
@@ -252,17 +254,20 @@ function toggleMute() {
     const isMuted = btn.getAttribute('data-muted') === 'true';
     const newState = !isMuted;
 
-    // Atualiza o estado no atributo e o ícone
+    // Atualiza estado no atributo e ícone
     btn.setAttribute('data-muted', newState);
     btn.innerHTML = newState ? '🔇' : '🔊';
 
-    // Silencia todos os elementos de áudio e vídeo existentes no DOM
+    // Salva preferência global — consultada por tocarClick, tocarSomDeTecla e playAudio
+    window.gameMuted = newState;
+
+    // Silencia elementos de áudio/vídeo no DOM
     document.querySelectorAll('audio, video').forEach(el => {
         el.muted = newState;
     });
 
-    // Salva a preferência para novos elementos que forem criados dinamicamente
-    window.gameMuted = newState;
+    // Silencia players registrados em _audioPlayers (fora do DOM)
+    muteAllPlayers(newState);
 }
 
 // Observador para mutar novos áudios que entrarem via HTMX
