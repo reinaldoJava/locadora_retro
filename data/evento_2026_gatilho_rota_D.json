@@ -3,6 +3,7 @@
     "id": "evento_cine_pub",
     "gatilho_rota": "D",
     "ano": 2026,
+    "agente_foco": "ID_Mauricio",
     "titulo": "A Crise da Infraestrutura",
     "contexto_ia": "A loja vai virar um Cine-Pub. O gerente precisa decidir qual será a 'pegada' do bar para equilibrar os custos da reforma, o volume do som e a fúria purista do curador do acervo.",
     "dialogos_iniciais": [
@@ -19,53 +20,53 @@
         "fala": "E reforma custa dinheiro! Alvará, banda... A gente acordou no futuro falido, como banca uma casa de shows?"
       }
     ],
-    "opcoes": [
+    "rotas_principais": [
       {
-        "id_opcao": "D1",
-        "foco": "Cine-Clube / Foco Intelectual",
-        "argumento_gerente": "Pub intimista, trilha sonora só no vinil. Vamos vender ingressos premium para debates com críticos de cinema. Custo de reforma baixo, lucramos na bilheteria de alto ticket.",
-        "treplica": "(Maurício se emociona) 'Um oásis intelectual. Isso é a consagração.' (Vagner anota) 'Ticket alto, público que não quebra copos. Perfeito.'",
-        "impactos": {
+        "id_rota": "D1",
+        "nome": "Cine-Clube / Foco Intelectual",
+        "fala_gerente": "Pub intimista, trilha sonora só no vinil. Vamos vender ingressos premium para debates com críticos de cinema. Custo de reforma baixo, lucramos na bilheteria de alto ticket.",
+        "impacto": {
           "caixa": 2,
           "acervo": 40,
           "stress": -10,
           "tracao": 10,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "D2",
-        "foco": "Festa MTV Unplugged / Volume",
-        "argumento_gerente": "O foco é na banda. Sexta acústica com filmes clássicos mudos nas TVs. A gente ganha na cerveja artesanal para muita gente. Vagner, a gente faz vaquinha na internet vendendo ingresso antes pra bancar a reforma.",
-        "treplica": "(Vagner coça o queixo) 'Arriscado, mas recupera o caixa na primeira noite.' (Leila vibra) 'Vou lotar essa rua postando a programação!'",
-        "impactos": {
+        "id_rota": "D2",
+        "nome": "Festa MTV Unplugged / Volume",
+        "fala_gerente": "O foco é na banda. Sexta acústica com filmes clássicos mudos nas TVs. A gente ganha na cerveja artesanal para muita gente. Vagner, a gente faz vaquinha na internet vendendo ingresso antes pra bancar a reforma.",
+        "impacto": {
           "caixa": 8,
           "acervo": -30,
           "stress": 40,
           "tracao": 40,
           "moral_equipe": -5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "D3",
-        "foco": "Hub de Criação / B2B Influenciadores",
-        "argumento_gerente": "Alugamos o Cine-Pub de segunda a quinta como cenário para podcasters. Eles pagam a diária. Fim de semana, abrimos para o 'Clube de Membros' com ingressos fixos.",
-        "treplica": "(Leila concorda) 'B2B garante o dinheiro fixo e faz propaganda de graça!' (Maurício pontua) 'E os tesouros ficam guardados para os verdadeiros assinantes.'",
-        "impactos": {
+        "id_rota": "D3",
+        "nome": "Hub de Criação / B2B Influenciadores",
+        "fala_gerente": "Alugamos o Cine-Pub de segunda a quinta como cenário para podcasters. Eles pagam a diária. Fim de semana, abrimos para o 'Clube de Membros' com ingressos fixos.",
+        "impacto": {
           "caixa": 5,
           "acervo": 10,
           "stress": 10,
           "tracao": 20,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Mauricio"
+    ]
   },
   {
     "id": "evento_crise_banda_2026",
     "gatilho_rota": "D",
     "ano": 2026,
+    "agente_foco": "ID_Leila",
     "titulo": "A Noite de Abertura Sem Banda",
     "contexto_ia": "A noite de abertura do Cine-Pub está chegando e a banda Dream Dreamcast cancelou tudo por mensagem de áudio duas horas atrás. A casa está lotada no pré-venda. Alguém precisa tocar.",
     "dialogos_iniciais": [
@@ -82,53 +83,53 @@
         "fala": "Gente, eu preciso de uma resposta agora. Tem 80 pessoas chegando em três horas e eu não posso devolver ingresso. Alguém decide ou eu coloco o rádio do escritório no volume máximo."
       }
     ],
-    "opcoes": [
+    "rotas_principais": [
       {
-        "id_opcao": "D4",
-        "foco": "DJ Trash 80 / Custo Baixo",
-        "argumento_gerente": "Leila, chama o Trash 80. R$ 400 contra R$ 1.800 é uma escolha fácil com a casa lotada. A gente usa a economia para abrir barra livre na primeira hora e cria o buzz na internet. O público vem pelo Cine-Pub, não pela banda.",
-        "treplica": "(Vagner respira) 'Barra livre na primeira hora vai virar post. Decisão certa.' (Maurício torce o nariz) 'Desde que o volume não passe de 70 decibéis perto do acervo.'",
-        "impactos": {
+        "id_rota": "D4",
+        "nome": "DJ Trash 80 / Custo Baixo",
+        "fala_gerente": "Leila, chama o Trash 80. R$ 400 contra R$ 1.800 é uma escolha fácil com a casa lotada. A gente usa a economia para abrir barra livre na primeira hora e cria o buzz na internet. O público vem pelo Cine-Pub, não pela banda.",
+        "impacto": {
           "caixa": 5,
           "acervo": 0,
           "stress": -10,
           "tracao": 20,
           "moral_equipe": 0
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "D5",
-        "foco": "The Sluggs / Autenticidade Anos 90",
-        "argumento_gerente": "Maurício, fecha com o The Sluggs. R$ 1.800 é o preço de ter credibilidade. Rock alternativo dos anos 90 é exatamente a proposta do Cine-Pub. Se a casa vier abaixo, vira lenda. Isso não tem preço em marketing.",
-        "treplica": "(Leila filma tudo) 'Já tô postando o line-up. A fila vai dobrar o quarteirão.' (Maurício) 'Finalmente, música com intenção. Trago meus LPs para tocar no intervalo.'",
-        "impactos": {
+        "id_rota": "D5",
+        "nome": "The Sluggs / Autenticidade Anos 90",
+        "fala_gerente": "Maurício, fecha com o The Sluggs. R$ 1.800 é o preço de ter credibilidade. Rock alternativo dos anos 90 é exatamente a proposta do Cine-Pub. Se a casa vier abaixo, vira lenda. Isso não tem preço em marketing.",
+        "impacto": {
           "caixa": -2,
           "acervo": 0,
           "stress": 30,
           "tracao": 50,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "D6",
-        "foco": "Maurício no Comando / Sessão Comentada",
-        "argumento_gerente": "Cancela os dois. Maurício, você vai sentar na frente da tela, ligar o toca-disco e narrar a sessão ao vivo. Cine-Clube de emergência. Transforma o problema em conteúdo: 'A noite em que a banda não veio e foi a melhor noite da história.'",
-        "treplica": "(Maurício endireita a postura) 'Um comentarista cinematográfico ao vivo. Sempre sonhei.' (Vagner sussurra pra Leila) 'Filma tudo. Isso vai virar série.'",
-        "impactos": {
+        "id_rota": "D6",
+        "nome": "Maurício no Comando / Sessão Comentada",
+        "fala_gerente": "Cancela os dois. Maurício, você vai sentar na frente da tela, ligar o toca-disco e narrar a sessão ao vivo. Cine-Clube de emergência. Transforma o problema em conteúdo: 'A noite em que a banda não veio e foi a melhor noite da história.'",
+        "impacto": {
           "caixa": 2,
           "acervo": 20,
           "stress": -20,
           "tracao": 30,
           "moral_equipe": 15
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Leila"
+    ]
   },
   {
     "id": "evento_licenca_prefeitura_2026",
     "gatilho_rota": "D",
     "ano": 2026,
+    "agente_foco": "ID_Vagner",
     "titulo": "Alvará em Risco",
     "contexto_ia": "O cartório vizinho formalizou queixa na prefeitura por perturbação do sossego. O fiscal veio na segunda-feira, mediu o som e emitiu notificação: se houver mais de 75 decibéis no próximo evento, o alvará do Cine-Pub é suspenso por 30 dias. The Sluggs está confirmado para sexta.",
     "dialogos_iniciais": [
@@ -145,53 +146,53 @@
         "fala": "Tenho o contato do Dr. Hélio, dono do cartório. É um homem de 55 anos — vi o perfil dele no Zinta, ele posta foto em sarau de poesia toda semana. Ele não é inimigo do Cine-Pub, ele é inimigo do barulho."
       }
     ],
-    "opcoes": [
+    "rotas_principais": [
       {
-        "id_opcao": "D7",
-        "foco": "Isolamento Acústico Emergencial",
-        "argumento_gerente": "Vagner, contrata o instalador de painel acústico hoje. R$4.000 para cobrir paredes do fundo e o teto. Não resolve tudo, mas baixa de 90 para 78 decibéis. Dentro do limite. O Sluggs toca sexta e o fiscal pode vir quando quiser.",
-        "treplica": "(Vagner) 'R$4k agora para não perder 30 dias de receita. A conta fecha a favor do isolamento.' (Maurício) 'E com o acústico melhor, o som nas sessões de filme também vai melhorar. Aprovado.'",
-        "impactos": {
+        "id_rota": "D7",
+        "nome": "Isolamento Acústico Emergencial",
+        "fala_gerente": "Vagner, contrata o instalador de painel acústico hoje. R$4.000 para cobrir paredes do fundo e o teto. Não resolve tudo, mas baixa de 90 para 78 decibéis. Dentro do limite. O Sluggs toca sexta e o fiscal pode vir quando quiser.",
+        "impacto": {
           "caixa": -8,
           "tracao": 20,
           "acervo": 0,
           "stress": 15,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "D8",
-        "foco": "Diplomacia com o Vizinho / Sarau Privado",
-        "argumento_gerente": "Leila estava certa. Convida o Dr. Hélio para uma noite privada antes da sexta — sarau com poesia e jazz baixinho. Ele conhece o espaço, vê que somos culturais e não baderneiros. Talvez retire a queixa antes do evento.",
-        "treplica": "(Leila já está no celular) 'Dr. Hélio confirmou. Vai quinta às 19h com a esposa.' (Maurício sorri) 'Conquistamos o inimigo com cultura. Isso sim é estratégia elegante.'",
-        "impactos": {
-          "caixa": -2,
+        "id_rota": "D8",
+        "nome": "Diplomacia com o Vizinho / Sarau Privado",
+        "fala_gerente": "Leila estava certa. Convida o Dr. Hélio para uma noite privada antes da sexta — sarau com poesia e jazz baixinho. Ele conhece o espaço, vê que somos culturais e não baderneiros. Talvez retire a queixa antes do evento.",
+        "impacto": {
+          "caixa": -3,
           "tracao": 15,
           "acervo": 5,
-          "stress": -15,
+          "stress": 15,
           "moral_equipe": 15
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "D9",
-        "foco": "Temporada Intimista / Redução Preventiva",
-        "argumento_gerente": "Por este mês, eventos acústicos. Leila, posta como 'Temporada Intimista do Cine-Pub'. Sem banda — sessão comentada com trilha sonora no vinil. Quando o alvará estiver seguro, retomamos o formato original. Prudência não é derrota.",
-        "treplica": "(Leila redesenha o post) 'Temporada Intimista — o Cine-Pub em modo silencioso.' (Maurício) 'Honestamente? Vinil e filme é melhor do que banda às vezes.' (Vagner) 'Menos receita agora, alvará garantido. Aceito.'",
-        "impactos": {
+        "id_rota": "D9",
+        "nome": "Temporada Intimista / Redução Preventiva",
+        "fala_gerente": "Por este mês, eventos acústicos. Leila, posta como 'Temporada Intimista do Cine-Pub'. Sem banda — sessão comentada com trilha sonora no vinil. Quando o alvará estiver seguro, retomamos o formato original. Prudência não é derrota.",
+        "impacto": {
           "caixa": -5,
           "tracao": 5,
           "acervo": 10,
           "stress": -20,
           "moral_equipe": 0
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Vagner"
+    ]
   },
   {
     "id": "evento_diretora_cinepub_2026",
     "gatilho_rota": "D",
     "ano": 2026,
+    "agente_foco": "ID_Mauricio",
     "titulo": "A Premiere que Ninguém Esperava",
     "contexto_ia": "Karla Aiala, diretora que acaba de ganhar o Kikito no Festival de Gramado, quer o Cine-Pub para a premiere do seu novo curta-metragem. R$8.000 por uma noite exclusiva. Condição: 'Preciso do espaço limpo. As prateleiras de VHS na parede atrapalham o conceito visual da minha obra.'",
     "dialogos_iniciais": [
@@ -208,47 +209,46 @@
         "fala": "Chefe, a Karla é a diretora mais falada do Brasil agora. Se a premiere acontecer aqui, cada matéria de cinema do país vai ter o nosso endereço. Só precisamos resolver a questão das prateleiras de um jeito inteligente."
       }
     ],
-    "opcoes": [
+    "rotas_principais": [
       {
-        "id_opcao": "D10",
-        "foco": "Aceitar as Condições / Desmonte Temporário",
-        "argumento_gerente": "Maurício, as prateleiras voltam no dia seguinte. São móveis, não são paredes. R$8.000 e cobertura nacional por uma noite de adaptação. Corações não param de bater quando a gente tira uma tapeçaria temporária.",
-        "treplica": "(Vagner assina rindo) 'Oito mil. Eu mesmo ajudo a mover as prateleiras.' (Maurício fica parado) 'Eu vou supervisionar o desmonte. Pessoalmente. E a remontagem. Também pessoalmente.'",
-        "impactos": {
+        "id_rota": "D10",
+        "nome": "Aceitar as Condições / Desmonte Temporário",
+        "fala_gerente": "Maurício, as prateleiras voltam no dia seguinte. São móveis, não são paredes. R$8.000 e cobertura nacional por uma noite de adaptação. Corações não param de bater quando a gente tira uma tapeçaria temporária.",
+        "impacto": {
           "caixa": 8,
           "tracao": 25,
           "acervo": -5,
           "stress": 20,
           "moral_equipe": -5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "D11",
-        "foco": "Negociar / As Prateleiras Ficam e Viram Cenografia",
-        "argumento_gerente": "Leila, fala pra Karla que não retiramos, mas resignificamos. As prateleiras de VHS ficam e se tornam parte da cenografia da premiere — a maior diretora do cinema brasileiro homenageando as fitas que formaram uma geração. Isso é narrativa melhor do que um espaço vazio.",
-        "treplica": "(Leila negocia) 'Ela adorou a ideia. Quer botar um texto de parede: Cinema que formou uma geração.' (Maurício chora discretamente) 'Você ganhou R$8.000 e me fez chorar. Gerente, você é extraordinário.'",
-        "impactos": {
-          "caixa": 8,
+        "id_rota": "D11",
+        "nome": "Negociar / As Prateleiras Ficam e Viram Cenografia",
+        "fala_gerente": "Leila, fala pra Karla que não retiramos, mas resignificamos. As prateleiras de VHS ficam e se tornam parte da cenografia da premiere — a maior diretora do cinema brasileiro homenageando as fitas que formaram uma geração. Isso é narrativa melhor do que um espaço vazio.",
+        "impacto": {
+          "caixa": 6,
           "tracao": 30,
           "acervo": 10,
-          "stress": 10,
+          "stress": 25,
           "moral_equipe": 15
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "D12",
-        "foco": "Recusar e Propor Co-Autoria",
-        "argumento_gerente": "Não abrimos mão da identidade por aluguel, nem por R$8.000. Leila, propõe uma noite co-assinada — 'Cine-Pub convida Karla Aiala'. Ela apresenta o curta, a gente faz a curadoria do programa, dividimos a bilheteria. Parceria com autoria, não cessão de espaço.",
-        "treplica": "(Leila manda a mensagem) 'Ela quer saber quanto fica a bilheteria dela.' (Vagner) 'Se encher a casa: R$5k para ela, R$3k pra gente mais o bar. Todos ganham.' (Maurício) 'E o VHS fica. Aceito com honra.'",
-        "impactos": {
+        "id_rota": "D12",
+        "nome": "Recusar e Propor Co-Autoria",
+        "fala_gerente": "Não abrimos mão da identidade por aluguel, nem por R$8.000. Leila, propõe uma noite co-assinada — 'Cine-Pub convida Karla Aiala'. Ela apresenta o curta, a gente faz a curadoria do programa, dividimos a bilheteria. Parceria com autoria, não cessão de espaço.",
+        "impacto": {
           "caixa": 5,
           "tracao": 20,
           "acervo": 10,
           "stress": 5,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Mauricio"
+    ]
   }
 ]

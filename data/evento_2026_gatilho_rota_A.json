@@ -3,6 +3,7 @@
     "id": "evento_malu2000",
     "gatilho_rota": "A",
     "ano": 2026,
+    "agente_foco": "ID_Mauricio",
     "titulo": "A Proposta Indecente de Malu2000",
     "contexto_ia": "A fama estética da locadora atrai uma mega influenciadora. Ela oferece 15 mil reais no pix para descaracterizar a loja (pintar de rosa e destruir fitas) para gravar um clipe. O gerente precisa escolher entre o dinheiro rápido, a preservação do status cult, ou uma gambiarra cenográfica.",
     "dialogos_iniciais": [
@@ -23,53 +24,53 @@
         "fala": "Herege?! Maurício, tem QUINZE MIL REAIS na nossa frente! Isso paga o aluguel por um ano! Por 15 mil, ela pode pintar a minha cara de rosa e me usar de dominó! Gerente, assina logo isso!"
       }
     ],
-    "opcoes": [
+    "rotas_principais": [
       {
-        "id_opcao": "A3",
-        "foco": "O 'Sell-Out' / Maximização de Caixa",
-        "argumento_gerente": "Vagner, pega o dinheiro. Maurício, vai pro escritório. Se o produto é o cenário, o cliente faz o que quiser. A gente pinta o balcão. Amanhã, com os R$ 15 mil, a gente contrata um marceneiro e volta pra madeira original.",
-        "treplica": "(Maurício sai indignado) 'Vou colocar tapa-olhos.' (Vagner abraça a maleta) 'A alma da empresa sempre foi o fluxo de caixa, Maurício!'",
-        "impactos": {
+        "id_rota": "A3",
+        "nome": "O 'Sell-Out' / Maximização de Caixa",
+        "fala_gerente": "Vagner, pega o dinheiro. Maurício, vai pro escritório. Se o produto é o cenário, o cliente faz o que quiser. A gente pinta o balcão. Amanhã, com os R$ 15 mil, a gente contrata um marceneiro e volta pra madeira original.",
+        "impacto": {
           "caixa": 60,
           "acervo": -40,
           "stress": 10,
           "tracao": 20,
           "moral_equipe": -15
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "A4",
-        "foco": "Preservação do 'Moat' / Recusa Premium",
-        "argumento_gerente": "Pode fechar a maleta. Nós vendemos a cápsula do tempo intacta. Se virarmos um cenário rosa, viramos apenas mais um estúdio genérico. A autenticidade é o que nos torna caros. Ela pode gravar, mas sem tocar num único móvel.",
-        "treplica": "(Leila fala com a influenciadora, que sai bufando) 'Chefe, os seguidores adultos dela estão elogiando a nossa atitude.' (Maurício sorri) 'A arte respira.'",
-        "impactos": {
+        "id_rota": "A4",
+        "nome": "Preservação do 'Moat' / Recusa Premium",
+        "fala_gerente": "Pode fechar a maleta. Nós vendemos a cápsula do tempo intacta. Se virarmos um cenário rosa, viramos apenas mais um estúdio genérico. A autenticidade é o que nos torna caros. Ela pode gravar, mas sem tocar num único móvel.",
+        "impacto": {
           "caixa": 0,
           "acervo": 40,
           "tracao": -20,
           "stress": -10,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "A5",
-        "foco": "A Estratégia do Dublê / Cenografia Inteligente",
-        "argumento_gerente": "Ninguém pinta nada. Leila, compra dez rolos de plástico adesivo rosa. A gente envelopa o balcão e tira amanhã. Maurício, esvazia 500 capinhas de fita ruins. Ela não vai derrubar fitas de verdade, vai derrubar plástico vazio. Entregamos a ilusão.",
-        "treplica": "(Vagner puxa a maleta) 'Gerente, você é um gênio da malandragem. Leila, vai comprar o Contact. Maurício, esvazia as fitas do Rambo 3!'",
-        "impactos": {
+        "id_rota": "A5",
+        "nome": "A Estratégia do Dublê / Cenografia Inteligente",
+        "fala_gerente": "Ninguém pinta nada. Leila, compra dez rolos de plástico adesivo rosa. A gente envelopa o balcão e tira amanhã. Maurício, esvazia 500 capinhas de fita ruins. Ela não vai derrubar fitas de verdade, vai derrubar plástico vazio. Entregamos a ilusão.",
+        "impacto": {
           "caixa": 60,
           "acervo": 10,
           "stress": 30,
           "tracao": 10,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Mauricio"
+    ]
   },
   {
     "id": "evento_feira_geek_2026",
     "gatilho_rota": "A",
     "ano": 2026,
+    "agente_foco": "ID_Vagner",
     "titulo": "O Estande na Maior Feira Geek da América Latina",
     "contexto_ia": "A fama do estúdio abriu uma porta improvável: um convite para montar estande na CCXP — maior feira de entretenimento geek da América Latina, 280 mil visitantes em quatro dias. O investimento é alto e o prazo é curto.",
     "dialogos_iniciais": [
@@ -86,53 +87,53 @@
         "fala": "Estande, frete, hospedagem quatro dias em São Paulo, comida... Isso facilmente passa de R$ 15 mil. A gente tem esse dinheiro disponível? Porque se o estande não pagar, a gente volta falido."
       }
     ],
-    "opcoes": [
+    "rotas_principais": [
       {
-        "id_opcao": "A6",
-        "foco": "Estande Básico / Baixo Risco",
-        "argumento_gerente": "Vamos na versão enxuta. Estande de 6m², um monitor passando os melhores clipes do estúdio, banner impresso e a Leila como vendedora. Investimento de R$ 8.000 com frete. O objetivo é plantar a semente, não lucrar agora.",
-        "treplica": "(Vagner aprova) 'Custo controlado, a gente aprende o terreno. Na próxima edição a gente dobra.' (Leila já está escolhendo a roupa) 'Eu vendo qualquer coisa com aquela tela passando.'",
-        "impactos": {
+        "id_rota": "A6",
+        "nome": "Estande Básico / Baixo Risco",
+        "fala_gerente": "Vamos na versão enxuta. Estande de 6m², um monitor passando os melhores clipes do estúdio, banner impresso e a Leila como vendedora. Investimento de R$ 8.000 com frete. O objetivo é plantar a semente, não lucrar agora.",
+        "impacto": {
           "caixa": -12,
           "acervo": 0,
           "stress": 10,
           "tracao": 30,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "A7",
-        "foco": "Estande Premium / Experiência Imersiva",
-        "argumento_gerente": "Se vamos ir, vamos de vez. Estande de 20m² com cabine de gravação ao vivo e dois assistentes contratados. Investimento de R$ 18.000. O visitante grava um VT dentro do estande e sai com QR Code. Isso viraliza sozinho.",
-        "treplica": "(Maurício) 'Arte interativa ao vivo. Eu aprovo cada centavo.' (Vagner fecha os olhos) 'R$ 18 mil é aposta alta. Mas se viralizar metade do que você tá prometendo, vale.'",
-        "impactos": {
+        "id_rota": "A7",
+        "nome": "Estande Premium / Experiência Imersiva",
+        "fala_gerente": "Se vamos ir, vamos de vez. Estande de 20m² com cabine de gravação ao vivo e dois assistentes contratados. Investimento de R$ 18.000. O visitante grava um VT dentro do estande e sai com QR Code. Isso viraliza sozinho.",
+        "impacto": {
           "caixa": -32,
           "acervo": 0,
           "stress": 40,
           "tracao": 80,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "A8",
-        "foco": "Parceria com Marca Retrô / Custo Compartilhado",
-        "argumento_gerente": "Já conversei com a Kodak Vintage Brasil — eles querem marcar presença na CCXP mas não têm conceito. A gente entra com o estúdio, eles entram com R$ 10.000 de patrocínio. Saímos com lucro líquido e a marca deles nos credencia na frente de 280 mil pessoas.",
-        "treplica": "(Vagner bate na mesa) 'Patrocinador paga pra aparecer com a gente? Isso é o sonho de consumo.' (Leila) 'A Kodak nos valida. Fechado, chefe.'",
-        "impactos": {
+        "id_rota": "A8",
+        "nome": "Parceria com Marca Retrô / Custo Compartilhado",
+        "fala_gerente": "Já conversei com a Kodak Vintage Brasil — eles querem marcar presença na CCXP mas não têm conceito. A gente entra com o estúdio, eles entram com R$ 10.000 de patrocínio. Saímos com lucro líquido e a marca deles nos credencia na frente de 280 mil pessoas.",
+        "impacto": {
           "caixa": 16,
           "acervo": 0,
           "stress": 20,
           "tracao": 60,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Vagner"
+    ]
   },
   {
     "id": "evento_streaming_oferta_2026",
     "gatilho_rota": "A",
     "ano": 2026,
+    "agente_foco": "ID_Leila",
     "titulo": "A Alma à Venda",
     "contexto_ia": "A plataforma ZetLix Originals oferece R$50.000 para licenciar a marca e a estética da locadora por 6 meses para uma série original. Seriam a grife do show. Mas o contrato de exclusividade proíbe qualquer produção própria durante o período. A equipe está dividida sobre vender a identidade que levaram anos para construir.",
     "dialogos_iniciais": [
@@ -149,53 +150,53 @@
         "fala": "Cinquenta mil entram hoje, mas seis meses sem produzir é seis meses sem crescer. Preciso calcular quanto deixamos de ganhar parados antes de assinar qualquer coisa."
       }
     ],
-    "opcoes": [
+    "rotas_principais": [
       {
-        "id_opcao": "A9",
-        "foco": "Licenciar a Marca / Maximizar Caixa",
-        "argumento_gerente": "Vagner, assina. R$50k é capital para investir quando o contrato acabar. Seis meses parado é seis meses aprimorando equipamentos e formando equipe nova. Saímos mais fortes, não mais fracos.",
-        "treplica": "(Vagner assina) 'Dinheiro no caixa. Eu respiro.' (Maurício sai em silêncio) 'Quando vocês terminarem de vender nossa identidade, me avisem.'",
-        "impactos": {
+        "id_rota": "A9",
+        "nome": "Licenciar a Marca / Maximizar Caixa",
+        "fala_gerente": "Vagner, assina. R$50k é capital para investir quando o contrato acabar. Seis meses parado é seis meses aprimorando equipamentos e formando equipe nova. Saímos mais fortes, não mais fracos.",
+        "impacto": {
           "caixa": 50,
           "tracao": 20,
           "acervo": -10,
           "stress": 10,
           "moral_equipe": -15
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "A10",
-        "foco": "Contra-Proposta / Licença Não Exclusiva",
-        "argumento_gerente": "Leila, liga pra eles. Aceito R$28k pela licença, mas sem exclusividade. A gente segue produzindo pelo nosso canal enquanto somos a grife da série deles. Autenticidade não se vende com cláusula de servidão.",
-        "treplica": "(Leila negocia no celular) 'Eles aceitaram R$28k, sem exclusividade!' (Maurício respira fundo) 'Minha consciência sobreviveu ao capitalismo hoje.' (Vagner) 'Menos dinheiro, mas continuamos rodando. Inteligente.'",
-        "impactos": {
+        "id_rota": "A10",
+        "nome": "Contra-Proposta / Licença Não Exclusiva",
+        "fala_gerente": "Leila, liga pra eles. Aceito R$28k pela licença, mas sem exclusividade. A gente segue produzindo pelo nosso canal enquanto somos a grife da série deles. Autenticidade não se vende com cláusula de servidão.",
+        "impacto": {
           "caixa": 28,
           "tracao": 10,
           "acervo": 0,
           "stress": 5,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "A11",
-        "foco": "Recusa / Produzir a Própria Série",
-        "argumento_gerente": "Recusa. Se a ZetLix quer a nossa estética para a série deles, significa que temos algo que eles não têm: autenticidade. Maurício, vamos produzir a nossa própria série — 8 episódios documentando a história da locadora. A gente não vira grife deles, a gente vira concorrente.",
-        "treplica": "(Leila surta de felicidade) 'A gente como CONCORRENTE da ZetLix?!' (Maurício levanta) 'Isso é loucura. Mas é a nossa loucura. Eu topo.' (Vagner pega o bloco) 'Me diz quanto isso custa.'",
-        "impactos": {
+        "id_rota": "A11",
+        "nome": "Recusa / Produzir a Própria Série",
+        "fala_gerente": "Recusa. Se a ZetLix quer a nossa estética para a série deles, significa que temos algo que eles não têm: autenticidade. Maurício, vamos produzir a nossa própria série — 8 episódios documentando a história da locadora. A gente não vira grife deles, a gente vira concorrente.",
+        "impacto": {
           "caixa": -15,
           "tracao": 30,
           "acervo": 20,
           "stress": 25,
           "moral_equipe": 15
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Leila"
+    ]
   },
   {
     "id": "evento_angel_investor_2026",
     "gatilho_rota": "A",
     "ano": 2026,
+    "agente_foco": "ID_Vagner",
     "titulo": "O Dinheiro com Endereço",
     "contexto_ia": "Um empreendedor tech de 34 anos chegou com proposta formal: R$100.000 de investimento por 30% de equity. O plano dele: transformar a locadora em franquia e abrir dez unidades em cinco anos. A equipe está em choque — cada um processando o que 'escalar' significa para o que construíram.",
     "dialogos_iniciais": [
@@ -212,47 +213,46 @@
         "fala": "Franquia. Franquia! Como se locadora fosse McDonald's! Cada unidade vai ter um gerente que nunca assistiu Tarkovsky e vai colocar Rotação Máxima (The Chase) na sessão cult. Dinheiro de investidor não compra bom gosto."
       }
     ],
-    "opcoes": [
+    "rotas_principais": [
       {
-        "id_opcao": "A12",
-        "foco": "Aceitar / Escala Agressiva",
-        "argumento_gerente": "Vagner, assina o cheque. R$100k e um sócio com expertise em expansão é exatamente o que precisamos para transformar o conceito em movimento nacional. Maurício, cada franquia vai ter um curador local. A alma escala se a gente cuida do processo.",
-        "treplica": "(Vagner assina com cautela) 'Dinheiro com endereço. Vamos ver.' (Maurício) 'Quando a primeira franquia colocar Transformers na sessão cult, me lembre desse momento.' (Leila já está desenhando o mapa.)",
-        "impactos": {
+        "id_rota": "A12",
+        "nome": "Aceitar / Escala Agressiva",
+        "fala_gerente": "Vagner, assina o cheque. R$100k e um sócio com expertise em expansão é exatamente o que precisamos para transformar o conceito em movimento nacional. Maurício, cada franquia vai ter um curador local. A alma escala se a gente cuida do processo.",
+        "impacto": {
           "caixa": 60,
           "tracao": 30,
           "acervo": -10,
           "stress": 40,
           "moral_equipe": -10
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "A13",
-        "foco": "Contra-Proposta / Menor Stake",
-        "argumento_gerente": "Vagner, contra-proposta: R$50k por 15% de equity e direito de voto apenas em decisões acima de R$30k. Ele entra como parceiro menor, não como co-fundador. Se quiser os 30%, que espere a próxima rodada quando a locadora tiver três unidades provadas.",
-        "treplica": "(Vagner) 'Diluição controlada. Gosto.' (O investidor aceita após negociação) 'Fechado em R$45k por 15%.' (Maurício) 'Pelo menos não perdemos o controle da programação. Por enquanto.'",
-        "impactos": {
+        "id_rota": "A13",
+        "nome": "Contra-Proposta / Menor Stake",
+        "fala_gerente": "Vagner, contra-proposta: R$50k por 15% de equity e direito de voto apenas em decisões acima de R$30k. Ele entra como parceiro menor, não como co-fundador. Se quiser os 30%, que espere a próxima rodada quando a locadora tiver três unidades provadas.",
+        "impacto": {
           "caixa": 30,
           "tracao": 15,
           "acervo": 0,
           "stress": 20,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "A14",
-        "foco": "Recusa / Independência Total",
-        "argumento_gerente": "Agradeço a visita, mas não. O que temos não é um produto para franquear, é uma cultura que levamos 27 anos construindo. Com dinheiro externo vem agenda externa. Vamos crescer no nosso ritmo, com nosso dinheiro e nossa lógica.",
-        "treplica": "(Vagner fecha os olhos e respira) 'Recusar R$100k vai doer amanhã de manhã.' (Maurício fica de pé) 'A única decisão correta que tomamos hoje.' (Leila) 'Tudo bem. A gente faz sozinho. Sempre fizemos.'",
-        "impactos": {
+        "id_rota": "A14",
+        "nome": "Recusa / Independência Total",
+        "fala_gerente": "Agradeço a visita, mas não. O que temos não é um produto para franquear, é uma cultura que levamos 27 anos construindo. Com dinheiro externo vem agenda externa. Vamos crescer no nosso ritmo, com nosso dinheiro e nossa lógica.",
+        "impacto": {
           "caixa": 0,
           "tracao": 10,
           "acervo": 20,
           "stress": -15,
           "moral_equipe": 15
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Vagner"
+    ]
   }
 ]

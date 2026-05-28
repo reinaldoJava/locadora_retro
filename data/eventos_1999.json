@@ -20,7 +20,8 @@
             "argumento_gerente": "Se não cobrarmos, ela vai contar no bairro. O custo do mau precedente destrói nossa autoridade. Em um mês, ninguém mais respeita o prazo e perdemos o controle do estoque de lançamentos.",
             "resolucao_vagner": "Você tem um ponto. Ordem na casa. Vai lá e cobra, mas seja educado. Se ela não voltar mês que vem, a responsabilidade é sua.",
             "impacto": {
-              "caixa": 15,
+              "curador_nome": "Maurício",
+			  "caixa": 15,
               "tracao": -15,
               "acervo": 0,
               "stress": -5
@@ -33,7 +34,8 @@
             "argumento_gerente": "Vagner, o boleto do fornecedor de fitas vence hoje. Eu não pago boleto com 'fidelidade', eu pago com dinheiro em caixa. Precisamos dessa liquidez agora.",
             "resolucao_vagner": "Visão de curto prazo, mas não posso negar que a corda tá no pescoço. Pega o dinheiro. Mas temos que achar outro jeito de fazer caixa.",
             "impacto": {
-              "caixa": 30,
+              "curador_nome": "Maurício",
+			  "caixa": 30,
               "tracao": -30,
               "acervo": 0,
               "stress": 0,
@@ -56,7 +58,8 @@
             "argumento_gerente": "O LTV dela é de R$ 600 ao ano. Perdoar R$ 15 é um Custo de Retenção de apenas 2,4%. É mais barato perdoar a multa do que gastar com panfleto pra atrair um cliente novo.",
             "resolucao_vagner": "Custo de retenção... gostei do termo técnico. Tá bom. Mas avisa a ela que é uma 'falha a favor dela no sistema', senão ela se acostuma mal.",
             "impacto": {
-              "caixa": -15,
+              "curador_nome": "Maurício",
+			  "caixa": -15,
               "tracao": 25,
               "acervo": 0,
               "stress": 0,
@@ -70,7 +73,8 @@
             "argumento_gerente": "Ela é a presidente da associação do bairro. Se a gente perdoar, ela vai falar bem da gente pra vizinhança inteira. Estamos comprando publicidade boca a boca por R$ 15.",
             "resolucao_vagner": "Jogada política. Você tá usando a mulher de outdoor. Inteligente. Libera a fita dela.",
             "impacto": {
-              "caixa": -15,
+              "curador_nome": "Maurício",
+			  "caixa": -15,
               "tracao": 15,
               "acervo": 0,
               "stress": -10
@@ -92,7 +96,8 @@
             "argumento_gerente": "A pipoca vence em 10 dias, é custo afundado. E os filmes de catálogo estão parados pegando poeira. Transformei um prejuízo duplo num caixa de R$ 20.",
             "resolucao_vagner": "Limpando o estoque velho para cobrir o buraco da multa. O pessoal da contabilidade vai chorar pra fechar essa nota, mas o caixa vai sorrir. Executa.",
             "impacto": {
-              "caixa": 20,
+              "curador_nome": "Maurício",
+			  "caixa": 20,
               "tracao": 10,
               "acervo": 15,
               "stress": 0
@@ -105,7 +110,8 @@
             "argumento_gerente": "Ela vai sair achando que 'ganhou' o perdão, mas gastou R$ 5 a mais do que a multa original. Aumentamos o ticket médio e ela ainda sai feliz. É o Paradoxo da Escolha.",
             "resolucao_vagner": "Rapaz, você me assusta às vezes. Ela vai pagar mais caro e sair agradecendo. Vai logo pro balcão antes que eu mude de ideia.",
             "impacto": {
-              "caixa": 15,
+              "curador_nome": "Maurício",
+			  "caixa": 15,
               "tracao": 20,
               "acervo": 0,
               "stress": -10
@@ -160,16 +166,16 @@
       {
         "id_rota": "B",
         "nome": "A Cauda Longa (5 Matrix + 75 Fitas de Catálogo Clássico)",
-        "temp_replica": 0.4,
+        "temp_replica": 0.4, 
         "fala_gerente": "Vamos comprar só 5 do Matrix e usar os R$ 1.500 restantes para comprar 75 fitas de filmes de catálogo e clássicos que custam R$ 20 cada.",
-        "pushback_vagner": "O telefone não vai parar de tocar pedindo o lançamento! A gente vai ter uma fila de espera de 30 pessoas e os clientes vão xingar o Maurício no balcão. Por que eu gastaria dinheiro com filme velho que ninguém tá pedindo na porta?",
+        "pushback_vagner": "O telefone não vai parar de tocar pedindo o lançamento! A gente vai ter uma fila de espera de 30 pessoas e os clientes vão xingar o {curador_nome} no balcão. Por que eu gastaria dinheiro com filme velho que ninguém tá pedindo na porta?",
         "sub_opcoes": [
           {
             "id_sub": "B1",
-            "foco": "Receita Recorrente / Long Tail",
+            "foco": "Receita Recorrente / Long Tail", 
             "temp_treplica": 0.25,
             "argumento_gerente": "Matrix é um pico de adrenalina, catálogo é o coração batendo. Essas 75 fitas vão alugar picado por 5 anos, sem desvalorizar. A soma da locação do catálogo sempre supera o lançamento no longo prazo.",
-            "resolucao_vagner": "A famosa receita pingadinha... Você pensa como um investidor de renda fixa. É seguro. O Maurício vai gostar de organizar esse monte de fita velha. Pede aí.",
+            "resolucao_vagner": "A famosa receita pingadinha... Você pensa como um investidor de renda fixa. É seguro. O {curador_nome} vai gostar de organizar esse monte de fita velha. Pede aí.",
             "impacto": {
               "caixa": 0,
               "tracao": -8,
@@ -202,7 +208,7 @@
           {
             "id_sub": "C1",
             "foco": "ROI Extremo e Absorção de Nicho",
-            "temp_treplica": 0.4,
+            "temp_treplica": 0.4, 
             "argumento_gerente": "O ROI (Retorno sobre Investimento) é instantâneo. A fita sai a R$ 4, com uma locação a gente empata o custo. Além disso, a gente absorve a seção de Terror Trash deles, trazendo os clientes órfãos daquela locadora pra nossa.",
             "resolucao_vagner": "Consolidar o mercado comprando o espólio do adversário. Você joga pesado. Vai lá com a Kombi e traz esse estoque. O Maurício que lute pra testar o mofo dessas fitas.",
             "impacto": {
@@ -294,13 +300,13 @@
           {
             "id_sub": "B2",
             "foco": "Modelo 'Boutique' e Upsell de Curadoria",
-            "temp_treplica": 0.4,
-            "argumento_gerente": "A Blockbuster não tem o Maurício. Eles têm balconistas que não sabem a diferença entre Kubrick e Spielberg. Vamos criar a estante 'Recomendações do Maurício'. O cliente que gosta de cinema de verdade odeia locadoras de shopping. Vamos focar no nicho de alto ticket.",
-            "resolucao_vagner": "Tornar o Maurício nossa vantagem competitiva... Quem diria. Ele vai ficar insuportável de orgulhoso, mas pode funcionar. Vamos ser a locadora 'Cult'.",
+            "temp_treplica": 0.4, 
+            "argumento_gerente": "A Blockbuster não tem o {curador_nome}. Eles têm balconistas que não sabem a diferença entre Kubrick e Spielberg. Vamos criar a estante 'Recomendações do {curador_nome}'. O cliente que gosta de cinema de verdade odeia locadoras de shopping. Vamos focar no nicho de alto ticket.",
+            "resolucao_vagner": "Tornar o {curador_nome} nossa vantagem competitiva... Quem diria. Ele vai ficar insuportável de orgulhoso, mas pode funcionar. Vamos ser a locadora 'Cult'.",
             "impacto": {
               "caixa": 0,
               "tracao": -8,
-              "acervo": 20,
+              "acervo": 20, 
               "stress": -5
             }
           }
@@ -353,13 +359,13 @@
       {
         "id_rota": "A",
         "nome": "\"Early Adopter\" (Abraçar a Inovação de Imediato)",
-        "temp_replica": 0.48,
-        "fala_gerente": "Vagner, assina o cheque. Traz o aparelho e os discos. Maurício, prepara uma prateleira nova.",
-        "pushback_vagner": "Gerente, o Maurício não tá errado. Se a gente colocar esse aparelho pra alugar sem critério, volta riscado no primeiro fim de semana. São R$ 1.500 no lixo se alguém estragar a máquina ou o disco. Eu preciso de uma garantia antes de assinar esse cheque.",
+        "temp_replica": 0.48, 
+        "fala_gerente": "Vagner, assina o cheque. Traz o aparelho e os discos. {curador_nome}, prepara uma prateleira nova.",
+        "pushback_vagner": "Gerente, o {curador_nome} não tá errado. Se a gente colocar esse aparelho pra alugar sem critério, volta riscado no primeiro fim de semana. São R$ 1.500 no lixo se alguém estragar a máquina ou o disco. Eu preciso de uma garantia antes de assinar esse cheque.",
         "sub_opcoes": [
           {
             "id_sub": "A1",
-            "foco": "Hardware as a Service + Seguros",
+            "foco": "Hardware as a Service + Seguros", 
             "temp_treplica": 0.35,
             "argumento_gerente": "Maurício, não vai pra prateleira comum. Vai pra uma redoma. Nós vamos alugar a máquina e o filme juntos por R$ 50 pro fim de semana, com nota promissória assinada de R$ 1.500. A gente filtra o cliente pelo risco. Só aluga quem tem cheque especial.",
             "resolucao_vagner": "(Vagner ri) \"Blindar o risco com burocracia. Maurício, tira a poeira do talão de notas promissórias. Vamos brincar de locadora de luxo.\"",
@@ -372,10 +378,10 @@
           },
           {
             "id_sub": "A2",
-            "foco": "Efeito Halo / Isca de Tráfego",
+            "foco": "Efeito Halo / Isca de Tráfego", 
             "temp_treplica": 0.3,
-            "argumento_gerente": "Não é pra dar lucro direto agora. É pra dar inveja. Maurício, você vai botar o Matrix rodando na TV da vitrine. Quem passar na rua vai entrar pra ver a imagem perfeita. Eles não vão ter o aparelho em casa, mas já que entraram na loja, você empurra o VHS.",
-            "resolucao_vagner": "Usar o aparelho como vitrine pra atrair quem entra pela porta. O Maurício garante a pescaria no balcão. Não é receita direta, mas é custo de marketing embutido no estoque.",
+            "argumento_gerente": "Não é pra dar lucro direto agora. É pra dar inveja. {curador_nome}, você vai botar o Matrix rodando na TV da vitrine. Quem passar na rua vai entrar pra ver a imagem perfeita. Eles não vão ter o aparelho em casa, mas já que entraram na loja, você empurra o VHS.",
+            "resolucao_vagner": "Usar o aparelho como vitrine pra atrair quem entra pela porta. O {curador_nome} garante a pescaria no balcão. Não é receita direta, mas é custo de marketing embutido no estoque.",
             "impacto": {
               "caixa": -15,
               "tracao": 25,
@@ -407,9 +413,9 @@
           },
           {
             "id_sub": "B2",
-            "foco": "Custo de Oportunidade do CAPEX",
+            "foco": "Custo de Oportunidade do CAPEX", 
             "temp_treplica": 0.3,
-            "argumento_gerente": "Maurício, o que te dá mais dor de cabeça: perder um cliente VIP ou ter 30 clientes comuns xingando porque não tem cópia do O Sexto Sentido? Com esses R$ 1.500 eu compro 30 cópias do lançamento em VHS e acabo com a sua fila de espera.",
+            "argumento_gerente": "{curador_nome}, o que te dá mais dor de cabeça: perder um cliente VIP ou ter 30 clientes comuns xingando porque não tem cópia do O Sexto Sentido? Com esses R$ 1.500 eu compro 30 cópias do lançamento em VHS e acabo com a sua fila de espera.",
             "resolucao_vagner": "Ouvir clientes reclamando da fila de espera é meu pior pesadelo. Você me comprou. Traz as 30 fitas que eu garanto o aluguel de todas até domingo.",
             "impacto": {
               "caixa": 15,
@@ -424,14 +430,14 @@
         "id_rota": "C",
         "nome": "O Teste de Demanda (A abordagem de dados)",
         "temp_replica": 0.55,
-        "fala_gerente": "Vagner, não vamos comprar o aparelho. Compra só os 10 discos de filme por R$ 400 e acabou.",
-        "pushback_vagner": "R$ 400 em disco sem aparelho pra rodar, gerente? O Maurício vai passar vergonha no balcão quando o cliente perguntar onde está o aparelho. Eu preciso entender o plano antes de liberar esse dinheiro.",
+        "fala_gerente": "Vagner, não vamos comprar o aparelho. Compra só os 10 discos de filme por R$ 400 e acabou.", 
+        "pushback_vagner": "R$ 400 em disco sem aparelho pra rodar, gerente? O {curador_nome} vai passar vergonha no balcão quando o cliente perguntar onde está o aparelho. Eu preciso entender o plano antes de liberar esse dinheiro.",
         "sub_opcoes": [
           {
             "id_sub": "C1",
             "foco": "Data Gathering / Pesquisa de Mercado",
-            "temp_treplica": 0.3,
-            "argumento_gerente": "Maurício, é uma pesquisa de mercado disfarçada. Quando o cliente reclamar, você pega seu caderninho e anota o nome dele. Quando tivermos 50 nomes na lista, significa que o bairro tem aparelho suficiente pra gente justificar a compra. Estamos comprando informação por R$ 400.",
+            "temp_treplica": 0.3, 
+            "argumento_gerente": "Vagner, é uma pesquisa de mercado disfarçada. Quando o cliente reclamar, você pega seu caderninho e anota o nome dele. Quando tivermos 50 nomes na lista, significa que o bairro tem aparelho suficiente pra gente justificar a compra. Estamos comprando informação por R$ 400.",
             "resolucao_vagner": "(Suspira) \"Você quer que eu seja pesquisador do IBGE no meio do expediente... Tá bom. Eu anoto. Pelo menos a gente não toma prejuízo de R$ 1.500 de uma vez.\"",
             "impacto": {
               "caixa": -8,
@@ -442,10 +448,10 @@
           },
           {
             "id_sub": "C2",
-            "foco": "Ancoragem Psicológica de Preço",
+            "foco": "Ancoragem Psicológica de Preço", 
             "temp_treplica": 0.4,
-            "argumento_gerente": "A gente bota a placa de 'Aluguel de DVD: R$ 15,00'. Ninguém vai levar. Mas quando o cliente olhar isso, os R$ 5,00 que ele te paga no VHS vão parecer de graça. Você não vai vender o DVD, Maurício, você vai usar o DVD pra vender o VHS.",
-            "resolucao_vagner": "(Vagner bate na mesa) \"Usar o preço de um pra fazer o outro parecer barato! Maurício, bota as caixas lá na frente com etiqueta em neon. Vamos ver se essa psicologia funciona.\"",
+            "argumento_gerente": "A gente bota a placa de 'Aluguel de DVD: R$ 15,00'. Ninguém vai levar. Mas quando o cliente olhar isso, os R$ 5,00 que ele te paga no VHS vão parecer de graça. Você não vai vender o DVD, {curador_nome}, você vai usar o DVD pra vender o VHS.",
+            "resolucao_vagner": "(Vagner bate na mesa) \"Usar o preço de um pra fazer o outro parecer barato! {curador_nome}, bota as caixas lá na frente com etiqueta em neon. Vamos ver se essa psicologia funciona.\"",
             "impacto": {
               "caixa": -8,
               "tracao": 20,
@@ -461,6 +467,7 @@
     "id": "1999_dia5_oferta_mauricio",
     "ano": 1999,
     "agente_foco": "ID_Vagner",
+    "mostra_se_flag": "!mauricio_saiu",
     "temp_situacao": 0.2,
     "contexto_ia": "A Blockbuster ofereceu a Maurício carteira assinada, benefícios e 30% a mais no salário para ser 'Especialista de Catálogo'. Vagner entra em pânico porque Maurício conhece o gosto de cada cliente VIP do bairro, mas a locadora não tem margem para cobrir a oferta facilmente.",
     "rotas_principais": [
@@ -551,6 +558,7 @@
             "temp_treplica": 0.3,
             "argumento_gerente": "É exatamente por isso que ele tem que ir. A gente criou um Ponto Único de Falha (Single Point of Failure). O negócio não pode depender do humor de um funcionário. Vamos gastar a próxima semana etiquetando tudo e criando um Procedimento Operacional Padrão (POP). A loja tem que rodar sozinha.",
             "resolucao_vagner": "Trocar o talento humano pelo processo engessado. Vai dar um trabalho infernal no começo e vamos perder cliente, mas a empresa fica mais segura. Que Deus nos ajude.",
+            "escreve_flags": { "mauricio_saiu": true, "curador_nome": "Marcos" },
             "impacto": {
               "caixa": 0,
               "tracao": -30,
@@ -564,7 +572,8 @@
             "foco": "Reestruturação e Foco em Vendas",
             "temp_treplica": 0.35,
             "argumento_gerente": "Com a saída dele, a gente economiza o salário mais alto. A gente promove a Leila para chefe de balcão e contrata um estagiário barato pra organizar a prateleira. O foco agora deixa de ser curadoria nerd e passa a ser venda casada de pipoca e refrigerante com a Leila.",
-            "resolucao_vagner": "Mudar a cultura da empresa da noite pro dia. Sair do cinema de arte para focar no fast-food. A Leila vai adorar, mas o bairro vai chiar. Assina a demissão do rapaz.",
+            "resolucao_vagner": "Mudar a cultura da empresa da noite pro dia. Sair do cinema de arte para focar no fast-food. A Leila vai adorar, mas o bairro vai chiar. Libera o rapaz pra ir pra Blockbuster então.",
+            "escreve_flags": { "mauricio_saiu": true, "curador_nome": "Marcos" },
             "impacto": {
               "caixa": 15,
               "tracao": -30,
@@ -578,15 +587,50 @@
     ]
   },
   {
-    "id": "1999_dia6_layout_doces",
+    "id": "1999_dia5_pos_mauricio_marcos",
     "ano": 1999,
-    "agente_foco": "ID_Mauricio",
-    "temp_situacao": 0.35,
-    "contexto_ia": "Leila espalhou doces e pipocas pelas prateleiras de filmes (Cross-Merchandising). Maurício está gritando que a locadora virou mercearia e que os farelos podem atrair ratos. Leila defende que no corredor a venda por impulso é maior.",
+    "mostra_se_flag": "mauricio_saiu",
+    "agente_foco": "ID_Marcos",
+    "contexto_ia": "Marcos é o novo estagiário, contratado às pressas após a saída de Maurício. Ele está se apresentando ao Gerente e dando sua primeira impressão sobre o acervo mastigado e o caixa apertado.",
+    "dialogos_iniciais": [
+      {
+        "agente": "ID_Marcos",
+        "fala": "Bom dia, Gerente. O Vagner me explicou a situação. Sei que o Mauricio é uma enciclopédia e não vai ser fácil preencher o espaço que ele deixou, mas eu conheço bem esse acervo e os clientes do bairro. Meu foco é manter a curadoria em dia sem esquecer que as contas precisam fechar no final do mês. Pode contar com a minha dedicação."
+      }
+    ],
     "rotas_principais": [
       {
         "id_rota": "A",
-        "nome": "Comprar a Briga da Leila (Foco em Vendas / Cross-Sell)",
+        "nome": "Dar Boas-Vindas e Alinhar Expectativas",
+        "fala_gerente": "Marcos, esqueça o saudosismo. Precisamos de giro. Se a fita não sai da prateleira, ela é só plástico caro pegando poeira.",
+        "pushback_marcos": "Concordo que plástico parado é prejuízo, mas a gente não pode tratar o acervo como se fosse estoque de supermercado. Se a gente limpar as prateleiras de tudo o que é \"lado B\" só pra girar lançamento, a gente vira uma filial de videolocadora de shopping e perde o cliente fiel que vem aqui justamente porque sabe que vai achar aquele suspense cult que não tem na concorr",
+        "sub_opcoes": [
+          {
+            "id_sub": "A1",
+            "foco": "Visão de Negócio",
+            "argumento_gerente": "Marcos, esqueça o saudosismo. Precisamos de giro. Se a fita não sai da prateleira, ela é só plástico caro pegando poeira.",
+            "resolucao_vagner": "Gostei do moleque. Ele não tem aquele olhar de quem tá vendo um quadro no museu toda vez que pega um VHS. Vamos trabalhar.",
+            "impacto": {
+              "caixa": 0,
+              "tracao": 10,
+              "stress": -5,
+              "moral_equipe": 10
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "1999_dia6_layout_doces",
+    "ano": 1999,
+    "agente_foco": "ID_Curador",
+    "temp_situacao": 0.35,
+    "contexto_ia": "Leila espalhou doces e pipocas pelas prateleiras de filmes (Cross-Merchandising). O {curador_nome} está indignado, argumentando que a locadora virou mercearia e que os farelos podem atrair ratos. Leila defende que no corredor a venda por impulso é maior.",
+    "rotas_principais": [
+      {
+        "id_rota": "A",
+        "nome": "Comprar a Briga da Leila (Foco em Vendas / Cross-Sell)", 
         "temp_replica": 0.6,
         "fala_gerente": "A Leila está certa. Deixa os doces nos corredores. A prioridade é aumentar o faturamento.",
         "pushback_vagner": "Gerente, você está destruindo o padrão da loja. Os clientes VIP vão achar isso brega e vão pra Blockbuster, que tem carpete e cheiro de limpeza. Vale a pena estragar a imagem da loja por uns trocados de pipoca?",
@@ -595,8 +639,8 @@
             "id_sub": "A1",
             "foco": "Psicologia de Consumo e Impulso",
             "temp_treplica": 0.3,
-            "argumento_gerente": "Maurício, não é brega, é gatilho mental. Ninguém sai de casa planejando comprar bala. É compra por impulso. Quando a gente casa o produto com o estado emocional do filme de romance, a conversão triplica. Aumentamos o Ticket Médio por cliente.",
-            "resolucao_vagner": "Gatilho pelo estado emocional do filme... é eficiente, vou admitir. Mas vou de olho se o farelo começar a entrar nas prateleiras. O padrão do acervo não negocia.",
+            "argumento_gerente": "{curador_nome}, não é brega, é gatilho mental. Ninguém sai de casa planejando comprar bala. É compra por impulso. Quando a gente casa o produto com o estado emocional do filme de romance, a conversão triplica. Aumentamos o Ticket Médio por cliente.",
+            "resolucao_agente": "Compreendido. A ordem será executada imediatamente, e farei questão de que a equipe de limpeza passe um aspirador reforçado em cada fresta das prateleiras de terror; não queremos que o próximo cliente encontre um farelo de caramelo no estojo de *Psicose*.",
             "impacto": {
               "caixa": 20,
               "tracao": 10,
@@ -609,7 +653,7 @@
             "id_sub": "A2",
             "foco": "Matemática de Margem de Lucro",
             "temp_treplica": 0.3,
-            "argumento_gerente": "Não são 'trocados', Maurício. A margem de lucro de uma fita velha é fixa. A margem do chocolate é de 60%. Somos uma loja de conveniência que, por acaso, aluga filmes. O produto principal virou a bomboniere.",
+            "argumento_gerente": "Não são 'trocados', {curador_nome}. A margem de lucro de uma fita velha é fixa. A margem do chocolate é de 60%. Somos uma loja de conveniência que, por acaso, aluga filmes. O produto principal virou a bomboniere.",
             "resolucao_vagner": "Uma loja de conveniência que aluga filmes. Isso vai doer na alma, mas os números não mentem. Aceito, desde que a sessão de clássicos não vire depósito de paçoca.",
             "impacto": {
               "caixa": 25,
@@ -643,9 +687,9 @@
           {
             "id_sub": "B2",
             "foco": "Posicionamento Premium",
-            "temp_treplica": 0.3,
+            "temp_treplica": 0.3, 
             "argumento_gerente": "Leila, quem vende tudo misturado é feira. Nós queremos o cliente que paga caro sem reclamar. Para cobrar mais, o ambiente tem que passar percepção de alto valor. Prateleira limpa é posicionamento de marca.",
-            "resolucao_vagner": "(Maurício estufa o peito) \"Exatamente! Nós somos a curadoria do bairro. A Leila tem que aprender a vender pela qualidade do atendimento, não pela bagunça.\"",
+            "resolucao_vagner": "({curador_nome} estufa o peito) \"Exatamente! Nós somos a curadoria do bairro. A Leila tem que aprender a vender pela qualidade do atendimento, não pela bagunça.\"",
             "impacto": {
               "caixa": -15,
               "tracao": 20,
@@ -811,13 +855,14 @@
   {
     "id": "1999_diaX_curadoria_acervo_mauricio",
     "ano": 1999,
-    "agente_foco": "ID_Mauricio",
+    "agente_foco": "ID_Curador",
+    "mostra_se_flag": "!mauricio_saiu",
     "temp_situacao": 0.3,
     "contexto_ia": "Maurício (curador cinéfilo) entra na sala com um catálogo de um colecionador local que está vendendo um lote raro de fitas de diretores clássicos (Stanley Kubrick, Akira Kurosawa, Alfred Hitchcock) por R$ 100. O orçamento do mês está apertado e o dono, Vagner, exige foco total em blockbusters comerciais de ação.",
     "rotas_principais": [
       {
         "id_rota": "A",
-        "nome": "Investimento Cultural (Comprar o Lote)",
+        "nome": "Investimento Cultural (Comprar o Lote)", 
         "temp_replica": 0.35,
         "fala_gerente": "Maurício, vamos comprar o lote. Esse tipo de filme traz prestígio e diferencia a nossa marca.",
         "pushback_mauricio": "Prestígio é excelente, gerente, mas o cliente médio do bairro prefere ver o Schwarzenegger explodindo coisas a encarar as três horas de calmaria de 'Os Sete Samurais'. Esse dinheiro não vai fazer falta para os lançamentos de Hollywood?",
@@ -828,6 +873,7 @@
             "temp_treplica": 0.25,
             "argumento_gerente": "Criaremos uma prateleira destacada de 'Acervo Cult' e cobraremos uma taxa de locação mais alta por serem fitas raras. O público cinéfilo paga pela exclusividade de achar esses títulos aqui.",
             "resolucao_mauricio": "Uma prateleira premium baseada na escassez. Justo. Vai elevar o nível visual da loja. Vou catalogar as fitas imediatamente.",
+            "escreve_flags": { "acervo_cult_comprado": true },
             "impacto": {
               "caixa": -20,
               "tracao": 5,
@@ -842,6 +888,7 @@
             "temp_treplica": 0.3,
             "argumento_gerente": "A faculdade de cinema local abriu turmas novas. Se tivermos esse acervo, garantimos o cadastro e a fidelidade de dezenas de estudantes que vão consumir o balcão toda semana.",
             "resolucao_mauricio": "Eles vêm pelo Kubrick e saem levando a pipoca e o refrigerante. Uma bela jogada de xadrez comercial. Vamos fechar o lote com o colecionador.",
+            "escreve_flags": { "acervo_cult_comprado": true },
             "impacto": {
               "caixa": -20,
               "tracao": 15,
@@ -865,6 +912,7 @@
             "temp_treplica": 0.25,
             "argumento_gerente": "Com os mesmos R$ 100, nós compramos mais duas cópias de 'O Sexto Sentido'. A velocidade de giro dessas duas fitas no final de semana humilha o faturamento anual do lote raro.",
             "resolucao_mauricio": "Contra a matemática implacável das bilheterias, não há argumento cinematográfico que resista. Focaremos no suspense do Bruce Willis.",
+            "escreve_flags": { "acervo_cult_negado": true },
             "impacto": {
               "caixa": 0,
               "tracao": 10,
@@ -879,6 +927,7 @@
             "temp_treplica": 0.3,
             "argumento_gerente": "Fitas cult duram muito na prateleira, mas o retorno é lento. Precisamos de liquidez rápida neste trimestre para estabilizar as contas operacionais.",
             "resolucao_mauricio": "O pragmatismo financeiro venceu o idealismo artístico de lavada nesta cena. O senhor está certo, o caixa precisa respirar.",
+            "escreve_flags": { "acervo_cult_negado": true },
             "impacto": {
               "caixa": 0,
               "tracao": 0,
@@ -911,6 +960,7 @@
             "temp_treplica": 0.25,
             "argumento_gerente": "O ticket mensal fixo do médico cobre o ano inteiro desses adolescentes. No mercado corporativo, priorizamos o cliente que sustenta a margem líquida.",
             "resolucao_leila": "Olhando os números friamente, a conta fecha a favor dele mesmo. Vou dar a real pro Marcos e tentar segurar a bronca de forma profissional.",
+            "escreve_flags": { "priorizou_faturamento": true },
             "impacto": {
               "caixa": 0,
               "tracao": -15,
@@ -924,6 +974,7 @@
             "temp_treplica": 0.3,
             "argumento_gerente": "Diga ao Marcos que o sistema travou, mas dê a ele duas cortesias de fitas de catálogo para compensar o erro da loja. Resolvemos o problema sem perder o cliente rico.",
             "resolucao_leila": "Boa. O Marcos vai achar irado ganhar cortesia e o Doutor sai com a fita sem nem perceber a falha. Vamos fechar assim.",
+            "escreve_flags": { "priorizou_faturamento": true },
             "impacto": {
               "caixa": -10,
               "acervo": -5,
@@ -946,6 +997,7 @@
             "temp_treplica": 0.28,
             "argumento_gerente": "A insatisfação do garoto gera propaganda negativa em massa no colégio. O médico reclama da falha, mas a rotina dele não permite ficar trocando de locadora toda semana.",
             "resolucao_leila": "Certo, o volume da molecada compensa o risco da ficha dele. Vou entregar a fita pro Marcos antes que o clima azede de vez.",
+            "escreve_flags": { "priorizou_tracao": true },
             "impacto": {
               "caixa": 0,
               "tracao": 15,
@@ -959,6 +1011,7 @@
             "temp_treplica": 0.32,
             "argumento_gerente": "Entregue ao Marcos. Depois, compense a falha no atendimento oferecendo ao Dr. Armando a reserva garantida do próximo grande lançamento de suspense na terça-feira, sem custo de locação.",
             "resolucao_leila": "Garantir a reserva mostra que a gente se importa. Ele vai se sentir valorizado de novo. Vou lá resolver a situação.",
+            "escreve_flags": { "priorizou_tracao": true },
             "impacto": {
               "caixa": -5,
               "tracao": 10,
@@ -989,9 +1042,9 @@
           "temp_treplica": 0.25,
           "argumento_gerente": "Não acuse diretamente ainda. Peça para ele aguardar no balcão enquanto você puxa no sistema o histórico dos últimos três clientes que levaram essa fita. Se o histórico deles for perfeito, a responsabilidade cai sobre o cliente atual com base em probabilidade.",
           "resolucao_leila": "Puxei aqui e o cliente anterior era o Dr. Armando, que nunca faria isso. Mostrei o relatório pro cara de forma profissional e ele desabou: confessou que o filho adolescente trocou as fitas em casa sem ele saber. Ele vai pagar a reposição.",
+          "escreve_flags": { "leila_puniu_cliente": true },
           "impacto": {
             "caixa": 50,
-            "fidelidade": 0,
             "tracao": 5,
             "stress": 5,
             "moral_equipe": 15
@@ -1003,9 +1056,9 @@
           "temp_treplica": 0.3,
           "argumento_gerente": "Diga que o sistema exige a abertura de um 'Termo de Divergência de Acervo'. Não cobraremos os R$ 50 da fita hoje, mas ele precisará assinar o canhoto assumindo que a fita devolvida era paralela para o Vagner auditar depois.",
           "resolucao_leila": "O papel assinado assustou o cliente. Ele preferiu levar a fita falsificada de volta para 'procurar a certa em casa' e prometeu trazer a original até amanhã. Seguramos a bronca sem quebrar o clima.",
+          "escreve_flags": { "leila_puniu_cliente": true },
           "impacto": {
             "caixa": 0,
-            "fidelidade": 5,
             "tracao": 0,
             "stress": 0,
             "moral_equipe": 10
@@ -1026,9 +1079,9 @@
           "temp_treplica": 0.28,
           "argumento_gerente": "Temos uma margin mensalizada de 2% para quebras e perdas no orçamento do Vagner. Essa cópia entra nessa cota. Mas registre um aviso restrito no perfil dele para que a próxima devolução seja aberta na cara dele.",
           "resolucao_leila": "Entendi. O caixa absorve agora, mas o sistema fica de olho. Vou liberar o cliente e colocar a tarja de observação interna no cadastro dele para o próximo plantão ficar esperto.",
+          "escreve_flags": { "leila_absorveu_prejuizo": true },
           "impacto": {
             "caixa": -40,
-            "fidelidade": 10,
             "tracao": 0,
             "stress": 0,
             "moral_equipe": 5
@@ -1040,9 +1093,9 @@
           "temp_treplica": 0.32,
           "argumento_gerente": "Aceite a justificativa dele hoje, mas avise que, devido a esse incidente, a ficha dele passará pelo protocolo de 'Inspeção Visual Obrigatória' tanto na retirada quanto na entrega de qualquer filme a partir de agora.",
           "resolucao_leila": "Colocar o protocolo de inspeção na ficha dele resolve. Ele vê que ganhou o benefício da dúvida, mas entende que a mamata acabou e que estamos fiscalizando tudo. Vou avisar o Maurício sobre a nova regra.",
+          "escreve_flags": { "leila_absorveu_prejuizo": true },
           "impacto": {
             "caixa": -40,
-            "fidelidade": 5,
             "tracao": 5,
             "stress": 5,
             "moral_equipe": 5
@@ -1071,6 +1124,7 @@
           "temp_treplica": 0.25,
           "argumento_gerente": "Nossa demografia principal aqui são famílias e trabalhadores comerciais. A matemática não mente: fita legendada passa a segunda e a terça-feira pegando poeira na prateleira, enquanto o dublado paga o custo de aquisição da fita em duas semanas.",
           "resolucao_mauricio": "A implacável realidade demográfica do varejo de bairro. Contra os dados brutos de faturamento, a estética cinematográfica precisa recuar. Vou ajustar o pedido para o padrão de massa.",
+          "escreve_flags": { "acervo_dublado": true },
           "impacto": {
             "caixa": 0,
             "tracao": 15,
@@ -1085,6 +1139,7 @@
           "temp_treplica": 0.3,
           "argumento_gerente": "Manteremos o foco no dublado para a prateleira geral, mas criaremos uma pasta de 'Pedidos Especiais' no balcão. Se o cinéfilo quiser a versão legendada de um lançamento, nós encomendamos uma cópia exclusiva com o distribuidor com entrega garantida.",
           "resolucao_mauricio": "O sistema de encomenda sob demanda. Uma solução justa: protege o fluxo de caixa regular e oferece uma saída elegante para o público nichado. Vou estruturar o protocolo de reservas.",
+          "escreve_flags": { "acervo_dublado": true },
           "impacto": {
             "caixa": -10,
             "tracao": 10,
@@ -1108,6 +1163,7 @@
           "temp_treplica": 0.25,
           "argumento_gerente": "Vamos criar uma identidade visual agressiva nas caixas. Fitas legendadas usarão uma capa com uma tarja Amarela vibrante e as dubladas, tarja Azul. O cliente só erra se quiser, e nós eliminamos o problema operacional.",
           "resolucao_mauricio": "A diferenciação cromática direta no balcão. Uma excelente resposta de design de serviços. Reduz o erro operacional a zero e mantém o acervo íntegro. Vou providenciar as etiquetas de sinalização.",
+          "escreve_flags": { "acervo_legendado": true },
           "impacto": {
             "caixa": -15,
             "tracao": 5,
@@ -1122,6 +1178,7 @@
           "temp_treplica": 0.3,
           "argumento_gerente": "Apostaremos no legendado, mas criaremos a 'Terça Cult'. Nesse dia, a locação das fitas legendadas terá 30% de desconto. Usamos o público universitário para fazer girar o estoque justamente nos dias mais mortos da semana.",
           "resolucao_mauricio": "Promover o giro de acervo no início da semana através de um gancho cultural. Uma jogada tática brilhante para combater a ociosidade da prateleira. Vamos rodar essa campanha promocional.",
+          "escreve_flags": { "acervo_legendado": true },
           "impacto": {
             "caixa": -5,
             "tracao": 20,

@@ -18,6 +18,7 @@
 #   A api_key é lida da variável de ambiente GEMINI_API_KEY.
 
 import os
+import logging
 import random
 import threading
 import time
@@ -32,6 +33,9 @@ except Exception as _fs_err:
     _db = None
     _FIRESTORE_OK = False
     print(f"[agents] Firestore: indisponível ({_fs_err}) — usando pool in-memory")
+
+# Configuração do Logger para alertas no GCP
+logger = logging.getLogger("locadora_retro")
 
 _POOL_COLLECTION = "fala_pool"
 
@@ -65,6 +69,7 @@ POOL_MAX = 15  # Máximo de variações armazenadas por evento
 _FALLBACK: dict[str, str] = {
     "ID_Leila":      "Chefe, me dá um segundo... tô processando tudo isso.",
     "ID_Mauricio":   "Preciso de um instante para organizar meus pensamentos.",
+    "ID_Marcos":     "Tô processando, gerente. Me dá um segundo.",
     "ID_Vagner":     "Espera aí, deixa eu calcular direito antes de falar.",
     "ID_Financeiro": "...",
 }
@@ -102,7 +107,7 @@ PROMPTS: dict[str, dict] = {
             "Use no máximo 1 gíria dos anos 90, só se vier naturalmente."
         ),
         "temperature": 0.42,
-        "max_tokens": 80,
+        "max_tokens": 85,
     },
     "ID_Mauricio": {
         "nome": "Maurício",
@@ -116,7 +121,22 @@ PROMPTS: dict[str, dict] = {
             "Permite-se ironia leve quando o momento pede."
         ),
         "temperature": 0.31,
-        "max_tokens": 80,
+        "max_tokens": 85,
+    },
+    "ID_Marcos": {
+        "nome": "Marcos",
+        "system": (
+            "Você é Marcos, estagiário de 28 anos da locadora. Você é discreto, observador e pragmático. "
+            "Fale DIRETAMENTE com o Gerente — ignore outros personagens mencionados no contexto. "
+            "Sem frases de abertura repetitivas. "
+            "Você é um cinéfilo equilibrado: entende o valor da arte, mas prioriza a sustentabilidade do negócio. "
+            "Curte drum and bass, raves e é fã de Sega — mistura referências de cinema com cultura dos anos 90. "
+            "Conhece profundamente o bairro e o perfil dos clientes. "
+            "Seu tom é profissional, direto e sem gírias forçadas ou metáforas de nicho. "
+            "Aceita a decisão do Gerente, mas sempre dá seu ponto de vista antes."
+        ),
+        "temperature": 0.25,
+        "max_tokens": 85,
     },
     "ID_Vagner": {
         "nome": "Vagner",
@@ -269,14 +289,17 @@ def _config(agente_id: str) -> dict:
 
 
 def gerar_fala(agente_id: str, contexto_dia: str, ano: int,
-               temperatura: float | None = None, argumento: str = "") -> str:
+               temperatura: float | None = None, argumento: str = "",
+               texto_original: str = "") -> str:
     """Geração síncrona completa. Usada para réplica, tréplica e fallback.
     temperatura sobrescreve o default do personagem quando informada.
     argumento = o que o Gerente disse (fala_gerente / argumento_gerente).
+    texto_original = texto estático de 1999 ou sentinel "_pending_" de 2026.
     Retry com Exponential Backoff em caso de 429 (rate limit).
     """
     cfg = _config(agente_id)
-    prompt_usuario = _montar_prompt_usuario(contexto_dia, ano, cfg["nome"], argumento)
+    # Adiciona o texto_original ao contexto do prompt para que o LLM possa reescrevê-lo
+    prompt_usuario = _montar_prompt_usuario(contexto_dia, ano, cfg["nome"], argumento) + f"\nTexto Base: {texto_original}"
     temp = temperatura if temperatura is not None else cfg["temperature"]
     mensagens = [
         {"role": "system", "content": cfg["system"]},
@@ -296,12 +319,21 @@ def gerar_fala(agente_id: str, contexto_dia: str, ano: int,
             )
             return resposta.choices[0].message.content or ""
         except RateLimitError:
-            if tentativa < len(_RETRY_DELAYS):
-                continue
-            return _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
-        except Exception:
-            return _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
-    return _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
+             if tentativa < len(_RETRY_DELAYS):
+                 continue
+             break
+        except Exception as e:
+            logger.warning(f"FALHA_LLM: Erro na geração para {agente_id} ({e}). Usando fallback.")
+            break
+
+    # Lógica de Fallback Final
+    # Se texto_original for o sentinel ou vazio, usa a frase de personalidade
+    if not texto_original or texto_original == "_pending_":
+        return _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
+    
+    # Se for 1999, retorna o texto estático original (ex: resolucao_vagner)
+    return texto_original
+
 
 
 def gerar_fala_stream(agente_id: str, contexto_dia: str, ano: int,

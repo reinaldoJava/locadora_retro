@@ -23,6 +23,7 @@ class DiretorNarrativo(RendererMixin, CinematicMixin, PrologoMixin, IntroMixin):
 
     def __init__(self, engine_instance):
         self.motor = engine_instance
+        self._ui_commands = []
 
         # --- Estado cinematico ---
         self._initial_game_transition_step = 0
@@ -98,6 +99,17 @@ class DiretorNarrativo(RendererMixin, CinematicMixin, PrologoMixin, IntroMixin):
                 return self._renderizar_game_over()
             # vitoria: aplica penalidades numericas
             self._aplicar_impactos_crise_vitoria()
+
+        # Tela de apresentação do Marcos — dispara após a saída do Maurício.
+        # Para evitar quebras de fluxo, só ativamos a introdução quando não houver
+        # falas pendentes (tréplicas) do evento anterior, garantindo que o ciclo termine.
+        flags = self.motor.estado.setdefault("flags", {})
+        if (flags.get("mauricio_saiu") and 
+            not flags.get("_marcos_apresentado") and 
+            not self.motor.estado.get("texto_treplica_pendente") and
+            not self.motor.estado.get("texto_gerente_pendente")):
+            flags["_marcos_apresentado"] = True
+            return self._renderizar_apresentacao_marcos()
 
         if self._initial_game_transition_step and self._initial_game_transition_step > 0:
             return self._orquestrar_initial_game_transition()

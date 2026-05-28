@@ -11,19 +11,27 @@
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 <body data-tema="tema-{{ tema_visual }}">
+
+
 <script type="module" src="/static/js/motor_shell.js"></script>
 
 <!-- Áudio fora do #ui-jogo para sobreviver aos swaps de innerHTML -->
 <audio id="trilha-sonora-1999" src="/static/audio/Game_1999.mp3" loop preload="auto"></audio>
 <audio id="trilha-sonora-2026" loop preload="none"></audio>
 
-<div class="game-container tema-{{ tema_visual }}" id="ui-jogo"
-     hx-post="/api/iniciar-game-transition"
-     hx-trigger="load"
-     hx-swap="innerHTML">
-    {% if initial_gameplay_content %}
-    {{ initial_gameplay_content | safe }}
-    {% endif %}
+<div id="game-wrapper">
+    <div class="game-container tema-{{ tema_visual }}" id="ui-jogo"
+         hx-post="/api/iniciar-game-transition"
+         hx-trigger="load"
+         hx-swap="innerHTML">
+        {% if initial_gameplay_content %}
+        {{ initial_gameplay_content | safe }}
+        {% endif %}
+    </div>
+    <!-- Fora do #ui-jogo para sobreviver aos swaps HTMX, dentro do wrapper para ancorar no game -->
+    <div id="audio-toggle" class="btn-audio-control" onclick="toggleMute()" title="Alternar Som">
+        🔊
+    </div>
 </div>
 </body>
 </html>

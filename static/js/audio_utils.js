@@ -26,18 +26,20 @@ let lastTypingSoundTime = 0;
 const TYPING_SOUND_DEBOUNCE_MS = 70;
 
 export function tocarClick() {
+    if (window.gameMuted) return;
     const clone = somClick.cloneNode();
     clone.volume = 0.5;
     clone.play().catch(() => {});
 }
 
-export function tocarSomDeTecla() {
+export function tocarSomDeTecla(volume = 0.4) {
+    if (window.gameMuted) return;
     const now = Date.now();
     if (now - lastTypingSoundTime < TYPING_SOUND_DEBOUNCE_MS) return;
     lastTypingSoundTime = now;
 
     const somClone = sonsTeclado[Math.floor(Math.random() * sonsTeclado.length)].cloneNode();
-    somClone.volume = 0.4;
+    somClone.volume = Math.max(0, Math.min(1, volume));
     somClone.play().catch(e => console.error("Erro ao tocar som de tecla:", e));
 
     activeTypingSounds.push(somClone);
@@ -95,7 +97,10 @@ export function playAudio(config) {
     }
 
     if (config.acao === 'play_efeito') {
-        new Audio(config.src).play().catch(e => console.warn("Erro ao reproduzir efeito de áudio:", e));
+        if (!window.gameMuted) {
+            const efeito = new Audio(config.src);
+            efeito.play().catch(e => console.warn("Erro ao reproduzir efeito de áudio:", e));
+        }
     } else if (config.acao === 'fade_out') {
         transicaoDeVolume(player, 0, config.tempo).then(() => {
             player.pause(); player.currentTime = 0;
@@ -104,12 +109,19 @@ export function playAudio(config) {
         player.src    = config.src;
         player.volume = config.volume ?? 0.3;
         player.loop   = config.loop   ?? true;
+        player.muted  = !!window.gameMuted;
         player.play().catch(e => console.warn("Erro ao reproduzir trilha sonora:", e));
     } else if (config.acao === 'play') {
+        player.muted = !!window.gameMuted;
         player.play().catch(e => console.warn("Erro ao reproduzir áudio:", e));
     } else if (config.acao === 'pause') {
         player.pause();
     }
+}
+
+// Muta/desmuta todos os players registrados no cache (fora do DOM)
+export function muteAllPlayers(state) {
+    Object.values(_audioPlayers).forEach(p => { p.muted = state; });
 }
 
 // -----------------------------------------------------------------------
@@ -135,7 +147,15 @@ export let audioContextUnmuted = false;
 
 export function destravarAudioGlobal() {
     if (audioContextUnmuted) return;
-    document.querySelectorAll('audio').forEach(a => { a.muted = false; a.play().catch(() => {}); });
-    sonsTeclado.forEach(a => { a.muted = false; a.play().catch(() => {}); });
+    // Respeita preferência de mute ativa antes da primeira interação
+    const mutado = !!window.gameMuted;
+    document.querySelectorAll('audio').forEach(a => {
+        a.muted = mutado;
+        if (!mutado) a.play().catch(() => {});
+    });
+    sonsTeclado.forEach(a => {
+        a.muted = mutado;
+        if (!mutado) a.play().catch(() => {});
+    });
     audioContextUnmuted = true;
 }

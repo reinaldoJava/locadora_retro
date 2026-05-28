@@ -17,6 +17,22 @@ from src.utils import formatar_dialogo
 class PrologoMixin:
     """Prologo 2026, encruzilhada e sequenciamento de dialogos."""
 
+    def _img_curador(self):
+        """Retorna o caminho da imagem do curador ativo (Maurício ou Marcos)."""
+        mauricio_saiu = self.motor.estado.get("flags", {}).get("mauricio_saiu")
+        return "/static/img/marcos.webp" if mauricio_saiu else "/static/img/mauricio.webp"
+
+    def _fmt_dialogo(self, dialogo):
+        """Formata dialogo com resolução de ID_Curador e substituição nominal."""
+        from src.utils import data_hoje_ptbr
+        agente_id = self.motor._resolver_agente(dialogo["agente"])
+        agente = agente_id.replace("ID_", "")
+        fala = self._sub_curador(dialogo["fala"].replace("DATA_DE_HOJE", data_hoje_ptbr()))
+        return (
+            f"<p class='nome-personagem'>{agente}</p>"
+            f"<p class='fala-dialogo'>{fala}</p>"
+        )
+
     # ------------------------------------------------------------------ #
     # ENCRUZILHADA DE 2026                                                #
     # ------------------------------------------------------------------ #
@@ -44,7 +60,7 @@ class PrologoMixin:
         # Passo 2: Discurso do Gerente + 4 opcoes
         elif self.passo_encruzilhada_2026 == 2:
             texto = (f"<p class='nome-personagem'>Gerente</p>"
-                     f"<p class='fala-dialogo'>{evt['discurso_gerente']}</p>")
+                     f"<p class='fala-dialogo'>{self._sub_curador(evt['discurso_gerente'])}</p>")
             opcoes_html = "".join(
                 f"<button class='btn-opcao' hx-post='/api/interagir' "
                 f"hx-vals='{{\"choice\": {idx}}}' "
@@ -132,18 +148,18 @@ class PrologoMixin:
                 img_esq_src="/static/img/leila.webp", ator_esq_foco=True)
 
         elif self.passo_prologo_2026 == 6:
-            texto = formatar_dialogo(cenas[1]["dialogos"][3])
+            texto = self._fmt_dialogo(cenas[1]["dialogos"][3])
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True,
                 npc_visivel=True, npc_img="/static/img/jovem_genZ.webp",
-                img_esq_src="/static/img/mauricio.webp", ator_esq_foco=True)
+                img_esq_src=self._img_curador(), ator_esq_foco=True)
 
         elif self.passo_prologo_2026 == 7:
             texto = formatar_dialogo(cenas[1]["dialogos"][4])
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True,
                 npc_visivel=True, npc_foco=True, npc_img="/static/img/jovem_genZ.webp",
-                img_esq_src="/static/img/mauricio.webp", ator_esq_foco=False)
+                img_esq_src=self._img_curador(), ator_esq_foco=False)
 
         elif self.passo_prologo_2026 == 8:
             texto = formatar_dialogo(cenas[2]["dialogos"][0])
@@ -152,10 +168,10 @@ class PrologoMixin:
                 npc_visivel=True, npc_img="/static/img/gerente.webp")
 
         elif self.passo_prologo_2026 == 9:
-            texto = formatar_dialogo(cenas[2]["dialogos"][1])
+            texto = self._fmt_dialogo(cenas[2]["dialogos"][1])
             response_data = self._render_prologo_slide(
                 texto, btn_avancar, vagner_visivel=True,
-                npc_visivel=True, npc_foco=True, npc_img="/static/img/mauricio.webp")
+                npc_visivel=True, npc_foco=True, npc_img=self._img_curador())
 
         elif self.passo_prologo_2026 == 10:
             texto = formatar_dialogo(cenas[2]["dialogos"][2])

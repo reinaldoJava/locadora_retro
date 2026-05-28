@@ -16,7 +16,7 @@ export function setUiActionMap(map) { _uiActionMap = map; }
 // ----------------------------------------
 // typeText — efeito de maquina de escrever
 // ----------------------------------------
-export function typeText(elementId, fullText, speed = 60, playTypingSounds = true, postTypingCommand = null) {
+export function typeText(elementId, fullText, speed = 60, playTypingSounds = true, postTypingCommand = null, typingVolume = 0.4) {
     if (_typingInterval) {
         clearInterval(_typingInterval);
         _typingInterval = null;
@@ -35,7 +35,7 @@ export function typeText(elementId, fullText, speed = 60, playTypingSounds = tru
             const letra = fullText.charAt(i);
             el.innerHTML += letra;
             if (playTypingSounds && letra !== ' ' && letra !== '\n') {
-                tocarSomDeTecla();
+                tocarSomDeTecla(typingVolume);
             }
             i++;
         } else {

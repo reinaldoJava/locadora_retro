@@ -16,7 +16,8 @@
             "foco": "O Apelo Emocional / Foco no Passado",
             "argumento_gerente": "Leila, você não pode fazer isso. Nós somos uma família! Eu te contratei quando você não sabia nem ligar o rebobinador. A concorrência não tem o nosso calor humano, eles vão te tratar como um número. Fica pela nossa história.",
             "resolucao_agente": "(Leila dá um sorriso triste e balança a cabeça) \"Chefe, calor humano não paga a minha faculdade. E nostalgia não paga o aluguel de vocês. Desculpa. O Maurício fica com os filmes, o Vagner fica com o caixa, mas a visão de futuro de vocês morreu.\"",
-            "resultado": "game_over"
+            "resolucao_agente": "(Leila dá um sorriso triste e balança a cabeça) \"Chefe, calor humano não paga a minha faculdade. E nostalgia não paga o aluguel de vocês. Desculpa. O {curador_nome} fica com os filmes, o Vagner fica com o caixa, mas a visão de futuro de vocês morreu.\"",
+            "resultado": "game_over" 
           },
           {
             "id_sub": "B",
@@ -74,6 +75,43 @@
     ]
   },
   {
+    "id": "ultimato_marcos_acervo",
+    "ano": 2026,
+    "agente_foco": "ID_Marcos",
+    "contexto_ia": "A barra de Integridade do Acervo caiu abaixo do limiar crítico de 20 pontos. A busca desenfreada por lucro e fluxo de pessoas transformou a locadora em um ambiente caótico. Marcos está na frente das prateleiras vazias, olhando para o chão, com a expressão de quem viu o último save game corromper.",
+    "rotas_principais": [
+      {
+        "id_rota": "Crise_Acervo_Marcos",
+        "nome": "O Ultimato de Marcos (Gargalo de Identidade e Ativo)",
+        "fala_agente": "Gerente, a gente prometeu uma experiência, uma vibe. Agora, o que a gente tem? Prateleiras vazias. É como um console sem cartucho, um DJ sem vinil. Não é só a perda de fitas, é a perda da nossa identidade, do nosso 'core business'. Como a gente vende 'retro' sem o 'retro' pra mostrar? Isso aqui virou um salão de festas sem bolo.",
+        "pushback_vagner": "Gerente, a gente prometeu uma experiência, uma vibe. Agora, o que a gente tem? Prateleiras vazias. É como um console sem cartucho, um DJ sem vinil. Não é só a perda de fitas, é a perda da nossa identidade, do nosso 'core business'. Como a gente vende 'retro' sem o 'retro' pra mostrar? Isso aqui virou um salão de festas sem bolo.",
+        "sub_opcoes": [
+          {
+            "id_sub": "A",
+            "foco": "O Apelo Emocional / Culpar o Mercado",
+            "argumento_gerente": "Marcos, a gente fez o que pôde. O mercado mudou, as pessoas não querem mais fitas. Não é culpa nossa, é a evolução.",
+            "resolucao_agente": "(Marcos balança a cabeça, desapontado) 'Não é culpa nossa? Gerente, a gente é o mercado. Se a gente não soube se adaptar, a culpa é da nossa estratégia. Sem acervo, a gente não é nada. É só um espaço vazio com cheiro de mofo. Eu não assinei pra ser vendedor de bugiganga.'",
+            "resultado": "game_over"
+          },
+          {
+            "id_sub": "B",
+            "foco": "Minimizar a Perda / Solução Genérica",
+            "argumento_gerente": "Calma, Marcos. A gente pode encher essas prateleiras com livros, ou talvez com produtos de informática. O importante é ter algo para vender e manter a loja aberta.",
+            "resolucao_agente": "(Marcos ri sem humor) 'Livros? Produtos de informática? Gerente, a gente não é uma papelaria. A gente era a locadora. Sem fitas, a gente perde o 'retro' e vira só 'loja'. E loja vazia não atrai ninguém. Eu não assinei pra ser vendedor de bugiganga.'",
+            "resultado": "game_over"
+          },
+          {
+            "id_sub": "C",
+            "foco": "Reinventar a 'Vibe' / Museu Interativo",
+            "argumento_gerente": "Você tem razão, Marcos. O acervo físico se foi. Mas a 'vibe' não. E se a gente transformar essas prateleiras vazias em um 'Museu Interativo da Mídia Analógica', com estações de jogos retrô e workshops de cultura pop dos anos 90? A gente vende a experiência, não o plástico.",
+            "resolucao_agente": "(Marcos levanta a cabeça, os olhos brilhando com uma nova ideia) 'Um museu interativo... estações de jogos... workshops... Gerente, você não vendeu a alma, você a reinventou! A gente não tem mais as fitas, mas a gente tem a história, a cultura, a experiência. Isso é um 'reset' de sistema, não um 'game over'!' (Ele pega o celular, já pensando em como divulgar a ideia).",
+            "resultado": "vitoria"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "ultimato_vagner_operacional",
     "ano": 2026,
     "agente_foco": "ID_Vagner",
@@ -113,10 +151,10 @@
         "id_rota": "Crise_Moral",
         "nome": "O Colapso do Moral da Equipe",
         "fala_agente": "A gente precisa ser honesto, chefe. Vagner: 'Não consigo dormir mais — a empresa me consome por dentro.' Leila: 'Eu amo esse lugar, mas não tenho mais razão pra acordar empolgada.' Maurício: 'Trabalhamos duro e o ambiente virou uma guerra. Não dá mais.' [Vagner fala pelos três] Ou você muda alguma coisa de verdade agora, ou a gente sai junto.",
-        "pushback_vagner": "A gente precisa ser honesto, chefe. Vagner: 'Não consigo dormir mais — a empresa me consome por dentro.' Leila: 'Eu amo esse lugar, mas não tenho mais razão pra acordar empolgada.' Maurício: 'Trabalhamos duro e o ambiente virou uma guerra. Não dá mais.' [Vagner fala pelos três] Ou você muda alguma coisa de verdade agora, ou a gente sai junto.",
+        "pushback_vagner": "A gente precisa ser honesto, chefe. Vagner: 'Não consigo dormir mais — a empresa me consome por dentro.' Leila: 'Eu amo esse lugar, mas não tenho mais razão pra acordar empolgada.' {curador_nome}: 'Trabalhamos duro e o ambiente virou uma guerra. Não dá mais.' [Vagner fala pelos três] Ou você muda alguma coisa de verdade agora, ou a gente sai junto.",
         "sub_opcoes": [
           {
-            "id_sub": "Vitoria_Condicional",
+            "id_sub": "Vitoria_Condicional", 
             "foco": "Escuta Ativa / Plano de Ação Real",
             "argumento_gerente": "Fecha a porta. Cada um fala o que precisa. Eu anoto tudo e apresento um plano de ação até sexta com metas concretas — sem promessa vaga, com número e data.",
             "resolucao_agente": "(Vagner olha para Leila e Maurício antes de responder) \"Tá bom. Mas se na sexta não tiver plano de verdade, a gente sai junto, chefe. A gente ainda acredita em você — por isso ainda tá aqui.\"",
@@ -127,7 +165,8 @@
             "foco": "Pressão Inversa / Ameaça de Demissão",
             "argumento_gerente": "Se vocês não gostam do clima, a porta é essa. Empreendedorismo exige sacrifício. Eu não vou ser refém de funcionário que não entende a pressão de manter um negócio vivo.",
             "resolucao_agente": "(Silêncio. Leila fecha o celular. Vagner coloca o crachá em cima da mesa. Maurício empacota as últimas fitas sem dizer uma palavra.) \"Entendemos, chefe. Boa sorte.\"",
-            "resultado": "game_over"
+            "resolucao_agente": "(Silêncio. Leila fecha o celular. Vagner coloca o crachá em cima da mesa. {curador_nome} empacota as últimas fitas sem dizer uma palavra.) \"Entendemos, chefe. Boa sorte.\"",
+            "resultado": "game_over" 
           }
         ]
       }

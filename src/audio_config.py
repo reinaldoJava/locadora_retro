@@ -19,11 +19,12 @@ AUDIO_SETTINGS = {
         "/static/audio/tecla_3.mp3",
         "/static/audio/tecla_4.mp3",
     ],
+    "keyboard_volume": 0.05,
     "click_sound": "/static/audio/click.mp3",
     "intro_music": {
         "id": "trilha-sonora-intro",
         "src": "/static/audio/Game_1999.mp3",
-        "volume": 0.4,
+        "volume": 0.3,
         "loop": True
     },
     "game_music_1999": {
@@ -35,7 +36,7 @@ AUDIO_SETTINGS = {
     "game_music_2026": {
         "id": "trilha-sonora-2026",
         "src": "/static/audio/Game_2026.mp3",
-        "volume": 0.3,
+        "volume": 0.25,
         "loop": True
     },
     "countdown_bip_normal": "/static/audio/bip_normal.mp3",

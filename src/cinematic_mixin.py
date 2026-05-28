@@ -53,7 +53,7 @@ class CinematicMixin:
                     "elementId": "system-message",
                     "fullText": "SISTEMA CARREGADO",
                     "speed": 60,
-                    "playTypingSounds": False,
+                    "typingVolume": AUDIO_SETTINGS.get("keyboard_volume", 0.15),
                     "postTypingCommand": {
                         "action": "showElementById",
                         "args": {"elementId": "btn-iniciar-sistema"}
@@ -144,10 +144,13 @@ class CinematicMixin:
             ui_commands.append({"action": "loopAutomatico", "args": {"tempo_ms": 1000}})
 
         elif self.passo_cinematico == 9:
+            mauricio_saiu = self.motor.estado.get("flags", {}).get("mauricio_saiu")
+            img_curador = "/static/img/marcos.webp" if mauricio_saiu else "/static/img/mauricio.webp"
             response_data = render_template(
                 "cinematic_1999_to_2026.html", passo=9,
                 texto_virada_display="none", numero_contagem_display="none",
-                texto_feliz_ano_display="block", imagens_personagens_display="flex"
+                texto_feliz_ano_display="block", imagens_personagens_display="flex",
+                img_curador_src=img_curador
             )
             ui_commands.append({"action": "loopAutomatico", "args": {"tempo_ms": 4500}})
 
