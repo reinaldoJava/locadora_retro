@@ -19,7 +19,7 @@
         display: {% if imagens_personagens_display %}{{ imagens_personagens_display }}{% else %}none{% endif %};
     ">
         <img src="/static/img/gerente.webp">
-        <img src="/static/img/mauricio.webp">
+        <img src="{{ img_curador_src | default('/static/img/mauricio.webp') }}">
         <img src="/static/img/leila.webp">
         <img src="/static/img/vagner.webp">
     </div>

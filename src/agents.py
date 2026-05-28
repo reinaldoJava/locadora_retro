@@ -18,6 +18,7 @@
 #   A api_key é lida da variável de ambiente GEMINI_API_KEY.
 
 import os
+import logging
 import random
 import threading
 import time
@@ -32,6 +33,9 @@ except Exception as _fs_err:
     _db = None
     _FIRESTORE_OK = False
     print(f"[agents] Firestore: indisponível ({_fs_err}) — usando pool in-memory")
+
+# Configuração do Logger para alertas no GCP
+logger = logging.getLogger("locadora_retro")
 
 _POOL_COLLECTION = "fala_pool"
 
@@ -285,14 +289,17 @@ def _config(agente_id: str) -> dict:
 
 
 def gerar_fala(agente_id: str, contexto_dia: str, ano: int,
-               temperatura: float | None = None, argumento: str = "") -> str:
+               temperatura: float | None = None, argumento: str = "",
+               texto_original: str = "") -> str:
     """Geração síncrona completa. Usada para réplica, tréplica e fallback.
     temperatura sobrescreve o default do personagem quando informada.
     argumento = o que o Gerente disse (fala_gerente / argumento_gerente).
+    texto_original = texto estático de 1999 ou sentinel "_pending_" de 2026.
     Retry com Exponential Backoff em caso de 429 (rate limit).
     """
     cfg = _config(agente_id)
-    prompt_usuario = _montar_prompt_usuario(contexto_dia, ano, cfg["nome"], argumento)
+    # Adiciona o texto_original ao contexto do prompt para que o LLM possa reescrevê-lo
+    prompt_usuario = _montar_prompt_usuario(contexto_dia, ano, cfg["nome"], argumento) + f"\nTexto Base: {texto_original}"
     temp = temperatura if temperatura is not None else cfg["temperature"]
     mensagens = [
         {"role": "system", "content": cfg["system"]},
@@ -312,12 +319,21 @@ def gerar_fala(agente_id: str, contexto_dia: str, ano: int,
             )
             return resposta.choices[0].message.content or ""
         except RateLimitError:
-            if tentativa < len(_RETRY_DELAYS):
-                continue
-            return _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
-        except Exception:
-            return _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
-    return _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
+             if tentativa < len(_RETRY_DELAYS):
+                 continue
+             break
+        except Exception as e:
+            logger.warning(f"FALHA_LLM: Erro na geração para {agente_id} ({e}). Usando fallback.")
+            break
+
+    # Lógica de Fallback Final
+    # Se texto_original for o sentinel ou vazio, usa a frase de personalidade
+    if not texto_original or texto_original == "_pending_":
+        return _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
+    
+    # Se for 1999, retorna o texto estático original (ex: resolucao_vagner)
+    return texto_original
+
 
 
 def gerar_fala_stream(agente_id: str, contexto_dia: str, ano: int,

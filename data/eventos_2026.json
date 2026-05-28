@@ -9,7 +9,7 @@
     "rotas_principais": [
       {
         "nome":"Studio Anos 90 para filmes, comerciais Youtubers etc.",
-        "id_opcao": "A",
+        "id_rota": "A",
         "foco": "Rota A: Negócio Imobiliário / Cenário Locável (O Foco no Hype)",
         "descricao": "O produto deixa de ser o filme e passa a ser o espaço. Transformamos a locadora intacta num estúdio fotográfico/cenário \"Y2K\" (Anos 2000) de aluguel por hora para influenciadores, produtoras e agências que estão babando pela nossa estética na internet.",
         "impacto_sistema": {
@@ -22,7 +22,7 @@
       },
       {
         "nome":"Leiloar tudo para o público nostalgico.",
-        "id_opcao": "B",
+        "id_rota": "B",
         "foco": "Rota B: O Varejo Nostálgico de Alto Ticket (Liquidação Premium)",
         "descricao": "Assumimos que o aluguel acabou, mas o colecionismo explodiu. Rotulamos nosso estoque como \"Artefatos Históricos Originais\". Vendemos as fitas, pôsteres e displays da loja por dez vezes o valor original para colecionadores e hipsters ricos.",
         "impacto_sistema": {
@@ -35,7 +35,7 @@
       },
       {
         "nome":"Túnel do tempo. Conexão com público que deseja um experiência da época",
-        "id_opcao": "C",
+        "id_rota": "C",
         "foco": "Rota C: O Clube de Desconexão (A Experiência 'Tech Detox')",
         "descricao": "Vendemos o antídoto contra a ansiedade digital de 2026. Um pacote de aluguel premium onde entregamos na casa do cliente não apenas a fita, mas a TV de tubo de 29 polegadas e o videocassete para um fim de semana de total desconexão e imersão analógica.",
         "impacto_sistema": {
@@ -48,7 +48,7 @@
       },
       {
         "nome":"Bar Temático. Video Store Music",
-        "id_opcao": "D",
+        "id_rota": "D",
         "foco": "Rota D: O Pub Temático Nostálgico",
         "descricao": "Mudamos de setor. O balcão de atendimento vira um bar. Servimos drinks superfaturados inspirados em clássicos do cinema, enquanto os filmes rodam mudos nas TVs de tubo. A locadora vira o 'Speakeasy' (bar secreto) mais disputado e zintagramável da cidade.",
         "impacto_sistema": {

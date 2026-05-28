@@ -20,7 +20,7 @@
             "fala": "(Ajeitando o colete da locadora, confusa) 'Bom dia, moço. Posso ajudar? Procura lançamento ou catálogo?'"
           },
           {
-            "agente": "ID_Jovem_GenZ",
+            "agente": "ID_Jovem_Gen",
             "fala": "(Sem olhar pra ela, falando para o retângulo de vidro) 'Mano, olha que aesthetics. Achei uma locadora retrô perdida no bairro! O nível de detalhe dos caras é absurdo, até o cheiro de mofo é vintage. Parabéns pela decoração da época, tia, tá muito hype.'"
           },
           {
@@ -32,7 +32,7 @@
             "fala": "(Esmagando o botão do computador conectado ao Wi-Fi) '{curador_nome}... que dia é hoje?'"
           },
           {
-            "agente": "ID_Jovem_GenZ",
+            "agente": "ID_Jovem",
             "fala": "DATA_DE_HOJE, ué. Ih, o cara tá no personagem total! (O celular apita). Opa, galera, meu Uzer chegou ali na esquina. Vou postar esse vídeo no meu Zinta agora, vai hitar muito! É nois!!!'"
           }
         ]

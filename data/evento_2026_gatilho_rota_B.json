@@ -3,6 +3,7 @@
     "id": "evento_mercado_livre",
     "gatilho_rota": "B",
     "ano": 2026,
+    "agente_foco": "ID_Mauricio",
     "titulo": "A Liquidação Premium",
     "contexto_ia": "Decididos a vender o acervo físico de luxo, a equipe discute qual será a logística de distribuição. Vagner surta com a ideia de ir aos Correios e Maurício teme que as fitas sejam maltratadas. O gerente decide o canal de vendas.",
     "dialogos_iniciais": [
@@ -12,60 +13,60 @@
       },
       {
         "agente": "ID_Mauricio",
-        "fala": "Vender? Para sempre?! Você quer entregar meu acervo nas mãos de um moleque rico que vai usar a fita do Godard como calço de porta?! É a morte do cinema!" 
+        "fala": "Vender? Para sempre?! Você quer entregar meu acervo nas mãos de um moleque rico que vai usar a fita do Godard como calço de porta?! É a morte do cinema!"
       },
       {
         "agente": "ID_Vagner",
         "fala": "Meu problema é outro. O cara paga R$ 800 na fita pela internet... e aí? A gente empacota 5.000 fitas e eu vou andando até os Correios com carrinho de feira todo dia? Vai ser um inferno!"
       }
     ],
-    "opcoes": [ 
+    "rotas_principais": [
       {
-        "id_opcao": "B1",
-        "foco": "E-commerce Leilão / Colecionador Global", 
-        "argumento_gerente": "A Leila viu que os Correios buscam na porta. Nós vamos vender só para quem entende o valor. Coloca os clássicos num site de leilão global (eBay). Deixa os nerds do mundo brigarem em dólar. O resto, vai pro lixo.",
-        "treplica": "(Maurício respira fundo) 'Se for pra um colecionador japonês, eu aceito.' (Vagner sorri) 'Ganhando em dólar? Eu ajudo a embalar.'",
-        "impactos": {
+        "id_rota": "B1",
+        "nome": "E-commerce Leilão / Colecionador Global",
+        "fala_gerente": "A Leila viu que os Correios buscam na porta. Nós vamos vender só para quem entende o valor. Coloca os clássicos num site de leilão global (eBay). Deixa os nerds do mundo brigarem em dólar. O resto, vai pro lixo.",
+        "impacto": {
           "caixa": 3,
           "acervo": -10,
           "stress": 30,
           "tracao": 0,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "B2",
-        "foco": "A Galeria de Arte / Foco B2B", 
-        "argumento_gerente": "Vamos virar uma 'Galeria de Arte Y2K'. Maurício, você vai botar os melhores filmes numa moldura de acrílico com certificado de autenticidade. Vendemos a R$ 2.000 a peça para diretores na Faria Lima. Venda presencial, margem brutal.",
-        "treplica": "(Maurício ajeita os óculos) 'Quadros de acrílico. Arte pura.' (Leila anota) 'Vou mandar mensagem no LinkedIn para os executivos.'",
-        "impactos": {
+        "id_rota": "B2",
+        "nome": "A Galeria de Arte / Foco B2B",
+        "fala_gerente": "Vamos virar uma 'Galeria de Arte Y2K'. Maurício, você vai botar os melhores filmes numa moldura de acrílico com certificado de autenticidade. Vendemos a R$ 2.000 a peça para diretores na Faria Lima. Venda presencial, margem brutal.",
+        "impacto": {
           "caixa": 8,
           "acervo": 20,
           "stress": -10,
           "tracao": -10,
           "moral_equipe": 15
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "B3",
-        "foco": "A Mystery Box / Foco nos Influenciadores", 
-        "argumento_gerente": "Vamos surfar no Zinta. Maurício, monte caixas surpresa. Uma fita boa, três ruins, um pacote de pipoca vencida e um pôster. A Leila vende como 'Caixa Misteriosa' por R$ 300 pra jovens gravarem unboxing. Desovamos o estoque ruim.",
-        "treplica": "(Vagner bate palmas) 'Vender tralha escondida em caixa surpresa?! Gerente, você nasceu pra enganar o mercado!' (Leila ri) 'O engajamento vai ser absurdo.'",
-        "impactos": {
+        "id_rota": "B3",
+        "nome": "A Mystery Box / Foco nos Influenciadores",
+        "fala_gerente": "Vamos surfar no Zinta. Maurício, monte caixas surpresa. Uma fita boa, três ruins, um pacote de pipoca vencida e um pôster. A Leila vende como 'Caixa Misteriosa' por R$ 300 pra jovens gravarem unboxing. Desovamos o estoque ruim.",
+        "impacto": {
           "caixa": 4,
           "acervo": -30,
           "stress": 10,
           "tracao": 40,
           "moral_equipe": -10
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Mauricio"
-  }, 
+    ]
+  },
   {
     "id": "evento_autenticidade_2026",
-    "gatilho_rota": "B", 
+    "gatilho_rota": "B",
     "ano": 2026,
+    "agente_foco": "ID_Mauricio",
     "titulo": "Original ou Pirata? A Guerra da Autenticidade",
     "memo_se_flags": {
       "leila_absorveu_prejuizo": "Em 1999, quando um cliente trocou uma fita original por pirata, a locadora absorveu o prejuízo em silêncio para preservar o relacionamento. Dessa vez, o escândalo é público e o mundo está assistindo.",
@@ -77,7 +78,7 @@
         "agente": "ID_Mauricio",
         "fala": "Eu sabia. EU SABIA. Aquele lote comprado em 1999 tinha duplicatas. Preciso de duas semanas para verificar fita por fita. Duas semanas, uma lupa e silêncio absoluto no depósito."
       },
-      { 
+      {
         "agente": "ID_Vagner",
         "fala": "Duas semanas?! O comprador quer reembolso e os scalpers já estão revendendo no dobro com a história do 'escândalo'. A gente tá perdendo dinheiro parado aqui discutindo lupa."
       },
@@ -86,53 +87,53 @@
         "fala": "Achei um perito em São Paulo que faz laudo de autenticidade de mídias analógicas. Cobra R$ 80 por fita. Tem fila de três semanas. Ou a gente controla a narrativa agora antes que o fórum exploda de vez."
       }
     ],
-    "opcoes": [
-      { 
-        "id_opcao": "B4",
-        "foco": "Certificação Profissional / Transparência Total",
-        "argumento_gerente": "Leila, contrata o perito para auditar o acervo inteiro. Paramos as vendas e comunicamos publicamente que estamos certificando tudo. Isso transforma o escândalo em prova de seriedade. Fita com laudo vale três vezes mais no leilão.",
-        "treplica": "(Maurício) 'Um laudo técnico é a única linguagem que colecionador sério respeita.' (Vagner) 'Caro e lento, mas quem tem laudo manda o preço. Aprovado.'",
-        "impactos": {
+    "rotas_principais": [
+      {
+        "id_rota": "B4",
+        "nome": "Certificação Profissional / Transparência Total",
+        "fala_gerente": "Leila, contrata o perito para auditar o acervo inteiro. Paramos as vendas e comunicamos publicamente que estamos certificando tudo. Isso transforma o escândalo em prova de seriedade. Fita com laudo vale três vezes mais no leilão.",
+        "impacto": {
           "caixa": -8,
           "acervo": 40,
           "stress": 10,
           "tracao": 20,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "B5",
-        "foco": "Venda com Disclaimer / Velocidade Sobre Margem", 
-        "argumento_gerente": "A gente não para. Adicionamos aviso em cada anúncio: 'Acervo histórico vendido no estado original — autenticidade não certificada.' Baixamos 20% do preço e vendemos tudo antes que o barulho aumente. Disclaimer cobre a gente juridicamente.",
-        "treplica": "(Vagner) 'Rápido, limpo e legal. Disclaimer cobre a gente.' (Maurício vira o rosto) 'Não me pergunte se eu concordo. Mas entendo a lógica do caixa.'",
-        "impactos": {
+        "id_rota": "B5",
+        "nome": "Venda com Disclaimer / Velocidade Sobre Margem",
+        "fala_gerente": "A gente não para. Adicionamos aviso em cada anúncio: 'Acervo histórico vendido no estado original — autenticidade não certificada.' Baixamos 20% do preço e vendemos tudo antes que o barulho aumente. Disclaimer cobre a gente juridicamente.",
+        "impacto": {
           "caixa": 10,
           "acervo": -20,
           "stress": 20,
           "tracao": -20,
           "moral_equipe": -10
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "B6",
-        "foco": "Anti-Scalper / Venda Direta para Colecionadores", 
-        "argumento_gerente": "Bloqueamos qualquer revenda. Cada comprador se cadastra com CPF e assina termo proibindo revenda com lucro por 12 meses. Os scalpers saem do jogo. Vendemos mais devagar, mas para quem realmente ama o cinema. Isso é reputação que não tem preço.",
-        "treplica": "(Maurício aplaude) 'Proteção cultural. Finalmente alguém pensando no legado.' (Leila) 'Os fóruns já estão nos chamando de guardiões do VHS. Isso vale ouro em tração.'",
-        "impactos": {
+        "id_rota": "B6",
+        "nome": "Anti-Scalper / Venda Direta para Colecionadores",
+        "fala_gerente": "Bloqueamos qualquer revenda. Cada comprador se cadastra com CPF e assina termo proibindo revenda com lucro por 12 meses. Os scalpers saem do jogo. Vendemos mais devagar, mas para quem realmente ama o cinema. Isso é reputação que não tem preço.",
+        "impacto": {
           "caixa": 3,
           "acervo": 10,
           "stress": -10,
           "tracao": 40,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Mauricio"
-  }, 
+    ]
+  },
   {
     "id": "evento_cinemateca_2026",
-    "gatilho_rota": "B", 
+    "gatilho_rota": "B",
     "ano": 2026,
+    "agente_foco": "ID_Mauricio",
     "titulo": "O Guardião Cultural Chegou",
     "memo_se_flags": {
       "acervo_cult_comprado": "Entre os 200 títulos raros está parte do lote comprado em 1999 — as fitas de Kubrick, Kurosawa e Hitchcock que o Maurício catalogou com tanto cuidado. São justamente essas que a Cinemateca deseja.",
@@ -144,7 +145,7 @@
         "agente": "ID_Mauricio",
         "fala": "Gerente, a Cinemateca é a maior instituição de preservação audiovisual do Brasil. Eles têm clima controlado, restauração técnica... parte de mim quer chorar de alegria ao pensar nas fitas indo para o melhor lugar possível."
       },
-      { 
+      {
         "agente": "ID_Vagner",
         "fala": "R$45.000 pelo lote inteiro é R$225 por título. Qualquer um desses vale o dobro sozinho no mercado de colecionadores. A oferta é honesta, mas não é generosa. A gente pode fazer melhor."
       },
@@ -153,53 +154,53 @@
         "fala": "Se a gente aceita e vai pro site da Cinemateca, viramos notícia em todo portal de cultura do país. Sabe quanto vale essa cobertura de imprensa? Porque eu não consigo calcular."
       }
     ],
-    "opcoes": [
-      { 
-        "id_opcao": "B7",
-        "foco": "Aceitar a Oferta / Preservação Garantida",
-        "argumento_gerente": "Maurício, aceita. R$45k garante o caixa e as fitas ficam nas melhores mãos possíveis — melhor lugar do mundo para elas. A locadora não é um museu, somos um negócio. Com o caixa, abrimos a próxima fase.",
-        "treplica": "(Maurício assina com os olhos marejados) 'Vão para onde merecem.' (Vagner) 'Caixa sólido para o próximo trimestre.' (Leila já está escrevendo o press release.)",
-        "impactos": {
+    "rotas_principais": [
+      {
+        "id_rota": "B7",
+        "nome": "Aceitar a Oferta / Preservação Garantida",
+        "fala_gerente": "Maurício, aceita. R$45k garante o caixa e as fitas ficam nas melhores mãos possíveis — melhor lugar do mundo para elas. A locadora não é um museu, somos um negócio. Com o caixa, abrimos a próxima fase.",
+        "impacto": {
           "caixa": 40,
           "tracao": 15,
           "acervo": -40,
           "stress": -10,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "B8",
-        "foco": "Venda Parcial / Preservar o Núcleo", 
-        "argumento_gerente": "Vagner, contra-proposta: vendemos o segundo exemplar de cada título e as obras sem raridade por R$20k. Os 80 títulos únicos ficam aqui como âncora do acervo. A Cinemateca fica com o que precisa para o arquivo, a gente fica com a alma do negócio.",
-        "treplica": "(Maurício alivia) 'Salvar o núcleo. Sabedoria.' (Vagner calcula) 'R$20k imediato e mantemos os ativos mais valiosos. A lógica fecha.'",
-        "impactos": {
+        "id_rota": "B8",
+        "nome": "Venda Parcial / Preservar o Núcleo",
+        "fala_gerente": "Vagner, contra-proposta: vendemos o segundo exemplar de cada título e as obras sem raridade por R$20k. Os 80 títulos únicos ficam aqui como âncora do acervo. A Cinemateca fica com o que precisa para o arquivo, a gente fica com a alma do negócio.",
+        "impacto": {
           "caixa": 20,
           "tracao": 10,
           "acervo": 10,
           "stress": 15,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "B9",
-        "foco": "Comodato Cultural / Parceria de Longo Prazo", 
-        "argumento_gerente": "Eu não vendo: proponho comodato por 5 anos. As fitas ficam com a Cinemateca para exibição e preservação, mas o acervo continua sendo nosso. A gente ganha o selo de 'Parceiro Oficial da Cinemateca' e toda cobertura de imprensa sem ceder nada definitivamente.",
-        "treplica": "(Leila já está redigindo o comunicado) 'Parceiro oficial da Cinemateca Brasileira — isso é nosso currículo para sempre!' (Maurício concorda) 'As fitas preservadas e o nome na história. Perfeito.' (Vagner) 'Sem caixa imediato, mas o retorno em marca é real.'",
-        "impactos": {
+        "id_rota": "B9",
+        "nome": "Comodato Cultural / Parceria de Longo Prazo",
+        "fala_gerente": "Eu não vendo: proponho comodato por 5 anos. As fitas ficam com a Cinemateca para exibição e preservação, mas o acervo continua sendo nosso. A gente ganha o selo de 'Parceiro Oficial da Cinemateca' e toda cobertura de imprensa sem ceder nada definitivamente.",
+        "impacto": {
           "caixa": 0,
           "tracao": 25,
           "acervo": 20,
           "stress": 10,
           "moral_equipe": 15
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Mauricio"
-  }, 
+    ]
+  },
   {
     "id": "evento_receita_federal_2026",
-    "gatilho_rota": "B", 
+    "gatilho_rota": "B",
     "ano": 2026,
+    "agente_foco": "ID_Vagner",
     "titulo": "O Leão Bateu na Porta",
     "contexto_ia": "Uma carta da Receita Federal chegou. Os R$280.000 em vendas de mídias analógicas do último ano nunca não conseguimos declarar a tempo como receita empresarial. O contador contratado às pressas descobriu que a locadora deve R$18.000 entre IR e contribuições. Vagner está Roxo.",
     "dialogos_iniciais": [
@@ -213,50 +214,49 @@
       },
       {
         "agente": "ID_Mauricio",
-        "fala": "Vocês venderam minha coleção em leilão global e não conseguimos pagar impostos a tempo? Gerente, me diz que a gente não vai ser presa por causa de uma fita do Fellini." 
+        "fala": "Vocês venderam minha coleção em leilão global e não conseguimos pagar impostos a tempo? Gerente, me diz que a gente não vai ser presa por causa de uma fita do Fellini."
       }
     ],
-    "opcoes": [
+    "rotas_principais": [
       {
-        "id_opcao": "B10",
-        "foco": "Pagar Tudo / Compliance Total",
-        "argumento_gerente": "Vagner, paga os R$18k e a empresa entra no Simples Nacional agora. Custo alto, mas dormimos tranquilos. Nenhum outro problema fiscal em cima desse.",
-        "treplica": "(Vagner faz o boleto com expressão de dor) 'Pronto. R$18k voaram. Mas estamos limpos, como sempre fomos.' (Leila) 'Pelo menos agora temos CNPJ. Posso emitir nota fiscal para as marcas?' (Vagner) 'Pode. E vai fazer isso de hoje em diante.'",
-        "impactos": {
+        "id_rota": "B10",
+        "nome": "Pagar Tudo / Compliance Total",
+        "fala_gerente": "Vagner, paga os R$18k e a empresa entra no Simples Nacional agora. Custo alto, mas dormimos tranquilos. Nenhum outro problema fiscal em cima desse.",
+        "impacto": {
           "caixa": -18,
           "tracao": 5,
           "acervo": 0,
           "stress": -15,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "B11",
-        "foco": "Simples Nacional Retroativo / Reduzir o Débito",
-        "argumento_gerente": "Leila, liga pra esse contador. Se o Simples retroativo reduz o débito para R$9.000, a diferença de R$9.000 paga o trabalho dele com sobra. Às vezes a burocracia existe para nos proteger dela mesma.",
-        "treplica": "(Leila fecha o acordo no telefone) 'Contador confirmou R$8.700 de débito total.' (Vagner) 'Economizamos R$9k com uma telefonada. E agora temos uma empresa de verdade.' (Maurício) 'Burocracia com propósito. Uma novidade.'",
-        "impactos": {
+        "id_rota": "B11",
+        "nome": "Simples Nacional Retroativo / Reduzir o Débito",
+        "fala_gerente": "Leila, liga pra esse contador. Se o Simples retroativo reduz o débito para R$9.000, a diferença de R$9.000 paga o trabalho dele com sobra. Às vezes a burocracia existe para nos proteger dela mesma.",
+        "impacto": {
           "caixa": -9,
           "tracao": 5,
           "acervo": 0,
           "stress": -5,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "B12",
-        "foco": "Parcelamento REFIS / Reestruturação Completa",
-        "argumento_gerente": "Não vamos pagar de uma vez — parcelamos os R$18k em 12 meses pelo REFIS. Usamos o tempo para estruturar a empresa com CNPJ, regime tributário correto e emissão de nota. O que era informalidade vira empresa de verdade, com custo diluído.",
-        "treplica": "(Vagner respira) 'REFIS. 12 parcelas de R$1.500. Dói menos.' (Leila já pesquisa) 'Com CNPJ aberto, posso fechar parceria com marcas de verdade. Isso mais que paga as parcelas.' (Maurício) 'Finalmente crescemos como adultos.'",
-        "impactos": {
+        "id_rota": "B12",
+        "nome": "Parcelamento REFIS / Reestruturação Completa",
+        "fala_gerente": "Não vamos pagar de uma vez — parcelamos os R$18k em 12 meses pelo REFIS. Usamos o tempo para estruturar a empresa com CNPJ, regime tributário correto e emissão de nota. O que era informalidade vira empresa de verdade, com custo diluído.",
+        "impacto": {
           "caixa": -2,
           "tracao": 15,
           "acervo": 0,
           "stress": 20,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Vagner"
+    ]
   }
 ]

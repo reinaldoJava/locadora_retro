@@ -43,12 +43,15 @@ class RendererMixin:
                     img_npc_src=f"/static/img/{nome_img}.webp")
 
     def _sub_curador(self, texto: str) -> str:
-        """Substitui referências nominais ao curador original pelo substituto se necessário."""
-        if not self.motor.estado.get("flags", {}).get("mauricio_saiu"):
+        """Resolve {curador_nome} e substitui referências nominais ao curador se necessário."""
+        flags = self.motor.estado.get("flags", {})
+        curador = flags.get("curador_nome", "Maurício")
+        texto = texto.replace("{curador_nome}", curador)
+        if not flags.get("mauricio_saiu"):
             return texto
-        res = texto.replace("Maurício", "Marcos").replace("Mauricio", "Marcos")
-        res = res.replace("o Maurício", "o Marcos").replace("do Maurício", "do Marcos")
-        return res
+        texto = texto.replace("Maurício", "Marcos").replace("Mauricio", "Marcos")
+        texto = texto.replace("o Maurício", "o Marcos").replace("do Maurício", "do Marcos")
+        return texto
 
     def _preparar_fala_com_typing(self, texto_html, nome_personagem=None):
         """Helper cirúrgico para formatar o HTML com alvo de digitação e registrar o comando UI."""
@@ -78,6 +81,8 @@ class RendererMixin:
         argumento = o que o Gerente disse (fala_gerente ou argumento_gerente).
         """
         agente_nome = agente_id.replace("ID_", "")
+        contexto  = self._sub_curador(contexto)
+        argumento = self._sub_curador(argumento)
         fala = obter_do_pool(pool_key)
         if not fala:
             fala = gerar_fala(agente_id, contexto, ano, temperatura, argumento=argumento)
@@ -204,13 +209,16 @@ class RendererMixin:
             texto_html = self._preparar_fala_com_typing(
                 texto_raw.replace(chr(10), "<br>"), self.nome_jogador)
         elif self.motor.estado.get("texto_treplica_pendente"):
-            agente_atual = self.motor.estado.get("agente_atual", "Vagner")
-            if agente_atual == "Sistema":
-                # 2026: tréplica é texto estático com múltiplos personagens — exibe diretamente
+            agente_atual  = self.motor.estado.get("agente_atual", "Vagner")
+            treplica_val  = self.motor.estado.get("texto_treplica_pendente", "")
+            # "_pending_" = sentinel LLM (1999 e 2026 rotas simples).
+            # Texto estático só é exibido diretamente quando agente_atual=="Sistema"
+            # E o valor não é o sentinel (formato legado de tréplicas multi-personagem).
+            if agente_atual == "Sistema" and treplica_val != "_pending_":
                 texto_raw  = dados.get("texto") or ""
                 texto_html = self._preparar_fala_com_typing(texto_raw.replace(chr(10), "<br>"))
             else:
-                # 1999: tréplica gera via LLM usando contexto_ia + argumento_gerente
+                # LLM gera a tréplica para 1999 e 2026
                 texto_html = self._renderizar_fala_llm(
                     contexto    = evt_atual.get("contexto_ia", "") if evt_atual else "",
                     agente_id   = self.motor._resolver_agente("ID_" + agente_atual),
@@ -302,7 +310,7 @@ class RendererMixin:
             opcoes_html = "".join(
                 f"<button class='btn-opcao' hx-post='/api/interagir' "
                 f"hx-vals='{{\"choice\": {idx}}}' "
-                f"hx-target='#ui-jogo' hx-swap='innerHTML'>{opcao_txt}</button>"
+                f"hx-target='#ui-jogo' hx-swap='innerHTML'>{self._sub_curador(opcao_txt)}</button>"
                 for idx, opcao_txt in enumerate(dados["opcoes"])
             )
             spotlight = dict(personagem_foco="Sistema",

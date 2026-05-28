@@ -4,22 +4,33 @@
 
 import json
 import os
+import urllib.request
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
 # Blueprint cache — carrega cada JSON de missão uma única vez por processo.
-# Leitura de disco ocorre apenas na primeira chamada para cada filename;
-# todas as requisições subsequentes servem do dict in-memory sem I/O.
+# Se CONTENT_BASE_URL estiver definida (ex.: GitHub Raw), busca via HTTP.
+# Caso contrário lê do disco local (desenvolvimento).
 # ---------------------------------------------------------------------------
 _BLUEPRINT_CACHE: dict[str, list] = {}
+_CONTENT_BASE_URL = os.environ.get("CONTENT_BASE_URL", "").rstrip("/")
 
 
 def _load_blueprint(filename: str) -> list:
-    """Retorna a lista de eventos do arquivo JSON, usando cache em memória."""
+    """Retorna a lista de eventos do arquivo JSON, usando cache em memória.
+
+    Produção : define CONTENT_BASE_URL=https://raw.githubusercontent.com/USER/REPO/BRANCH/data
+    Dev local: deixa CONTENT_BASE_URL vazio — lê direto do disco.
+    """
     if filename not in _BLUEPRINT_CACHE:
-        caminho = os.path.join(Path(__file__).resolve().parent.parent, "data", filename)
-        with open(caminho, "r", encoding="utf-8") as f:
-            dados = json.load(f)
+        if _CONTENT_BASE_URL:
+            url = f"{_CONTENT_BASE_URL}/{filename}"
+            with urllib.request.urlopen(url) as resp:
+                dados = json.loads(resp.read())
+        else:
+            caminho = os.path.join(Path(__file__).resolve().parent.parent, "data", filename)
+            with open(caminho, "r", encoding="utf-8") as f:
+                dados = json.load(f)
         _BLUEPRINT_CACHE[filename] = list(dados.values()) if isinstance(dados, dict) else dados
     return _BLUEPRINT_CACHE[filename]
 
@@ -148,8 +159,6 @@ class Engine:
 
         if "rotas_principais" in evt:
             opcoes_txt = [r.get("nome", r.get("descricao", "Opcao")) for r in evt["rotas_principais"]]
-        elif "opcoes" in evt:
-            opcoes_txt = [o.get("foco", o.get("argumento_gerente", "Opcao")) for o in evt["opcoes"]]
         else:
             opcoes_txt = []
 
@@ -216,10 +225,10 @@ class Engine:
                 self.estado["ano_buffer"] = evt.get("ano", 1999)
             return self.estado
 
-        escolha = None
         if "rotas_principais" in evt:
             escolha = evt["rotas_principais"][indice_opcao]
             if "sub_opcoes" in escolha:
+                # Rota com negociacao em dois niveis (1999)
                 self.estado["historico_rotas"].append(escolha.get("id_rota", ""))
                 self.estado["rota_pendente_idx"] = indice_opcao
                 agente_foco_default = self._resolver_agente(
@@ -229,44 +238,40 @@ class Engine:
                 self.estado["texto_gerente_pendente"] = escolha.get("fala_gerente", "")
                 self.estado["llm_argumento"] = escolha.get("fala_gerente", "")
                 return self.estado
-
-        elif "opcoes" in evt:
-            escolha = evt["opcoes"][indice_opcao]
-            if escolha.get("argumento_gerente") or escolha.get("treplica"):
-                id_escolha = escolha.get("id_opcao", escolha.get("id_rota", ""))
-                if id_escolha:
-                    self.estado["historico_rotas"].append(id_escolha)
-                self._aplicar_impacto_dinamico(escolha)
-                if escolha.get("argumento_gerente"):
-                    self.estado["texto_gerente_pendente"] = escolha["argumento_gerente"]
-                    self.estado["llm_argumento"] = escolha["argumento_gerente"]
-                if escolha.get("treplica"):
-                    self.estado["texto_treplica_pendente"] = escolha["treplica"]
-                    agente_foco = evt.get("agente_foco")
-                    if agente_foco:
-                        self.estado["agente_atual"] = self._resolver_agente(
-                            agente_foco).replace("ID_", "")
-                        self.estado["pool_key_treplica"] = (
-                            f"{evt.get('id', '')}:treplica:{indice_opcao}"
-                        )
-                    else:
-                        self.estado["agente_atual"] = "Sistema"
-                self.estado["ano_buffer"] = evt.get("ano", 1999)
-                return self.estado
-
-        if escolha:
-            id_escolha = escolha.get("id_opcao", escolha.get("id_rota", ""))
-            if id_escolha:
-                self.estado["historico_rotas"].append(id_escolha)
+            # Rota simples (sem sub_opcoes): aplica impacto e abre dialogo LLM
+            id_rota = escolha.get("id_rota", "")
+            if id_rota:
+                self.estado["historico_rotas"].append(id_rota)
             self._aplicar_impacto_dinamico(escolha)
+            if escolha.get("fala_gerente"):
+                agente_foco_default = self._resolver_agente(
+                    evt.get("agente_foco", "ID_Vagner")).replace("ID_", "")
+                self.estado["agente_atual"] = agente_foco_default
+                self.estado["texto_gerente_pendente"] = escolha["fala_gerente"]
+                self.estado["llm_argumento"] = escolha["fala_gerente"]
+                self.estado["ano_buffer"] = evt.get("ano", 2026)
+                self.estado["texto_treplica_pendente"] = "_pending_"
+                self.estado["pool_key_treplica"] = (
+                    f"{evt.get('id', '')}:treplica:{indice_opcao}"
+                )
+                self.estado["temp_treplica"] = escolha.get("temp_replica", 0.4)
+            else:
+                self.estado["indice_evento"] += 1
+            return self.estado
 
         self.estado["indice_evento"] += 1
         return self.estado
 
     def _resolver_agente(self, agente_id: str) -> str:
-        """Substitui ID_Mauricio por ID_Marcos quando flag mauricio_saiu está ativa."""
-        if (agente_id == "ID_Mauricio" and
-                self.estado.get("flags", {}).get("mauricio_saiu")):
+        """Resolve IDs dinâmicos de agente conforme flags narrativas.
+
+        ID_Curador  → ID_Mauricio (padrão) ou ID_Marcos (após mauricio_saiu)
+        ID_Mauricio → ID_Marcos quando mauricio_saiu está ativa
+        """
+        mauricio_saiu = self.estado.get("flags", {}).get("mauricio_saiu")
+        if agente_id == "ID_Curador":
+            return "ID_Marcos" if mauricio_saiu else "ID_Mauricio"
+        if agente_id == "ID_Mauricio" and mauricio_saiu:
             return "ID_Marcos"
         return agente_id
 

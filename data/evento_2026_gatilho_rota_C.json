@@ -3,6 +3,7 @@
     "id": "evento_detox_digital",
     "gatilho_rota": "C",
     "ano": 2026,
+    "agente_foco": "ID_Vagner",
     "titulo": "A Epidemia do Burnout",
     "memo_se_flags": {
       "acervo_legendado": "O acervo legendado investido em 1999 carrega uma percepção de qualidade e autenticidade que reforça o pitch de 'experiência original' para os executivos. Quem pagou R$ 5.000 por um retiro digital quer o áudio original do Kubrick, não a dublagem.",
@@ -20,56 +21,56 @@
       },
       {
         "agente": "ID_Mauricio",
-        "fala": "Essa geração não sabe o que é cabo AV! Eles vão ligar o aparelho na tomada errada, explodir a fita do Cidadão Kane e ligar chorando porque a tela tá com chuvisco!" 
+        "fala": "Essa geração não sabe o que é cabo AV! Eles vão ligar o aparelho na tomada errada, explodir a fita do Cidadão Kane e ligar chorando porque a tela tá com chuvisco!"
       }
     ],
-    "opcoes": [
+    "rotas_principais": [
       {
-        "id_opcao": "C1",
-        "foco": "Serviço White Glove / Alto Ticket", 
-        "argumento_gerente": "Nós cobramos R$ 1.500 pelo fim de semana. O {curador_nome} vai na van do frete terceirizado, faz a instalação cerimonial dos cabos na sala do cliente e tranca os celulares da família num cofre. Vendemos a terapia completa.",
-        "treplica": "({curador_nome} sorri) 'Instalar o sistema como um sacerdote da tecnologia antiga... Eu topo.' (Vagner faz contas) '1.500 paga o risco. Aprovado.'",
-        "impactos": {
-          "caixa": 6, 
+        "id_rota": "C1",
+        "nome": "Serviço White Glove / Alto Ticket",
+        "fala_gerente": "Nós cobramos R$ 1.500 pelo fim de semana. O Maurício vai na van do frete terceirizado, faz a instalação cerimonial dos cabos na sala do cliente e tranca os celulares da família num cofre. Vendemos a terapia completa.",
+        "impacto": {
+          "caixa": 6,
           "acervo": -20,
           "stress": 40,
           "tracao": 10,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "C2",
-        "foco": "Cabines de Isolamento / In-Store", 
-        "argumento_gerente": "A TV não sai da loja. Vamos montar quatro 'Cabines de Isolamento' escuras nos fundos. O cliente paga R$ 200, deixa o celular no armário e assiste aqui dentro, no escuro. Sem risco logístico.",
-        "treplica": "(Vagner cruza os braços) 'Isso é inteligência! A TV fica imóvel, minhas costas agradecem.' (Maurício concorda) 'A locadora vira um santuário de paz.'",
-        "impactos": {
+        "id_rota": "C2",
+        "nome": "Cabines de Isolamento / In-Store",
+        "fala_gerente": "A TV não sai da loja. Vamos montar quatro 'Cabines de Isolamento' escuras nos fundos. O cliente paga R$ 200, deixa o celular no armário e assiste aqui dentro, no escuro. Sem risco logístico.",
+        "impacto": {
           "caixa": 1,
           "acervo": 30,
           "stress": -20,
           "tracao": 10,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "C3",
-        "foco": "Benefício Corporativo / B2B Saúde Mental", 
-        "argumento_gerente": "Oferecemos a 'Noite Retrô' para diretores de RH como benefício de saúde mental corporativa. A empresa paga R$ 3.000/mês, assina um seguro e manda o motorista retirar a TV aqui.",
-        "treplica": "(Leila comemora) 'Isso é Growth Hacking! Um contrato fecha a meta do mês.' (Vagner bate na mesa) 'Contrato e seguro corporativo. Gerente, você é um gênio.'",
-        "impactos": {
+        "id_rota": "C3",
+        "nome": "Benefício Corporativo / B2B Saúde Mental",
+        "fala_gerente": "Oferecemos a 'Noite Retrô' para diretores de RH como benefício de saúde mental corporativa. A empresa paga R$ 3.000/mês, assina um seguro e manda o motorista retirar a TV aqui.",
+        "impacto": {
           "caixa": 12,
           "acervo": 10,
           "stress": 10,
           "tracao": -10,
           "moral_equipe": 0
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Vagner"
-  }, 
+    ]
+  },
   {
     "id": "evento_games_retro_2026",
     "gatilho_rota": "C",
     "ano": 2026,
+    "agente_foco": "ID_Vagner",
     "titulo": "Do VHS ao Cartucho: A Expansão Retrô",
     "contexto_ia": "O sucesso do Túnel do Tempo atraiu um público que não veio só pelo VHS — vieram pelos anos 90. Clientes começam a perguntar se a locadora também aluga videogames retrô. Um colecionador local propôs uma parceria. A questão é: como e quando expandir?",
     "dialogos_iniciais": [
@@ -79,60 +80,60 @@
       },
       {
         "agente": "ID_Mauricio",
-        "fala": "Games?! Isso é uma invasão! A locadora tem identidade cinematográfica. Se a gente vira uma lan house retrô, diluímos o que nos faz especiais. O cliente vem pelo Kubrick, não pelo Zelda." 
+        "fala": "Games?! Isso é uma invasão! A locadora tem identidade cinematográfica. Se a gente vira uma lan house retrô, diluímos o que nos faz especiais. O cliente vem pelo Kubrick, não pelo Zelda."
       },
       {
         "agente": "ID_Vagner",
         "fala": "O Carlos, aquele colecionador que sempre aparece aqui, tem 200 cartuchos e cinco consoles encaixotados na garagem. Ele já propôs parceria. Eu só precisava de uma sinalização sua pra responder."
       }
     ],
-    "opcoes": [
-      { 
-        "id_opcao": "C4",
-        "foco": "Parceria com o Carlos / Risco Compartilhado",
-        "argumento_gerente": "Vagner, fecha com o Carlos. Ele entra com o hardware, a gente entra com o espaço e o público. Dividimos 50/50 na receita. Se não funcionar em 90 dias, ele leva os consoles de volta. Custo zero, teste real de mercado.",
-        "treplica": "(Vagner) 'Parceria sem desembolso? Isso é negócio.' (Maurício torce o nariz mas aceita) 'Pelo menos o Carlos conhece o valor do que tem. Ele não vai misturar o Zelda com o Godard.'",
-        "impactos": {
+    "rotas_principais": [
+      {
+        "id_rota": "C4",
+        "nome": "Parceria com o Carlos / Risco Compartilhado",
+        "fala_gerente": "Vagner, fecha com o Carlos. Ele entra com o hardware, a gente entra com o espaço e o público. Dividimos 50/50 na receita. Se não funcionar em 90 dias, ele leva os consoles de volta. Custo zero, teste real de mercado.",
+        "impacto": {
           "caixa": 5,
           "acervo": 10,
           "stress": 10,
           "tracao": 30,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "C5",
-        "foco": "Área Própria de Games / Investimento Direto", 
-        "argumento_gerente": "A gente monta a área com hardware próprio. R$ 8.000 em consoles e cartuchos curados pelo Maurício — só clássicos com valor cultural, sem shovelware. A locadora vira referência total dos anos 90: filmes E jogos. Quem domina os dois lados, domina a nostalgia.",
-        "treplica": "(Maurício) 'Se eu curar o acervo de games como curei as fitas, pode ser arte.' (Vagner) 'R$ 8 mil é alto, mas se a Leila tiver certa sobre a demanda, pagamos em dois meses.'",
-        "impactos": {
+        "id_rota": "C5",
+        "nome": "Área Própria de Games / Investimento Direto",
+        "fala_gerente": "A gente monta a área com hardware próprio. R$ 8.000 em consoles e cartuchos curados pelo Maurício — só clássicos com valor cultural, sem shovelware. A locadora vira referência total dos anos 90: filmes E jogos. Quem domina os dois lados, domina a nostalgia.",
+        "impacto": {
           "caixa": -20,
           "acervo": 20,
           "stress": 30,
           "tracao": 50,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "C6",
-        "foco": "Anunciar Primeiro / Testar a Demanda", 
-        "argumento_gerente": "Antes de gastar um centavo, a gente anuncia. Leila posta um story: 'Quem quer alugar SNES e Mega Drive aqui?' Se chegar 200 comentários em 24 horas, a gente avança. Se não chegar, a resposta do mercado veio de graça. Dado antes do dinheiro.",
-        "treplica": "(Leila pega o celular na hora) 'Já tô postando. Aposto R$ 50 que em uma hora tem 300 comentários.' (Vagner) 'Inteligência antes de risco. Isso é gestão, rapaz.'",
-        "impactos": {
+        "id_rota": "C6",
+        "nome": "Anunciar Primeiro / Testar a Demanda",
+        "fala_gerente": "Antes de gastar um centavo, a gente anuncia. Leila posta um story: 'Quem quer alugar SNES e Mega Drive aqui?' Se chegar 200 comentários em 24 horas, a gente avança. Se não chegar, a resposta do mercado veio de graça. Dado antes do dinheiro.",
+        "impacto": {
           "caixa": 0,
           "acervo": 0,
           "stress": -10,
           "tracao": 20,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Vagner"
-  }, 
+    ]
+  },
   {
     "id": "evento_clone_retro_2026",
     "gatilho_rota": "C",
     "ano": 2026,
+    "agente_foco": "ID_Leila",
     "titulo": "Copiaram Nossa Alma",
     "memo_se_flags": {
       "acervo_cult_comprado": "O acervo cult investido em 1999 — Kubrick, Kurosawa, Hitchcock — é justamente o diferencial que o RetroZone não consegue replicar com seis meses de operação. 27 anos de curadoria não se fotografa e copia.",
@@ -146,60 +147,60 @@
       },
       {
         "agente": "ID_Mauricio",
-        "fala": "Imitadores. É o que acontece quando você tem sucesso — os medíocres aparecem. Mas uma coisa eles nunca vão ter: 27 anos de história e 3.000 fitas originais. Cópias sempre revelam a ausência do original." 
+        "fala": "Imitadores. É o que acontece quando você tem sucesso — os medíocres aparecem. Mas uma coisa eles nunca vão ter: 27 anos de história e 3.000 fitas originais. Cópias sempre revelam a ausência do original."
       },
       {
         "agente": "ID_Vagner",
         "fala": "A história não paga boleto. Eles são 30% mais baratos. Em seis meses, se a gente não reagir, perdemos metade dos clientes novos que a Leila trouxe. Precisamos de uma resposta concreta."
       }
     ],
-    "opcoes": [
-      { 
-        "id_opcao": "C7",
-        "foco": "Guerra de Preços / Dumping Temporário",
-        "argumento_gerente": "Vagner, baixamos o preço das cabines 25% por 60 dias. Vamos fazer o clone sangrar. Com o histórico que temos, eles não aguentam uma guerra de preços com a gente.",
-        "treplica": "(Vagner) 'Comprimimos a margem por dois meses. Doloroso, mas controlado.' (Leila) 'E eu aumento a frequência de posts para lembrar todo mundo de quem é o original aqui.'",
-        "impactos": {
+    "rotas_principais": [
+      {
+        "id_rota": "C7",
+        "nome": "Guerra de Preços / Dumping Temporário",
+        "fala_gerente": "Vagner, baixamos o preço das cabines 25% por 60 dias. Vamos fazer o clone sangrar. Com o histórico que temos, eles não aguentam uma guerra de preços com a gente.",
+        "impacto": {
           "caixa": -10,
           "tracao": 20,
           "acervo": 0,
           "stress": 25,
           "moral_equipe": -5
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "C8",
-        "foco": "Inovar / Criar o Que Não Pode Ser Copiado", 
-        "argumento_gerente": "A gente não compete com imitador por preço. A gente inova. Maurício, a nossa vantagem é o acervo e a curadoria. Lançamos o 'Clube do Diretor' — sessões semanais com tema, curadoria assinada e material de análise. Eles têm TV de tubo. A gente tem alma.",
-        "treplica": "(Maurício levanta da cadeira) 'O Clube do Diretor. Finalmente um projeto digno do acervo.' (Leila) 'Conteúdo diferenciado que não dá pra copiar em seis meses? Isso sim é estratégia.' (Vagner) 'Aprovado.'",
-        "impactos": {
+        "id_rota": "C8",
+        "nome": "Inovar / Criar o Que Não Pode Ser Copiado",
+        "fala_gerente": "A gente não compete com imitador por preço. A gente inova. Maurício, a nossa vantagem é o acervo e a curadoria. Lançamos o 'Clube do Diretor' — sessões semanais com tema, curadoria assinada e material de análise. Eles têm TV de tubo. A gente tem alma.",
+        "impacto": {
           "caixa": -5,
           "tracao": 30,
           "acervo": 15,
           "stress": 10,
           "moral_equipe": 15
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "C9",
-        "foco": "Contato Direto / Parceria ou Divisão de Território", 
-        "argumento_gerente": "Leila, encontra o dono. Antes de gastar um real em guerra, quero saber quem é esse cara. Se eles copiaram a gente, eles admiram o conceito. Talvez seja mais inteligente propor parceria do que destruição — dividimos a cidade: eles ficam com o lado leste, a gente com o oeste.",
-        "treplica": "(Leila pesquisa) 'Cara de 28 anos. Claramente fã da locadora. Dá pra conversar.' (Vagner) 'Se não dá pra comprar, pelo menos marcamos território. Melhor do que guerra.'",
-        "impactos": {
+        "id_rota": "C9",
+        "nome": "Contato Direto / Parceria ou Divisão de Território",
+        "fala_gerente": "Leila, encontra o dono. Antes de gastar um real em guerra, quero saber quem é esse cara. Se eles copiaram a gente, eles admiram o conceito. Talvez seja mais inteligente propor parceria do que destruição — dividimos a cidade: eles ficam com o lado leste, a gente com o oeste.",
+        "impacto": {
           "caixa": 3,
           "tracao": 15,
           "acervo": 0,
           "stress": 10,
           "moral_equipe": 0
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Leila"
-  }, 
+    ]
+  },
   {
     "id": "evento_escola_retro_2026",
     "gatilho_rota": "C",
     "ano": 2026,
+    "agente_foco": "ID_Mauricio",
     "titulo": "A Geração que Não Conhece o Rebobinar",
     "contexto_ia": "O Colégio Dom Bosco quer realizar uma 'Semana de História Digital' usando o acervo — videocassetes, consoles e câmeras analógicas. 120 alunos do ensino médio, cinco dias. A diretora ofereceu R$6.000 pelo uso do material. O problema: os equipamentos teriam que sair da loja.",
     "dialogos_iniciais": [
@@ -216,47 +217,46 @@
         "fala": "R$6.000 por cinco dias de aluguel. Mas se quebrar qualquer coisa, quem paga? A diretora tem seguro escolar, mas seguro escolar não cobre fita do Akira Kurosawa."
       }
     ],
-    "opcoes": [
-      { 
-        "id_opcao": "C10",
-        "foco": "Aceitar com Maurício como Curador/Monitor",
-        "argumento_gerente": "Aceitamos com uma condição: o Maurício vai como curador dos equipamentos. Ele dá a oficina, supervisiona o manuseio e garante que nada seja danificado. R$6.000 mais a presença dele como palestrante — isso aparece no currículo do Maurício e no site da locadora.",
-        "treplica": "(Maurício para de reclamar) 'Eu... como palestrante? Em uma escola?' (Vagner) 'R$6k pagos pelo Estado, Maurício como guarda das fitas. Aprovado.' (Leila) 'Já tô escrevendo o press release.'",
-        "impactos": {
+    "rotas_principais": [
+      {
+        "id_rota": "C10",
+        "nome": "Aceitar com Maurício como Curador/Monitor",
+        "fala_gerente": "Aceitamos com uma condição: o Maurício vai como curador dos equipamentos. Ele dá a oficina, supervisiona o manuseio e garante que nada seja danificado. R$6.000 mais a presença dele como palestrante — isso aparece no currículo do Maurício e no site da locadora.",
+        "impacto": {
           "caixa": 6,
           "tracao": 20,
           "acervo": 5,
           "stress": 15,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "C11",
-        "foco": "Trazer a Escola até a Locadora", 
-        "argumento_gerente": "Os equipamentos não saem. A escola vem até nós. Dividimos os 120 alunos em grupos de 20, duas horas cada turno, ao longo de cinco dias. R$4.000 para usar o espaço, mas as fitas ficam no lugar delas. A locadora vira sala de aula.",
-        "treplica": "(Vagner) 'Menos dinheiro, zero risco de transporte.' (Maurício) 'A locadora como sala de aula... Hitchcock olhando para cima, orgulhoso.' (Leila) 'Faço a grade de horários hoje mesmo.'",
-        "impactos": {
+        "id_rota": "C11",
+        "nome": "Trazer a Escola até a Locadora",
+        "fala_gerente": "Os equipamentos não saem. A escola vem até nós. Dividimos os 120 alunos em grupos de 20, duas horas cada turno, ao longo de cinco dias. R$4.000 para usar o espaço, mas as fitas ficam no lugar delas. A locadora vira sala de aula.",
+        "impacto": {
           "caixa": 4,
           "tracao": 25,
           "acervo": 0,
           "stress": 10,
           "moral_equipe": 10
-        }
+        },
+        "temp_replica": 0.4
       },
       {
-        "id_opcao": "C12",
-        "foco": "Kit Educativo Mensal / Receita Recorrente", 
-        "argumento_gerente": "Não para uma semana: para o ano inteiro. Vamos criar o 'Kit Locadora na Escola' — TV, videocassete e 10 fitas temáticas em caixa de transporte. A escola assina um contrato mensal de R$800 e usa quando quiser. Criamos uma nova linha de receita recorrente.",
-        "treplica": "(Vagner abre a planilha) 'R$800 por mês por escola. Se fecharmos cinco, são R$4.000 fixos todo mês.' (Leila) 'Posso vender isso no LinkedIn para coordenadores pedagógicos.' (Maurício) 'Educação analógica em escala. Eu cuido da curadoria dos kits.'",
-        "impactos": {
+        "id_rota": "C12",
+        "nome": "Kit Educativo Mensal / Receita Recorrente",
+        "fala_gerente": "Não para uma semana: para o ano inteiro. Vamos criar o 'Kit Locadora na Escola' — TV, videocassete e 10 fitas temáticas em caixa de transporte. A escola assina um contrato mensal de R$800 e usa quando quiser. Criamos uma nova linha de receita recorrente.",
+        "impacto": {
           "caixa": 3,
           "tracao": 15,
           "acervo": -10,
           "stress": 10,
           "moral_equipe": 5
-        }
+        },
+        "temp_replica": 0.4
       }
-    ],
-    "agente_foco": "ID_Mauricio"
+    ]
   }
 ]
