@@ -20,7 +20,8 @@
             "argumento_gerente": "Se não cobrarmos, ela vai contar no bairro. O custo do mau precedente destrói nossa autoridade. Em um mês, ninguém mais respeita o prazo e perdemos o controle do estoque de lançamentos.",
             "resolucao_vagner": "Você tem um ponto. Ordem na casa. Vai lá e cobra, mas seja educado. Se ela não voltar mês que vem, a responsabilidade é sua.",
             "impacto": {
-              "caixa": 15,
+              "curador_nome": "Maurício",
+			  "caixa": 15,
               "tracao": -15,
               "acervo": 0,
               "stress": -5
@@ -33,7 +34,8 @@
             "argumento_gerente": "Vagner, o boleto do fornecedor de fitas vence hoje. Eu não pago boleto com 'fidelidade', eu pago com dinheiro em caixa. Precisamos dessa liquidez agora.",
             "resolucao_vagner": "Visão de curto prazo, mas não posso negar que a corda tá no pescoço. Pega o dinheiro. Mas temos que achar outro jeito de fazer caixa.",
             "impacto": {
-              "caixa": 30,
+              "curador_nome": "Maurício",
+			  "caixa": 30,
               "tracao": -30,
               "acervo": 0,
               "stress": 0,
@@ -56,7 +58,8 @@
             "argumento_gerente": "O LTV dela é de R$ 600 ao ano. Perdoar R$ 15 é um Custo de Retenção de apenas 2,4%. É mais barato perdoar a multa do que gastar com panfleto pra atrair um cliente novo.",
             "resolucao_vagner": "Custo de retenção... gostei do termo técnico. Tá bom. Mas avisa a ela que é uma 'falha a favor dela no sistema', senão ela se acostuma mal.",
             "impacto": {
-              "caixa": -15,
+              "curador_nome": "Maurício",
+			  "caixa": -15,
               "tracao": 25,
               "acervo": 0,
               "stress": 0,
@@ -70,7 +73,8 @@
             "argumento_gerente": "Ela é a presidente da associação do bairro. Se a gente perdoar, ela vai falar bem da gente pra vizinhança inteira. Estamos comprando publicidade boca a boca por R$ 15.",
             "resolucao_vagner": "Jogada política. Você tá usando a mulher de outdoor. Inteligente. Libera a fita dela.",
             "impacto": {
-              "caixa": -15,
+              "curador_nome": "Maurício",
+			  "caixa": -15,
               "tracao": 15,
               "acervo": 0,
               "stress": -10
@@ -92,7 +96,8 @@
             "argumento_gerente": "A pipoca vence em 10 dias, é custo afundado. E os filmes de catálogo estão parados pegando poeira. Transformei um prejuízo duplo num caixa de R$ 20.",
             "resolucao_vagner": "Limpando o estoque velho para cobrir o buraco da multa. O pessoal da contabilidade vai chorar pra fechar essa nota, mas o caixa vai sorrir. Executa.",
             "impacto": {
-              "caixa": 20,
+              "curador_nome": "Maurício",
+			  "caixa": 20,
               "tracao": 10,
               "acervo": 15,
               "stress": 0
@@ -105,7 +110,8 @@
             "argumento_gerente": "Ela vai sair achando que 'ganhou' o perdão, mas gastou R$ 5 a mais do que a multa original. Aumentamos o ticket médio e ela ainda sai feliz. É o Paradoxo da Escolha.",
             "resolucao_vagner": "Rapaz, você me assusta às vezes. Ela vai pagar mais caro e sair agradecendo. Vai logo pro balcão antes que eu mude de ideia.",
             "impacto": {
-              "caixa": 15,
+              "curador_nome": "Maurício",
+			  "caixa": 15,
               "tracao": 20,
               "acervo": 0,
               "stress": -10
@@ -552,6 +558,7 @@
             "temp_treplica": 0.3,
             "argumento_gerente": "É exatamente por isso que ele tem que ir. A gente criou um Ponto Único de Falha (Single Point of Failure). O negócio não pode depender do humor de um funcionário. Vamos gastar a próxima semana etiquetando tudo e criando um Procedimento Operacional Padrão (POP). A loja tem que rodar sozinha.",
             "resolucao_vagner": "Trocar o talento humano pelo processo engessado. Vai dar um trabalho infernal no começo e vamos perder cliente, mas a empresa fica mais segura. Que Deus nos ajude.",
+            "escreve_flags": { "mauricio_saiu": true, "curador_nome": "Marcos" },
             "impacto": {
               "caixa": 0,
               "tracao": -30,
@@ -566,7 +573,7 @@
             "temp_treplica": 0.35,
             "argumento_gerente": "Com a saída dele, a gente economiza o salário mais alto. A gente promove a Leila para chefe de balcão e contrata um estagiário barato pra organizar a prateleira. O foco agora deixa de ser curadoria nerd e passa a ser venda casada de pipoca e refrigerante com a Leila.",
             "resolucao_vagner": "Mudar a cultura da empresa da noite pro dia. Sair do cinema de arte para focar no fast-food. A Leila vai adorar, mas o bairro vai chiar. Libera o rapaz pra ir pra Blockbuster então.",
-            "escreve_flags": { "mauricio_saiu": true },
+            "escreve_flags": { "mauricio_saiu": true, "curador_nome": "Marcos" },
             "impacto": {
               "caixa": 15,
               "tracao": -30,
@@ -588,7 +595,7 @@
     "dialogos_iniciais": [
       {
         "agente": "ID_Marcos",
-        "fala": "Bom dia, Gerente. O Vagner me explicou a situação. Sei que o Maurício é uma enciclopédia e não vai ser fácil preencher o espaço que ele deixou, mas eu conheço bem esse acervo e os clientes do bairro. Meu foco é manter a curadoria em dia sem esquecer que as contas precisam fechar no final do mês. Pode contar com a minha dedicação."
+        "fala": "Bom dia, Gerente. O Vagner me explicou a situação. Sei que o Mauricio é uma enciclopédia e não vai ser fácil preencher o espaço que ele deixou, mas eu conheço bem esse acervo e os clientes do bairro. Meu foco é manter a curadoria em dia sem esquecer que as contas precisam fechar no final do mês. Pode contar com a minha dedicação."
       }
     ],
     "rotas_principais": [
@@ -632,8 +639,8 @@
             "id_sub": "A1",
             "foco": "Psicologia de Consumo e Impulso",
             "temp_treplica": 0.3,
-            "argumento_gerente": "Maurício, não é brega, é gatilho mental. Ninguém sai de casa planejando comprar bala. É compra por impulso. Quando a gente casa o produto com o estado emocional do filme de romance, a conversão triplica. Aumentamos o Ticket Médio por cliente.",
-            "resolucao_vagner": "Gatilho pelo estado emocional do filme... é eficiente, vou admitir. Mas vou de olho se o farelo começar a entrar nas prateleiras. O padrão do acervo não negocia.",
+            "argumento_gerente": "{curador_nome}, não é brega, é gatilho mental. Ninguém sai de casa planejando comprar bala. É compra por impulso. Quando a gente casa o produto com o estado emocional do filme de romance, a conversão triplica. Aumentamos o Ticket Médio por cliente.",
+            "resolucao_agente": "Compreendido. A ordem será executada imediatamente, e farei questão de que a equipe de limpeza passe um aspirador reforçado em cada fresta das prateleiras de terror; não queremos que o próximo cliente encontre um farelo de caramelo no estojo de *Psicose*.",
             "impacto": {
               "caixa": 20,
               "tracao": 10,
@@ -646,7 +653,7 @@
             "id_sub": "A2",
             "foco": "Matemática de Margem de Lucro",
             "temp_treplica": 0.3,
-            "argumento_gerente": "Não são 'trocados', Maurício. A margem de lucro de uma fita velha é fixa. A margem do chocolate é de 60%. Somos uma loja de conveniência que, por acaso, aluga filmes. O produto principal virou a bomboniere.",
+            "argumento_gerente": "Não são 'trocados', {curador_nome}. A margem de lucro de uma fita velha é fixa. A margem do chocolate é de 60%. Somos uma loja de conveniência que, por acaso, aluga filmes. O produto principal virou a bomboniere.",
             "resolucao_vagner": "Uma loja de conveniência que aluga filmes. Isso vai doer na alma, mas os números não mentem. Aceito, desde que a sessão de clássicos não vire depósito de paçoca.",
             "impacto": {
               "caixa": 25,
