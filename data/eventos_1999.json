@@ -367,7 +367,7 @@
             "id_sub": "A1",
             "foco": "Hardware as a Service + Seguros", 
             "temp_treplica": 0.35,
-            "argumento_gerente": "Maurício, não vai pra prateleira comum. Vai pra uma redoma. Nós vamos alugar a máquina e o filme juntos por R$ 50 pro fim de semana, com nota promissória assinada de R$ 1.500. A gente filtra o cliente pelo risco. Só aluga quem tem cheque especial.",
+            "argumento_gerente": "Vagner, o aparelho não vai pra prateleira comum. Vai pra uma seção separada, alugado junto com o filme por R$ 50 o fim de semana — com nota promissória de R$ 1.500 assinada na entrada. A gente filtra o cliente pelo risco. Só leva quem topa o termo.",
             "resolucao_vagner": "(Vagner ri) \"Blindar o risco com burocracia. Maurício, tira a poeira do talão de notas promissórias. Vamos brincar de locadora de luxo.\"",
             "impacto": {
               "caixa": -30,
@@ -380,7 +380,7 @@
             "id_sub": "A2",
             "foco": "Efeito Halo / Isca de Tráfego", 
             "temp_treplica": 0.3,
-            "argumento_gerente": "Não é pra dar lucro direto agora. É pra dar inveja. {curador_nome}, você vai botar o Matrix rodando na TV da vitrine. Quem passar na rua vai entrar pra ver a imagem perfeita. Eles não vão ter o aparelho em casa, mas já que entraram na loja, você empurra o VHS.",
+            "argumento_gerente": "Vagner, não é pra dar lucro direto agora. É pra dar inveja. O {curador_nome} vai botar o Matrix rodando na TV da vitrine. Quem passar na rua entra pra ver a imagem. Não tem o aparelho em casa? O {curador_nome} empurra o VHS na hora.",
             "resolucao_vagner": "Usar o aparelho como vitrine pra atrair quem entra pela porta. O {curador_nome} garante a pescaria no balcão. Não é receita direta, mas é custo de marketing embutido no estoque.",
             "impacto": {
               "caixa": -15,
@@ -415,7 +415,7 @@
             "id_sub": "B2",
             "foco": "Custo de Oportunidade do CAPEX", 
             "temp_treplica": 0.3,
-            "argumento_gerente": "{curador_nome}, o que te dá mais dor de cabeça: perder um cliente VIP ou ter 30 clientes comuns xingando porque não tem cópia do O Sexto Sentido? Com esses R$ 1.500 eu compro 30 cópias do lançamento em VHS e acabo com a sua fila de espera.",
+            "argumento_gerente": "Vagner, o que te dá mais dor de cabeça: perder um cliente VIP ou ter 15 clientes comuns xingando porque não tem cópia do O Sexto Sentido? Com esses R$ 1.500 eu compro 15 cópias do lançamento em VHS e acabo com a fila de espera.",
             "resolucao_vagner": "Ouvir clientes reclamando da fila de espera é meu pior pesadelo. Você me comprou. Traz as 30 fitas que eu garanto o aluguel de todas até domingo.",
             "impacto": {
               "caixa": 15,
@@ -450,7 +450,7 @@
             "id_sub": "C2",
             "foco": "Ancoragem Psicológica de Preço", 
             "temp_treplica": 0.4,
-            "argumento_gerente": "A gente bota a placa de 'Aluguel de DVD: R$ 15,00'. Ninguém vai levar. Mas quando o cliente olhar isso, os R$ 5,00 que ele te paga no VHS vão parecer de graça. Você não vai vender o DVD, {curador_nome}, você vai usar o DVD pra vender o VHS.",
+            "argumento_gerente": "A gente bota a placa de 'Aluguel de DVD: R$ 15,00'. Ninguém vai levar. Mas quando o cliente olhar isso, os R$ 5,00 do VHS vão parecer de graça. Vagner, a gente não vai vender o DVD — vai usar o DVD pra vender o VHS.",
             "resolucao_vagner": "(Vagner bate na mesa) \"Usar o preço de um pra fazer o outro parecer barato! {curador_nome}, bota as caixas lá na frente com etiqueta em neon. Vamos ver se essa psicologia funciona.\"",
             "impacto": {
               "caixa": -8,
@@ -608,7 +608,7 @@
           {
             "id_sub": "A1",
             "foco": "Visão de Negócio",
-            "argumento_gerente": "Marcos, esqueça o saudosismo. Precisamos de giro. Se a fita não sai da prateleira, ela é só plástico caro pegando poeira.",
+            "argumento_gerente": "Marcos, não estou falando de esvaziar o acervo — estou falando de criar critério de giro. Fita que não aluga em 6 meses vai pra promoção. Com 12 meses parada, a gente vende. Espaço na prateleira tem custo e aqui não tem centímetro sobrando.",
             "resolucao_vagner": "Gostei do moleque. Ele não tem aquele olhar de quem tá vendo um quadro no museu toda vez que pega um VHS. Vamos trabalhar.",
             "impacto": {
               "caixa": 0,
@@ -973,7 +973,7 @@
             "foco": "Compensação Imediata",
             "temp_treplica": 0.3,
             "argumento_gerente": "Diga ao Carlos que o sistema travou, mas dê a ele duas cortesias de fitas de catálogo para compensar o erro da loja. Resolvemos o problema sem perder o cliente rico.",
-            "resolucao_leila": "Boa. O Marcos vai achar irado ganhar cortesia e o Doutor sai com a fita sem nem perceber a falha. Vamos fechar assim.",
+            "resolucao_leila": "Boa. O Carlos vai achar irado ganhar cortesia e o Doutor sai com a fita sem nem perceber a falha. Vamos fechar assim.",
             "escreve_flags": { "priorizou_faturamento": true },
             "impacto": {
               "caixa": -10,
@@ -996,7 +996,7 @@
             "foco": "Marketing de Defensores",
             "temp_treplica": 0.28,
             "argumento_gerente": "A insatisfação do garoto gera propaganda negativa em massa no colégio. O médico reclama da falha, mas a rotina dele não permite ficar trocando de locadora toda semana.",
-            "resolucao_leila": "Certo, o volume da molecada compensa o risco da ficha dele. Vou entregar a fita pro Marcos antes que o clima azede de vez.",
+            "resolucao_leila": "Certo, o volume da molecada compensa o risco da ficha dele. Vou entregar a fita pro Carlos antes que o clima azede de vez.",
             "escreve_flags": { "priorizou_tracao": true },
             "impacto": {
               "caixa": 0,
