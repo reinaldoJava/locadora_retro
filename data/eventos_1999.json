@@ -945,21 +945,21 @@
     "ano": 1999,
     "agente_foco": "ID_Leila",
     "temp_situacao": 0.35,
-    "contexto_ia": "O sistema falhou. Leila (atendente) prometeu a última cópia disponível de 'Matrix' para dois clientes VIPs no mesmo horário: Dr. Armando (médico, ticket alto) e Marcos (líder do grêmio escolar). Os dois estão sérios no balcão encarando a atendente. Leila entra na sala contida e direta para relatar o problema.",
+    "contexto_ia": "O sistema falhou. Leila prometeu a última cópia disponível de 'Matrix' para dois clientes VIPs no mesmo horário: Dr. Armando (médico, ticket alto) e Carlos (líder do grêmio escolar). Os dois estão sérios no balcão encarando a atendente. Leila entra na sala contida e direta para relatar o problema.",
     "rotas_principais": [
       {
         "id_rota": "A",
         "nome": "Priorizar o Maior Faturamento (Dr. Armando)",
         "temp_replica": 0.4,
         "fala_gerente": "Leila, entrega a fita pro Dr. Armando. O peso financeiro da ficha dele é maior.",
-        "pushback_leila": "Entendo o lado do caixa, gerente. O Doutor gasta muito. Mas o Marcos traz a galera da escola inteira toda sexta para alugar filmes de terror e comédia. Se ele sair queimando nosso filme no grêmio, o prejuízo de tração vai ser grande.",
+        "pushback_leila": "Entendo o lado do caixa, gerente. O Doutor gasta muito. Mas o Carlos traz a galera da escola inteira toda sexta para alugar filmes de terror e comédia. Se ele sair queimando nosso filme no grêmio, o prejuízo de tração vai ser grande.",
         "sub_opcoes": [
           {
             "id_sub": "A1",
             "foco": "Proporção de Receita / LTV",
             "temp_treplica": 0.25,
             "argumento_gerente": "O ticket mensal fixo do médico cobre o ano inteiro desses adolescentes. No mercado corporativo, priorizamos o cliente que sustenta a margem líquida.",
-            "resolucao_leila": "Olhando os números friamente, a conta fecha a favor dele mesmo. Vou dar a real pro Marcos e tentar segurar a bronca de forma profissional.",
+            "resolucao_leila": "Olhando os números friamente, a conta fecha a favor dele mesmo. Vou dar a real pro Carlos e tentar segurar a bronca de forma profissional.",
             "escreve_flags": { "priorizou_faturamento": true },
             "impacto": {
               "caixa": 0,
@@ -972,7 +972,7 @@
             "id_sub": "A2",
             "foco": "Compensação Imediata",
             "temp_treplica": 0.3,
-            "argumento_gerente": "Diga ao Marcos que o sistema travou, mas dê a ele duas cortesias de fitas de catálogo para compensar o erro da loja. Resolvemos o problema sem perder o cliente rico.",
+            "argumento_gerente": "Diga ao Carlos que o sistema travou, mas dê a ele duas cortesias de fitas de catálogo para compensar o erro da loja. Resolvemos o problema sem perder o cliente rico.",
             "resolucao_leila": "Boa. O Marcos vai achar irado ganhar cortesia e o Doutor sai com a fita sem nem perceber a falha. Vamos fechar assim.",
             "escreve_flags": { "priorizou_faturamento": true },
             "impacto": {
@@ -986,9 +986,9 @@
       },
       {
         "id_rota": "B",
-        "nome": "Priorizar o Volume de Clientes (Marcos)",
+        "nome": "Priorizar o Volume de Clientes (Carlos)",
         "temp_replica": 0.4,
-        "fala_gerente": "Entrega pro Marcos, Leila. O público jovem é o motor de volume da nossa loja.",
+        "fala_gerente": "Entrega pro Carlos, Leila. O público jovem é o motor de volume da nossa loja.",
         "pushback_leila": "O Dr. Armando é cliente antigo. Se ele se sentir desprestigiado perdendo a fita para um garoto que chegou depois, ele pode simplesmente parar de alugar com a gente e ir para a concorrência.",
         "sub_opcoes": [
           {
@@ -1009,7 +1009,7 @@
             "id_sub": "B2",
             "foco": "Valorização Alternativa",
             "temp_treplica": 0.32,
-            "argumento_gerente": "Entregue ao Marcos. Depois, compense a falha no atendimento oferecendo ao Dr. Armando a reserva garantida do próximo grande lançamento de suspense na terça-feira, sem custo de locação.",
+            "argumento_gerente": "Entregue ao Carlos. Depois, compense a falha no atendimento oferecendo ao Dr. Armando a reserva garantida do próximo grande lançamento de suspense na terça-feira, sem custo de locação.",
             "resolucao_leila": "Garantir a reserva mostra que a gente se importa. Ele vai se sentir valorizado de novo. Vou lá resolver a situação.",
             "escreve_flags": { "priorizou_tracao": true },
             "impacto": {
@@ -1027,7 +1027,7 @@
   "ano": 1999,
   "agente_foco": "ID_Leila",
   "temp_situacao": 0.35,
-  "contexto_ia": "Um cliente de classe média do bairro acabou de devolver a caixinha do grande lançamento 'Star Wars: Episódio I - A Ameaça Fantasma'. Ao abrir para conferir, Leila percebe que a fita original foi levada e, no lugar, deixaram uma fita virgem barata com uma etiqueta manuscrita. O cliente ainda está na loja e jura que 'já alugou o filme assim'. Leila entra na sala do gerente com uma postura séria e contida.",
+  "contexto_ia": "Um cliente do bairro vizinho acabou de devolver a caixinha do grande lançamento 'Star Wars: Episódio I - A Ameaça Fantasma'. Ao abrir para conferir, Leila percebe que a fita original foi levada e, no lugar, deixaram uma fita virgem barata com uma etiqueta manuscrita. O cliente ainda está na loja e jura que 'já alugou o filme assim'. Leila entra na sala do gerente com uma postura séria e contida.",
   "rotas_principais": [
     {
       "id_rota": "A",
