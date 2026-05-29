@@ -858,26 +858,26 @@
     "agente_foco": "ID_Curador",
     "mostra_se_flag": "!mauricio_saiu",
     "temp_situacao": 0.3,
-    "contexto_ia": "Maurício (curador cinéfilo) entra na sala com um catálogo de um colecionador local que está vendendo um lote raro de fitas de diretores clássicos (Stanley Kubrick, Akira Kurosawa, Alfred Hitchcock) por R$ 100. O orçamento do mês está apertado e o dono, Vagner, exige foco total em blockbusters comerciais de ação.",
+    "contexto_ia": "Maurício entrou na loja com um catálogo amassado e olhos brilhando: um colecionador local está desmontando a coleção pessoal e ofereceu um lote de 18 fitas originais — Kubrick, Kurosawa, Cassavetes, Bergman — por R$ 80 no total. O orçamento do mês está no limite e o gerente precisa decidir agora, antes que o colecionador ligue para a concorrência.",
     "rotas_principais": [
       {
         "id_rota": "A",
-        "nome": "Investimento Cultural (Comprar o Lote)", 
+        "nome": "Investimento Cultural (Comprar o Lote)",
         "temp_replica": 0.35,
-        "fala_gerente": "Maurício, vamos comprar o lote. Esse tipo de filme traz prestígio e diferencia a nossa marca.",
-        "pushback_mauricio": "Prestígio é excelente, gerente, mas o cliente médio do bairro prefere ver o Schwarzenegger explodindo coisas a encarar as três horas de calmaria de 'Os Sete Samurais'. Esse dinheiro não vai fazer falta para os lançamentos de Hollywood?",
+        "fala_gerente": "Maurício, fecha o lote. R$ 80 por 18 fitas originais é preço de banana. A gente compra.",
+        "pushback_mauricio": "Ótimo, mas o Vagner vai me esfolar vivo se eu aparecer com 18 fitas que giram uma vez por mês. Como a gente justifica isso para ele quando ele ver o relatório de locações?",
         "sub_opcoes": [
           {
             "id_sub": "A1",
-            "foco": "Nicho Premium",
+            "foco": "Prateleira Premium",
             "temp_treplica": 0.25,
-            "argumento_gerente": "Criaremos uma prateleira destacada de 'Acervo Cult' e cobraremos uma taxa de locação mais alta por serem fitas raras. O público cinéfilo paga pela exclusividade de achar esses títulos aqui.",
-            "resolucao_mauricio": "Uma prateleira premium baseada na escassez. Justo. Vai elevar o nível visual da loja. Vou catalogar as fitas imediatamente.",
+            "argumento_gerente": "Cria uma seção 'Acervo Cult' com diária de R$ 4 contra R$ 2 dos lançamentos. Fita rara, preço raro. Uma locação por semana já empata. Duas e o Vagner para de reclamar.",
+            "resolucao_mauricio": "Preço diferenciado para produto escasso. Não é cinema, é economia básica. Mas funciona — e o acervo finalmente vai ter uma prateleira que não envergonha.",
             "escreve_flags": { "acervo_cult_comprado": true },
             "impacto": {
               "caixa": -20,
               "tracao": 5,
-              "acervo": 20,
+              "acervo": 25,
               "stress": 0,
               "moral_equipe": 10
             }
@@ -886,8 +886,8 @@
             "id_sub": "A2",
             "foco": "Parceria com Universitários",
             "temp_treplica": 0.3,
-            "argumento_gerente": "A faculdade de cinema local abriu turmas novas. Se tivermos esse acervo, garantimos o cadastro e a fidelidade de dezenas de estudantes que vão consumir o balcão toda semana.",
-            "resolucao_mauricio": "Eles vêm pelo Kubrick e saem levando a pipoca e o refrigerante. Uma bela jogada de xadrez comercial. Vamos fechar o lote com o colecionador.",
+            "argumento_gerente": "A faculdade de cinema abriu duas turmas novas esse semestre. Mando um bilhete para o professor de história do cinema: 'Temos Kubrick, Kurosawa e Cassavetes originais'. Esses alunos viram clientes fixos — e trazem os amigos.",
+            "resolucao_mauricio": "Parceria com academia? O Vagner ainda vai reclamar, mas quando ver o cadastro cheio de universitários talvez engula o argumento. Vale tentar.",
             "escreve_flags": { "acervo_cult_comprado": true },
             "impacto": {
               "caixa": -20,
@@ -903,15 +903,15 @@
         "id_rota": "B",
         "nome": "Recusa Comercial (Foco Estrito em Volume)",
         "temp_replica": 0.35,
-        "fala_gerente": "Maurício, sem chance. Cinema de arte não paga as contas da locadora. Vamos passar.",
-        "pushback_mauricio": "Compreensível. No fim das contas, o fluxo de caixa é o roteiro da nossa sobrevivência. Mas virar um depósito de fitas de ação genéricas que envelhecem mal em seis meses não destrói nossa identidade?",
+        "fala_gerente": "Não dá, Maurício. Orçamento no limite, não posso travar R$ 80 em fitas que ficam paradas na prateleira.",
+        "pushback_mauricio": "Paradas na prateleira? O Blockbuster na esquina tem os mesmos lançamentos que a gente, capa por capa. O que nos diferencia DELES está nessa caixa que você acabou de recusar. Se a gente for só volume, vira o satélite deles.",
         "sub_opcoes": [
           {
             "id_sub": "B1",
             "foco": "Custo de Oportunidade",
             "temp_treplica": 0.25,
-            "argumento_gerente": "Com os mesmos R$ 100, nós compramos mais duas cópias de 'O Sexto Sentido'. A velocidade de giro dessas duas fitas no final de semana humilha o faturamento anual do lote raro.",
-            "resolucao_mauricio": "Contra a matemática implacável das bilheterias, não há argumento cinematográfico que resista. Focaremos no suspense do Bruce Willis.",
+            "argumento_gerente": "Com os mesmos R$ 80 eu compro mais duas cópias do Titanic. Essas duas cópias locam toda sexta e sábado o mês inteiro. O giro delas em 30 dias paga o lote cult e sobra. Quando a conta fechar no azul, a gente fala em Bergman.",
+            "resolucao_mauricio": "A matemática é cruel, mas é a matemática. Tudo bem — mas quando a conta fechar no azul eu vou te cobrar esse Bergman.",
             "escreve_flags": { "acervo_cult_negado": true },
             "impacto": {
               "caixa": 0,
@@ -923,17 +923,17 @@
           },
           {
             "id_sub": "B2",
-            "foco": "Ciclo de Vida do Produto",
+            "foco": "Consignação",
             "temp_treplica": 0.3,
-            "argumento_gerente": "Fitas cult duram muito na prateleira, mas o retorno é lento. Precisamos de liquidez rápida neste trimestre para estabilizar as contas operacionais.",
-            "resolucao_mauricio": "O pragmatismo financeiro venceu o idealismo artístico de lavada nesta cena. O senhor está certo, o caixa precisa respirar.",
-            "escreve_flags": { "acervo_cult_negado": true },
+            "argumento_gerente": "Liga pro colecionador e propõe consignação: a gente expõe as fitas e repassa 50% de cada locação pra ele. Zero desembolso agora. Se não locar em 60 dias, devolvemos. Risco zero, acervo na prateleira.",
+            "resolucao_mauricio": "Consignação não é o ideal para o colecionador, mas é melhor que perder o lote. Posso tentar convencer ele. Se topar, eu cuido da negociação.",
+            "escreve_flags": { "acervo_cult_consignado": true },
             "impacto": {
               "caixa": 0,
-              "tracao": 0,
-              "acervo": 0,
-              "stress": 0,
-              "moral_equipe": -5
+              "tracao": 5,
+              "acervo": 10,
+              "stress": 5,
+              "moral_equipe": 0
             }
           }
         ]

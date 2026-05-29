@@ -230,6 +230,8 @@ def _verificar_e_injetar_crise(diretor):
         return  # Impactos da rota 2026 recém aplicados — aguarda próxima interação
     if estado.get("crise_ativa_evento"):
         return  # Crise ja ativa; aguarda resolucao
+    if estado.get("texto_gerente_pendente") or estado.get("texto_treplica_pendente"):
+        return  # Dialogo de resultado ainda em exibição — adia verificação para próxima interação limpa
 
     crises_usadas = estado.get("crises_usadas", [])
 
