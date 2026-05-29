@@ -256,11 +256,12 @@ def _verificar_e_injetar_crise(diretor):
         estado["game_over_forcado"] = True
         return
 
-    # Injeta crise
+    # Injeta crise — alerta intermediário exibido antes do evento de crise
     crises_usadas.append(crise_id)
-    estado["crises_usadas"]    = crises_usadas
-    estado["crise_ativa_id"]   = crise_id
-    estado["crise_ativa_evento"] = _GAME_OVER_EVENTOS[crise_id]
+    estado["crises_usadas"]          = crises_usadas
+    estado["crise_ativa_id"]         = crise_id
+    estado["crise_ativa_evento"]     = _GAME_OVER_EVENTOS[crise_id]
+    estado["_crise_alerta_pendente"] = True
 
 
 # ---------------------------------------------------------------------------

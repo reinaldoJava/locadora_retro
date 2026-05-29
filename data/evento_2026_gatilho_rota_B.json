@@ -9,7 +9,7 @@
     "dialogos_iniciais": [
       {
         "agente": "ID_Leila",
-        "fala": "Achei um site chamado 'Mercado Livre'. Tem gente vendendo fita do Rei Leão lacrada por R$ 500! Chamam de 'Mídia Física Retrô'."
+        "fala": "Achei um site chamado 'Mercado LiZo'. Tem gente vendendo fita do Rei Leão lacrada por R$ 500! Chamam de 'Mídia Física Retrô'."
       },
       {
         "agente": "ID_Mauricio",
@@ -24,7 +24,7 @@
       {
         "id_rota": "B1",
         "nome": "E-commerce Leilão / Colecionador Global",
-        "fala_gerente": "A Leila viu que os Correios buscam na porta. Nós vamos vender só para quem entende o valor. Coloca os clássicos num site de leilão global (eBay). Deixa os nerds do mundo brigarem em dólar. O resto, vai pro lixo.",
+        "fala_gerente": "A Leila viu que os Correios buscam na porta. Nós vamos vender só para quem entende o valor. Coloca os clássicos num site de leilão global (ZeBay). Deixa os nerds do mundo brigarem em dólar. O resto, vai pro lixo.",
         "impacto": {
           "caixa": 3,
           "acervo": -10,
