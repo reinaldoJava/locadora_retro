@@ -858,13 +858,13 @@
     "agente_foco": "ID_Curador",
     "mostra_se_flag": "!mauricio_saiu",
     "temp_situacao": 0.3,
-    "contexto_ia": "Maurício entrou na loja com um catálogo amassado e olhos brilhando: um colecionador local está desmontando a coleção pessoal e ofereceu um lote de 18 fitas originais — Kubrick, Kurosawa, Cassavetes, Bergman — por R$ 80 no total. O orçamento do mês está no limite e o gerente precisa decidir agora, antes que o colecionador ligue para a concorrência.",
+    "contexto_ia": "Maurício entrou na loja com um catálogo amassado e olhos brilhando: um colecionador local está desmontando a coleção pessoal e ofereceu um lote de 18 fitas originais — Kubrick, Kurosawa, Cassavetes, Bergman — por R$ 380 no total. O orçamento do mês está no limite e o gerente precisa decidir agora, antes que o colecionador ligue para a concorrência.",
     "rotas_principais": [
       {
         "id_rota": "A",
         "nome": "Investimento Cultural (Comprar o Lote)",
         "temp_replica": 0.35,
-        "fala_gerente": "Maurício, fecha o lote. R$ 80 por 18 fitas originais é preço de banana. A gente compra.",
+        "fala_gerente": "Maurício, fecha o lote. R$ 380 por 18 fitas originais é preço de banana. A gente compra.",
         "pushback_mauricio": "Ótimo, mas o Vagner vai me esfolar vivo se eu aparecer com 18 fitas que giram uma vez por mês. Como a gente justifica isso para ele quando ele ver o relatório de locações?",
         "sub_opcoes": [
           {
