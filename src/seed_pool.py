@@ -43,6 +43,9 @@ from src.agents import (
     gerar_fala,
     obter_do_pool,
     adicionar_ao_pool,
+    _db,
+    _POOL_COLLECTION,
+    _FIRESTORE_OK,
     _RETRY_DELAYS,
 )
 
@@ -51,9 +54,13 @@ CALL_DELAY_S   = 4.5   # segundos entre chamadas (garante < 15 req/min)
 MIN_EXISTING   = 3     # variações mínimas para considerar chave "aquecida"
 DATA_DIR       = ROOT / "data"
 
-# Arquivos que contêm eventos com agente_foco (somente 1999)
+# Arquivos que contêm eventos com agente_foco (1999 e 2026)
 EVENT_FILES = [
     DATA_DIR / "eventos_1999.json",
+    DATA_DIR / "evento_2026_gatilho_rota_A.json",
+    DATA_DIR / "evento_2026_gatilho_rota_B.json",
+    DATA_DIR / "evento_2026_gatilho_rota_C.json",
+    DATA_DIR / "evento_2026_gatilho_rota_D.json",
 ]
 
 
@@ -70,11 +77,12 @@ def carregar_eventos() -> list[dict]:
     return eventos
 
 
-def chaves_do_evento(evt: dict) -> list[tuple[str, str, str, str]]:
+def chaves_do_evento(evt: dict) -> list[tuple[str, str, str, str, str]]:
     """
-    Retorna lista de (pool_key, tipo, argumento, descricao) para um evento.
+    Retorna lista de (pool_key, tipo, argumento, texto_original, descricao) para um evento.
     tipo: 'situacao' | 'replica' | 'treplica'
     argumento: texto do Gerente que dispara a fala do NPC (vazio na situação)
+    texto_original: texto estático do JSON ou "_pending_"
     """
     evt_id    = evt["id"]
     agente_id = evt["agente_foco"]
@@ -86,6 +94,7 @@ def chaves_do_evento(evt: dict) -> list[tuple[str, str, str, str]]:
         evt_id,
         "situacao",
         "",
+        "", # Situação não tem texto base, é gerada do contexto_ia
         f"[situação] {evt_id}"
     ))
 
@@ -93,10 +102,12 @@ def chaves_do_evento(evt: dict) -> list[tuple[str, str, str, str]]:
     for r_idx, rota in enumerate(rotas):
         pool_key  = f"{evt_id}:replica:{r_idx}"
         argumento = rota.get("fala_gerente", "")
+        texto_base = rota.get("pushback_vagner", "")
         resultado.append((
             pool_key,
             "replica",
             argumento,
+            texto_base,
             f"[réplica rota {r_idx}] {evt_id}"
         ))
 
@@ -105,11 +116,24 @@ def chaves_do_evento(evt: dict) -> list[tuple[str, str, str, str]]:
         for s_idx, sub in enumerate(rota.get("sub_opcoes", [])):
             pool_key  = f"{evt_id}:treplica:{r_idx}:{s_idx}"
             argumento = sub.get("argumento_gerente", "")
+            texto_base = sub.get("resolucao_agente", sub.get("resolucao_vagner", ""))
             resultado.append((
                 pool_key,
                 "treplica",
                 argumento,
-                f"[tréplica {r_idx}:{s_idx}] {evt_id}"
+                texto_base,
+                f"[tréplica 1999 {r_idx}:{s_idx}] {evt_id}"
+            ))
+        
+        # Tréplica 2026 (Sentinel) - se não tem sub_opcoes, é o modelo 2026
+        if not rota.get("sub_opcoes") and rota.get("fala_gerente"):
+            pool_key = f"{evt_id}:treplica:{r_idx}"
+            resultado.append((
+                pool_key,
+                "treplica",
+                rota.get("fala_gerente"),
+                "_pending_",
+                f"[tréplica 2026 {r_idx}] {evt_id}"
             ))
 
     return resultado
@@ -129,17 +153,34 @@ def contar_no_pool(pool_key: str) -> int:
     except Exception:
         return 0  # Firestore indisponível: trata como vazio
 
+def limpar_pool():
+    """Apaga todos os documentos da coleção fala_pool no Firestore."""
+    if not _FIRESTORE_OK:
+        print("  ! Erro: Firestore não disponível para limpeza.")
+        return
+    
+    print("  ⚠ Limpando coleção 'fala_pool'...")
+    docs = _db.collection(_POOL_COLLECTION).list_documents()
+    deleted = 0
+    for doc in docs:
+        doc.delete()
+        deleted += 1
+    print(f"  ✓ {deleted} chaves removidas.")
+
 
 # ── Seed ────────────────────────────────────────────────────────────────────
 
-def seed(variations: int, dry_run: bool, skip_existing: bool) -> None:
+def seed(variations: int, dry_run: bool, skip_existing: bool, clear: bool) -> None:
+    if clear and not dry_run:
+        limpar_pool()
+
     eventos = carregar_eventos()
 
     # Montar plano completo
-    plano: list[tuple[dict, str, str, str, str]] = []
+    plano: list[tuple[dict, str, str, str, str, str]] = []
     for evt in eventos:
-        for pool_key, tipo, argumento, desc in chaves_do_evento(evt):
-            plano.append((evt, pool_key, tipo, argumento, desc))
+        for pool_key, tipo, argumento, texto_original, desc in chaves_do_evento(evt):
+            plano.append((evt, pool_key, tipo, argumento, texto_original, desc))
 
     total_chaves    = len(plano)
     total_chamadas  = total_chaves * variations
@@ -158,10 +199,11 @@ def seed(variations: int, dry_run: bool, skip_existing: bool) -> None:
     print(f"{'='*60}\n")
 
     if dry_run:
-        for i, (evt, pool_key, tipo, argumento, desc) in enumerate(plano, 1):
+        for i, (evt, pool_key, tipo, argumento, texto_original, desc) in enumerate(plano, 1):
             print(f"  [{i:03d}] {desc}")
             print(f"        chave:     {pool_key}")
             print(f"        argumento: {argumento[:60]!r}" if argumento else "        argumento: (vazio)")
+            print(f"        base:      {texto_original[:60]!r}" if texto_original else "        base: (LLM puro)")
         print(f"\n  [dry-run] Nenhuma chamada realizada.")
         return
 
@@ -169,7 +211,7 @@ def seed(variations: int, dry_run: bool, skip_existing: bool) -> None:
     chamadas_puladas  = 0
     chamadas_erro     = 0
 
-    for evt_idx, (evt, pool_key, tipo, argumento, desc) in enumerate(plano):
+    for evt_idx, (evt, pool_key, tipo, argumento, texto_original, desc) in enumerate(plano):
         agente_id = evt["agente_foco"]
         contexto  = evt["contexto_ia"]
         ano       = evt.get("ano", 1999)
@@ -185,7 +227,14 @@ def seed(variations: int, dry_run: bool, skip_existing: bool) -> None:
         for v in range(existentes, variations):
             print(f"  ⟳  {desc} [{v+1}/{variations}]", end="", flush=True)
 
-            fala = gerar_fala(agente_id, contexto, ano, argumento=argumento)
+            # Passamos o texto_original para que o LLM use como base de reescrita
+            fala = gerar_fala(
+                agente_id, 
+                contexto, 
+                ano, 
+                argumento=argumento, 
+                texto_original=texto_original
+            )
 
             if fala and fala != "...":
                 adicionar_ao_pool(pool_key, fala)
@@ -217,7 +266,7 @@ if __name__ == "__main__":
         description="Cache Warming — pré-popula o pool de falas no Firestore."
     )
     parser.add_argument(
-        "--variations", type=int, default=5,
+        "--variations", type=int, default=1,
         help="Número de variações a gerar por chave (padrão: 5)"
     )
     parser.add_argument(
@@ -228,10 +277,15 @@ if __name__ == "__main__":
         "--skip-existing", action="store_true",
         help=f"Pula chaves que já têm >= {MIN_EXISTING} variações no Firestore"
     )
+    parser.add_argument(
+        "--clear", action="store_true",
+        help="Apaga o pool no Firestore antes de iniciar"
+    )
     args = parser.parse_args()
 
     seed(
         variations=args.variations,
         dry_run=args.dry_run,
         skip_existing=args.skip_existing,
+        clear=args.clear
     )

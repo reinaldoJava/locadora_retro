@@ -93,7 +93,7 @@ body { background: #0d0d12; color: #ddd; font-family: 'Courier New', monospace; 
 </style>
 </head>
 <body>
-<div style="background:#0d0d12;padding:8px 14px 0;display:flex;align-items:center;gap:10px;"><h2 style="font-size:12px;color:#888;letter-spacing:1px;font-family:'Courier New',monospace;">Mapa de Pontuação — Locadora Retrô</h2><span style="font-size:10px;background:#1e3020;color:#44cc66;border:1px solid #2a5030;border-radius:3px;padding:1px 7px;letter-spacing:1px;">v2.0</span><span style="font-size:9px;color:#444;margin-left:auto;">4 inconsistências corrigidas</span></div>
+<div style="background:#0d0d12;padding:8px 14px 0;display:flex;align-items:center;gap:10px;"><h2 style="font-size:12px;color:#888;letter-spacing:1px;font-family:'Courier New',monospace;">Mapa de Pontuação — Locadora Retrô</h2><span style="font-size:10px;background:#1e3020;color:#44cc66;border:1px solid #2a5030;border-radius:3px;padding:1px 7px;letter-spacing:1px;">v4.0</span><span style="font-size:9px;color:#444;margin-left:auto;">Balanceamento dinâmico · Crises reestruturadas · 14 mudanças</span></div>
 
 <div class="tabs">
   <div class="tab active" onclick="showTab('thresholds')">⚠ Thresholds</div>
@@ -113,8 +113,8 @@ body { background: #0d0d12; color: #ddd; font-family: 'Courier New', monospace; 
     </div>
     <div class="thresh-card stress">
       <div class="metric">😤 Stress</div>
-      <div class="values"><span class="start">0</span><span class="crisis">Game Over ≥ 90</span></div>
-      <div style="font-size:10px;color:#666;margin-top:4px;">Precisa acumular 90+ pontos</div>
+      <div class="values"><span class="start">0</span><span class="crisis">Crise ≥ 90 · GO ≥ 150</span></div>
+      <div style="font-size:10px;color:#666;margin-top:4px;">Crise dispara ultimato; GO automático em 150</div>
     </div>
     <div class="thresh-card acervo">
       <div class="metric">🎬 Acervo</div>
@@ -129,8 +129,14 @@ body { background: #0d0d12; color: #ddd; font-family: 'Courier New', monospace; 
   </div>
 
   <div class="alert">
-    <strong>✅ v2.0 — Balanceamento verificado e corrigido:</strong><br>
-    Acervo e Tração iniciam em <strong>50</strong>. Os limiares de crise são ≤ 20 e ≤ 10 respectivamente — distâncias de 30 e 40 pontos, atingíveis apenas com 3+ escolhas ruins consistentes. Todas as métricas usam <code>max(0, valor)</code>, portanto nunca ficam negativas. Impactos de crise na vitória corrigidos: Vagner <code>caixa -3000 → -20</code> e Advogado <code>caixa +2000 → +40</code>.
+    <strong>✅ v4.0 — Mudanças desta versão:</strong><br>
+    • <strong>Balanceamento dinâmico:</strong> <code>pressao</code> (1.0–2.0) amplifica deltas negativos quando ≥3 métricas em zona segura.<br>
+    • <strong>Crises reestruturadas:</strong> alerta intermediário (overlay + botão ATENDER) antes do ultimato. Segunda ocorrência = game over direto.<br>
+    • <strong>Stress:</strong> crise dispara em ≥90 (antes: só game over em ≥150). Game over automático permanece ≥150.<br>
+    • <strong>DiaX-B2:</strong> "Ciclo de Vida" substituído por "Consignação" (50% split, zero upfront, flag <code>acervo_cult_consignado</code>).<br>
+    • <strong>34 campos corrigidos</strong> em eventos_1999.json (nomes errados: <code>pushback_leila</code> → <code>pushback_vagner</code> etc.).<br>
+    • <strong>Wormhole:</strong> remuxado com fast-start; fallback muted para autoplay mobile.<br>
+    • <strong>Agentes LLM:</strong> max_tokens aumentados, instrução anti-truncamento adicionada.
   </div>
 
   <div class="section-title">Resumo dos maiores swings por métrica (todas as fases)</div>
@@ -277,6 +283,52 @@ body { background: #0d0d12; color: #ddd; font-family: 'Courier New', monospace; 
       <tr><td class="route-tag">C›C2</td><td class="choice-name">Fundo de Provisão</td><td><span class="val zero">0</span></td><td><span class="val pos-lo">-5</span></td><td><span class="val pos-med">+20</span></td><td><span class="val pos-lo">+5</span></td></tr>
     </table>
   </div>
+
+  <div class="event-group">
+    <div class="event-header"><span>Dia X — Curadoria do Acervo <small>(agente: Maurício/Marcos)</small></span><span class="eid">1999_diaX</span></div>
+    <table class="impact-table">
+      <tr><th class="left" style="width:40px">Rota</th><th class="left">Escolha / Argumento</th><th>💰 Caixa</th><th>📣 Tração</th><th>🎬 Acervo</th><th>😤 Stress</th><th>🤝 Moral</th></tr>
+      <tr><td class="route-tag">A›A1</td><td class="choice-name">Comprar lote → Prateleira Premium</td><td><span class="val neg-lo">-20</span></td><td><span class="val pos-lo">+5</span></td><td><span class="val pos-med">+20</span></td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+10</span></td></tr>
+      <tr><td class="route-tag">A›A2</td><td class="choice-name">Comprar lote → Parceria Universitários</td><td><span class="val neg-lo">-20</span></td><td><span class="val pos-med">+15</span></td><td><span class="val pos-lo">+15</span></td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+5</span></td></tr>
+      <tr><td class="route-tag">B›B1</td><td class="choice-name">Recusar → Custo de Oportunidade</td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val neg-lo">-5</span></td><td><span class="val zero">0</span></td><td><span class="val neg-lo">-10</span></td></tr>
+      <tr><td class="route-tag">B›B2</td><td class="choice-name">Recusar → Consignação (50% split) 🆕</td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+5</span></td><td><span class="val pos-lo">+5</span></td><td><span class="val zero">0</span></td><td><span class="val neg-lo">-5</span></td></tr>
+    </table>
+    <div style="font-size:9px;color:#666;padding:4px 8px;">B›B2 escreve flag <code>acervo_cult_consignado</code> · A escreve <code>acervo_cult_comprado</code> · B›B1 escreve <code>acervo_cult_negado</code></div>
+  </div>
+
+  <div class="event-group">
+    <div class="event-header"><span>Dia Y — Impasse do Matrix <small>(agente: Leila)</small></span><span class="eid">1999_diaY</span></div>
+    <table class="impact-table">
+      <tr><th class="left" style="width:40px">Rota</th><th class="left">Escolha / Argumento</th><th>💰 Caixa</th><th>📣 Tração</th><th>🎬 Acervo</th><th>😤 Stress</th><th>🤝 Moral</th></tr>
+      <tr><td class="route-tag">A›A1</td><td class="choice-name">Dr. Armando → Proporção LTV</td><td><span class="val zero">0</span></td><td><span class="val neg-lo">-15</span></td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+5</span></td><td><span class="val neg-lo">-5</span></td></tr>
+      <tr><td class="route-tag">A›A2</td><td class="choice-name">Dr. Armando → Compensação Carlos</td><td><span class="val neg-lo">-10</span></td><td><span class="val zero">0</span></td><td><span class="val neg-lo">-5</span></td><td><span class="val neg-lo">-5</span></td><td><span class="val pos-lo">+10</span></td></tr>
+      <tr><td class="route-tag">B›B1</td><td class="choice-name">Carlos → Marketing Defensores</td><td><span class="val zero">0</span></td><td><span class="val pos-med">+15</span></td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+5</span></td><td><span class="val neg-lo">-5</span></td></tr>
+      <tr><td class="route-tag">B›B2</td><td class="choice-name">Carlos → Valorização Alternativa</td><td><span class="val neg-lo">-5</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val zero">0</span></td><td><span class="val neg-lo">-5</span></td><td><span class="val pos-med">+15</span></td></tr>
+    </table>
+  </div>
+
+  <div class="event-group">
+    <div class="event-header"><span>Dia W — Fita Trocada <small>(agente: Leila)</small></span><span class="eid">1999_diaW</span></div>
+    <table class="impact-table">
+      <tr><th class="left" style="width:40px">Rota</th><th class="left">Escolha / Argumento</th><th>💰 Caixa</th><th>📣 Tração</th><th>🎬 Acervo</th><th>😤 Stress</th></tr>
+      <tr><td class="route-tag">A›A1</td><td class="choice-name">Confrontar → Auditoria no sistema</td><td><span class="val pos-med">+50</span></td><td><span class="val neg-lo">-10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+15</span></td></tr>
+      <tr><td class="route-tag">A›A2</td><td class="choice-name">Confrontar → Termo de Divergência</td><td><span class="val pos-med">+30</span></td><td><span class="val zero">0</span></td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+10</span></td></tr>
+      <tr><td class="route-tag">B›B1</td><td class="choice-name">Absorver → Margem de Perda</td><td><span class="val neg-lo">-20</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val zero">0</span></td><td><span class="val neg-lo">-10</span></td></tr>
+      <tr><td class="route-tag">B›B2</td><td class="choice-name">Absorver → Inspeção Obrigatória</td><td><span class="val neg-lo">-10</span></td><td><span class="val pos-lo">+15</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val neg-lo">-5</span></td></tr>
+    </table>
+  </div>
+
+  <div class="event-group">
+    <div class="event-header"><span>Dia V — Dilema Dublado vs Legendado <small>(agente: Maurício — pula se mauricio_saiu)</small></span><span class="eid">1999_diaV</span></div>
+    <table class="impact-table">
+      <tr><th class="left" style="width:40px">Rota</th><th class="left">Escolha / Argumento</th><th>💰 Caixa</th><th>📣 Tração</th><th>🎬 Acervo</th><th>😤 Stress</th></tr>
+      <tr><td class="route-tag">A›A1</td><td class="choice-name">Dublado → Cluster demográfico</td><td><span class="val zero">0</span></td><td><span class="val pos-med">+20</span></td><td><span class="val neg-lo">-10</span></td><td><span class="val neg-lo">-5</span></td></tr>
+      <tr><td class="route-tag">A›A2</td><td class="choice-name">Dublado → Pedido especial no balcão</td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val zero">0</span></td><td><span class="val neg-lo">-5</span></td></tr>
+      <tr><td class="route-tag">B›B1</td><td class="choice-name">Legendado → Sinalização cromática</td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+15</span></td><td><span class="val pos-med">+20</span></td><td><span class="val pos-lo">+10</span></td></tr>
+      <tr><td class="route-tag">B›B2</td><td class="choice-name">Legendado → Terça Cult</td><td><span class="val zero">0</span></td><td><span class="val pos-med">+25</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val zero">0</span></td></tr>
+    </table>
+  </div>
+
 </div>
 
 <!-- PANEL: ENCRUZILHADA -->

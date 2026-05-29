@@ -1,21 +1,43 @@
 # Mapa Completo de Pontuação — Locadora Retrô
-**Versão 3.5** | Estagiário Marcos + flag `mauricio_saiu` (Maurício pediu as contas para ir à Blockbuster) + cobertura completa do pipeline de substituição de agente
+**Versão 4.0** | Balanceamento dinâmico (`pressao`), perfis de jogador, sistema de crises reestruturado com alerta intermediário, textos de NPCs corrigidos, wormhole fast-start
 
 ---
 
 ## Estado Inicial
 
-| Métrica       | Valor Inicial | Crise se…    | Crise disparada                         |
-|---------------|--------------|--------------|------------------------------------------|
-| Caixa         | 100          | ≤ 0          | Ultimato do Advogado (Crise Caixa)       |
-| Tração        | 50           | ≤ 10         | Ultimato da Leila (Crise Tração)         |
-| Acervo        | 50           | ≤ 20         | Ultimato do Maurício (Crise Acervo)      |
-| Stress        | 0            | ≥ 150        | Ultimato do Vagner (Crise Operacional)   |
-| Moral Equipe  | 70           | ≤ 20         | Ultimato Coletivo (Crise Moral)          |
+| Métrica       | Valor Inicial | Crise se…  | Game Over automático | Crise disparada                    |
+|---------------|--------------|------------|----------------------|------------------------------------|
+| Caixa         | 100          | ≤ 0        | —                    | Vagner descobre saldo zerado       |
+| Tração        | 50           | ≤ 10       | —                    | Ultimato da Leila                  |
+| Acervo        | 50           | ≤ 20       | —                    | Ultimato do Maurício / Marcos      |
+| Stress        | 0            | ≥ 90       | ≥ 150                | Ultimato do Vagner (operacional)   |
+| Moral Equipe  | 70           | ≤ 20       | —                    | Ultimato coletivo                  |
 
 > **Regra:** métricas são sempre `max(0, valor)` — não ficam negativas.
 > Dificuldade multiplica todos os deltas: VHS ×0.6 · BETA ×1.0 · LASER DISC ×1.5.
 > Score final = `(caixa + tração + acervo - stress + moral_equipe) × dificuldade_mult`
+> **Pressão dinâmica:** `pressao` (1.0–2.0) amplifica deltas negativos quando ≥3 métricas em zona segura.
+
+---
+
+## Mudanças v4.0 em relação à v3.5
+
+| # | Mudança | Arquivo(s) afetado(s) |
+|---|---------|-----------------------|
+| 1 | Threshold crise stress: 150 → 90 (game over automático permanece ≥150) | app.py |
+| 2 | Balanceamento dinâmico `pressao` (1.0–2.0) amplificando deltas ruins | engine.py |
+| 3 | `calcular_perfil()` — 6 arquétipos de jogador | engine.py |
+| 4 | Sistema de crises reestruturado: alerta intermediário (`game_over.html`) antes do ultimato | narrative_director.py, renderer_mixin.py |
+| 5 | `_crise_alerta_pendente` + `_crise_alerta_exibida` no estado do engine | engine.py, narrative_director.py |
+| 6 | DiaX-B2 reescrito: "Ciclo de Vida" → "Consignação" (flag `acervo_cult_consignado`) | eventos_1999.json |
+| 7 | `game_over.json`: textos reescritos, Advogado substituído por Vagner, duplicate keys corrigidos | data/game_over.json |
+| 8 | 34 campos com nomes errados em eventos 1999 corrigidos (`pushback_leila` → `pushback_vagner` etc.) | eventos_1999.json |
+| 9 | `pula_se_flag: mauricio_saiu` adicionado ao DiaV | eventos_1999.json |
+| 10 | `GET /reiniciar`: limpa sessão Flask antes de redirecionar para intro | app.py |
+| 11 | `wormhole.mp4` remuxado com fast-start (moov atom no início) | static/video/ |
+| 12 | Fallback muted para autoplay mobile no playVideo | static/js/ui_effects.js |
+| 13 | `max_tokens` aumentado e instrução anti-corte nos agentes LLM | src/agents.py |
+| 14 | Encruzilhada 2026: discurso do gerente separado das 4 opções (passo extra) | src/prologo_mixin.py |
 
 ---
 
@@ -157,9 +179,9 @@
 | A    | A1  | Nicho Premium                |  -20  |   +5   |  +20   |    0   |  +10  |
 | A    | A2  | Parceria com Universitários  |  -20  |  +15   |  +15   |    0   |  +5   |
 | B    | B1  | Custo de Oportunidade        |    0  |  +10   |   -5   |    0   |  -10  |
-| B    | B2  | Ciclo de Vida do Produto     |    0  |    0   |    0   |    0   |  -5   |
+| B    | B2  | Consignação (50% por locação)|    0  |   +5   |   +5   |    0   |  -5   |
 
-**Rota A:** investe em prestígio, custa caixa mas ganha acervo e moral. **Rota B:** decision sem custo financeiro mas moral da equipe sofre — escolha comercial "correta" que desmotiva Maurício.
+**Rota A:** investe em prestígio, custa caixa mas ganha acervo e moral. **Rota B:** sem custo financeiro mas moral sofre. **B2 (Consignação):** zero desembolso, lote exposto com split de 50% por locação — escreve flag `acervo_cult_consignado`.
 
 ---
 
