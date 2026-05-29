@@ -633,7 +633,7 @@
         "nome": "Comprar a Briga da Leila (Foco em Vendas / Cross-Sell)", 
         "temp_replica": 0.6,
         "fala_gerente": "A Leila está certa. Deixa os doces nos corredores. A prioridade é aumentar o faturamento.",
-        "pushback_vagner": "Gerente, doce espalhado entre as fitas é convite pra barata. Não é exagero — é higiene básica. E além da infestação, o cliente que pega uma caixa com gordura de salgadinho na mão não volta. Esse risco não vale os trocados de pipoca.",
+        "curador_nome": "Gerente, doce espalhado entre as fitas é convite pra barata. Não é exagero — é higiene básica. E além da infestação, o cliente que pega uma caixa com gordura de salgadinho na mão não volta. Esse risco não vale os trocados de pipoca.",
         "sub_opcoes": [
           {
             "id_sub": "A1",
@@ -654,7 +654,7 @@
             "foco": "Matemática de Margem de Lucro",
             "temp_treplica": 0.3,
             "argumento_gerente": "Não são 'trocados', {curador_nome}. A margem de lucro de uma fita velha é fixa. A margem do chocolate é de 60%. Somos uma loja de conveniência que, por acaso, aluga filmes. O produto principal virou a bomboniere.",
-            "resolucao_vagner": "Uma loja de conveniência que aluga filmes. Isso vai doer na alma, mas os números não mentem. Aceito, desde que a sessão de clássicos não vire depósito de paçoca.",
+            "curador_nome": "Uma loja de conveniência que aluga filmes. Isso vai doer na alma, mas os números não mentem. Aceito, desde que a sessão de clássicos não vire depósito de paçoca.",
             "impacto": {
               "caixa": 25,
               "tracao": -20,
@@ -669,14 +669,14 @@
         "nome": "Comprar a Briga de Maurício (Foco em Processos e UX)",
         "temp_replica": 0.6,
         "fala_gerente": "O Maurício tem razão. Tira tudo dos corredores e volta pro balcão. A loja tem que ficar impecável.",
-        "pushback_vagner": "Certo. Mas quero deixar claro: tudo que sair do corredor vai pro balcão ou vai embora. Nenhum doce encostado em prateleira de fita. Me diz como você quer fazer isso sem criar outro conflito com a Leila.",
+        "pushback_leila": "Certo. Mas quero deixar claro: tudo que sair do corredor vai pro balcão ou vai embora. Nenhum doce encostado em prateleira de fita. Me diz como você quer fazer isso sem criar outro conflito com a Leila.",
         "sub_opcoes": [
           {
             "id_sub": "B1",
             "foco": "Prevenção de Perdas / Shrinkage",
             "temp_treplica": 0.35,
             "argumento_gerente": "Leila, se a gente deixar doce escondido no corredor lá no fundo, a criançada vai roubar e colocar no bolso. Perto do balcão, a gente tem Controle Visual. O que você ganha em volume de venda no corredor, a gente perde em taxa de furto.",
-            "resolucao_vagner": "Controle visual contra furto, além de manter o padrão. O balcão resolve os dois problemas. Eu concordo com essa solução — e o acervo agradece por não ter criança escondendo balas atrás do Kurosawa.",
+            "resolucao_leila": "Controle visual contra furto, além de manter o padrão. O balcão resolve os dois problemas. Eu concordo com essa solução — e o acervo agradece por não ter criança escondendo balas atrás do Kurosawa.",
             "impacto": {
               "caixa": 0,
               "tracao": 0,
@@ -689,7 +689,7 @@
             "foco": "Posicionamento Premium",
             "temp_treplica": 0.3, 
             "argumento_gerente": "Leila, quem vende tudo misturado é feira. Nós queremos o cliente que paga caro sem reclamar. Para cobrar mais, o ambiente tem que passar percepção de alto valor. Prateleira limpa é posicionamento de marca.",
-            "resolucao_vagner": "({curador_nome} estufa o peito) \"Exatamente! Nós somos a curadoria do bairro. A Leila tem que aprender a vender pela qualidade do atendimento, não pela bagunça.\"",
+            "curador_nome": "({curador_nome} estufa o peito) \"Exatamente! Nós somos a curadoria do bairro. A Leila tem que aprender a vender pela qualidade do atendimento, não pela bagunça.\"",
             "impacto": {
               "caixa": -15,
               "tracao": 20,
@@ -903,14 +903,14 @@
         "id_rota": "B",
         "nome": "Recusa Comercial (Foco Estrito em Volume)",
         "temp_replica": 0.35,
-        "fala_gerente": "Não dá, Maurício. Orçamento no limite, não posso travar R$ 80 em fitas que ficam paradas na prateleira.",
+        "fala_gerente": "Não dá, Maurício. Orçamento no limite, não posso travar R$ 380 em fitas que ficam paradas na prateleira.",
         "pushback_mauricio": "Paradas na prateleira? O Blockbuster na esquina tem os mesmos lançamentos que a gente, capa por capa. O que nos diferencia DELES está nessa caixa que você acabou de recusar. Se a gente for só volume, vira o satélite deles.",
         "sub_opcoes": [
           {
             "id_sub": "B1",
             "foco": "Custo de Oportunidade",
             "temp_treplica": 0.25,
-            "argumento_gerente": "Com os mesmos R$ 80 eu compro mais duas cópias do Titanic. Essas duas cópias locam toda sexta e sábado o mês inteiro. O giro delas em 30 dias paga o lote cult e sobra. Quando a conta fechar no azul, a gente fala em Bergman.",
+            "argumento_gerente": "Com os mesmos R$ 380 eu compro mais duas cópias do Titanic. Essas duas cópias locam toda sexta e sábado o mês inteiro. O giro delas em 30 dias paga o lote cult e sobra. Quando a conta fechar no azul, a gente fala em Bergman.",
             "resolucao_mauricio": "A matemática é cruel, mas é a matemática. Tudo bem — mas quando a conta fechar no azul eu vou te cobrar esse Bergman.",
             "escreve_flags": { "acervo_cult_negado": true },
             "impacto": {
