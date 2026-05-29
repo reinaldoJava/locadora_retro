@@ -179,7 +179,7 @@
           {
             "id_sub": "Vitoria_Condicional",
             "foco": "Transparência e Plano de Emergência",
-            "argumento_gerente": "Vagner, sem enrolação: a gente gastou mais do que entrou. Fecha a loja amanhã. A gente faz uma lista do que pode ser liquidado, eu assumo a conversa com os fornecedores. Você me ajuda com os números?",
+            "argumento_gerente": "Vagner, sem enrolação: a gente gastou mais do que entrou. No final do dia. A gente faz uma lista do que pode ser liquidado, eu assumo a conversa com os fornecedores. Você me ajuda com os números?",
             "resolucao_agente": "Vagner olha pra você por um momento. 'Tá bom. Vamos ver o que tem pra salvar.' Ele abre a planilha e começa a mapear os ativos sem mais perguntas.",
             "resultado": "vitoria"
           },

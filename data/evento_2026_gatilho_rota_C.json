@@ -79,7 +79,7 @@
         "fala": "Chefe, eu passei o fim de semana pesquisando. SNES, Mega Drive, PlayStation 1 e Dreamcast — o aluguel de consoles retrô tá bombando nos Estados Unidos. Tem gente faturando R$ 800 por fim de semana com dois consoles e vinte cartuchos."
       },
       {
-        "agente": "ID_Mauricio",
+        "agente": "ID_Curador",
         "fala": "Games?! Isso é uma invasão! A locadora tem identidade cinematográfica. Se a gente vira uma lan house retrô, diluímos o que nos faz especiais. O cliente vem pelo Kubrick, não pelo Zelda."
       },
       {
@@ -104,7 +104,7 @@
       {
         "id_rota": "C5",
         "nome": "Área Própria de Games / Investimento Direto",
-        "fala_gerente": "A gente monta a área com hardware próprio. R$ 8.000 em consoles e cartuchos curados pelo Maurício — só clássicos com valor cultural, sem shovelware. A locadora vira referência total dos anos 90: filmes E jogos. Quem domina os dois lados, domina a nostalgia.",
+        "fala_gerente": "A gente monta a área com hardware próprio. R$ 8.000 em consoles e cartuchos curados pelo {curador_nome} — só clássicos com valor cultural, sem shovelware. A locadora vira referência total dos anos 90: filmes E jogos. Quem domina os dois lados, domina a nostalgia.",
         "impacto": {
           "caixa": -20,
           "acervo": 20,
