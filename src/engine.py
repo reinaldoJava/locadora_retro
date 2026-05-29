@@ -74,6 +74,14 @@ class Engine:
             if pula_flag and self.estado.get("flags", {}).get(pula_flag):
                 self.estado["indice_evento"] += 1
                 continue
+            mostra_flag = evt.get("mostra_se_flag")
+            if mostra_flag:
+                negado = mostra_flag.startswith("!")
+                chave = mostra_flag[1:] if negado else mostra_flag
+                flag_ativa = bool(self.estado.get("flags", {}).get(chave))
+                if negado and flag_ativa or not negado and not flag_ativa:
+                    self.estado["indice_evento"] += 1
+                    continue
             gatilho = evt.get("gatilho_rota")
             if not gatilho or gatilho in self.estado["historico_rotas"]:
                 return evt

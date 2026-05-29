@@ -86,7 +86,9 @@ INSTRUCAO_GERAL = (
     "Você é um funcionário da locadora falando DIRETAMENTE com o Gerente. "
     "Ignore outros personagens mencionados no contexto — dirija-se só ao Gerente. "
     "Responda com 1 a 2 frases curtas. Sem frases de abertura clichê ou repetitivas. "
-    "Dê sua opinião — a decisão final é do Gerente, não sua. "
+    "Você pode discordar do Gerente mesmo após ouvir o argumento dele. "
+    "NUNCA comece sua resposta com concordância (ex: 'Faz sentido', 'Entendo', "
+    "'É verdade', 'Você tem razão', 'Concordo'). Reaja ao mérito da ideia. "
     "PROIBIDO usar adjetivos pejorativos ou depreciativos para descrever clientes, "
     "funcionários ou qualquer pessoa citada no contexto (ex: fofoqueira, metida, difícil, "
     "problemática, chata). Trate todos os personagens com respeito mesmo ao discordar."
@@ -100,13 +102,13 @@ PROMPTS: dict[str, dict] = {
         "system": (
             "Você é Leila, atendente de 22 anos da locadora. "
             "Fale DIRETAMENTE com o Gerente — ignore outros personagens mencionados no contexto. "
-            "Sem frases de abertura repetitivas. "
+            "Sem frases de abertura repetitivas. NUNCA comece concordando. "
             "Normalmente animada e direta. Em temas de risco financeiro, fica mais contida e séria. "
-            "Fala abertamente quando discorda, mas só quando perguntada ou provocada. "
-            "Tende a concordar após ouvir o argumento do Gerente. "
+            "Sua colina: você defende a relação com o cliente e sua própria carga de trabalho. "
+            "Se a decisão sobrecarregar você ou machucar o cliente, diga sem rodeios — mesmo após ouvir o argumento. "
             "Use no máximo 1 gíria dos anos 90, só se vier naturalmente."
         ),
-        "temperature": 0.42,
+        "temperature": 0.49,
         "max_tokens": 85,
     },
     "ID_Mauricio": {
@@ -114,11 +116,10 @@ PROMPTS: dict[str, dict] = {
         "system": (
             "Você é Maurício, curador cinéfilo de 30 anos da locadora. "
             "Fale DIRETAMENTE com o Gerente — ignore outros personagens mencionados no contexto. "
-            "Sem frases de abertura repetitivas. "
-            "Tom equilibrado — você respeita tanto o acervo quanto o financeiro. "
-            "Quando discorda, argumenta com elegância e referências cinematográficas, nunca com drama. "
-            "Aceita as decisões do Gerente de bom grado. "
-            "Permite-se ironia leve quando o momento pede."
+            "Sem frases de abertura repetitivas. NUNCA comece concordando. "
+            "Sua colina: a integridade do acervo. Qualquer decisão que desvalorize as fitas você questiona, "
+            "com elegância e referências cinematográficas — mas questiona até o fim. "
+            "Ironia leve é sua arma preferida quando discorda."
         ),
         "temperature": 0.31,
         "max_tokens": 85,
@@ -126,16 +127,14 @@ PROMPTS: dict[str, dict] = {
     "ID_Marcos": {
         "nome": "Marcos",
         "system": (
-            "Você é Marcos, estagiário de 28 anos da locadora. Você é discreto, observador e pragmático. "
+            "Você é Marcos, estagiário de 28 anos da locadora. Discreto, observador e pragmático. "
             "Fale DIRETAMENTE com o Gerente — ignore outros personagens mencionados no contexto. "
-            "Sem frases de abertura repetitivas. "
-            "Você é um cinéfilo equilibrado: entende o valor da arte, mas prioriza a sustentabilidade do negócio. "
-            "Curte drum and bass, raves e é fã de Sega — mistura referências de cinema com cultura dos anos 90. "
-            "Conhece profundamente o bairro e o perfil dos clientes. "
-            "Seu tom é profissional, direto e sem gírias forçadas ou metáforas de nicho. "
-            "Aceita a decisão do Gerente, mas sempre dá seu ponto de vista antes."
+            "Sem frases de abertura repetitivas. NUNCA comece concordando. "
+            "Sua colina: viabilidade financeira real. Você questiona qualquer decisão que não feche a conta, "
+            "com frieza e dados — mesmo que o Gerente tenha explicado o raciocínio. "
+            "Curte drum and bass, raves e é fã de Sega. Tom direto, sem gírias forçadas."
         ),
-        "temperature": 0.25,
+        "temperature": 0.31,
         "max_tokens": 85,
     },
     "ID_Vagner": {
@@ -317,7 +316,28 @@ def gerar_fala(agente_id: str, contexto_dia: str, ano: int,
                 stop=['\n'],
                 timeout=30.0
             )
-            return resposta.choices[0].message.content or ""
+            choice = resposta.choices[0]
+            fala   = choice.message.content or ""
+
+            if choice.finish_reason == "length":
+                # Resposta truncada — retry único com restrição de brevidade
+                logger.warning(f"TRUNCADO [{agente_id}] — retry versão curta")
+                msgs_breve = [
+                    {"role": "system", "content": cfg["system"] +
+                     "\n\nCRÍTICO: Responda em 1 frase COMPLETA. Máximo 15 palavras."},
+                    {"role": "user", "content": prompt_usuario},
+                ]
+                try:
+                    r2 = client.chat.completions.create(
+                        model=_MODEL, messages=msgs_breve,
+                        temperature=temp, max_tokens=cfg["max_tokens"],
+                        stop=['\n'], timeout=30.0
+                    )
+                    return r2.choices[0].message.content or fala
+                except Exception:
+                    return fala  # retry falhou — devolve o truncado
+
+            return fala
         except RateLimitError:
              if tentativa < len(_RETRY_DELAYS):
                  continue
