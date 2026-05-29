@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0d0d12; color: #ddd; font-family: 'Courier New', monospace; font-size: 12px; }
+
+/* Tabs */
+.tabs { display: flex; gap: 2px; padding: 12px 12px 0; background: #0d0d12; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #222; }
+.tab { padding: 7px 14px; cursor: pointer; background: #181820; border-radius: 4px 4px 0 0; color: #666; transition: all .15s; font-size: 11px; letter-spacing: .5px; }
+.tab.active { background: #1e1e2e; color: #aaf; border-bottom: 2px solid #6677ff; }
+.tab:hover:not(.active) { color: #aaa; background: #1a1a24; }
+
+.panel { display: none; padding: 14px; }
+.panel.active { display: block; }
+
+/* Thresholds bar */
+.thresholds { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+.thresh-card { background: #16161f; border-radius: 6px; padding: 10px 12px; border-left: 3px solid; }
+.thresh-card.caixa { border-color: #f0c040; }
+.thresh-card.stress { border-color: #ff5555; }
+.thresh-card.acervo { border-color: #6699ff; }
+.thresh-card.tracao { border-color: #ff80c0; }
+.thresh-card .metric { font-size: 10px; color: #888; letter-spacing: 1px; text-transform: uppercase; }
+.thresh-card .values { display: flex; justify-content: space-between; margin-top: 4px; align-items: baseline; }
+.thresh-card .start { font-size: 18px; font-weight: bold; }
+.thresh-card .crisis { font-size: 10px; color: #ff5555; }
+.thresh-card.caixa .start { color: #f0c040; }
+.thresh-card.stress .start { color: #ff5555; }
+.thresh-card.acervo .start { color: #6699ff; }
+.thresh-card.tracao .start { color: #ff80c0; }
+
+/* Section headers */
+.section-title { font-size: 11px; color: #888; letter-spacing: 2px; text-transform: uppercase; margin: 14px 0 8px; padding-bottom: 4px; border-bottom: 1px solid #222; }
+
+/* Event cards */
+.event-group { margin-bottom: 16px; }
+.event-header { background: #1e1e2e; border-radius: 6px 6px 0 0; padding: 8px 12px; font-size: 11px; color: #aac; display: flex; justify-content: space-between; }
+.event-header .eid { color: #666; }
+
+/* Impact table */
+.impact-table { width: 100%; border-collapse: collapse; }
+.impact-table th { background: #181820; color: #666; font-size: 10px; padding: 5px 8px; text-align: center; letter-spacing: 1px; border-bottom: 1px solid #222; }
+.impact-table th.left { text-align: left; }
+.impact-table td { padding: 5px 8px; border-bottom: 1px solid #1a1a20; text-align: center; font-size: 11px; }
+.impact-table td.choice-name { text-align: left; color: #aaa; font-size: 10px; max-width: 180px; }
+.impact-table td.route-tag { color: #666; font-size: 10px; }
+.impact-table tr:last-child td { border-bottom: none; }
+
+/* Value cells */
+.val { font-weight: bold; padding: 2px 6px; border-radius: 3px; display: inline-block; min-width: 36px; }
+.val.pos-hi  { color: #33dd77; background: rgba(51,221,119,.12); }
+.val.pos-med { color: #88cc88; background: rgba(136,204,136,.08); }
+.val.pos-lo  { color: #66aa66; background: rgba(102,170,102,.05); }
+.val.neg-hi  { color: #ff4444; background: rgba(255,68,68,.15); }
+.val.neg-med { color: #cc6666; background: rgba(204,102,102,.10); }
+.val.neg-lo  { color: #aa5555; background: rgba(170,85,85,.06); }
+.val.zero    { color: #444; background: transparent; }
+.val.warn    { color: #ffcc33; background: rgba(255,204,51,.12); } /* big positive that could be OP */
+
+/* Crisis zone overlay */
+.crisis-tag { font-size: 9px; padding: 1px 5px; border-radius: 3px; background: #3d1515; color: #ff5555; margin-left: 4px; }
+
+/* Route selector */
+.route-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+.route-tab { padding: 5px 14px; cursor: pointer; background: #181820; border-radius: 4px; color: #666; font-size: 11px; border: 1px solid #222; }
+.route-tab.active { border-color: #4455aa; color: #aac; background: #1e1e2e; }
+
+/* Encruzilhada */
+.enc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+.enc-card { background: #16161f; border-radius: 6px; padding: 10px 12px; border-top: 2px solid; }
+.enc-card.A { border-color: #ff9944; }
+.enc-card.B { border-color: #44ddcc; }
+.enc-card.C { border-color: #8888ff; }
+.enc-card.D { border-color: #ff66aa; }
+.enc-card .rname { font-size: 11px; font-weight: bold; margin-bottom: 6px; }
+.enc-card.A .rname { color: #ff9944; }
+.enc-card.B .rname { color: #44ddcc; }
+.enc-card.C .rname { color: #8888ff; }
+.enc-card.D .rname { color: #ff66aa; }
+.enc-card .rdesc { font-size: 9px; color: #666; margin-bottom: 8px; line-height: 1.4; }
+.enc-metrics { display: flex; flex-direction: column; gap: 3px; }
+.enc-metric { display: flex; justify-content: space-between; font-size: 10px; }
+.enc-metric .mname { color: #555; }
+
+/* Legend */
+.legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; font-size: 10px; color: #666; }
+.leg { display: flex; align-items: center; gap: 4px; }
+
+/* Alert box */
+.alert { background: #2a1515; border: 1px solid #4d2020; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; font-size: 11px; color: #cc8888; line-height: 1.6; }
+.alert strong { color: #ff7777; }
+</style>
+</head>
+<body>
+<div style="background:#0d0d12;padding:8px 14px 0;display:flex;align-items:center;gap:10px;"><h2 style="font-size:12px;color:#888;letter-spacing:1px;font-family:'Courier New',monospace;">Mapa de Pontuação — Locadora Retrô</h2><span style="font-size:10px;background:#1e3020;color:#44cc66;border:1px solid #2a5030;border-radius:3px;padding:1px 7px;letter-spacing:1px;">v2.0</span><span style="font-size:9px;color:#444;margin-left:auto;">4 inconsistências corrigidas</span></div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('thresholds')">⚠ Thresholds</div>
+  <div class="tab" onclick="showTab('era1999')">📼 1999</div>
+  <div class="tab" onclick="showTab('enc')">⏱ Encruzilhada</div>
+  <div class="tab" onclick="showTab('era2026')">📡 2026 Rotas</div>
+</div>
+
+<!-- PANEL: THRESHOLDS -->
+<div id="panel-thresholds" class="panel active">
+  <div class="section-title">Valores iniciais e limites de crise</div>
+  <div class="thresholds">
+    <div class="thresh-card caixa">
+      <div class="metric">💰 Caixa</div>
+      <div class="values"><span class="start">100</span><span class="crisis">Game Over ≤ 0</span></div>
+      <div style="font-size:10px;color:#666;margin-top:4px;">Precisa perder 100+ pontos</div>
+    </div>
+    <div class="thresh-card stress">
+      <div class="metric">😤 Stress</div>
+      <div class="values"><span class="start">0</span><span class="crisis">Game Over ≥ 90</span></div>
+      <div style="font-size:10px;color:#666;margin-top:4px;">Precisa acumular 90+ pontos</div>
+    </div>
+    <div class="thresh-card acervo">
+      <div class="metric">🎬 Acervo</div>
+      <div class="values"><span class="start">50</span><span class="crisis" style="color:#ffcc33">⚠ Crise ≤ 20</span></div>
+      <div style="font-size:10px;color:#666;margin-top:4px;">Precisa perder 30+ pontos</div>
+    </div>
+    <div class="thresh-card tracao">
+      <div class="metric">📣 Tração</div>
+      <div class="values"><span class="start">50</span><span class="crisis" style="color:#ffcc33">⚠ Crise ≤ 10</span></div>
+      <div style="font-size:10px;color:#666;margin-top:4px;">Precisa perder 40+ pontos</div>
+    </div>
+  </div>
+
+  <div class="alert">
+    <strong>✅ v2.0 — Balanceamento verificado e corrigido:</strong><br>
+    Acervo e Tração iniciam em <strong>50</strong>. Os limiares de crise são ≤ 20 e ≤ 10 respectivamente — distâncias de 30 e 40 pontos, atingíveis apenas com 3+ escolhas ruins consistentes. Todas as métricas usam <code>max(0, valor)</code>, portanto nunca ficam negativas. Impactos de crise na vitória corrigidos: Vagner <code>caixa -3000 → -20</code> e Advogado <code>caixa +2000 → +40</code>.
+  </div>
+
+  <div class="section-title">Resumo dos maiores swings por métrica (todas as fases)</div>
+  <table class="impact-table" style="margin-bottom:8px;">
+    <tr>
+      <th class="left">Métrica</th>
+      <th>Maior ganho único</th>
+      <th>Maior perda única</th>
+      <th>Fase</th>
+    </tr>
+    <tr>
+      <td class="choice-name" style="color:#f0c040">💰 Caixa</td>
+      <td><span class="val warn">+15.000</span></td>
+      <td><span class="val neg-hi">-8.000</span></td>
+      <td class="route-tag">2026 Rota A</td>
+    </tr>
+    <tr>
+      <td class="choice-name" style="color:#ff5555">😤 Stress</td>
+      <td><span class="val neg-hi">+80</span></td>
+      <td><span class="val pos-hi">-20</span></td>
+      <td class="route-tag">2026 (várias)</td>
+    </tr>
+    <tr>
+      <td class="choice-name" style="color:#6699ff">🎬 Acervo</td>
+      <td><span class="val warn">+40</span></td>
+      <td><span class="val neg-hi">-40</span></td>
+      <td class="route-tag">2026 Rota A</td>
+    </tr>
+    <tr>
+      <td class="choice-name" style="color:#ff80c0">📣 Tração</td>
+      <td><span class="val warn">+80</span></td>
+      <td><span class="val neg-hi">-20</span></td>
+      <td class="route-tag">2026 Rota A</td>
+    </tr>
+  </table>
+  <div style="font-size:10px;color:#555;margin-top:4px;">Em 1999: Caixa máx ±50 | Stress máx +20 | Acervo máx ±30 | Tração máx ±30. Em 2026: escala 10-1000x maior.</div>
+</div>
+
+<!-- PANEL: 1999 -->
+<div id="panel-era1999" class="panel">
+  <div class="legend">
+    <span class="leg"><span class="val pos-hi" style="font-size:9px">+alto</span> Alto ganho</span>
+    <span class="leg"><span class="val pos-med" style="font-size:9px">+med</span> Médio ganho</span>
+    <span class="leg"><span class="val neg-hi" style="font-size:9px">-alto</span> Alta perda</span>
+    <span class="leg"><span class="val zero" style="font-size:9px">0</span> Neutro</span>
+  </div>
+
+  <!-- DIA 1 -->
+  <div class="event-group">
+    <div class="event-header"><span>Dia 1 — Multa da Dona Sônia <small>(agente: Vagner)</small></span><span class="eid">1999_dia1</span></div>
+    <table class="impact-table">
+      <tr><th class="left" style="width:40px">Rota</th><th class="left">Escolha / Argumento</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+      <tr><td class="route-tag">A›A1</td><td class="choice-name">Cobrar tudo → Precedente/Cultura</td><td><span class="val pos-lo">+15</span></td><td><span class="val pos-lo">-5</span></td><td><span class="val zero">0</span></td><td><span class="val neg-med">-10</span></td></tr>
+      <tr><td class="route-tag">A›A2</td><td class="choice-name">Cobrar tudo → Fluxo de Caixa</td><td><span class="val pos-hi">+30</span></td><td><span class="val zero">0</span></td><td><span class="val zero">0</span></td><td><span class="val neg-hi">-20</span></td></tr>
+      <tr><td class="route-tag">B›B1</td><td class="choice-name">Anistia total → LTV/Retenção</td><td><span class="val neg-lo">-15</span></td><td><span class="val zero">0</span></td><td><span class="val zero">0</span></td><td><span class="val pos-hi">+25</span></td></tr>
+      <tr><td class="route-tag">B›B2</td><td class="choice-name">Anistia total → Marketing boca a boca</td><td><span class="val neg-lo">-15</span></td><td><span class="val pos-lo">-10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+15</span></td></tr>
+      <tr><td class="route-tag">C›C1</td><td class="choice-name">Anistia + Cross-sell → Custo Afundado</td><td><span class="val pos-med">+20</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+15</span></td><td><span class="val pos-lo">+10</span></td></tr>
+      <tr><td class="route-tag">C›C2</td><td class="choice-name">Anistia + Cross-sell → Psicologia Consumo</td><td><span class="val pos-med">+15</span></td><td><span class="val pos-lo">-10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+20</span></td></tr>
+    </table>
+  </div>
+
+  <!-- DIA 2 -->
+  <div class="event-group">
+    <div class="event-header"><span>Dia 2 — Compra do Matrix <small>(agente: Vagner)</small></span><span class="eid">1999_dia2</span></div>
+    <table class="impact-table">
+      <tr><th class="left" style="width:40px">Rota</th><th class="left">Escolha / Argumento</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+      <tr><td class="route-tag">A›A1</td><td class="choice-name">All-in Matrix → Payback</td><td><span class="val pos-med">+20</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val neg-lo">-10</span></td><td><span class="val pos-med">+20</span></td></tr>
+      <tr><td class="route-tag">A›A2</td><td class="choice-name">All-in Matrix → Market Share</td><td><span class="val neg-lo">-10</span></td><td><span class="val pos-lo">-5</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val pos-hi">+25</span></td></tr>
+      <tr><td class="route-tag">B›B1</td><td class="choice-name">Cauda Longa → Receita Recorrente</td><td><span class="val zero">0</span></td><td><span class="val pos-lo">-10</span></td><td><span class="val pos-hi">+30</span></td><td><span class="val neg-lo">-5</span></td></tr>
+      <tr><td class="route-tag">B›B2</td><td class="choice-name">Cauda Longa → Escassez Artificial</td><td><span class="val pos-lo">+10</span></td><td><span class="val neg-lo">+15</span></td><td><span class="val pos-med">+20</span></td><td><span class="val neg-med">-15</span></td></tr>
+      <tr><td class="route-tag">C›C1</td><td class="choice-name">Fusão Locadora Falida → ROI Extremo</td><td><span class="val pos-lo">+15</span></td><td><span class="val neg-lo">+20</span></td><td><span class="val pos-hi">+25</span></td><td><span class="val pos-med">+20</span></td></tr>
+      <tr><td class="route-tag">C›C2</td><td class="choice-name">Fusão Locadora Falida → Redução CapEx</td><td><span class="val pos-hi">+30</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+15</span></td><td><span class="val neg-lo">-10</span></td></tr>
+    </table>
+  </div>
+
+  <!-- DIA 3 -->
+  <div class="event-group">
+    <div class="event-header"><span>Dia 3 — Blockbuster abre na Avenida <small>(agente: Vagner)</small></span><span class="eid">1999_dia3</span></div>
+    <table class="impact-table">
+      <tr><th class="left" style="width:40px">Rota</th><th class="left">Escolha / Argumento</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+      <tr><td class="route-tag">A›A1</td><td class="choice-name">Guerra de preços → Dumping Curto Prazo ¹</td><td><span class="val neg-hi">-30</span></td><td><span class="val neg-med">+20</span></td><td><span class="val neg-lo">-5</span></td><td><span class="val pos-hi">+25</span></td></tr>
+      <tr><td class="route-tag">A›A2</td><td class="choice-name">Guerra de preços → Produto Isca (Loss Leader)</td><td><span class="val pos-lo">+15</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+15</span></td></tr>
+      <tr><td class="route-tag">B›B1</td><td class="choice-name">Oceano Azul → B2B Institucional</td><td><span class="val pos-med">+20</span></td><td><span class="val pos-lo">-5</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val neg-lo">-10</span></td></tr>
+      <tr><td class="route-tag">B›B2</td><td class="choice-name">Oceano Azul → Boutique + Curadoria Maurício</td><td><span class="val zero">0</span></td><td><span class="val pos-lo">-5</span></td><td><span class="val pos-med">+20</span></td><td><span class="val neg-lo">-5</span></td></tr>
+      <tr><td class="route-tag">C›C1</td><td class="choice-name">Assinatura Clube da Fita → MRR</td><td><span class="val pos-hi">+25</span></td><td><span class="val pos-lo">-10</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val pos-med">+15</span></td></tr>
+      <tr><td class="route-tag">C›C2</td><td class="choice-name">Assinatura Clube da Fita → Lock-in</td><td><span class="val pos-lo">+10</span></td><td><span class="val neg-lo">+15</span></td><td><span class="val zero">0</span></td><td><span class="val pos-hi">+30</span></td></tr>
+    </table>
+    <div style="font-size:9px;color:#555;margin-top:4px;padding:0 8px;">¹ <em>v2.0: fluxo de clientes em massa sem cuidado com as fitas danifica o acervo.</em></div>
+  </div>
+
+  <!-- DIA 4 -->
+  <div class="event-group">
+    <div class="event-header"><span>Dia 4 — O DVD do Matrix chega <small>(agente: Vagner)</small></span><span class="eid">1999_dia4</span></div>
+    <table class="impact-table">
+      <tr><th class="left" style="width:40px">Rota</th><th class="left">Escolha / Argumento</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+      <tr><td class="route-tag">A›A1</td><td class="choice-name">Early Adopter → HaaS + Seguros</td><td><span class="val neg-med">-20</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+20</span></td></tr>
+      <tr><td class="route-tag">A›A2</td><td class="choice-name">Early Adopter → Isca de Tráfego (vitrine)</td><td><span class="val neg-lo">-10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val pos-hi">+25</span></td></tr>
+      <tr><td class="route-tag">B›B1</td><td class="choice-name">Rejeitar DVD → Comoditização</td><td><span class="val zero">0</span></td><td><span class="val pos-hi">-20</span></td><td><span class="val zero">0</span></td><td><span class="val neg-lo">-10</span></td></tr>
+      <tr><td class="route-tag">B›B2</td><td class="choice-name">Rejeitar DVD → Custo de Oportunidade</td><td><span class="val pos-lo">+15</span></td><td><span class="val pos-hi">-15</span></td><td><span class="val pos-med">+20</span></td><td><span class="val neg-lo">-10</span></td></tr>
+      <tr><td class="route-tag">C›C1</td><td class="choice-name">Só discos → Pesquisa de Mercado</td><td><span class="val neg-lo">-5</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+15</span></td></tr>
+      <tr><td class="route-tag">C›C2</td><td class="choice-name">Só discos → Ancoragem de Preço</td><td><span class="val neg-lo">-5</span></td><td><span class="val zero">0</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+20</span></td></tr>
+    </table>
+  </div>
+
+  <!-- DIA 5 -->
+  <div class="event-group">
+    <div class="event-header"><span>Dia 5 — Blockbuster recruta o Maurício <small>(agente: Vagner)</small></span><span class="eid">1999_dia5</span></div>
+    <table class="impact-table">
+      <tr><th class="left" style="width:40px">Rota</th><th class="left">Escolha / Argumento</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+      <tr><td class="route-tag">A›A1</td><td class="choice-name">Cobrir oferta → Custo Turnover</td><td><span class="val neg-med">-20</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+20</span></td></tr>
+      <tr><td class="route-tag">A›A2</td><td class="choice-name">Cobrir oferta → Pedágio de mercado (NDA)</td><td><span class="val neg-lo">-10</span></td><td><span class="val pos-hi">-20</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+20</span></td></tr>
+      <tr><td class="route-tag">B›B1</td><td class="choice-name">Skin in the Game → Profit Sharing</td><td><span class="val zero">0</span></td><td><span class="val pos-hi">-20</span></td><td><span class="val pos-med">+20</span></td><td><span class="val pos-lo">+10</span></td></tr>
+      <tr><td class="route-tag">B›B2</td><td class="choice-name">Skin in the Game → Orçamento próprio</td><td><span class="val neg-lo">-10</span></td><td><span class="val pos-hi">-20</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val pos-med">+20</span></td></tr>
+      <tr><td class="route-tag">C›C1</td><td class="choice-name">Deixar ir → Sistematização (POP)</td><td><span class="val zero">0</span></td><td><span class="val neg-lo">+20</span></td><td><span class="val zero">0</span></td><td><span class="val neg-hi">-20</span></td></tr>
+      <tr><td class="route-tag">C›C2</td><td class="choice-name">Deixar ir → Promover Leila ²</td><td><span class="val pos-lo">+15</span></td><td><span class="val neg-lo">-10</span></td><td><span class="val neg-lo">-10</span></td><td><span class="val neg-hi">-20</span></td></tr>
+    </table>
+    <div style="font-size:9px;color:#555;margin-top:4px;padding:0 8px;">² <em>v2.0: sem Maurício ninguém cuida do acervo — impacto de integridade adicionado.</em></div>
+  </div>
+
+  <!-- DIA 6 -->
+  <div class="event-group">
+    <div class="event-header"><span>Dia 6 — Doces nos Corredores (Leila vs Maurício) <small>(agente: Maurício)</small></span><span class="eid">1999_dia6</span></div>
+    <table class="impact-table">
+      <tr><th class="left" style="width:40px">Rota</th><th class="left">Escolha / Argumento</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+      <tr><td class="route-tag">A›A1</td><td class="choice-name">Comprar Leila → Gatilho mental</td><td><span class="val pos-med">+20</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+10</span></td></tr>
+      <tr><td class="route-tag">A›A2</td><td class="choice-name">Comprar Leila → Margem bomboniere</td><td><span class="val pos-hi">+25</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val neg-lo">-10</span></td><td><span class="val neg-med">-15</span></td></tr>
+      <tr><td class="route-tag">B›B1</td><td class="choice-name">Comprar Maurício → Prevenção Furto</td><td><span class="val zero">0</span></td><td><span class="val neg-lo">+15</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val zero">0</span></td></tr>
+      <tr><td class="route-tag">B›B2</td><td class="choice-name">Comprar Maurício → Posicionamento Premium</td><td><span class="val neg-lo">-10</span></td><td><span class="val pos-lo">-10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+20</span></td></tr>
+      <tr><td class="route-tag">C›C1</td><td class="choice-name">Gôndola separada → Trade Marketing (fornecedor paga)</td><td><span class="val pos-med">+20</span></td><td><span class="val pos-hi">-20</span></td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+10</span></td></tr>
+      <tr><td class="route-tag">C›C2</td><td class="choice-name">Gôndola separada → Teste A/B</td><td><span class="val zero">0</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+15</span></td></tr>
+    </table>
+  </div>
+
+  <!-- DIA 12 -->
+  <div class="event-group">
+    <div class="event-header"><span>Dia 12 — Fita Mastigada do Seu Roberto <small>(agente: Leila)</small></span><span class="eid">1999_dia12</span></div>
+    <table class="impact-table">
+      <tr><th class="left" style="width:40px">Rota</th><th class="left">Escolha / Argumento</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+      <tr><td class="route-tag">A›A1</td><td class="choice-name">Política Estrita → Análise técnica visual</td><td><span class="val pos-hi">+50</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val pos-med">+20</span></td><td><span class="val neg-lo">-10</span></td></tr>
+      <tr><td class="route-tag">A›A2</td><td class="choice-name">Política Estrita → Divisão amigável</td><td><span class="val pos-hi">+25</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+20</span></td><td><span class="val pos-lo">+5</span></td></tr>
+      <tr><td class="route-tag">B›B1</td><td class="choice-name">Anistia → Clube VIP Ouro (upsell)</td><td><span class="val pos-hi">+35</span></td><td><span class="val pos-lo">-5</span></td><td><span class="val neg-lo">-10</span></td><td><span class="val pos-med">+20</span></td></tr>
+      <tr><td class="route-tag">B›B2</td><td class="choice-name">Anistia → Combo da Culpa</td><td><span class="val pos-hi">+30</span></td><td><span class="val zero">0</span></td><td><span class="val neg-lo">-10</span></td><td><span class="val pos-med">+15</span></td></tr>
+      <tr><td class="route-tag">C›C1</td><td class="choice-name">Garantia distribuidora</td><td><span class="val zero">0</span></td><td><span class="val pos-lo">+5</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val pos-lo">+10</span></td></tr>
+      <tr><td class="route-tag">C›C2</td><td class="choice-name">Fundo de Provisão</td><td><span class="val zero">0</span></td><td><span class="val pos-lo">-5</span></td><td><span class="val pos-med">+20</span></td><td><span class="val pos-lo">+5</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- PANEL: ENCRUZILHADA -->
+<div id="panel-enc" class="panel">
+  <div class="section-title">Encruzilhada 2026 — Escolha da Rota Principal</div>
+  <div class="enc-grid">
+    <div class="enc-card A">
+      <div class="rname">Rota A — Studio Y2K</div>
+      <div class="rdesc">Locadora vira estúdio fotográfico/cenário para influenciadores</div>
+      <div class="enc-metrics">
+        <div class="enc-metric"><span class="mname">💰 Caixa</span><span class="val zero">0</span></div>
+        <div class="enc-metric"><span class="mname">😤 Stress</span><span class="val neg-med">+20</span></div>
+        <div class="enc-metric"><span class="mname">🎬 Acervo</span><span class="val neg-lo">-10</span></div>
+        <div class="enc-metric"><span class="mname">📣 Tração</span><span class="val pos-hi">+40</span></div>
+      </div>
+    </div>
+    <div class="enc-card B">
+      <div class="rname">Rota B — Leilão</div>
+      <div class="rdesc">Vende o acervo como artefatos históricos a preços premium</div>
+      <div class="enc-metrics">
+        <div class="enc-metric"><span class="mname">💰 Caixa</span><span class="val warn">+500</span></div>
+        <div class="enc-metric"><span class="mname">😤 Stress</span><span class="val zero">0</span></div>
+        <div class="enc-metric"><span class="mname">🎬 Acervo</span><span class="val pos-hi">+30</span></div>
+        <div class="enc-metric"><span class="mname">📣 Tração</span><span class="val neg-hi">-20</span></div>
+      </div>
+    </div>
+    <div class="enc-card C">
+      <div class="rname">Rota C — Detox</div>
+      <div class="rdesc">Aluga TV de tubo + fita para experiência analógica total</div>
+      <div class="enc-metrics">
+        <div class="enc-metric"><span class="mname">💰 Caixa</span><span class="val neg-hi">-100</span></div>
+        <div class="enc-metric"><span class="mname">😤 Stress</span><span class="val neg-hi">+30</span></div>
+        <div class="enc-metric"><span class="mname">🎬 Acervo</span><span class="val pos-hi">+40</span></div>
+        <div class="enc-metric"><span class="mname">📣 Tração</span><span class="val pos-lo">+10</span></div>
+      </div>
+    </div>
+    <div class="enc-card D">
+      <div class="rname">Rota D — Cine-Pub ⚠</div>
+      <div class="rdesc">Balcão vira bar temático — drinks + filmes mudos nas TVs</div>
+      <div class="enc-metrics">
+        <div class="enc-metric"><span class="mname">💰 Caixa</span><span class="val warn">+200</span></div>
+        <div class="enc-metric"><span class="mname">😤 Stress</span><span class="val neg-hi">+50 ⚠</span></div>
+        <div class="enc-metric"><span class="mname">🎬 Acervo</span><span class="val neg-hi">-30</span></div>
+        <div class="enc-metric"><span class="mname">📣 Tração</span><span class="val warn">+50</span></div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:10px;color:#cc6633;background:#1e1408;border-radius:4px;padding:8px 12px;">
+    ⚠ Rota D já começa com Stress+50 na encruzilhada. A crise do Vagner dispara em Stress≥90. Restam apenas 40 pontos antes do game over — o que qualquer 2 escolhas ruins de 2026 podem atingir.
+  </div>
+</div>
+
+<!-- PANEL: 2026 ROTAS -->
+<div id="panel-era2026" class="panel">
+  <div class="route-tabs">
+    <div class="route-tab active" onclick="showRoute('A')">🎬 Rota A — Studio</div>
+    <div class="route-tab" onclick="showRoute('B')">💎 Rota B — Leilão</div>
+    <div class="route-tab" onclick="showRoute('C')">📺 Rota C — Detox</div>
+    <div class="route-tab" onclick="showRoute('D')">🍺 Rota D — Pub</div>
+  </div>
+
+  <!-- ROTA A -->
+  <div id="route-A" class="route-panel">
+    <div class="event-group">
+      <div class="event-header"><span>Evento 1 — Proposta da Malu2000</span></div>
+      <table class="impact-table">
+        <tr><th class="left">Escolha</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+        <tr><td class="choice-name">A3 — Sell-Out (pinta de rosa, aceita tudo)</td><td><span class="val warn">+15.000</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val neg-hi">-40</span></td><td><span class="val pos-med">+20</span></td></tr>
+        <tr><td class="choice-name">A4 — Recusa Premium (nada é tocado)</td><td><span class="val zero">0</span></td><td><span class="val pos-lo">-10</span></td><td><span class="val pos-hi">+40</span></td><td><span class="val neg-hi">-20</span></td></tr>
+        <tr><td class="choice-name">A5 — Dublê / Envelopa balcão (engana)</td><td><span class="val warn">+15.000</span></td><td><span class="val neg-hi">+30</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val pos-lo">+10</span></td></tr>
+      </table>
+    </div>
+    <div class="event-group">
+      <div class="event-header"><span>Evento 2 — Estande na CCXP</span></div>
+      <table class="impact-table">
+        <tr><th class="left">Escolha</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+        <tr><td class="choice-name">A6 — Estande básico 6m²</td><td><span class="val neg-med">-3.000</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-hi">+30</span></td></tr>
+        <tr><td class="choice-name">A7 — Estande premium 20m²</td><td><span class="val neg-hi">-8.000</span></td><td><span class="val neg-hi">+40</span></td><td><span class="val zero">0</span></td><td><span class="val warn">+80</span></td></tr>
+        <tr><td class="choice-name">A8 — Parceria Kodak (patrocínio)</td><td><span class="val pos-hi">+4.000</span></td><td><span class="val neg-med">+20</span></td><td><span class="val zero">0</span></td><td><span class="val pos-hi">+60</span></td></tr>
+      </table>
+    </div>
+    <div style="font-size:10px;color:#666;margin-top:4px;">Observação: A3/A5 dão +15.000 de Caixa — muito maior que qualquer outra escolha do jogo. A7 dá +80 Tração mas +40 Stress — pode disparar crise em combinação com Rota A (Stress+20).</div>
+  </div>
+
+  <!-- ROTA B -->
+  <div id="route-B" class="route-panel" style="display:none">
+    <div class="event-group">
+      <div class="event-header"><span>Evento 1 — A Liquidação Premium</span></div>
+      <table class="impact-table">
+        <tr><th class="left">Escolha</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+        <tr><td class="choice-name">B1 — eBay global (colecionadores)</td><td><span class="val pos-hi">+800</span></td><td><span class="val neg-hi">+30</span></td><td><span class="val neg-lo">-10</span></td><td><span class="val zero">0</span></td></tr>
+        <tr><td class="choice-name">B2 — Galeria de Arte Y2K (B2B)</td><td><span class="val warn">+2.000</span></td><td><span class="val pos-lo">-10</span></td><td><span class="val pos-med">+20</span></td><td><span class="val neg-lo">-10</span></td></tr>
+        <tr><td class="choice-name">B3 — Mystery Box (influenciadores)</td><td><span class="val pos-hi">+900</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val neg-hi">-30</span></td><td><span class="val pos-hi">+40</span></td></tr>
+      </table>
+    </div>
+    <div class="event-group">
+      <div class="event-header"><span>Evento 2 — Escândalo de Autenticidade</span></div>
+      <table class="impact-table">
+        <tr><th class="left">Escolha</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+        <tr><td class="choice-name">B4 — Laudo profissional (transparência)</td><td><span class="val neg-hi">-2.000</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val pos-hi">+40</span></td><td><span class="val pos-med">+20</span></td></tr>
+        <tr><td class="choice-name">B5 — Disclaimer + vende rápido</td><td><span class="val warn">+2.500</span></td><td><span class="val neg-med">+20</span></td><td><span class="val neg-med">-20</span></td><td><span class="val neg-hi">-20</span></td></tr>
+        <tr><td class="choice-name">B6 — Anti-scalper (CPF obrigatório)</td><td><span class="val pos-hi">+800</span></td><td><span class="val pos-lo">-10</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val pos-hi">+40</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ROTA C -->
+  <div id="route-C" class="route-panel" style="display:none">
+    <div class="event-group">
+      <div class="event-header"><span>Evento 1 — Epidemia de Burnout (Detox)</span></div>
+      <table class="impact-table">
+        <tr><th class="left">Escolha</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+        <tr><td class="choice-name">C1 — White Glove (Maurício instala na casa)</td><td><span class="val warn">+1.500</span></td><td><span class="val neg-hi">+40</span></td><td><span class="val neg-med">-20</span></td><td><span class="val pos-lo">+10</span></td></tr>
+        <tr><td class="choice-name">C2 — Cabines in-store (TV não sai)</td><td><span class="val pos-hi">+200</span></td><td><span class="val pos-hi">-20</span></td><td><span class="val pos-hi">+30</span></td><td><span class="val pos-lo">+10</span></td></tr>
+        <tr><td class="choice-name">C3 — B2B Corporativo (RH + seguro)</td><td><span class="val warn">+3.000</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val neg-lo">-10</span></td></tr>
+      </table>
+    </div>
+    <div class="event-group">
+      <div class="event-header"><span>Evento 2 — Expansão para Games Retrô</span></div>
+      <table class="impact-table">
+        <tr><th class="left">Escolha</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+        <tr><td class="choice-name">C4 — Parceria Carlos 50/50</td><td><span class="val warn">+1.200</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val pos-hi">+30</span></td></tr>
+        <tr><td class="choice-name">C5 — Área própria (R$8k investimento)</td><td><span class="val neg-hi">-5.000</span></td><td><span class="val neg-hi">+30</span></td><td><span class="val pos-med">+20</span></td><td><span class="val pos-hi">+50</span></td></tr>
+        <tr><td class="choice-name">C6 — Anunciar primeiro (teste demanda)</td><td><span class="val zero">0</span></td><td><span class="val pos-lo">-10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+20</span></td></tr>
+      </table>
+    </div>
+    <div style="font-size:10px;color:#666;margin-top:4px;">Rota C começa com Stress+30. C1+C5 adicionam mais 70 → Stress total pode chegar a 100+ facilmente.</div>
+  </div>
+
+  <!-- ROTA D -->
+  <div id="route-D" class="route-panel" style="display:none">
+    <div class="alert" style="margin:0 0 10px">⚠ Rota D já inicia com Stress+50. A crise do Vagner (≥90) está a apenas 40 pontos de distância.</div>
+    <div class="event-group">
+      <div class="event-header"><span>Evento 1 — Crise da Infraestrutura (como será o Pub?)</span></div>
+      <table class="impact-table">
+        <tr><th class="left">Escolha</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+        <tr><td class="choice-name">D1 — Cine-Clube intimista (vinil, debates)</td><td><span class="val pos-hi">+500</span></td><td><span class="val pos-lo">-10</span></td><td><span class="val pos-hi">+40</span></td><td><span class="val pos-lo">+10</span></td></tr>
+        <tr><td class="choice-name">D2 — Festa banda (vaquinha, cerveja) <span class="crisis-tag">RISCO</span></td><td><span class="val warn">+2.000</span></td><td><span class="val neg-hi">+40</span></td><td><span class="val neg-hi">-30</span></td><td><span class="val pos-hi">+40</span></td></tr>
+        <tr><td class="choice-name">D3 — Hub B2B podcasters</td><td><span class="val warn">+1.200</span></td><td><span class="val neg-lo">+10</span></td><td><span class="val pos-lo">+10</span></td><td><span class="val pos-med">+20</span></td></tr>
+      </table>
+    </div>
+    <div class="event-group">
+      <div class="event-header"><span>Evento 2 — Noite de Abertura sem Banda</span></div>
+      <table class="impact-table">
+        <tr><th class="left">Escolha</th><th>💰 Caixa</th><th>😤 Stress</th><th>🎬 Acervo</th><th>📣 Tração</th></tr>
+        <tr><td class="choice-name">D4 — DJ Trash 80 (R$400, barra livre)</td><td><span class="val warn">+1.200</span></td><td><span class="val pos-lo">-10</span></td><td><span class="val zero">0</span></td><td><span class="val pos-med">+20</span></td></tr>
+        <tr><td class="choice-name">D5 — The Sluggs (rock anos 90, R$1.800) <span class="crisis-tag">RISCO</span></td><td><span class="val neg-lo">-400</span></td><td><span class="val neg-hi">+30</span></td><td><span class="val zero">0</span></td><td><span class="val pos-hi">+50</span></td></tr>
+        <tr><td class="choice-name">D6 — Maurício narra ao vivo</td><td><span class="val pos-hi">+600</span></td><td><span class="val pos-hi">-20</span></td><td><span class="val pos-med">+20</span></td><td><span class="val pos-hi">+30</span></td></tr>
+      </table>
+    </div>
+    <div style="font-size:10px;color:#cc4444;margin-top:4px;">D2+D5 = Stress +70 adicional sobre os +50 da encruzilhada = Stress total +120 → game over garantido.</div>
+  </div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+function showRoute(r) {
+  document.querySelectorAll('.route-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.route-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('route-' + r).style.display = 'block';
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
