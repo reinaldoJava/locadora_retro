@@ -291,19 +291,130 @@ class Engine:
                 return agente
         return agente_foco_default
 
+    # Métricas onde um delta POSITIVO prejudica o jogador (ao contrário das demais).
+    _METRICAS_INVERSAS = {"stress"}
+
     def _aplicar_impacto_dinamico(self, dict_opcao):
-        """Aplica deltas numericos multiplicados pelo fator de dificuldade."""
+        """Aplica deltas numericos multiplicados pelo fator de dificuldade.
+
+        Deltas prejudiciais ao jogador são adicionalmente amplificados pelo
+        fator de pressão dinâmica (self.estado['pressao']), que sobe quando
+        todas as métricas estão confortáveis e cai quando o jogador está em apuros.
+        """
         impactos = dict_opcao.get("impacto",
                    dict_opcao.get("impactos",
                    dict_opcao.get("impacto_sistema", {})))
-        mult = self.estado.get("dificuldade_mult", 1.0)
+        mult    = self.estado.get("dificuldade_mult", 1.0)
+        pressao = self.estado.get("pressao", 1.0)
         for k, v in impactos.items():
             if isinstance(v, (int, float)) and k in self.estado:
-                delta = round(v * mult)
+                ruim = (k in self._METRICAS_INVERSAS and v > 0) or \
+                       (k not in self._METRICAS_INVERSAS and v < 0)
+                fator = mult * pressao if ruim else mult
+                delta = round(v * fator)
                 self.estado[k] = max(0, self.estado.get(k, 0) + delta)
         # Escreve flags de memória narrativa persistente
         for flag, valor in dict_opcao.get("escreve_flags", {}).items():
             self.estado.setdefault("flags", {})[flag] = valor
+        # Recalcula pressão após cada impacto real
+        self._atualizar_pressao()
+
+    def _atualizar_pressao(self):
+        """Recalcula o fator de pressão dinâmica após cada decisão.
+
+        Lógica:
+          5 métricas confortáveis → pressão +0.1 (max 2.0): más decisões pesam mais.
+          ≤ 2 métricas seguras   → pressão -0.1 (min 1.0): jogo alivia ligeiramente.
+          3–4 métricas seguras   → pressão mantida.
+
+        Zonas de conforto:
+          caixa ≥ 60 | tração ≥ 30 | acervo ≥ 30 | stress ≤ 60 | moral ≥ 40
+        """
+        est = self.estado
+        seguras = sum([
+            est.get("caixa", 0)         >= 60,
+            est.get("tracao", 0)        >= 30,
+            est.get("acervo", 0)        >= 30,
+            est.get("stress", 0)        <= 60,
+            est.get("moral_equipe", 0)  >= 40,
+        ])
+        p = est.get("pressao", 1.0)
+        if seguras == 5:
+            p = min(2.0, round(p + 0.1, 1))
+        elif seguras <= 2:
+            p = max(1.0, round(p - 0.1, 1))
+        est["pressao"] = p
+
+    def calcular_perfil(self) -> dict:
+        """Classifica o perfil de gestão do jogador com base no estado final.
+
+        Retorna dict consumido pela tela de fim de jogo para gerar o assessment via LLM:
+          tipo      — arquétipo principal (Executor / Coach / Diplomata / Guerreiro / Curador / Estrategista)
+          dominante — métrica mais maximizada (caixa / tração / acervo)
+          risco     — alto / médio / baixo
+          resumo    — frase descritiva para o prompt do LLM
+          nota      — observação especial (ex: Maurício saiu)
+          metricas_finais — snapshot das 5 métricas para exibição
+        """
+        est    = self.estado
+        caixa  = est.get("caixa",        100)
+        tracao = est.get("tracao",        50)
+        acervo = est.get("acervo",        50)
+        stress = est.get("stress",         0)
+        moral  = est.get("moral_equipe",  70)
+
+        g_caixa  = caixa  - 100   # ganho líquido vs. inicial
+        g_tracao = tracao - 50
+        g_acervo = acervo - 50
+        p_moral  = 70 - moral     # perda de moral (positivo = piorou)
+
+        dominante = max(
+            {"caixa": g_caixa, "tração": g_tracao, "acervo": g_acervo},
+            key=lambda k: {"caixa": g_caixa, "tração": g_tracao, "acervo": g_acervo}[k]
+        )
+
+        if stress >= 80 or caixa <= 20:
+            risco = "alto"
+        elif stress >= 40 or caixa <= 50:
+            risco = "médio"
+        else:
+            risco = "baixo"
+
+        mauricio_saiu = est.get("flags", {}).get("mauricio_saiu", False)
+
+        if g_caixa > 30 and p_moral > 20:
+            tipo   = "Executor"
+            resumo = "Priorizou resultados financeiros de forma sistemática, mesmo com custo para a equipe."
+        elif p_moral < 0 and g_tracao > 20:   # moral MELHOROU
+            tipo   = "Coach"
+            resumo = "Investiu em pessoas e relacionamento, apostando que engajamento gera resultado."
+        elif g_tracao > 40 and stress < 40:
+            tipo   = "Diplomata"
+            resumo = "Navegou conflitos com habilidade, priorizando tração sem gerar desgaste excessivo."
+        elif stress >= 60 and g_caixa > 0:
+            tipo   = "Guerreiro"
+            resumo = "Apostou em decisões de alto risco, pagando o custo no desgaste operacional."
+        elif g_acervo > 30 and g_caixa < 0:
+            tipo   = "Curador"
+            resumo = "Priorizou qualidade do acervo em detrimento do caixa — visão de longo prazo."
+        else:
+            tipo   = "Estrategista"
+            resumo = "Manteve equilíbrio entre as métricas sem comprometer nenhum eixo crítico."
+
+        nota = ("Tomou a decisão mais impactante do jogo: deixou o curador ir embora."
+                if mauricio_saiu else "")
+
+        return {
+            "tipo":      tipo,
+            "dominante": dominante,
+            "risco":     risco,
+            "resumo":    resumo,
+            "nota":      nota,
+            "metricas_finais": {
+                "caixa": caixa, "tracao": tracao, "acervo": acervo,
+                "stress": stress, "moral": moral,
+            },
+        }
 
     def verificar_game_over(self):
         """Condicao de derrota: stress >= 150 ou game_over_forcado."""
@@ -338,4 +449,6 @@ class Engine:
             "game_over_forcado": False,
             # --- Sistema de memória narrativa ---
             "flags": {},
+            # --- Balanceamento dinâmico ---
+            "pressao": 1.0,   # amplificador de deltas negativos; sobe quando confortável
         }
