@@ -133,7 +133,7 @@ export function esperarVideo() {
         });
     }
 
-    // Fallback: se o vídeo não terminar em 10s (mobile sem autoplay), avança mesmo assim
+    // Fallback: se o vídeo não terminar em 10s, avança mesmo assim
     const fallback = setTimeout(avancar, 10000);
 
     video.onended = () => { clearTimeout(fallback); avancar(); };
@@ -149,13 +149,15 @@ export function playVideo(config) {
             const promise = video.play();
             if (promise !== undefined) {
                 promise.catch((err) => {
-                    // Só pula o vídeo se o autoplay for explicitamente bloqueado pelo browser.
-                    // AbortError (vídeo ainda carregando) NÃO deve pular — o fallback de 10s
-                    // em esperarVideo() cobre esse caso.
                     if (err.name === 'NotAllowedError') {
-                        video.dispatchEvent(new Event('ended'));
+                        // Autoplay com áudio bloqueado — tenta muted como fallback.
+                        // Muted sempre é permitido; usuário vê o vídeo mesmo sem som.
+                        video.muted = true;
+                        video.play().catch(() => {
+                            video.dispatchEvent(new Event('ended'));
+                        });
                     }
-                    // Outros erros: deixa o fallback de 10s agir.
+                    // Outros erros (AbortError etc): deixa o fallback de 10s agir.
                 });
             }
         }
