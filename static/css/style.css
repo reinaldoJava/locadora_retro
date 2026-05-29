@@ -502,7 +502,7 @@ body, html {
     right: 5px;
     z-index: 2000;
     width: 200px;
-    max-width: 22%;
+    max-width: 24%;
     background: var(--dialog-bg, rgba(20, 10, 2, 0.95));
     border: 1px solid var(--dialog-border, #c8692a);
     color: var(--text-narrator, #c8a96e);
