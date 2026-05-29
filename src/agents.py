@@ -24,6 +24,12 @@ import threading
 import time
 from openai import OpenAI, RateLimitError
 
+
+class LLMFallbackError(Exception):
+    """Sinaliza falha terminal da API LLM (cota esgotada ou erro irrecuperável).
+    O caller decide o texto a exibir sem salvar no pool."""
+    pass
+
 try:
     from google.cloud import firestore as _firestore
     _db = _firestore.Client()
@@ -346,13 +352,13 @@ def gerar_fala(agente_id: str, contexto_dia: str, ano: int,
             logger.warning(f"FALHA_LLM: Erro na geração para {agente_id} ({e}). Usando fallback.")
             break
 
-    # Lógica de Fallback Final
-    # Se texto_original for o sentinel ou vazio, usa a frase de personalidade
-    if not texto_original or texto_original == "_pending_":
-        return _FALLBACK.get(agente_id, _FALLBACK_DEFAULT)
-    
-    # Se for 1999, retorna o texto estático original (ex: resolucao_vagner)
-    return texto_original
+    # Falha terminal — loga erro estruturado e sinaliza ao caller via exceção.
+    # O caller exibe o texto do script e NÃO salva no pool.
+    logger.error(
+        f"LLM_QUOTA_EXCEEDED agente={agente_id} "
+        f"tentativas={len(_RETRY_DELAYS) + 1} — cota esgotada ou erro irrecuperável."
+    )
+    raise LLMFallbackError(agente_id)
 
 
 

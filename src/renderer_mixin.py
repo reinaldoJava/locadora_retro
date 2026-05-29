@@ -12,7 +12,7 @@ import json
 from flask import render_template, session as flask_session, make_response
 from src.Maps import ROTA_BG_2026, IMG_PERSONS
 from src.audio_config import AUDIO_SETTINGS
-from src.agents import obter_do_pool, adicionar_ao_pool, gerar_fala, preaquecer_replicas
+from src.agents import obter_do_pool, adicionar_ao_pool, gerar_fala, preaquecer_replicas, LLMFallbackError
 
 
 class RendererMixin:
@@ -85,8 +85,12 @@ class RendererMixin:
         argumento = self._sub_curador(argumento)
         fala = obter_do_pool(pool_key)
         if not fala:
-            fala = gerar_fala(agente_id, contexto, ano, temperatura, argumento=argumento)
-            adicionar_ao_pool(pool_key, fala)
+            try:
+                fala = gerar_fala(agente_id, contexto, ano, temperatura, argumento=argumento)
+                adicionar_ao_pool(pool_key, fala)
+            except LLMFallbackError:
+                # Cota esgotada: exibe o texto do script, não salva no pool.
+                fala = argumento
         fala_personalizada = fala.replace("Gerente", self.nome_jogador)
         fala_html = fala_personalizada.replace(chr(10), "<br>")
         return self._preparar_fala_com_typing(fala_html, agente_nome)
