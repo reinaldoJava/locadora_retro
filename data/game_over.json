@@ -3,34 +3,32 @@
     "id": "ultimato_leila_tracao",
     "ano": 2026,
     "agente_foco": "ID_Leila",
-    "contexto_ia": "A barra de Tração e Escalabilidade caiu abaixo do limiar crítico de 10 pontos. A locadora está perigosamente silenciosa. O telefone não toca. A calçada está vazia. O modelo de negócios secou porque a loja parou de se comunicar com o mundo lá fora. Leila está apática, guardando suas coisas na mochila, prestes a aceitar uma proposta em uma agência de marketing.",
+    "contexto_ia": "A tração da locadora caiu abaixo do limiar crítico. O movimento na calçada secou, as redes sociais pararam de responder, e o telefone não toca há dias. Leila tem monitorado os números em silêncio. Hoje ela chegou com a mochila nas costas.",
     "rotas_principais": [
       {
         "id_rota": "Crise_Tracao",
-        "nome": "O Ultimato de Leila (Gargalo de Volume e Hype)",
-        "fala_agente": "Chefe, o hype retro acabou. O algoritmo do Zinta mudou a tendência pra 'Futurismo Minimalista' e a gente sumiu do mapa. Eu tô há semanas falando pra gente fazer collabs, inovar, e vocês só focam em varrer o chão e contar moeda. Uma agência de Marketing Digital me chamou no LinkedIn pra ser estrategista júnior. Eu preciso ir pra onde o mundo tá indo.",
-        "pushback_vagner": "Chefe, o hype retro acabou. O algoritmo do Zinta mudou a tendência pra 'Futurismo Minimalista' e a gente sumiu do mapa. Eu tô há semanas falando pra gente fazer collabs, inovar, e vocês só focam em varrer o chão e contar moeda. Uma agência de Marketing Digital me chamou no LinkedIn pra ser estrategista júnior. Eu preciso ir pra onde o mundo tá indo.",
+        "nome": "Ouvir o que ela tem a dizer",
+        "pushback_vagner": "Chefe, olha o Instagram da loja. O último post tem doze likes. Eu passei semanas propondo collabs, eventos, qualquer coisa. A resposta sempre foi 'não tem verba' ou 'não é o momento'. Essa semana chegou uma proposta boa. Eu preciso tomar uma decisão.",
         "sub_opcoes": [
           {
             "id_sub": "A",
-            "foco": "O Apelo Emocional / Foco no Passado",
-            "argumento_gerente": "Leila, você não pode fazer isso. Nós somos uma família! Eu te contratei quando você não sabia nem ligar o rebobinador. A concorrência não tem o nosso calor humano, eles vão te tratar como um número. Fica pela nossa história.",
-            "resolucao_agente": "(Leila dá um sorriso triste e balança a cabeça) \"Chefe, calor humano não paga a minha faculdade. E nostalgia não paga o aluguel de vocês. Desculpa. O Maurício fica com os filmes, o Vagner fica com o caixa, mas a visão de futuro de vocês morreu.\"",
-            "resolucao_agente": "(Leila dá um sorriso triste e balança a cabeça) \"Chefe, calor humano não paga a minha faculdade. E nostalgia não paga o aluguel de vocês. Desculpa. O {curador_nome} fica com os filmes, o Vagner fica com o caixa, mas a visão de futuro de vocês morreu.\"",
-            "resultado": "game_over" 
+            "foco": "O Apelo à Lealdade",
+            "argumento_gerente": "Leila, você não pode fazer isso. Nós construímos esse lugar juntos. A concorrência não tem o nosso calor, eles vão te tratar como número. Fica pela nossa história.",
+            "resolucao_agente": "Leila olha para você com um sorriso triste. 'Chefe, nostalgia não paga minha faculdade. Cuida de você.' Ela sai sem pressa, sem drama.",
+            "resultado": "game_over"
           },
           {
             "id_sub": "B",
-            "foco": "A Promessa Corporativa / Foco no Dinheiro Futuro",
-            "argumento_gerente": "Leila, não toma decisão de cabeça quente. Eu sei que as coisas estão paradas, mas eu vou sentar com o Vagner amanhã. Eu prometo que no trimestre que vem a gente compra computadores novos / contrata um videomaker profissional. E eu vejo um aumento pra você. Só me dá um tempo.",
-            "resolucao_agente": "(Leila suspira e ajeita a mochila) \"Chefe, 'trimestre que vem' é a mentira mais velha do comércio. Vocês nunca vão aprovar orçamento pra marketing se o Vagner achar que é gasto. Eu não posso mais esperar a coragem de vocês.\"",
+            "foco": "A Promessa Futura",
+            "argumento_gerente": "Leila, não decide agora. No próximo trimestre a gente investe em marketing de verdade — computadores novos, videomaker, aumento pra você. Me dá um tempo.",
+            "resolucao_agente": "'Próximo trimestre', Leila repete devagar. 'Chefe, essa é a terceira vez que você fala isso. A proposta que recebi é pra começar na segunda.' Ela pega a mochila. 'Valeu por tudo.'",
             "resultado": "game_over"
           },
           {
             "id_sub": "C",
-            "foco": "O Cheque em Branco / Autonomia Radical",
-            "argumento_gerente": "Você tem razão. Eu e o Maurício somos dinossauros dirigindo em direção ao meteoro. Se você for embora, a gente apaga a luz. Tira a mochila das costas. A partir de agora, você é a Diretora de Novos Negócios. Você tem 20% do orçamento do nosso caixa livre de impostos na sua mão pra gastar em marketing, evento, o que quiser. Não precisa pedir a minha aprovação nem a do Vagner.",
-            "resolucao_agente": "(Leila paralisa. Ela solta a alça da mochila, os olhos brilhando com o desafio) \"20% do caixa? Sem a assinatura do Vagner?... Beleza. Eu fico. Mas se prepara, chefe. Nós vamos virar essa loja de cabeça pra baixo a partir de amanhã. O Vagner que tome um calmante.\"",
+            "foco": "Autonomia Real",
+            "argumento_gerente": "Você tem razão. Tira a mochila. A partir de agora você é Diretora de Novos Negócios. Vinte por cento do caixa livre pra gastar em marketing, evento, collab — o que você decidir. Sem pedir aprovação minha nem do Vagner.",
+            "resolucao_agente": "Leila solta a alça. Olha pro espaço da loja como se estivesse calculando algo. 'Vinte por cento. Sem assinatura do Vagner.' Uma pausa. 'Tá bom. Mas já avisa o Vagner que vai doer no coração dele.'",
             "resultado": "vitoria"
           }
         ]
@@ -41,33 +39,32 @@
     "id": "ultimato_mauricio_acervo",
     "ano": 2026,
     "agente_foco": "ID_Mauricio",
-    "contexto_ia": "A barra de Integridade do Acervo caiu abaixo do limiar crítico de 20 pontos. A busca desenfreada por lucro e fluxo de pessoas transformou a locadora em um ambiente caótico. Maurício está no chão, empacotando suas fitas de diretores europeus e japoneses para ir embora.",
+    "contexto_ia": "O acervo da locadora caiu abaixo do limiar crítico. Fitas raras foram cedidas, deterioradas ou simplesmente mal gerenciadas. Maurício está no chão entre as prateleiras, separando o que sobrou da coleção que ele ajudou a construir.",
     "rotas_principais": [
       {
         "id_rota": "Crise_Acervo",
-        "nome": "O Ultimato de Maurício (Gargalo de Integridade do Acervo)",
-        "fala_agente": "Você vendeu a nossa alma. Transformou a história do cinema num cenário de plástico pra adolescentes fazerem dancinha na internet. Eles não sabem quem é Kubrick, eles só querem a estética da caixa. É um circo de horrores. O meu nome não vai ficar associado a esse massacre cultural. Vou salvar o que sobrou da minha coleção e ir embora.",
-        "pushback_vagner": "Você vendeu a nossa alma. Transformou a história do cinema num cenário de plástico pra adolescentes fazerem dancinha na internet. Eles não sabem quem é Kubrick, eles só querem a estética da caixa. É um circo de horrores. O meu nome não vai ficar associado a esse massacre cultural. Vou salvar o que sobrou da minha coleção e ir embora.",
+        "nome": "Conversar com ele",
+        "pushback_vagner": "Não é sobre as fitas, gerente. É sobre o que a gente prometeu ser. O acervo que a gente tinha era o argumento da loja inteira. Agora, o que a gente mostra pra quem entra aqui? Eu entendo a pressão de caixa. Mas eu não me vejo curando um acervo sem propósito. Tô pensando em sair.",
         "sub_opcoes": [
           {
             "id_sub": "A",
-            "foco": "A Lógica Comercial / O Argumento Financeiro",
-            "argumento_gerente": "Maurício, seja prático e olha pro caixa! Aquele adolescente que derrubou a fita deixou R$ 150 na loja. A arte custa dinheiro! Com o lucro dessa semana a gente entra na internet e compra cinco cópias novas desse filme em estado perfeito. É só plástico e fita magnética!",
-            "resolucao_agente": "(Maurício ri, um riso frio e decepcionado. Ele levanta com a caixa) \"Não se 'compra outra' primeira edição, seu ignorante. Filmes não são sabonetes pra você repor no estoque. Vocês não vendem cultura, vendem plástico por quilo. Passar bem.\"",
+            "foco": "O Argumento Financeiro",
+            "argumento_gerente": "Maurício, sem caixa não tem acervo. Esse lucro que a gente gerou compra cinco cópias novas em estado perfeito. É plástico e fita magnética — a gente repõe.",
+            "resolucao_agente": "Maurício levanta com a caixa. 'Não se repõe uma primeira edição, gerente. Você não vende cultura, vende prateleira por metro quadrado.' Ele sai sem virar.",
             "resultado": "game_over"
           },
           {
             "id_sub": "B",
-            "foco": "A Ameaça Corporativa / O Argumento de Autoridade",
-            "argumento_gerente": "Solta essa caixa agora, Maurício. Você foi contratado para organizar o acervo, não para ser o dono dele. Essas fitas são patrimônio da empresa, eu paguei por elas. Se você passar por aquela porta com esse material, eu chamo a polícia e te processo por roubo.",
-            "resolucao_agente": "(Maurício solta a caixa no chão de forma abrupta e tira o crachá, jogando no seu peito) \"Fica com as suas fitas, chefe. Mas eu duvido que o Vagner ou a Leila saibam a diferença entre o rolo 1 e o rolo 2 de um filme do Kurosawa. Sem mim, isso aqui é só um amontoado de lixo magnético. Boa sorte.\"",
+            "foco": "A Autoridade Patronal",
+            "argumento_gerente": "Solta essa caixa, Maurício. Essas fitas são patrimônio da empresa. Se você sair daqui com esse material, eu aciono juridicamente.",
+            "resolucao_agente": "Maurício pousa a caixa com cuidado e coloca o crachá na prateleira. 'Fica com as suas fitas. Mas eu duvido que alguém aqui saiba a diferença entre o rolo 1 e o rolo 2 de um Kurosawa.' Ele vai embora.",
             "resultado": "game_over"
           },
           {
             "id_sub": "C",
-            "foco": "O \"Santuário VIP\" / Concessão de Território",
-            "argumento_gerente": "Eu errei, Maurício. Eu deixei o desespero financeiro engolir o nosso propósito. Solta a caixa. Nós vamos esvaziar a sala dos fundos hoje. Vai virar o 'Santuário'. Você leva todos os clássicos pra lá, tranca a porta e fica com a chave. A partir de agora, você dita as regras: só entra lá quem passar pela sua entrevista, usando luva branca se você quiser. Eu blindo a sua arte do resto da loja.",
-            "resolucao_agente": "(Maurício para o movimento com o estilete. Ele olha para o espaço dos fundos, imaginando a porta trancada. O ego dele é afagado.) \"Um Santuário... Apenas para iniciados e verdadeiros apreciadores da arte. Muito bem, gerente. Eu fico. Mas se eu ver uma criança com salgadinho perto do meu balcão, eu mesmo chamo a polícia.\"",
+            "foco": "O Santuário",
+            "argumento_gerente": "Eu errei, Maurício. Deixei o desespero engolir o propósito. A sala dos fundos é sua. Você leva os clássicos, tranca a porta, fica com a chave. Só entra quem passar pelo seu critério.",
+            "resolucao_agente": "Maurício para. Olha para a sala dos fundos por um tempo. 'Um espaço para quem realmente quer ver cinema.' Uma pausa longa. 'Tá bom. Mas se eu ver adolescente com salgadinho perto do balcão, eu mesmo chamo a polícia.'",
             "resultado": "vitoria"
           }
         ]
@@ -78,33 +75,32 @@
     "id": "ultimato_marcos_acervo",
     "ano": 2026,
     "agente_foco": "ID_Marcos",
-    "contexto_ia": "A barra de Integridade do Acervo caiu abaixo do limiar crítico de 20 pontos. A busca desenfreada por lucro e fluxo de pessoas transformou a locadora em um ambiente caótico. Marcos está na frente das prateleiras vazias, olhando para o chão, com a expressão de quem viu o último save game corromper.",
+    "contexto_ia": "O acervo da locadora caiu abaixo do limiar crítico. Marcos está parado na frente das prateleiras esvaziadas, olhando para o chão com a expressão de quem viu o último save corromper.",
     "rotas_principais": [
       {
         "id_rota": "Crise_Acervo_Marcos",
-        "nome": "O Ultimato de Marcos (Gargalo de Identidade e Ativo)",
-        "fala_agente": "Gerente, a gente prometeu uma experiência, uma vibe. Agora, o que a gente tem? Prateleiras vazias. É como um console sem cartucho, um DJ sem vinil. Não é só a perda de fitas, é a perda da nossa identidade, do nosso 'core business'. Como a gente vende 'retro' sem o 'retro' pra mostrar? Isso aqui virou um salão de festas sem bolo.",
-        "pushback_vagner": "Gerente, a gente prometeu uma experiência, uma vibe. Agora, o que a gente tem? Prateleiras vazias. É como um console sem cartucho, um DJ sem vinil. Não é só a perda de fitas, é a perda da nossa identidade, do nosso 'core business'. Como a gente vende 'retro' sem o 'retro' pra mostrar? Isso aqui virou um salão de festas sem bolo.",
+        "nome": "Ouvir o que ele tem a dizer",
+        "pushback_vagner": "Gerente, a gente prometeu uma experiência. Uma vibe. Agora olha isso aqui: prateleira vazia. É como console sem cartucho. A gente não perdeu só fitas — perdeu o argumento de ser o que a gente é. Como a gente vende 'retro' sem o 'retro' pra mostrar?",
         "sub_opcoes": [
           {
             "id_sub": "A",
-            "foco": "O Apelo Emocional / Culpar o Mercado",
-            "argumento_gerente": "Marcos, a gente fez o que pôde. O mercado mudou, as pessoas não querem mais fitas. Não é culpa nossa, é a evolução.",
-            "resolucao_agente": "(Marcos balança a cabeça, desapontado) 'Não é culpa nossa? Gerente, a gente é o mercado. Se a gente não soube se adaptar, a culpa é da nossa estratégia. Sem acervo, a gente não é nada. É só um espaço vazio com cheiro de mofo. Eu não assinei pra ser vendedor de bugiganga.'",
+            "foco": "Culpar o Mercado",
+            "argumento_gerente": "Marcos, a gente fez o que pôde. O mercado mudou, as pessoas não querem mais fitas. Não é culpa nossa.",
+            "resolucao_agente": "Marcos balança a cabeça. 'O mercado somos nós, gerente. Se a gente não soube se adaptar, é estratégia. Sem acervo, isso aqui é só um espaço com cheiro de mofo.' Ele desliga o computador.",
             "resultado": "game_over"
           },
           {
             "id_sub": "B",
-            "foco": "Minimizar a Perda / Solução Genérica",
-            "argumento_gerente": "Calma, Marcos. A gente pode encher essas prateleiras com livros, ou talvez com produtos de informática. O importante é ter algo para vender e manter a loja aberta.",
-            "resolucao_agente": "(Marcos ri sem humor) 'Livros? Produtos de informática? Gerente, a gente não é uma papelaria. A gente era a locadora. Sem fitas, a gente perde o 'retro' e vira só 'loja'. E loja vazia não atrai ninguém. Eu não assinei pra ser vendedor de bugiganga.'",
+            "foco": "Substituir o Acervo",
+            "argumento_gerente": "A gente pode encher essas prateleiras com livros, produtos de informática. O importante é manter a loja aberta.",
+            "resolucao_agente": "Marcos ri sem humor. 'Gerente, a gente não é uma papelaria. A gente era a locadora. Sem fitas, a gente perde o \"retro\" e vira só loja. Eu não vim aqui pra vender caneta.'",
             "resultado": "game_over"
           },
           {
             "id_sub": "C",
-            "foco": "Reinventar a 'Vibe' / Museu Interativo",
-            "argumento_gerente": "Você tem razão, Marcos. O acervo físico se foi. Mas a 'vibe' não. E se a gente transformar essas prateleiras vazias em um 'Museu Interativo da Mídia Analógica', com estações de jogos retrô e workshops de cultura pop dos anos 90? A gente vende a experiência, não o plástico.",
-            "resolucao_agente": "(Marcos levanta a cabeça, os olhos brilhando com uma nova ideia) 'Um museu interativo... estações de jogos... workshops... Gerente, você não vendeu a alma, você a reinventou! A gente não tem mais as fitas, mas a gente tem a história, a cultura, a experiência. Isso é um 'reset' de sistema, não um 'game over'!' (Ele pega o celular, já pensando em como divulgar a ideia).",
+            "foco": "Museu Interativo",
+            "argumento_gerente": "O acervo físico se foi, mas a vibe não. E se a gente transformar essas prateleiras em um museu interativo — estações de jogos retrô, workshops de cultura pop dos anos 90? A gente vende a experiência.",
+            "resolucao_agente": "Marcos levanta a cabeça. 'Estações de jogos... workshops... Gerente, você não vendeu a alma, você reinventou ela. Isso é um reset de sistema, não um game over.' Ele já está abrindo o celular pra pensar no layout.",
             "resultado": "vitoria"
           }
         ]
@@ -115,26 +111,25 @@
     "id": "ultimato_vagner_operacional",
     "ano": 2026,
     "agente_foco": "ID_Vagner",
-    "contexto_ia": "A barra de Stress e Burocracia bate o limite. Estou carregando peso demais ou falta de estrutura de trabalho levaram Vagner ao limite físico e mental. Ele respira em um saco de papel no escritório, cercado de contas sem ter como pagar.",
+    "contexto_ia": "O stress operacional atingiu o limite. Vagner está sozinho no escritório, extrato bancário na mão, respirando fundo. Meses acumulando burocracia, pendências fiscais e ausência de estrutura chegaram ao ponto de ruptura.",
     "rotas_principais": [
       {
         "id_rota": "Crise_Operacional",
-        "nome": "O Ultimato de Vagner (Gargalo Operacional e Burocrático)",
-        "fala_agente": "Eu não durmo há três semanas, gerente! Meu coração tá batendo num ritmo que não é saudável. A gente tá operando um CNPJ zumbi num mundo que rastreia até o nosso pensamento! Eu não vou ser preso ou ter um infarto por causa de fita cassete. Eu tô fora. Vou vender coco na praia, que pelo menos não exige alvará de bombeiro.",
-        "pushback_vagner": "Eu não durmo há três semanas, gerente! Meu coração tá batendo num ritmo que não é saudável. A gente tá operando um CNPJ zumbi num mundo que rastreia até o nosso pensamento! Eu não vou ser preso ou ter um infarto por causa de fita cassete. Eu tô fora. Vou vender coco na praia, que pelo menos não exige alvará de bombeiro.",
+        "nome": "Entrar no escritório",
+        "pushback_vagner": "Gerente, eu não tô aguentando mais. Três semanas sem fechar o olho direito. Fisco, CNPJ, alvará vencido, multa da prefeitura... Eu sozinho não dou conta de manter isso em pé. Se a situação não mudar agora, eu prefiro vender coco na praia. Pelo menos lá eu sei o que me espera.",
         "sub_opcoes": [
           {
             "id_sub": "Vitoria_Condicional",
-            "foco": "Reestruturação e Terceirização / Assumir o Risco",
-            "argumento_gerente": "Vagner, para. Respira. Você não carrega mais esse peso sozinho. Eu vou fechar a loja amanhã para regularizar toda a papelada com um despachante. O dinheiro que temos vai para isso. A partir de agora, burocracia é com terceiros. Você cuida da operação, eu cuido do resto.",
-            "resolucao_agente": "Vagner solta o saco de papel e encosta na parede, aliviado. \"Gerente... se você tivesse dito isso há três semanas... Tá bom. Me liga quando a loja reabrir. Eu tô aqui.\"",
+            "foco": "Reestruturação e Terceirização",
+            "argumento_gerente": "Vagner, para. Respira. Você não carrega mais isso sozinho. Amanhã a gente fecha a loja e contrata um despachante pra regularizar tudo. O dinheiro que tem vai pra isso. Burocracia é com terceiros a partir de agora. Você cuida da operação, eu cuido do resto.",
+            "resolucao_agente": "Vagner solta o extrato e encosta na parede. 'Gerente... se você tivesse dito isso há três semanas.' Uma pausa. 'Tá bom. Me liga quando a loja reabrir.'",
             "resultado": "vitoria"
           },
           {
             "id_sub": "Falha_Condicional",
-            "foco": "Minimização ou Pressão Excessiva",
-            "argumento_gerente": "Vagner, todo mundo tá cansado. Isso é empreendedorismo. A gente precisa que você segure as pontas mais um pouco, depois a gente vê uma solução.",
-            "resolucao_agente": "Vagner balança a cabeça lentamente e pega as chaves do armário. \"Solução depois. Sempre depois. Cuida aí, chefe.\" Ele sai sem olhar para trás.",
+            "foco": "Minimização",
+            "argumento_gerente": "Vagner, todo mundo tá cansado. Isso é empreendedorismo. Aguenta mais um pouco, depois a gente vê uma solução.",
+            "resolucao_agente": "Vagner pega as chaves do armário sem responder. 'Solução depois. Sempre depois.' Ele apaga a luz do escritório e sai.",
             "resultado": "game_over"
           }
         ]
@@ -145,28 +140,26 @@
     "id": "ultimato_moral_equipe",
     "ano": 2026,
     "agente_foco": "ID_Vagner",
-    "contexto_ia": "O moral da equipe atingiu o ponto de ruptura. Vagner, Leila e Maurício convocaram uma reunião e estão na sala com expressões fechadas. Vagner tem uma pilha de contas na mão, Maurício abraça as últimas fitas de arte que ainda restam e Leila tem o celular virado com uma proposta de emprego. Ninguém fala. Ninguém sorri.",
+    "contexto_ia": "O moral da equipe atingiu o ponto de ruptura. Vagner, Leila e o curador de acervo pararam o que estavam fazendo e estão sentados juntos na sala de reunião, esperando. Ninguém fala antes do gerente chegar.",
     "rotas_principais": [
       {
         "id_rota": "Crise_Moral",
-        "nome": "O Colapso do Moral da Equipe",
-        "fala_agente": "A gente precisa ser honesto, chefe. Vagner: 'Não consigo dormir mais — a empresa me consome por dentro.' Leila: 'Eu amo esse lugar, mas não tenho mais razão pra acordar empolgada.' Maurício: 'Trabalhamos duro e o ambiente virou uma guerra. Não dá mais.' [Vagner fala pelos três] Ou você muda alguma coisa de verdade agora, ou a gente sai junto.",
-        "pushback_vagner": "A gente precisa ser honesto, chefe. Vagner: 'Não consigo dormir mais — a empresa me consome por dentro.' Leila: 'Eu amo esse lugar, mas não tenho mais razão pra acordar empolgada.' {curador_nome}: 'Trabalhamos duro e o ambiente virou uma guerra. Não dá mais.' [Vagner fala pelos três] Ou você muda alguma coisa de verdade agora, ou a gente sai junto.",
+        "nome": "Entrar na sala",
+        "pushback_vagner": "A gente precisa conversar sério, chefe. A Leila não tá mais animada. O {curador_nome} tá cada vez mais distante. E eu... eu tô segurando uma estrutura que tá rachando. A gente não veio aqui pra dar ultimato. A gente veio porque ainda acredita que dá pra mudar alguma coisa. Mas precisa ser agora.",
         "sub_opcoes": [
           {
-            "id_sub": "Vitoria_Condicional", 
-            "foco": "Escuta Ativa / Plano de Ação Real",
+            "id_sub": "Vitoria_Condicional",
+            "foco": "Escuta Ativa e Plano Real",
             "argumento_gerente": "Fecha a porta. Cada um fala o que precisa. Eu anoto tudo e apresento um plano de ação até sexta com metas concretas — sem promessa vaga, com número e data.",
-            "resolucao_agente": "(Vagner olha para Leila e Maurício antes de responder) \"Tá bom. Mas se na sexta não tiver plano de verdade, a gente sai junto, chefe. A gente ainda acredita em você — por isso ainda tá aqui.\"",
+            "resolucao_agente": "Vagner olha pra Leila e pro {curador_nome} antes de responder. 'Tá bom. Mas se na sexta não tiver plano de verdade, a gente sai junto, chefe. A gente ainda tá aqui porque ainda acredita em você.'",
             "resultado": "vitoria"
           },
           {
             "id_sub": "Falha_Condicional",
-            "foco": "Pressão Inversa / Ameaça de Demissão",
-            "argumento_gerente": "Se vocês não gostam do clima, a porta é essa. Empreendedorismo exige sacrifício. Eu não vou ser refém de funcionário que não entende a pressão de manter um negócio vivo.",
-            "resolucao_agente": "(Silêncio. Leila fecha o celular. Vagner coloca o crachá em cima da mesa. Maurício empacota as últimas fitas sem dizer uma palavra.) \"Entendemos, chefe. Boa sorte.\"",
-            "resolucao_agente": "(Silêncio. Leila fecha o celular. Vagner coloca o crachá em cima da mesa. {curador_nome} empacota as últimas fitas sem dizer uma palavra.) \"Entendemos, chefe. Boa sorte.\"",
-            "resultado": "game_over" 
+            "foco": "Pressão Inversa",
+            "argumento_gerente": "Se vocês não gostam do clima, a porta é essa. Empreendedorismo exige sacrifício. Eu não vou ser refém de quem não entende a pressão de manter um negócio vivo.",
+            "resolucao_agente": "Silêncio. Leila fecha o celular. Vagner coloca o crachá na mesa. O {curador_nome} empacota as últimas fitas sem dizer uma palavra. 'Entendemos, chefe. Boa sorte.'",
+            "resultado": "game_over"
           }
         ]
       }
@@ -175,27 +168,26 @@
   {
     "id": "ultimato_advogado_caixa",
     "ano": 2026,
-    "agente_foco": "ID_Advogado_Imobiliaria",
-    "contexto_ia": "O dinheiro acaba. O jogador gastou demais ou não gerou receita rápida. A energia elétrica é cortada abruptamente e um advogado engravatado entra na loja acompanhado de seguranças.",
+    "agente_foco": "ID_Vagner",
+    "contexto_ia": "O caixa zerou. Vagner percebeu ao tentar pagar um fornecedor — a conta bancária não tem saldo. Ele fechou o extrato, ficou olhando para a tela por alguns minutos, e foi até o gerente.",
     "rotas_principais": [
       {
         "id_rota": "Crise_Caixa",
-        "nome": "O Colapso do Caixa (Gargalo Financeiro)",
-        "fala_agente": "A brincadeira temporal acabou. O aluguel está atrasado e o valor da área foi reajustado a mercado. Vocês têm uma hora para esvaziar o imóvel.",
-        "pushback_vagner": "A brincadeira temporal acabou. O aluguel está atrasado e o valor da área foi reajustado a mercado. Vocês têm uma hora para esvaziar o imóvel.",
+        "nome": "Ver o que ele quer mostrar",
+        "pushback_vagner": "Chefe, eu preciso que você olhe isso. (ele mostra o extrato no celular) A gente não tem mais saldo. Tem conta atrasada, fornecedor esperando retorno, energia vencendo semana que vem. Eu não sei como chegamos aqui, mas chegamos. A gente precisa decidir o que fazer agora — ou a loja para.",
         "sub_opcoes": [
           {
             "id_sub": "Vitoria_Condicional",
-            "foco": "O 'Pitch' Desesperado / Parceria Predatória",
-            "argumento_gerente": "Doutor, guarda esse tablet. O aluguel vira participação nos lucros. Olha em volta — esse acervo é ouro puro no mercado de nostalgia. Seu cliente vai ganhar mais como sócio do que como credor. Eu dou 30% das cotas agora e zeramos a dívida.",
-            "resolucao_agente": "(O advogado vê potencial de extração de riqueza na sua audácia e aceita as condições leoninas.) \"Audacioso... Meu cliente adora um negócio de alto risco com gente desesperada. Se vocês trabalharem de graça pra ele, ele aceita a sociedade. Mas a luz só volta amanhã.\"",
+            "foco": "Transparência e Plano de Emergência",
+            "argumento_gerente": "Vagner, sem enrolação: a gente gastou mais do que entrou. Fecha a loja amanhã. A gente faz uma lista do que pode ser liquidado, eu assumo a conversa com os fornecedores. Você me ajuda com os números?",
+            "resolucao_agente": "Vagner olha pra você por um momento. 'Tá bom. Vamos ver o que tem pra salvar.' Ele abre a planilha e começa a mapear os ativos sem mais perguntas.",
             "resultado": "vitoria"
           },
           {
             "id_sub": "Falha_Condicional",
-            "foco": "Ameaça Jurídica ou Apelo Emocional",
-            "argumento_gerente": "Doutor, por favor, tenha um pouco de empatia! Essa locadora é a vida de quatro pessoas. Me dê apenas mais dez dias. A gente faz uma liquidação, eu peço um empréstimo no banco...",
-            "resolucao_agente": "(O advogado sorri com pena e entrega uma caneta de metal.) \"O mercado não tem coração, gerente. E banco nenhum dá empréstimo para CNPJ negativado. Foi uma bela história, mas acabou. Assine.\"",
+            "foco": "Minimizar a Situação",
+            "argumento_gerente": "Isso é temporário, Vagner. O mercado tá difícil pra todo mundo. A gente dá um jeito semana que vem.",
+            "resolucao_agente": "Vagner fecha o celular. 'Semana que vem a energia corta. E não tem mais crédito no nome da empresa.' Ele deixa o extrato na mesa e sai do escritório sem resposta.",
             "resultado": "game_over"
           }
         ]

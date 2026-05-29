@@ -332,9 +332,9 @@ class RendererMixin:
         """Tela de boas-vindas ao Marcos, exibida uma única vez após a saída do Maurício."""
         texto = (
             "Marcos assume o posto. Aos 28 anos e criado na vizinhança, ele traz um olhar equilibrado: "
-            "um cinéfilo pragmático que entende a locadora como um ecossistema onde curadoria e lucro precisam coexistir.<br><br>"
-            "Diferente de seu antecessor, ele é flexível e observador, mas não hesita em usar argumentos afiados se sentir que a saúde do negócio está em risco.<br><br>"
-            "<strong>Marcos agora é o novo estagiário da locadora.</strong>"
+            "um cinéfilo pragmático que entende a locadora como um ecossistema onde curadoria e lucro precisam coexistir."
+            "Diferente de seu antecessor, ele é flexível e observador, mas não hesita em usar argumentos afiados se sentir que a saúde do negócio está em risco."
+            "Marcos agora é o novo estagiário da locadora."
         )
         texto_html = self._preparar_fala_com_typing(texto, "Sistema")
         opcoes_html = (
@@ -355,6 +355,39 @@ class RendererMixin:
             ano=1999,
             estado=self.motor.estado,
         )
+
+    # Mensagens de alerta por crise — Vagner avisa o gerente antes do confronto
+    _ALERTAS_CRISE = {
+        "ultimato_leila_tracao":       "A Leila pediu pra falar com você. Parece que ela tomou uma decisão.",
+        "ultimato_mauricio_acervo":    "O Maurício tá com as coisas dele ali. Ele quer conversar agora.",
+        "ultimato_marcos_acervo":      "O Marcos parou tudo e quer uma conversa séria. É sobre o acervo.",
+        "ultimato_vagner_operacional": "Chefe, eu preciso falar com você. Não pode esperar.",
+        "ultimato_moral_equipe":       "A equipe parou. Eles querem uma reunião com você agora.",
+        "ultimato_advogado_caixa":     "Chefe, tem um problema sério no caixa. Você precisa ver isso.",
+    }
+
+    def _renderizar_crise_alerta(self):
+        """Tela intermediária: Vagner alerta o gerente antes do evento de crise."""
+        est = self.motor.estado
+        crise_id = est.get("crise_ativa_id", "")
+        msg = self._ALERTAS_CRISE.get(crise_id, "Chefe, tem uma situação. Você precisa ir lá.")
+
+        # Vagner fala, gerente ouve — spotlight padrão Vagner
+        texto_html = self._preparar_fala_com_typing(msg, "Vagner")
+        opcoes_html = (
+            "<button class='btn-opcao' hx-post='/api/interagir' "
+            "hx-vals='{\"choice\": 0}' "
+            "hx-target='#ui-jogo' hx-swap='innerHTML'>Atender</button>"
+        )
+        spotlight = dict(
+            personagem_foco="Vagner",
+            img_esq_src="/static/img/vagner.webp", ator_esq_foco=True,
+            mostra_npc=True, npc_eh_foco=False,
+            img_npc_src="/static/img/gerente.webp",
+        )
+        evt_atual = self.motor.obter_evento_atual()
+        ano = evt_atual.get("ano", 2026) if evt_atual else 2026
+        return self._render_game_ui(texto_html, opcoes_html, spotlight, ano=ano, estado=est)
 
     def _renderizar_game_over(self):
         """Tela de game over contextualizada: fundo da era atual, NPC visível, texto narrativo."""

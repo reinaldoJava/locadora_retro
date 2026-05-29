@@ -57,26 +57,38 @@ class PrologoMixin:
                 texto, btn_continuar, spotlight, ano=2026,
                 bg_src="/static/img/bg_2026.webp", estado=est))
 
-        # Passo 2: Discurso do Gerente + 4 opcoes
+        # Passo 2: Discurso do Gerente + Continuar
         elif self.passo_encruzilhada_2026 == 2:
             texto = (f"<p class='nome-personagem'>Gerente</p>"
                      f"<p class='fala-dialogo'>{self._sub_curador(evt['discurso_gerente'])}</p>")
-            opcoes_html = "".join(
-                f"<button class='btn-opcao' hx-post='/api/interagir' "
-                f"hx-vals='{{\"choice\": {idx}}}' "
-                f"hx-target='#ui-jogo' hx-swap='innerHTML'>{rota['nome']}</button>"
-                for idx, rota in enumerate(evt["rotas_principais"])
-            )
             self.passo_encruzilhada_2026 = 3
             spotlight = dict(personagem_foco="Gerente",
                              img_esq_src="/static/img/vagner.webp", ator_esq_foco=False,
                              mostra_npc=True, npc_eh_foco=True,
                              img_npc_src="/static/img/gerente.webp")
             return make_response(self._render_game_ui(
+                texto, btn_continuar, spotlight, ano=2026,
+                bg_src="/static/img/bg_2026.webp", estado=est))
+
+        # Passo 3: Apresenta as 4 rotas
+        elif self.passo_encruzilhada_2026 == 3:
+            texto = (f"<p class='nome-personagem'>Sistema</p>"
+                     f"<p class='fala-dialogo'>Agora escolha um dos 4 caminhos a seguir:</p>")
+            opcoes_html = "".join(
+                f"<button class='btn-opcao' hx-post='/api/interagir' "
+                f"hx-vals='{{\"choice\": {idx}}}' "
+                f"hx-target='#ui-jogo' hx-swap='innerHTML'>{rota['nome']}</button>"
+                for idx, rota in enumerate(evt["rotas_principais"])
+            )
+            self.passo_encruzilhada_2026 = 4
+            spotlight = dict(personagem_foco="Sistema",
+                             img_esq_src="/static/img/vagner.webp", ator_esq_foco=False,
+                             mostra_npc=False, npc_eh_foco=False, img_npc_src="")
+            return make_response(self._render_game_ui(
                 texto, opcoes_html, spotlight, ano=2026,
                 bg_src="/static/img/bg_2026.webp", estado=est))
 
-        # Passo 3+: rota escolhida
+        # Passo 4+: rota escolhida
         else:
             self.passo_encruzilhada_2026 = 0
             _ROTA_LETRA = {0: "A", 1: "B", 2: "C", 3: "D"}

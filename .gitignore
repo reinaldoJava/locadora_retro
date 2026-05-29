@@ -30,3 +30,9 @@ infra/.terraform/
 infra/.terraform.lock.hcl
 infra/terraform.tfstate
 infra/terraform.tfstate.backup
+locadora_linkedin_anim.html
+mapa_completo_pontuacao_jogo.html
+mapa_completo_pontuacao_jogo.md
+Locadora-retro.iml
+src/seed_pool.py
+scripts/seed_pool.py

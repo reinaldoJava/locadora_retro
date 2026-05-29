@@ -633,7 +633,7 @@
         "nome": "Comprar a Briga da Leila (Foco em Vendas / Cross-Sell)", 
         "temp_replica": 0.6,
         "fala_gerente": "A Leila está certa. Deixa os doces nos corredores. A prioridade é aumentar o faturamento.",
-        "pushback_vagner": "Gerente, você está destruindo o padrão da loja. Os clientes VIP vão achar isso brega e vão pra Blockbuster, que tem carpete e cheiro de limpeza. Vale a pena estragar a imagem da loja por uns trocados de pipoca?",
+        "pushback_vagner": "Gerente, doce espalhado entre as fitas é convite pra barata. Não é exagero — é higiene básica. E além da infestação, o cliente que pega uma caixa com gordura de salgadinho na mão não volta. Esse risco não vale os trocados de pipoca.",
         "sub_opcoes": [
           {
             "id_sub": "A1",
@@ -669,7 +669,7 @@
         "nome": "Comprar a Briga de Maurício (Foco em Processos e UX)",
         "temp_replica": 0.6,
         "fala_gerente": "O Maurício tem razão. Tira tudo dos corredores e volta pro balcão. A loja tem que ficar impecável.",
-        "pushback_vagner": "Gerente, eu entendo o argumento da Leila — o balcão tem fila e concentrar os doces lá pode prejudicar as vendas. Mas jogar tudo misturado no corredor estraga o padrão. A gente precisa de um meio-termo que preserve a loja.",
+        "pushback_vagner": "Certo. Mas quero deixar claro: tudo que sair do corredor vai pro balcão ou vai embora. Nenhum doce encostado em prateleira de fita. Me diz como você quer fazer isso sem criar outro conflito com a Leila.",
         "sub_opcoes": [
           {
             "id_sub": "B1",
@@ -705,14 +705,14 @@
         "nome": "A Solução de Trade Marketing (O Meio-Termo Estratégico)",
         "temp_replica": 0.45,
         "fala_gerente": "Nenhum dos dois. Tira os doces de dentro das prateleiras de fitas. Vamos colocar 'Gôndolas de Ponta' (Ilhas) no final de cada corredor, exclusivas para os doces.",
-        "pushback_vagner": "Gôndolas separadas é a solução certa para preservar o padrão. Mas o Vagner vai perguntar de onde vem o dinheiro pra montar isso. Precisamos de um argumento que resolva a briga sem sangrar o caixa.",
+        "pushback_vagner": "Gôndolas separadas preservam o acervo e dão espaço pro doce existir sem estragar o ambiente. Eu aceito isso. Mas de onde vem o dinheiro pra montar as ilhas? Preciso entender antes de concordar de vez.",
         "sub_opcoes": [
           {
             "id_sub": "C1",
             "foco": "Trade Marketing e Permuta de Fornecedor",
             "temp_treplica": 0.28,
             "argumento_gerente": "Nós não vamos pagar um centavo, Vagner. Eu vou ligar pro fornecedor da pipoca e da Coca-Cola. Eu digo: 'Ou vocês mandam um display de metal grátis com a marca de vocês pra botar na ponta do corredor, ou eu dou o espaço pro concorrente'. Eles mandam amanhã.",
-            "resolucao_vagner": "Fazer o fornecedor bancar o display em troca de espaço de marca. É elegante — não custa nada e ainda mantém a loja organizada. O Vagner não vai ter do que reclamar dessa equação.",
+            "resolucao_vagner": "Fornecedor banca o display, a gente cede o espaço de ponta. Custo zero, acervo preservado. Isso eu assino embaixo.",
             "impacto": {
               "caixa": 20,
               "tracao": 10,
@@ -726,7 +726,7 @@
             "foco": "Teste A/B de Baixo Custo",
             "temp_treplica": 0.25,
             "argumento_gerente": "Não vamos fazer a loja toda. Pega a mesinha de plástico velha dos fundos, forra com um pano e bota só no corredor de Ação. Fazemos um Teste A/B por sete dias. Se a venda pagar a mesinha nova, a gente investe. Se der errado, custou zero.",
-            "resolucao_vagner": "Teste de baixo custo antes de investir — faz sentido. Eu aceito os sete dias de experiência, desde que a mesinha fique longe das fitas. Se funcionar, a gente investe com critério.",
+            "resolucao_vagner": "Sete dias, um corredor, uma mesinha. Se o resultado justificar, a gente conversa sobre estrutura permanente. Mas a mesinha fica no final do corredor — longe das fitas.",
             "impacto": {
               "caixa": 0,
               "tracao": 15,
