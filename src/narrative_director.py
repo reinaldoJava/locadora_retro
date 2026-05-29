@@ -82,12 +82,17 @@ class DiretorNarrativo(RendererMixin, CinematicMixin, PrologoMixin, IntroMixin):
             return self._renderizar_game_over()
 
         # Alerta intermediário: Vagner avisa antes do evento de crise ser exibido.
-        # "Atender" (qualquer escolha) libera o evento; sem escolha mantém o alerta.
+        # Primeiro acesso: exibe alerta (independente de escolha) e marca como exibido.
+        # Segundo acesso: jogador clicou "Atender" → libera o evento de crise.
         if self.motor.estado.get("_crise_alerta_pendente"):
-            if escolha_usuario is not None:
+            if self.motor.estado.get("_crise_alerta_exibida"):
+                # Jogador clicou "Atender" — ativa evento de crise
                 self.motor.estado["_crise_alerta_pendente"] = False
+                self.motor.estado["_crise_alerta_exibida"] = False
                 dados_motor = self.motor.formatar_para_frontend()
                 return self._renderizar_gameplay(dados_motor)
+            # Primeira exibição — mostra alerta independente da escolha recebida
+            self.motor.estado["_crise_alerta_exibida"] = True
             return self._renderizar_crise_alerta()
 
         if self.passo_prologo_2026 > 0:

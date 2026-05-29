@@ -367,68 +367,54 @@ class RendererMixin:
     }
 
     def _renderizar_crise_alerta(self):
-        """Tela intermediária: Vagner alerta o gerente antes do evento de crise."""
+        """Tela de alerta de crise — overlay dramático antes do evento de crise."""
         est = self.motor.estado
         crise_id = est.get("crise_ativa_id", "")
         msg = self._ALERTAS_CRISE.get(crise_id, "Chefe, tem uma situação. Você precisa ir lá.")
 
-        # Vagner fala, gerente ouve — spotlight padrão Vagner
-        texto_html = self._preparar_fala_com_typing(msg, "Vagner")
-        opcoes_html = (
-            "<button class='btn-opcao' hx-post='/api/interagir' "
-            "hx-vals='{\"choice\": 0}' "
-            "hx-target='#ui-jogo' hx-swap='innerHTML'>Atender</button>"
+        texto = (
+            f"<p style='font-size:1.4rem; margin-bottom:24px;'>⚠ SITUAÇÃO CRÍTICA</p>"
+            f"<p style='font-size:1rem; max-width:320px; line-height:1.6;'>{msg}</p>"
         )
-        spotlight = dict(
-            personagem_foco="Vagner",
-            img_esq_src="/static/img/vagner.webp", ator_esq_foco=True,
-            mostra_npc=True, npc_eh_foco=False,
-            img_npc_src="/static/img/gerente.webp",
+        btn = (
+            "<button hx-post='/api/interagir' hx-vals='{\"choice\": 0}' "
+            "hx-target='#ui-jogo' hx-swap='innerHTML' style='"
+            "margin-top:30px; padding:15px 30px; font-size:1.2rem; "
+            "background:#c0392b; color:white; border:none; border-radius:5px; "
+            "cursor:pointer;'>ATENDER</button>"
         )
-        evt_atual = self.motor.obter_evento_atual()
-        ano = evt_atual.get("ano", 2026) if evt_atual else 2026
-        return self._render_game_ui(texto_html, opcoes_html, spotlight, ano=ano, estado=est)
+        html = render_template("game_over.html", game_over_text=texto, button_html=btn)
+        return make_response(html)
 
     def _renderizar_game_over(self):
-        """Tela de game over contextualizada: fundo da era atual, NPC visível, texto narrativo."""
+        """Tela de game over definitivo — overlay dramático com opção de reiniciar."""
         est = self.motor.estado
+        nome_jogador = getattr(self, "nome_jogador", "Gerente")
 
-        # Determina o ano atual
-        evt_atual = self.motor.obter_evento_atual()
-        ano = evt_atual.get("ano", 1999) if evt_atual else 1999
-
-        # Determina o NPC responsável pela crise
+        # Determina o NPC responsável pela crise (para contextualizar o texto)
         agente_nome = est.get("agente_atual", "Vagner")
         if not agente_nome or agente_nome == "Sistema":
             agente_nome = "Vagner"
         agente_id_resolvido = self.motor._resolver_agente("ID_" + agente_nome)
         agente_nome_final = agente_id_resolvido.replace("ID_", "")
 
-        nome_jogador = getattr(self, "nome_jogador", "Gerente")
-
-        texto_alerta = (
-            f"⚠ SITUAÇÃO CRÍTICA — {agente_nome_final.upper()}<br><br>"
-            f"Os acontecimentos recentes criaram um desconforto sério entre "
-            f"<strong>{nome_jogador}</strong> e <strong>{agente_nome_final}</strong>.<br><br>"
-            f"Essa situação é crítica e precisa ser resolvida com cautela. "
-            f"Se nada mudar, o futuro do <strong>{nome_jogador}</strong> "
-            f"na locadora estará em risco."
+        texto = (
+            f"<p style='font-size:1.6rem; margin-bottom:24px; letter-spacing:2px;'>GAME OVER</p>"
+            f"<p style='font-size:0.95rem; max-width:320px; line-height:1.7;'>"
+            f"A locadora não sobreviveu à crise com <strong>{agente_nome_final}</strong>.<br><br>"
+            f"<strong>{nome_jogador}</strong>, suas decisões definiram o destino desse negócio.<br>"
+            f"Tente novamente com uma estratégia diferente."
+            f"</p>"
         )
-        texto_html = self._preparar_fala_com_typing(texto_alerta, "Sistema")
-
-        opcoes_html = (
-            "<button class='btn-opcao' onclick=\"window.location.href='/'\""
-            " style='background: var(--btn-hover-bg, #c8692a);'>"
-            "RECONECTAR SISTEMA</button>"
+        btn = (
+            "<button onclick=\"window.location.href='/reiniciar'\" style='"
+            "margin-top:30px; padding:15px 30px; font-size:1.2rem; "
+            "background:#c0392b; color:white; border:none; border-radius:5px; "
+            "cursor:pointer;'>RECONECTAR SISTEMA</button>"
         )
+        html = render_template("game_over.html", game_over_text=texto, button_html=btn)
+        return make_response(html)
 
-        spotlight = self._spotlight_for_agente(agente_id_resolvido)
-
-        return self._render_game_ui(
-            texto_html, opcoes_html, spotlight,
-            ano=ano,
-            estado=est,
-        )
 
     def _renderizar_fim_de_jogo(self):
         est = self.motor.estado

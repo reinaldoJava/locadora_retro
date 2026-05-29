@@ -448,6 +448,7 @@ class Engine:
             "crise_resultado": None,
             "game_over_forcado": False,
             "_crise_alerta_pendente": False,
+            "_crise_alerta_exibida": False,
             # --- Sistema de memória narrativa ---
             "flags": {},
             # --- Balanceamento dinâmico ---

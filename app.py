@@ -294,6 +294,13 @@ def reset_jogo():
     _save_diretor(diretor)
     return response
 
+@app.route('/reiniciar')
+def reiniciar_jogo():
+    """Limpa a sessão e redireciona para a tela de intro. Usado pelo botão RECONECTAR SISTEMA."""
+    from flask import redirect
+    _reset_game_state()
+    return redirect('/')
+
 
 @app.route('/api/fala-stream')
 def fala_stream_api():
