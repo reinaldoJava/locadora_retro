@@ -17,5 +17,5 @@ IMG_PERSONS = {
     "Marcos": "marcos",
     "Vagner": "vagner", "Gerente": "gerente",
     "Influenciadora": "influenciadora",
-    "Jovem GenZ": "jovem_genZ",
+    "Jovem": "jovem_genZ",
 }
