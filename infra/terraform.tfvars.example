@@ -1,0 +1,27 @@
+# Copie este arquivo para terraform.tfvars e preencha os valores
+# cp terraform.tfvars.example terraform.tfvars
+
+# ID do projeto GCP (ex: meu-projeto-123456)
+project_id = "SEU_PROJECT_ID"
+
+# Owner do repositório no GitHub (usuário ou org)
+github_owner = "seu-usuario-github"
+
+# Nome do repositório no GitHub
+github_repo_name = "nome-do-repo"
+
+# GitHub Personal Access Token (escopos: repo, read:user)
+# Crie em: https://github.com/settings/tokens
+github_pat = "ghp_..."
+
+# ID de instalação do app "Google Cloud Build" no GitHub
+# Como obter: github.com/apps/google-cloud-build → Configure → copie o número da URL
+github_app_installation_id = 000000000
+
+# Chave da API Gemini
+# Obtenha em: https://aistudio.google.com/app/apikey
+gemini_api_key = "AIza..."
+
+# Chave secreta do Flask para assinar sessões
+# Gere com: python3 -c "import secrets; print(secrets.token_hex(32))"
+flask_secret_key = "chave-secreta-aleatoria-aqui"
