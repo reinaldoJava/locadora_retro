@@ -54,7 +54,7 @@ variable "github_app_installation_id" {
          https://github.com/settings/installations/XXXXXXXX
   EOT
   type = number
-  default = "135484543"
+  default = ""
 }
 
 # ── Segredos da aplicação ─────────────────────────────────────────────────────
