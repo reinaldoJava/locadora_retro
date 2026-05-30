@@ -242,6 +242,31 @@ locadora-retro/
 
 ---
 
+## Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
+
+```env
+# Provider de LLM: "gemini" (produção) ou "ollama" (local com GPU)
+LLM_PROVIDER=gemini
+
+# Modelo Gemini — obtenha a chave em: https://aistudio.google.com/app/apikey
+GEMINI_API_KEY=sua_chave_aqui
+LLM_MODEL=gemini-2.0-flash-lite
+
+# Chave secreta do Flask para assinar sessões
+# Gere com: python3 -c "import secrets; print(secrets.token_hex(32))"
+SECRET_KEY=chave-secreta-aleatoria
+
+# Firestore — opcional, usado para cache de falas LLM entre sessões
+# Se omitido, o jogo funciona normalmente sem cache persistente
+# GOOGLE_CLOUD_PROJECT=seu-project-id
+```
+
+> O projeto usa o **OpenAI SDK** apontado para o endpoint compatível do Gemini — não requer conta OpenAI.
+
+---
+
 ## Como Rodar Localmente
 
 ```bash
@@ -250,5 +275,3 @@ python app.py
 ```
 
 Acesse: `http://localhost:5000`
-
-> **Variáveis de ambiente necessárias:** `GEMINI_API_KEY`, `FIRESTORE_PROJECT_ID` (opcional para pool de falas).

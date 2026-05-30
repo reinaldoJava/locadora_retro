@@ -1,5 +1,9 @@
 flask==3.1.3
+
+# OpenAI SDK usado para chamar o Gemini via endpoint compatível (não usa OpenAI/GPT)
+# Veja: https://ai.google.dev/gemini-api/docs/openai
 openai>=1.30.0
+
 python-dotenv==1.0.0
 gunicorn==22.0.0
 google-cloud-firestore>=2.16.0
