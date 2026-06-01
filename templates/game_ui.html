@@ -1,12 +1,12 @@
 <div class="game-container {{ tema_escolhido }}">
-<img id="ui-bg" class="bg-layer" src="{{ bg_src }}" alt="Fundo">
+<img id="ui-bg" class="bg-layer" src="{{ bg_src }}" alt="Fundo" loading="lazy">
 
 <div id="cenario-atores">
     <div id="ator-vagner-container" class="actor-layer layout-esquerda {% if personagem_foco == 'Sistema' %}layout-oculto{% endif %}">
-        <img id="ator-vagner" class="actor-img {% if ator_esq_foco %}ator-foco{% else %}ator-inativo{% endif %}" src="{{ img_esq_src }}" alt="Ator Esquerda">
+        <img id="ator-vagner" class="actor-img {% if ator_esq_foco %}ator-foco{% else %}ator-inativo{% endif %}" src="{{ img_esq_src }}" alt="Ator Esquerda" loading="lazy">
     </div>
     <div id="ator-npc-container" class="actor-layer layout-direita {% if not mostra_npc %}layout-oculto{% endif %}">
-        <img id="ator-npc" class="actor-img {% if npc_eh_foco %}ator-foco{% else %}ator-inativo{% endif %}" src="{{ img_npc_src }}" alt="Interlocutor">
+        <img id="ator-npc" class="actor-img {% if npc_eh_foco %}ator-foco{% else %}ator-inativo{% endif %}" src="{{ img_npc_src }}" alt="Interlocutor" loading="lazy">
     </div>
 </div>
 

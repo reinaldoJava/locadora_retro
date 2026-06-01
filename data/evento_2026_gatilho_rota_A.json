@@ -72,7 +72,7 @@
     "ano": 2026,
     "agente_foco": "ID_Vagner",
     "titulo": "O Estande na Maior Feira Geek da América Latina",
-    "contexto_ia": "A fama do estúdio abriu uma porta improvável: um convite para montar estande na CCXP — maior feira de entretenimento geek da América Latina, 280 mil visitantes em quatro dias. O investimento é alto e o prazo é curto.",
+    "contexto_ia": "A fama do estúdio abriu uma porta improvável: um convite para montar estande na ZZXP — maior feira de entretenimento geek da América Latina, 280 mil visitantes em quatro dias. O investimento é alto e o prazo é curto.",
     "dialogos_iniciais": [
       {
         "agente": "ID_Leila",
@@ -117,7 +117,7 @@
       {
         "id_rota": "A8",
         "nome": "Parceria com Marca Retrô / Custo Compartilhado",
-        "fala_gerente": "Já conversei com a Kodak Vintage Brasil — eles querem marcar presença na CCXP mas não têm conceito. A gente entra com o estúdio, eles entram com R$ 10.000 de patrocínio. Saímos com lucro líquido e a marca deles nos credencia na frente de 280 mil pessoas.",
+        "fala_gerente": "Já conversei com a Zodak Vintage Brasil — eles querem marcar presença na ZZXP mas não têm conceito. A gente entra com o estúdio, eles entram com R$ 10.000 de patrocínio. Saímos com lucro líquido e a marca deles nos credencia na frente de 280 mil pessoas.",
         "impacto": {
           "caixa": 16,
           "acervo": 0,
@@ -135,11 +135,11 @@
     "ano": 2026,
     "agente_foco": "ID_Leila",
     "titulo": "A Alma à Venda",
-    "contexto_ia": "A plataforma ZetLix Originals oferece R$50.000 para licenciar a marca e a estética da locadora por 6 meses para uma série original. Seriam a grife do show. Mas o contrato de exclusividade proíbe qualquer produção própria durante o período. A equipe está dividida sobre vender a identidade que levaram anos para construir.",
+    "contexto_ia": "A plataforma Zetfix Originals oferece R$50.000 para licenciar a marca e a estética da locadora por 6 meses para uma série original. Seriam a grife do show. Mas o contrato de exclusividade proíbe qualquer produção própria durante o período. A equipe está dividida sobre vender a identidade que levaram anos para construir.",
     "dialogos_iniciais": [
       {
         "agente": "ID_Leila",
-        "fala": "Chefe, são CINQUENTA MIL REAIS. A ZetLix tem 40 milhões de usuários. Se o nome da locadora aparecer nos créditos de uma série original, nunca mais a gente vai precisar pagar por publicidade na vida."
+        "fala": "Chefe, são CINQUENTA MIL REAIS. A Zetfix tem 40 milhões de usuários. Se o nome da locadora aparecer nos créditos de uma série original, nunca mais a gente vai precisar pagar por publicidade na vida."
       },
       {
         "agente": "ID_Mauricio",
@@ -180,7 +180,7 @@
       {
         "id_rota": "A11",
         "nome": "Recusa / Produzir a Própria Série",
-        "fala_gerente": "Recusa. Se a ZetLix quer a nossa estética para a série deles, significa que temos algo que eles não têm: autenticidade. Maurício, vamos produzir a nossa própria série — 8 episódios documentando a história da locadora. A gente não vira grife deles, a gente vira concorrente.",
+        "fala_gerente": "Recusa. Se a Zetfix quer a nossa estética para a série deles, significa que temos algo que eles não têm: autenticidade. Maurício, vamos produzir a nossa própria série — 8 episódios documentando a história da locadora. A gente não vira grife deles, a gente vira concorrente.",
         "impacto": {
           "caixa": -15,
           "tracao": 30,

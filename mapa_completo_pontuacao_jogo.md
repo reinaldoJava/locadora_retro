@@ -208,9 +208,9 @@
 | Malu2000             | A3    | Sell-Out                      |  +60  |  +20   |  -40   |  +10   |  -15  |
 | Malu2000             | A4    | Recusa Premium                |    0  |  -20   |  +40   |  -10   |  +10  |
 | Malu2000             | A5    | Cenografia Inteligente        |  +60  |  +10   |  +10   |  +30   |  +5   |
-| Feira Geek (CCXP)    | A6    | Estande Básico                |  -12  |  +30   |   0    |  +10   |  +5   |
-| Feira Geek (CCXP)    | A7    | Estande Premium               |  -32  |  +80   |   0    |  +40   |  +10  |
-| Feira Geek (CCXP)    | A8    | Parceria Kodak                |  +16  |  +60   |   0    |  +20   |  +10  |
+| Feira Geek (ZZXP)    | A6    | Estande Básico                |  -12  |  +30   |   0    |  +10   |  +5   |
+| Feira Geek (ZZXP)    | A7    | Estande Premium               |  -32  |  +80   |   0    |  +40   |  +10  |
+| Feira Geek (ZZXP)    | A8    | Parceria Zodak                |  +16  |  +60   |   0    |  +20   |  +10  |
 | Zinta Originals      | A9    | Licenciar a Marca             |  +50  |  +20   |  -10   |  +10   |  -15  |
 | Zinta Originals      | A10   | Licença Não Exclusiva         |  +28  |  +10   |   0    |   +5   |  +5   |
 | Zinta Originals      | A11   | Recusa / Série Própria        |  -15  |  +30   |  +20   |  +25   |  +15  |
