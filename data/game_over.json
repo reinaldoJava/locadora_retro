@@ -38,7 +38,7 @@
   {
     "id": "ultimato_mauricio_acervo",
     "ano": 2026,
-    "agente_foco": "ID_Mauricio",
+    "agente_foco": "{curador_nome}",
     "contexto_ia": "O acervo da locadora caiu abaixo do limiar crítico. Fitas raras foram cedidas, deterioradas ou simplesmente mal gerenciadas. Maurício está no chão entre as prateleiras, separando o que sobrou da coleção que ele ajudou a construir.",
     "rotas_principais": [
       {

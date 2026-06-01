@@ -1,4 +1,4 @@
-<img class="bg-layer" src="/static/img/bg_1999.webp" alt="Fundo 1999">
+<img class="bg-layer" src="/static/img/bg_1999.webp" alt="Fundo 1999" loading="lazy">
 
 <div id="cena-fim-1999" style="
     display: {% if cena_fim_1999_display %}{{ cena_fim_1999_display }}{% else %}flex{% endif %};
@@ -18,10 +18,10 @@
     <div id="imagens-personagens" style="
         display: {% if imagens_personagens_display %}{{ imagens_personagens_display }}{% else %}none{% endif %};
     ">
-        <img src="/static/img/gerente.webp">
-        <img src="{{ img_curador_src | default('/static/img/mauricio.webp') }}">
-        <img src="/static/img/leila.webp">
-        <img src="/static/img/vagner.webp">
+        <img src="/static/img/gerente.webp" loading="lazy">
+        <img src="{{ img_curador_src | default('/static/img/mauricio.webp') }}" loading="lazy">
+        <img src="/static/img/leila.webp" loading="lazy">
+        <img src="/static/img/vagner.webp" loading="lazy">
     </div>
 </div>
 

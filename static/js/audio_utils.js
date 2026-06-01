@@ -9,13 +9,13 @@
 //   - playAudio(config)       — ponto unico acionado pelo dispatcher HX-Trigger do backend
 
 export const sonsTeclado = [
-    new Audio('/static/audio/tecla_1.mp3'),
-    new Audio('/static/audio/tecla_2.mp3'),
-    new Audio('/static/audio/tecla_3.mp3'),
-    new Audio('/static/audio/tecla_4.mp3')
+    new Audio('/static/audio/tecla_1.ogg'),
+    new Audio('/static/audio/tecla_2.ogg'),
+    new Audio('/static/audio/tecla_3.ogg'),
+    new Audio('/static/audio/tecla_4.ogg')
 ];
 
-export const somClick = new Audio('/static/audio/click.mp3');
+export const somClick = new Audio('/static/audio/click.ogg');
 
 // -----------------------------------------------------------------------
 // Efeitos de teclado

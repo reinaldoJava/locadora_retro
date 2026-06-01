@@ -332,8 +332,8 @@ class RendererMixin:
         """Tela de boas-vindas ao Marcos, exibida uma única vez após a saída do Maurício."""
         texto = (
             "Marcos assume o posto. Aos 28 anos e criado na vizinhança, ele traz um olhar equilibrado: "
-            "um cinéfilo pragmático que entende a locadora como um ecossistema onde curadoria e lucro precisam coexistir."
-            "Diferente de seu antecessor, ele é flexível e observador, mas não hesita em usar argumentos afiados se sentir que a saúde do negócio está em risco."
+            "um cinéfilo pragmático que entende a locadora como um ecossistema onde curadoria e lucro precisam coexistir. "
+            "Diferente de seu antecessor, ele é flexível e observador, mas não hesita em usar argumentos afiados se sentir que a saúde do negócio está em risco. "
             "Marcos agora é o novo estagiário da locadora."
         )
         texto_html = self._preparar_fala_com_typing(texto, "Sistema")
