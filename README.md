@@ -365,7 +365,7 @@ LLM_PROVIDER=gemini
 
 # Modelo Gemini — obtenha a chave em: https://aistudio.google.com/app/apikey
 GEMINI_API_KEY=sua_chave_aqui
-LLM_MODEL=gemini-2.0-flash-lite
+LLM_MODEL=gemini-3.1-flash-lite
 
 # Chave secreta do Flask para assinar sessões
 # Gere com: python3 -c "import secrets; print(secrets.token_hex(32))"
