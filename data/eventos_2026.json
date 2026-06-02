@@ -26,7 +26,7 @@
         "foco": "Rota B: O Varejo Nostálgico de Alto Ticket (Liquidação Premium)",
         "descricao": "Assumimos que o aluguel acabou, mas o colecionismo explodiu. Rotulamos nosso estoque como \"Artefatos Históricos Originais\". Vendemos as fitas, pôsteres e displays da loja por dez vezes o valor original para colecionadores e hipsters ricos.",
         "impacto_sistema": {
-          "caixa": 500,
+          "caixa": 300,
           "acervo": 30,
           "tracao": -20,
           "stress": 0,
@@ -39,10 +39,10 @@
         "foco": "Rota C: O Clube de Desconexão (A Experiência 'Tech Detox')",
         "descricao": "Vendemos o antídoto contra a ansiedade digital de 2026. Um pacote de aluguel premium onde entregamos na casa do cliente não apenas a fita, mas a TV de tubo de 29 polegadas e o videocassete para um fim de semana de total desconexão e imersão analógica.",
         "impacto_sistema": {
-          "acervo": 40,
-          "stress": 30,
+          "acervo": 25,
+          "stress": 15,
           "tracao": 10,
-          "caixa": -100,
+          "caixa": 30,
           "efeito_passivo": "Alto custo operacional (frete e manutenção de TVs velhas), mas atrai uma clientela fiel que defende a loja com unhas e dentes."
         }
       },
@@ -54,7 +54,7 @@
         "impacto_sistema": {
           "tracao": 50,
           "caixa": 200,
-          "stress": 50,
+          "stress": 30,
           "acervo": -30,
           "efeito_passivo": "Lucro absurdo de Caixa e Tração, mas o Stress Operacional dispara. Maurício entra em depressão crônica."
         }

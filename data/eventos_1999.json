@@ -256,10 +256,10 @@
             "argumento_gerente": "Não é pra sempre, Vagner. É pra quebrar o ciclo de experimentação deles. O cliente vai lá ver a novidade, acha caro, e lembra que aqui é a metade do preço. A gente sangra a margem por 30 dias só pra manter o hábito do cliente de virar a nossa esquina.",
             "resolucao_vagner": "Jogar o jogo de quem tem mais oxigênio embaixo d'água... É arriscado, mas manter o hábito do cliente é lei. Reduz o preço. Mas reza pra esse mês passar rápido.",
             "impacto": {
-              "caixa": -45,
+              "caixa": -30,
               "tracao": 25,
               "acervo": -8,
-              "stress": 30
+              "stress": 20
             }
           },
           {
@@ -1081,7 +1081,7 @@
           "resolucao_leila": "Entendi. O caixa absorve agora, mas o sistema fica de olho. Vou liberar o cliente e colocar a tarja de observação interna no cadastro dele para o próximo plantão ficar esperto.",
           "escreve_flags": { "leila_absorveu_prejuizo": true },
           "impacto": {
-            "caixa": -40,
+            "caixa": -25,
             "tracao": 0,
             "stress": 0,
             "moral_equipe": 5
@@ -1095,7 +1095,7 @@
           "resolucao_leila": "Colocar o protocolo de inspeção na ficha dele resolve. Ele vê que ganhou o benefício da dúvida, mas entende que a mamata acabou e que estamos fiscalizando tudo. Vou avisar o Maurício sobre a nova regra.",
           "escreve_flags": { "leila_absorveu_prejuizo": true },
           "impacto": {
-            "caixa": -40,
+            "caixa": -25,
             "tracao": 5,
             "stress": 5,
             "moral_equipe": 5
