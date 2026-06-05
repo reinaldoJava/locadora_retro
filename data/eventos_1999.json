@@ -145,7 +145,7 @@
               "caixa": 20,
               "tracao": 20,
               "acervo": -15,
-              "stress": 15
+              "stress": 8
             }
           },
           {
@@ -193,7 +193,7 @@
               "caixa": 10,
               "tracao": -20,
               "acervo": 20,
-              "stress": 20
+              "stress": 12
             }
           }
         ]
@@ -272,7 +272,7 @@
               "caixa": 15,
               "tracao": 15,
               "acervo": 0,
-              "stress": 15
+              "stress": 10
             }
           }
         ]
@@ -373,7 +373,7 @@
               "caixa": -30,
               "tracao": 20,
               "acervo": 0,
-              "stress": 15
+              "stress": 10
             }
           },
           {
@@ -645,7 +645,7 @@
               "caixa": 20,
               "tracao": 10,
               "acervo": 0,
-              "stress": 15,
+              "stress": 10,
               "moral_equipe": 5
             }
           },
