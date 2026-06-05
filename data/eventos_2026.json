@@ -14,7 +14,7 @@
         "descricao": "O produto deixa de ser o filme e passa a ser o espaço. Transformamos a locadora intacta num estúdio fotográfico/cenário \"Y2K\" (Anos 2000) de aluguel por hora para influenciadores, produtoras e agências que estão babando pela nossa estética na internet.",
         "impacto_sistema": {
           "tracao": 40,
-          "stress": 20,
+          "stress": 15,
           "acervo": -10,
           "caixa": 0,
           "efeito_passivo": "Aumenta o ganho diário de Tração, mas Leila e Vagner ficam sobrecarregados com a agenda."
