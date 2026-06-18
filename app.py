@@ -29,7 +29,10 @@ load_dotenv()
 from flask import Flask, render_template, request, session, make_response, Response, stream_with_context, jsonify
 from src.narrative_director import DiretorNarrativo
 from src.engine import Engine
-from src.agents import gerar_fala_stream, adicionar_ao_pool, preaquecer_replicas
+from src.agents import (
+    gerar_fala_stream, adicionar_ao_pool, preaquecer_replicas,
+    obter_do_pool, texto_eh_fallback,
+)
 from src.decision_pipeline import GamePipeline
 import random
 
@@ -319,13 +322,27 @@ def fala_stream_api():
     temperatura = evt.get("temp_situacao")
 
     def generate():
+        # CACHE FIRST: se a situação já está no pool, devolve a fala cacheada
+        # imediatamente, sem tocar no Gemini. Evita a latência/retries da geração
+        # ao vivo (que, com a cota estourada, bloqueava ~15-24s por requisição).
+        cached = obter_do_pool(evt_id)
+        if cached:
+            safe = cached.replace('\n', '\\n')
+            yield f"data: {safe}\n\n"
+            preaquecer_replicas(evt)
+            yield "data: [DONE]\n\n"
+            return
+
+        # Pool miss: gera ao vivo via streaming.
         full_text = ""
         for token in gerar_fala_stream(agente_id, contexto, ano, temperatura):
             full_text += token
             # Escapa quebras de linha para o protocolo SSE (cada mensagem é uma linha)
             safe_token = token.replace('\n', '\\n')
             yield f"data: {safe_token}\n\n"
-        adicionar_ao_pool(evt_id, full_text)
+        # Só persiste se a geração foi bem-sucedida (não grava fallback de erro/cota).
+        if not texto_eh_fallback(full_text):
+            adicionar_ao_pool(evt_id, full_text)
         # Pré-aquece réplicas de todas as rotas em background enquanto o jogador lê e escolhe
         preaquecer_replicas(evt)
         yield "data: [DONE]\n\n"
