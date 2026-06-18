@@ -81,9 +81,30 @@ _FALLBACK: dict[str, str] = {
 }
 _FALLBACK_DEFAULT = "..."
 
+# Conjunto de todas as frases de fallback — usado para impedir que um fallback
+# seja gravado no pool (cache poisoning). Ver texto_eh_fallback().
+_FALLBACK_VALUES = set(_FALLBACK.values()) | {_FALLBACK_DEFAULT}
+
+
+def texto_eh_fallback(texto: str) -> bool:
+    """True se o texto for vazio ou uma das frases de fallback hardcoded.
+    Evita que respostas de erro/cota poluam o pool compartilhado."""
+    if not texto:
+        return True
+    return texto.strip() in _FALLBACK_VALUES
+
+
 # Configuração de retry para erros 429 (rate limit da API).
-# 2 retentativas = 3 chamadas total. Delays: 5s e 10s.
-_RETRY_DELAYS = [5, 10]
+# Delays curtos e configuráveis: sleeps longos no caminho do usuário transformam
+# "lento" em "travado". Ajustável via LLM_RETRY_DELAYS (ex.: "1,2"). Default: 1s e 2s.
+def _parse_retry_delays() -> list[int]:
+    raw = os.environ.get("LLM_RETRY_DELAYS", "1,2")
+    try:
+        return [int(x) for x in raw.split(",") if x.strip()]
+    except ValueError:
+        return [1, 2]
+
+_RETRY_DELAYS = _parse_retry_delays()
 
 # Guardrail mínimo compartilhado: ancora o personagem como funcionário falando COM o Gerente.
 # Prompt curto é intencional — modelos pequenos (1.5B) obedecem melhor a poucas regras claras.
@@ -237,6 +258,10 @@ def adicionar_ao_pool(evt_id: str, fala: str) -> None:
     Persiste no Firestore quando disponível, senão no dict in-memory.
     """
     if not fala or not evt_id:
+        return
+    # Nunca persistir frases de fallback (erro/cota) — isso envenenaria o pool
+    # compartilhado, fazendo todos os jogadores receberem a fala de erro.
+    if texto_eh_fallback(fala):
         return
     if _FIRESTORE_OK:
         try:
